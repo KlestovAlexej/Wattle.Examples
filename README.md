@@ -2,7 +2,7 @@
 
 Примеры использования фреймворка для создания высокопроизводительных серверов с доменными объектами моделирующими предметную область.
 
-Пакеты nuget начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
+Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
 
 # Проект Common
 
