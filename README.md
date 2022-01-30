@@ -1,4 +1,4 @@
-Пакеты nuget начинаются с перфика **ShtrihM.Wattle3**
+Пакеты nuget начинаются с префикса **ShtrihM.Wattle3**
 
 # Wattle3.Examples
 
