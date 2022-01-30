@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -17,7 +16,6 @@ namespace ShtrihM.Wattle3.Examples.QueueProcessors;
 /// <summary>
 /// Примеры многопоточной очереди.
 /// </summary>
-[SuppressMessage("ReSharper", "AccessToDisposedClosure")]
 [TestFixture]
 public class Examples
 {
