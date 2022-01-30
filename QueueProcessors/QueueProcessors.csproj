@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AssemblyName>ShtrihM.Wattle3.Examples.QueueProcessors</AssemblyName>
 		<RootNamespace>ShtrihM.Wattle3.Examples.QueueProcessors</RootNamespace>
 	</PropertyGroup>
@@ -12,12 +13,15 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
 		<PackageReference Include="NUnit" Version="3.13.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+		<PackageReference Include="ShtrihM.Wattle3.Caching" Version="3.0.0.35697" />
 		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.35697" />
+		<PackageReference Include="ShtrihM.Wattle3.Json" Version="3.0.0.35702" />
 		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.35697" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.35702" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Common\Common.csproj" />
+		<ProjectReference Include="..\Common\Common.csproj" />
 	</ItemGroup>
 
 </Project>
