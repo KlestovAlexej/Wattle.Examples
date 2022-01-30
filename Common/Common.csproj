@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>ShtrihM.Wattle3.Examples.Common</AssemblyName>
+		<RootNamespace>ShtrihM.Wattle3.Examples.Common</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.35697" />
+	</ItemGroup>
+
+</Project>
