@@ -116,10 +116,11 @@ public class Examples
     public void SetUp()
     {
         var timeService = new TimeService();
+        var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()))
-            .SetTimeService(new TimeService())
+            .Begin(loggerFactory)
+            .SetTimeService(timeService)
             .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
             .SetExceptionPolicy(new ExceptionPolicy(timeService))
             .Build();
