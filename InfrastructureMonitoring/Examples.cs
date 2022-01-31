@@ -94,7 +94,7 @@ public class Examples
     [SetUp]
     public void SetUp()
     {
-        // Для десериализации произвольных тип телеметрии из текста JSON в тип C#
+        // Для десериализации произвольных типов телеметрии из текста JSON в тип C#
         JsonConverterCustomEx<BaseValueData, UnknownValueData>.AddType(typeof(CustomValue.ValueData));
 
         var infrastructureMonitorRegisters = new InfrastructureMonitorRegisters();
