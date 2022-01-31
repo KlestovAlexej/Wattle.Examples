@@ -48,3 +48,26 @@ $Result = Invoke-WebRequest -Uri "http://localhost:5601/api/1/InfrastructureMoni
 
 Write-Host ($Result)
 ```
+
+Полученное значение телеметрии:
+```json
+{
+  "Id": "153c867d-a122-44bb-b689-949fb8c61b00",
+  "Name": "Класс CustomClassA",
+  "Description": "Класс CustomClassA",
+  "SnapShotTime": "2022-01-31T15:12:48.6279777+03:00",
+  "Value": {
+    "Id": "50ff7f28-582b-4297-93ee-323fb812880f",
+    "Name": "Количество элементов",
+    "Description": "Количество элементов",
+    "Data": {
+      "Value": 11,
+      "Type": "long"
+    },
+    "Group": null,
+    "Tags": [
+      "COUNT"
+    ]
+  }
+}
+```
