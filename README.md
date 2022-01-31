@@ -38,7 +38,13 @@ Console.WriteLine(count);
 
 Получение значение телеметрии через REST-интерфейс используя PowerShell:
 ```ps1
-Install-Package MessagePack.ReactiveProperty
-Install-Package MessagePack.UnityShims
-Install-Package MessagePack.AspNetCoreMvcFormatter
+# Идентификатор объекта приложения с телеметрией - WellknownCustomInfrastructureMonitors.CustomClassA
+$MonitorId = "153C867D-A122-44BB-B689-949FB8C61B00"
+
+# Идентификатор значения с телеметрией - WellknownCustomSnapShotInfrastructureMonitorValues.CustomClassA.Count
+$ValueId = "50FF7F28-582B-4297-93EE-323FB812880F"
+
+$Result = Invoke-WebRequest -Uri "http://localhost:5601/api/1/InfrastructureMonitor/GetInfrastructureMonitorSnapshotValue?monitorId=$MonitorId&valueId=$ValueId" -Method Get
+
+Write-Host ($Result)
 ```
