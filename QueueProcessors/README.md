@@ -1,9 +1,9 @@
 Примеры использования многопоточных очередей.
 
-# ExamplesQueueItemProcessor
+# ExamplesQueueItemProcessor.cs
 
 Примеры многопоточной очереди.
 
-# ExamplesSlotsQueueItemProcessor
+# ExamplesSlotsQueueItemProcessor.cs
 
 Примеры многопоточной очереди с равноприоритетными подочередями (слоты)
