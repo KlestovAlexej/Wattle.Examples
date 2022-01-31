@@ -40,11 +40,6 @@ public class Examples
     {
         using var client = new InfrastructureMonitorClient("localhost", 5601);
 
-        var snapshot = client.GetInfrastructureMonitorSnapshot(WellknownCustomInfrastructureMonitors.CustomClassA);
-        var snapShotValue = snapshot.Values.Single(v => v.Id == WellknownCustomSnapShotInfrastructureMonitorValues.CustomClassA.Count);
-        var count = (long)snapShotValue.Data.Value;
-        Console.WriteLine(count);
-
         m_classA.Count = 11;
 
         {
