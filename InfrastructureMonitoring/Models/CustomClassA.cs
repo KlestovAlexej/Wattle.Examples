@@ -36,8 +36,10 @@ public class CustomClassA
         public InfrastructureMonitor(CustomClassA onwer)
             : base(
                 WellknownCustomInfrastructureMonitors.CustomClassA,
-                WellknownCustomInfrastructureMonitors.GetDisplayName(WellknownCustomInfrastructureMonitors.CustomClassA),
-                WellknownCustomInfrastructureMonitors.GetDisplayName(WellknownCustomInfrastructureMonitors.CustomClassA))
+                WellknownCustomInfrastructureMonitors.GetDisplayName(WellknownCustomInfrastructureMonitors
+                    .CustomClassA),
+                WellknownCustomInfrastructureMonitors.GetDisplayName(WellknownCustomInfrastructureMonitors
+                    .CustomClassA))
         {
             m_onwer = onwer;
         }
@@ -86,7 +88,12 @@ public class CustomClassA
     public InfrastructureMonitor Monitor { get; }
     public CustomClassB ClassB { get; }
     public CustomClassC ClassC { get; }
-    public long Count;
-    public CustomValue Value;
 
+    /// <summary>
+    /// Телеметрия.
+    /// <see cref="WellknownCustomSnapShotInfrastructureMonitorValues.CustomClassA.Count"/>
+    /// </summary>
+    public long Count;
+
+    public CustomValue Value;
 }
