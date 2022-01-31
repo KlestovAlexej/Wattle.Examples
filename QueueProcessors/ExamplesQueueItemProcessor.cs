@@ -17,7 +17,7 @@ namespace ShtrihM.Wattle3.Examples.QueueProcessors;
 /// Примеры многопоточной очереди.
 /// </summary>
 [TestFixture]
-public class Examples
+public class ExamplesQueueItemProcessor
 {
     /// <summary>
     /// Добавить и обработать элемент.
