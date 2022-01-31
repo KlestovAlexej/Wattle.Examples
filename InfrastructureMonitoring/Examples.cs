@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -43,12 +44,9 @@ public class Examples
         m_classA.Count = 11;
 
         {
-            // Получение по REST снимка с телеметрией класса CustomClassA
-            var snapshot = client.GetInfrastructureMonitorSnapshot(WellknownCustomInfrastructureMonitors.CustomClassA);
-
-            // Значение Count из телеметриии класса CustomClassA
-            var snapShotValue = snapshot.Values.Single(v => v.Id == WellknownCustomSnapShotInfrastructureMonitorValues.CustomClassA.Count);
-            var count = (long)snapShotValue.Data.Value;
+            // Получение по REST значение телеметриии Count класса CustomClassA
+            var snapShotValue = client.GetInfrastructureMonitorSnapshotValue(WellknownCustomInfrastructureMonitors.CustomClassA, WellknownCustomSnapShotInfrastructureMonitorValues.CustomClassA.Count);
+            var count = (long)snapShotValue.Value.Data.Value;
 
             Console.WriteLine("");
             Console.WriteLine($"CustomClassA.Count = {m_classA.Count}");
@@ -72,7 +70,23 @@ public class Examples
             Console.WriteLine($"CustomClassA.Count JSON : {Environment.NewLine + snapShotValue.ToJsonText(true)}");
         }
 
-        m_classA.ClassB.Value.Value1 = 22;
+        m_classA.Count = 33;
+
+        {
+            // Получение по REST снимка с телеметрией класса CustomClassA
+            var snapshot = client.GetInfrastructureMonitorSnapshot(WellknownCustomInfrastructureMonitors.CustomClassA);
+
+            // Значение Count из телеметриии класса CustomClassA
+            var snapShotValue = snapshot.Values.Single(v => v.Id == WellknownCustomSnapShotInfrastructureMonitorValues.CustomClassA.Count);
+            var count = (long)snapShotValue.Data.Value;
+
+            Console.WriteLine("");
+            Console.WriteLine($"CustomClassA.Count = {m_classA.Count}");
+            Console.WriteLine($"CustomClassA.Count (REST) = {count}");
+            Console.WriteLine($"CustomClassA.Count JSON : {Environment.NewLine + snapShotValue.ToJsonText(true)}");
+        }
+
+        m_classA.ClassB.Value.Value1 = 44;
         m_classA.ClassB.Value.Value2 = "Тест";
 
         {
