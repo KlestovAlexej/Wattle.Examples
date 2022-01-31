@@ -14,6 +14,7 @@
 
 В проекте [InfrastructureMonitoring](/InfrastructureMonitoring) весь код примера.
 
+---
 Клаcc приложения с телеметрией для публикации по REST-интерфейсу:
 ```csharp
 public class CustomClassA
@@ -25,6 +26,13 @@ public class CustomClassA
 }
 ```
 
+
+Документация REST-интерфейса доступа к телеметрии приложения:
+```csharp
+http://localhost:5601/swagger/index.html
+```
+
+---
 Получение значение телеметрии через REST-интерфейс используя C# и готовый клиент:
 ```csharp
 using var client = new InfrastructureMonitorClient("localhost", 5601);
@@ -36,6 +44,7 @@ var count = (long)snapShotValue.Data.Value;
 Console.WriteLine(count);
 ```
 
+---
 Получение значение телеметрии через REST-интерфейс используя PowerShell:
 ```ps1
 # Идентификатор объекта приложения с телеметрией - WellknownCustomInfrastructureMonitors.CustomClassA
