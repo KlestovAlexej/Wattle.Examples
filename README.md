@@ -5,11 +5,3 @@
 Написано 100% на C# под .NET 6
 
 Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
-
-# Проект Common
-
-Общее для всех примеров.
-
-# Проект QueueProcessors
-
-Примеры использования многопоточных очередей.
