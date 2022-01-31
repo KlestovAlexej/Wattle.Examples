@@ -10,7 +10,7 @@
 - [Телеметрия приложени](#телеметрия-приложени)
 
 ### Телеметрия приложени
-Простая публикация и доступ по REST-интерфейсу к произвольной телеметрии приложени.
+Простая публикация и доступ по REST-интерфейсу к произвольной телеметрии приложения.
 
 В проекте [InfrastructureMonitoring](/InfrastructureMonitoring) весь код примера.
 
@@ -18,12 +18,14 @@
 ```csharp
 public class CustomClassA
 {
+    ...
+
     // Телеметрия.
     public long Count;
 }
 ```
 
-Получение значения с телеметрии через REST-интерфейс:
+Получение значение телеметрии через REST-интерфейс используя C# и готовый клиент:
 ```csharp
 using var client = new InfrastructureMonitorClient("localhost", 5601);
 
@@ -32,4 +34,11 @@ var snapShotValue = snapshot.Values.Single(v => v.Id == WellknownCustomSnapShotI
 var count = (long)snapShotValue.Data.Value;
 
 Console.WriteLine(count);
+```
+
+Получение значение телеметрии через REST-интерфейс используя PowerShell:
+```ps1
+Install-Package MessagePack.ReactiveProperty
+Install-Package MessagePack.UnityShims
+Install-Package MessagePack.AspNetCoreMvcFormatter
 ```
