@@ -18,6 +18,8 @@
 ```csharp
 public class CustomClassA
 {
+    ...
+
     // Телеметрия.
     public long Count;
 }
