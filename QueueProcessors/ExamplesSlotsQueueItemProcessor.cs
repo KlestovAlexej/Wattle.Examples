@@ -116,10 +116,9 @@ public class ExamplesSlotsQueueItemProcessor
     public void SetUp()
     {
         var timeService = new TimeService();
-        var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
         DomainEnviromentConfigurator
-            .Begin(loggerFactory)
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()))
             .SetTimeService(timeService)
             .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
             .SetExceptionPolicy(new ExceptionPolicy(timeService))
