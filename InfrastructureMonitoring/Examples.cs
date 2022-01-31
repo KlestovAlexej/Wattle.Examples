@@ -53,6 +53,7 @@ public class Examples
             Console.WriteLine("");
             Console.WriteLine($"CustomClassA.Count = {m_classA.Count}");
             Console.WriteLine($"CustomClassA.Count (REST) = {count}");
+            Console.WriteLine($"CustomClassA.Count JSON : {Environment.NewLine + snapShotValue.ToJsonText(true)}");
         }
 
         m_classA.Count = 22;
@@ -68,6 +69,7 @@ public class Examples
             Console.WriteLine("");
             Console.WriteLine($"CustomClassA.Count = {m_classA.Count}");
             Console.WriteLine($"CustomClassA.Count (REST) = {count}");
+            Console.WriteLine($"CustomClassA.Count JSON : {Environment.NewLine + snapShotValue.ToJsonText(true)}");
         }
 
         m_classA.ClassB.Value.Value1 = 22;
@@ -86,6 +88,7 @@ public class Examples
             Console.WriteLine($"CustomClassB.Value.Value1 (REST) = {customValue.Value1}");
             Console.WriteLine($"CustomClassB.Value.Value2 = {m_classA.ClassB.Value.Value2}");
             Console.WriteLine($"CustomClassB.Value.Value2 (REST) = {customValue.Value2}");
+            Console.WriteLine($"CustomClassB.Value JSON : {Environment.NewLine + snapShotValue.ToJsonText(true)}");
         }
     }
 
