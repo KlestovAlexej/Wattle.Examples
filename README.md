@@ -12,9 +12,9 @@
 ### Телеметрия приложени
 Простая публикация и доступ по REST-интерфейсу к произвольной телеметрии приложени.
 
-Пример (полный пример в проекте [InfrastructureMonitoring](/InfrastructureMonitoring)).
+В проекте [InfrastructureMonitoring](/InfrastructureMonitoring) весь код примера.
 
-Клаcc приложения с телеметрией :
+Клаcc приложения с телеметрией для публикации по REST-интерфейсу:
 ```csharp
 public class CustomClassA
 {
@@ -23,7 +23,7 @@ public class CustomClassA
 }
 ```
 
-Получение значения с телеметрией :
+Получение значения с телеметрии через REST-интерфейс:
 ```csharp
 using var client = new InfrastructureMonitorClient("localhost", 5601);
 
