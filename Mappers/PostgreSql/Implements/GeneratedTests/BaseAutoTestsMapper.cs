@@ -17,6 +17,9 @@ public abstract partial class BaseAutoTestsMapper
     protected string m_serverConnectionString;
     protected string m_dbName;
 
+    /// <summary>
+    /// Создание тестовой БД.
+    /// </summary>
     partial void DoBase_BeginSetUp()
     {
         m_dbName = "test_wattle3_" + DateTime.Now.ToString("yyyMMddhhmmss") + "_" + Guid.NewGuid().ToString("N");
@@ -27,6 +30,9 @@ public abstract partial class BaseAutoTestsMapper
         PostgreSqlDbHelper.CreateDb(m_dbName, tag: TestContext.CurrentContext.Test.FullName, sqlScript: sqlScript);
     }
 
+    /// <summary>
+    /// Удаление тестовой БД.
+    /// </summary>
     partial void DoBase_TearDown()
     {
         PostgreSqlDbHelper.DropDb(m_dbName);
