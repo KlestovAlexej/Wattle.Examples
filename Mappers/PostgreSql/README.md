@@ -1,10 +1,10 @@
 Примеры автогенерации мапперов ADO.NET для PostgreSQL.
 
-# Mappers.PostgreSql.Common.csproj
+# Common
 
 Определения структур записей в БД и параметров мапперов.
 
-# Mappers.PostgreSql.Implements.csproj
+# Implements
 
 Автогенеренные :
 - Интерфейсы мапперов.
