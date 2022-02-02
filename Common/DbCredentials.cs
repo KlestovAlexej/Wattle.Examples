@@ -65,7 +65,7 @@ namespace ShtrihM.Wattle3.Examples.Common
         }
 
         /// <summary>
-        /// Параметры учётных записей подключения к SQL Server.
+        /// Параметры учётной записи подключения к SQL Server.
         /// По умолчанию параметры читаются из реестра Windows;
         /// Пример реестра Windows <see cref="RegistryFile"/>.
         /// </summary>
@@ -83,7 +83,7 @@ namespace ShtrihM.Wattle3.Examples.Common
         }
 
         /// <summary>
-        /// Параметры учётных записей подключения к PostgreSQL.
+        /// Параметры учётной записи подключения к PostgreSQL.
         /// По умолчанию параметры читаются из реестра Windows;
         /// Пример реестра Windows <see cref="RegistryFile"/>.
         /// </summary>
