@@ -1,13 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AssemblyName>ShtrihM.Wattle3.Examples.Common</AssemblyName>
 		<RootNamespace>ShtrihM.Wattle3.Examples.Common</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.35704" />
+		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.35727" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.35727" />
 	</ItemGroup>
 
 </Project>

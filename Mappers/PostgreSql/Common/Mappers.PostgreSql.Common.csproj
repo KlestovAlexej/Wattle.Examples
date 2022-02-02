@@ -2,8 +2,16 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.Common</AssemblyName>
-		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.Common</RootNamespace>
+		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common</AssemblyName>
+		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common</RootNamespace>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="SqlScripts\SqlScript.sql" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="SqlScripts\SqlScript.sql" />
+	</ItemGroup>
 
 </Project>

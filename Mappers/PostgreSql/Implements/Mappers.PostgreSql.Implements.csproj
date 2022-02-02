@@ -2,8 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.Interfaces</AssemblyName>
-		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.Interfaces</RootNamespace>
+		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements</AssemblyName>
+		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements</RootNamespace>
 	</PropertyGroup>
 
 </Project>

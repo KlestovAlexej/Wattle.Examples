@@ -2,8 +2,12 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.Common</AssemblyName>
-		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.Common</RootNamespace>
+		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common</AssemblyName>
+		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common</RootNamespace>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Folder Include="SqlScripts\" />
+	</ItemGroup>
 
 </Project>

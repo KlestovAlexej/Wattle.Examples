@@ -1,0 +1,514 @@
+{
+	"tables": {
+		"69ae4cea-f333-41d3-be92-38a6da30bc7a": {
+			"id": "69ae4cea-f333-41d3-be92-38a6da30bc7a",
+			"visible": true,
+			"name": "object_b",
+			"desc": "",
+			"cols": [
+				{
+					"id": "9bab4db6-1153-4b8d-ba14-294a9240a5f7",
+					"name": "id",
+					"datatype": "bigint",
+					"pk": true,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "75aeb5cf-3c52-417b-833e-eaa6b76262e5",
+					"name": "revision",
+					"datatype": "bigint",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "a1655676-f236-472f-805c-2cef4e474ae7",
+					"name": "createdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "0949580d-53aa-433b-8c04-cfb8cdcbf392",
+					"name": "modificationdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "6207a56d-3431-4b2d-8710-ae60506e1803",
+					"name": "state",
+					"datatype": "smallint",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				}
+			],
+			"relations": [],
+			"lines": [],
+			"keys": [
+				{
+					"id": "48bc0ea5-3c5d-4f45-a06c-f6abf5e6f2ee",
+					"name": "Primary key",
+					"isPk": true,
+					"using": "",
+					"cols": [
+						{
+							"id": "ee0540fa-62c8-49b0-a26d-19cc00214e4d",
+							"colid": "9bab4db6-1153-4b8d-ba14-294a9240a5f7"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"partition": ""
+			},
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": ""
+		},
+		"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88": {
+			"id": "d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
+			"visible": true,
+			"name": "object_a",
+			"desc": "",
+			"cols": [
+				{
+					"id": "9bab4db6-1153-4b8d-ba14-294a9240a5f7",
+					"name": "id",
+					"datatype": "bigint",
+					"pk": true,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "75aeb5cf-3c52-417b-833e-eaa6b76262e5",
+					"name": "revision",
+					"datatype": "bigint",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "a1655676-f236-472f-805c-2cef4e474ae7",
+					"name": "createdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "0949580d-53aa-433b-8c04-cfb8cdcbf392",
+					"name": "modificationdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "6207a56d-3431-4b2d-8710-ae60506e1803",
+					"name": "state",
+					"datatype": "smallint",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				}
+			],
+			"relations": [],
+			"lines": [],
+			"keys": [
+				{
+					"id": "dc5f92a2-c235-41f9-86f9-a4bcbd6418fb",
+					"name": "Primary key",
+					"isPk": true,
+					"using": "",
+					"cols": [
+						{
+							"id": "d673b1b8-f446-4bbc-81ee-d78b732ad3d1",
+							"colid": "9bab4db6-1153-4b8d-ba14-294a9240a5f7"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"partition": "BY RANGE (id)"
+			},
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": ""
+		},
+		"e8363b7c-5f85-44b6-9857-44c6f61a475d": {
+			"id": "e8363b7c-5f85-44b6-9857-44c6f61a475d",
+			"visible": true,
+			"name": "object_c",
+			"desc": "",
+			"cols": [
+				{
+					"id": "9bab4db6-1153-4b8d-ba14-294a9240a5f7",
+					"name": "id",
+					"datatype": "bigint",
+					"pk": true,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "75aeb5cf-3c52-417b-833e-eaa6b76262e5",
+					"name": "revision",
+					"datatype": "bigint",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "a1655676-f236-472f-805c-2cef4e474ae7",
+					"name": "createdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "0949580d-53aa-433b-8c04-cfb8cdcbf392",
+					"name": "modificationdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "6207a56d-3431-4b2d-8710-ae60506e1803",
+					"name": "state",
+					"datatype": "smallint",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "8171d59b-6efe-4ef1-95f6-5bac8fa297d0",
+					"name": "available",
+					"datatype": "bit",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				}
+			],
+			"relations": [],
+			"lines": [],
+			"keys": [
+				{
+					"id": "25ca0dd0-300b-4350-a792-78f00309b6c6",
+					"name": "Primary key",
+					"isPk": true,
+					"using": "",
+					"cols": [
+						{
+							"id": "ee0540fa-62c8-49b0-a26d-19cc00214e4d",
+							"colid": "9bab4db6-1153-4b8d-ba14-294a9240a5f7"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"partition": ""
+			},
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": ""
+		}
+	},
+	"relations": {},
+	"notes": {},
+	"lines": {},
+	"model": {
+		"name": "Emerald.Accounts",
+		"id": "4c92d881-8d9d-4364-b985-30062712879e",
+		"desc": "",
+		"path": "",
+		"type": "PG",
+		"version": 1,
+		"keysgraphics": true,
+		"linegraphics": true,
+		"zoom": 100,
+		"parentTableInFkCols": true,
+		"caseConvention": "camel",
+		"replaceSpace": "_",
+		"color": "transparent",
+		"background": "transparent",
+		"sideSelections": true,
+		"isDirty": true,
+		"storedin": {
+			"major": 2,
+			"minor": 9,
+			"extra": 6
+		},
+		"def_coltopk": true,
+		"pg": {
+			"schema": ""
+		},
+		"lastSaved": "Wed Feb 02 2022 18:37:03 GMT+0300 (Москва, стандартное время)",
+		"writeFileParam": true,
+		"activeDiagram": "f1669b85-a87c-45bc-806a-d4c1a20593bc",
+		"schemaContainerIsDisplayed": false,
+		"embeddedInParentsIsDisplayed": true,
+		"sqlSettings": {
+			"wrapLines": true,
+			"wrapOffset": 80,
+			"indent": true,
+			"indentationString": "spaces",
+			"indentationSize": 2,
+			"limitItemsOnLine": true,
+			"maxListItemsOnLine": 3,
+			"statementDelimiter": ";",
+			"routineDelimiter": ";",
+			"keywordCase": "upper",
+			"identiferCase": "original",
+			"includeSchema": "always",
+			"quotation": "if_needed"
+		},
+		"cardinalityIsDisplayed": false,
+		"customDataTypes": []
+	},
+	"otherObjects": {
+		"9a8623f7-d52c-479b-ab2c-a1b338465ba8": {
+			"id": "9a8623f7-d52c-479b-ab2c-a1b338465ba8",
+			"visible": true,
+			"name": "Sequence_Object_A",
+			"desc": "",
+			"type": "Sequence",
+			"code": "CREATE SEQUENCE Sequence_Object_A START WITH 1 INCREMENT BY 1;",
+			"lines": [],
+			"pg": {
+				"schema": ""
+			},
+			"generate": true,
+			"generateCustomCode": true
+		}
+	},
+	"diagrams": {
+		"f1669b85-a87c-45bc-806a-d4c1a20593bc": {
+			"name": "Main Diagram",
+			"description": "",
+			"id": "f1669b85-a87c-45bc-806a-d4c1a20593bc",
+			"keysgraphics": true,
+			"linegraphics": "detailed",
+			"color": "transparent",
+			"background": "transparent",
+			"lineColor": "transparent",
+			"isOpen": true,
+			"zoom": 1,
+			"scroll": {
+				"left": 0,
+				"top": 0
+			},
+			"main": true,
+			"diagramItems": {
+				"9a8623f7-d52c-479b-ab2c-a1b338465ba8": {
+					"referencedItemId": "9a8623f7-d52c-479b-ab2c-a1b338465ba8",
+					"x": 45,
+					"y": 30,
+					"gHeight": 44,
+					"gWidth": 150,
+					"color": "#eee",
+					"background": "#795548",
+					"resized": false,
+					"autoExpand": true
+				},
+				"69ae4cea-f333-41d3-be92-38a6da30bc7a": {
+					"referencedItemId": "69ae4cea-f333-41d3-be92-38a6da30bc7a",
+					"x": 373,
+					"y": 118,
+					"gHeight": 117,
+					"gWidth": 265,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true
+				},
+				"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88": {
+					"referencedItemId": "d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
+					"x": 45,
+					"y": 117,
+					"gHeight": 117,
+					"gWidth": 265,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true
+				},
+				"e8363b7c-5f85-44b6-9857-44c6f61a475d": {
+					"referencedItemId": "e8363b7c-5f85-44b6-9857-44c6f61a475d",
+					"x": 675,
+					"y": 122,
+					"gHeight": 135,
+					"gWidth": 265,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true
+				}
+			}
+		}
+	},
+	"order": [
+		"9a8623f7-d52c-479b-ab2c-a1b338465ba8",
+		"69ae4cea-f333-41d3-be92-38a6da30bc7a",
+		"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
+		"e8363b7c-5f85-44b6-9857-44c6f61a475d"
+	]
+}
