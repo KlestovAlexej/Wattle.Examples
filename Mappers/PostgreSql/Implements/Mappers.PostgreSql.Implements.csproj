@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.Interfaces</AssemblyName>
+		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.Interfaces</RootNamespace>
+	</PropertyGroup>
+
+</Project>

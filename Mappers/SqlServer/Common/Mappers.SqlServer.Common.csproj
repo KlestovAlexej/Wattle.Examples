@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.Common</AssemblyName>
+		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.Common</RootNamespace>
+	</PropertyGroup>
+
+</Project>
