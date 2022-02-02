@@ -5,11 +5,26 @@
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AssemblyName>ShtrihM.Wattle3.Examples.Common</AssemblyName>
 		<RootNamespace>ShtrihM.Wattle3.Examples.Common</RootNamespace>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>GeneratedFiles</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
+		<None Include="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="ProviderProjectBasePath.txt" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.35727" />
 		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.35727" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Path" Version="3.0.0.35727">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>

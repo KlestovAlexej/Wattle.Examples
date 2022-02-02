@@ -1,9 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements</AssemblyName>
 		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements</RootNamespace>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>GeneratedFiles</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
+		<None Include="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="DbMappers.Schema.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+		<PackageReference Include="Npgsql" Version="6.0.3" />
+		<PackageReference Include="NUnit" Version="3.13.2" />
+		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.0.0.35727">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.0.0.35727">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.0.0.35727">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.0.0.35727">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.0.0.35727" />
+		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.0.0.35727" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.0.0.35727" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers.PostgreSql" Version="3.0.0.35727" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.35727" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.PostgreSql" Version="3.0.0.35727" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Common\Mappers.PostgreSql.Common.csproj" />
+	</ItemGroup>
 
 </Project>

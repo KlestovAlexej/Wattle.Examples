@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using ShtrihM.Wattle3.Testing;
+﻿using ShtrihM.Wattle3.Testing;
 
 namespace ShtrihM.Wattle3.Examples.Common
 {

@@ -1,0 +1,2 @@
+﻿ShtrihM.Wattle3.Examples.Common
+..\..\

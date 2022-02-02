@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Interfaces;
 using ShtrihM.Wattle3.DomainObjects;
-using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
 using ShtrihM.Wattle3.Infrastructures.Rest.Clients.Monitors;
 using ShtrihM.Wattle3.Infrastructures.Rest.Controllers.Monitors;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Json.ValueData;
-using ShtrihM.Wattle3.Mappers.Primitives;
-using ShtrihM.Wattle3.QueueProcessors;
-using ShtrihM.Wattle3.QueueProcessors.Interfaces;
-using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Utils;
 
 namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring;
