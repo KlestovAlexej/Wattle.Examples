@@ -9,6 +9,8 @@
 
 XML-модель с определением структур записей в БД и параметров мапперов.
 
+XML-модель создана NUnit-тестом [DbMappersSchemaXmlBuilder.cs](../Common/DbMappersSchemaXmlBuilder.cs)
+
 # Директория GeneratedFiles
 
 Автогенеренные :
