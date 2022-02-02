@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
@@ -12,6 +14,7 @@ using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 
+[SuppressMessage("ReSharper", "ArgumentsStyleNamedExpression")]
 public abstract partial class BaseAutoTestsMapper
 {
     protected string m_serverConnectionString;
@@ -22,9 +25,12 @@ public abstract partial class BaseAutoTestsMapper
     /// </summary>
     partial void DoBase_BeginSetUp()
     {
+        Assert.IsTrue(DbCredentials.TryGetServerAdressForPostgreSql(out var serverAdress));
+        Assert.IsTrue(DbCredentials.TryGetCredentialsForPostgreSql(out var credentials));
+
         m_dbName = "test_wattle3_" + DateTime.Now.ToString("yyyMMddhhmmss") + "_" + Guid.NewGuid().ToString("N");
-        m_serverConnectionString = PostgreSqlDbHelper.GetServerConnectionString();
-        m_dbConnectionString = PostgreSqlDbHelper.GetDatabaseConnectionString(m_dbName);
+        m_serverConnectionString = PostgreSqlDbHelper.GetServerConnectionString(serverAdress: serverAdress, userCredentials: credentials);
+        m_dbConnectionString = PostgreSqlDbHelper.GetDatabaseConnectionString(m_dbName, serverAdress: serverAdress, userCredentials: credentials);
 
         var sqlScript = typeof(WellknownDomainObjects).Assembly.GetResourceAsString("SqlScript.sql");
         PostgreSqlDbHelper.CreateDb(m_dbName, tag: TestContext.CurrentContext.Test.FullName, sqlScript: sqlScript);
