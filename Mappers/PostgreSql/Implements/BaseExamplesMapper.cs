@@ -32,7 +32,7 @@ public class BaseExamplesMapper
         m_dbConnectionString = PostgreSqlDbHelper.GetDatabaseConnectionString(m_dbName, serverAdress: serverAdress, userCredentials: credentials);
 
         var sqlScript = typeof(WellknownDomainObjects).Assembly.GetResourceAsString("SqlScript.sql");
-        PostgreSqlDbHelper.CreateDb(m_dbName, tag: TestContext.CurrentContext.Test.FullName, sqlScript: sqlScript);
+        PostgreSqlDbHelper.CreateDb(m_dbName, sqlScript: sqlScript);
     }
 
     /// <summary>
