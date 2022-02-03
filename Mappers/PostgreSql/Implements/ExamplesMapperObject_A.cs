@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
@@ -29,6 +31,133 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 [TestFixture]
 public class ExamplesMapperObject_A : BaseExamplesMapper
 {
+    /// <summary>
+    /// Создание записей в таблице БД.
+    /// </summary>
+    [Test]
+    public void Example_Insert()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        var groupId = 1;
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatePartition(mappersSession, groupId, groupId + 1);
+
+            mappersSession.Commit();
+        }
+
+        var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = id,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text",
+                });
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto = mapper.Get(mappersSession, id);
+
+            Console.WriteLine(dbDto.ToJsonText(true));
+        }
+    }
+
+    /// <summary>
+    /// Выборка записей по условию.
+    /// </summary>
+    [Test]
+    public void Example_Select()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        var groupId = 1;
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatePartition(mappersSession, groupId, groupId + 1);
+
+            mappersSession.Commit();
+        }
+
+        // Заполнение таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1),
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text",
+                });
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 2),
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 600,
+                    Value_String = "Text",
+                });
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var queryText =
+                SchemaQueriesProvider
+                    .QueryForObject_A("WHERE Value_Long = @Value_Long ORDER Id DESC")
+                    .AddParameterInt64("Value_Long", 314)
+                    .GetQuery();
+            var selectFilter = mapper.CreateSelectFilter(queryText);
+
+            var dbDtos = mapper.GetEnumerator(mappersSession, selectFilter).ToList();
+            Assert.AreEqual(1, dbDtos.Count);
+
+            Console.WriteLine(dbDtos[0].ToJsonText(true));
+        }
+
+        Console.WriteLine("Все записи отсортированные по убыванию по колонке Value_Long :");
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var queryText =
+                SchemaQueriesProvider
+                    .QueryForObject_A("ORDER Value_Long DESC")
+                    .GetQuery();
+            var selectFilter = mapper.CreateSelectFilter(queryText);
+
+            var dbDtos = mapper.GetEnumerator(mappersSession, selectFilter).ToList();
+            Assert.AreEqual(2, dbDtos.Count);
+
+            Console.WriteLine(dbDtos[0].ToJsonText(true));
+            Console.WriteLine(dbDtos[1].ToJsonText(true));
+        }
+    }
+
     /// <summary>
     /// Управление партициями таблицы БД.
     /// </summary>
