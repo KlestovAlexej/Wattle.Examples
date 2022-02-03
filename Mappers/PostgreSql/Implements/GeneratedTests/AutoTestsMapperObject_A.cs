@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
+﻿using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 
 // ReSharper disable CheckNamespace

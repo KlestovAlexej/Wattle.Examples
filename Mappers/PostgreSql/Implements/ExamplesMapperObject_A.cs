@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,15 +13,11 @@ using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Mappers.PostgreSql;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
-using ShtrihM.Wattle3.Testing;
-using ShtrihM.Wattle3.Utils;
 
 // ReSharper disable All
 
@@ -72,6 +67,52 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
         using (var mappersSession = mappers.OpenSession())
         {
             var dbDto = mapper.Get(mappersSession, id);
+
+            Console.WriteLine(dbDto.ToJsonText(true));
+        }
+    }
+
+    /// <summary>
+    /// Асинхронное создание записей в таблице БД.
+    /// </summary>
+    [Test]
+    public async ValueTask Example_Insert_Async()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        var groupId = 1;
+
+        // Создание партиции таблицы.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            await mapper.Partitions.CreatePartitionAsync(mappersSession, groupId, groupId + 1);
+
+            await mappersSession.CommitAsync();
+        }
+
+        var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
+
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            await mapper.NewAsync(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = id,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text",
+                });
+
+            await mappersSession.CommitAsync();
+        }
+
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDto = await mapper.GetAsync(mappersSession, id);
 
             Console.WriteLine(dbDto.ToJsonText(true));
         }
