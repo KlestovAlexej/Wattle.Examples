@@ -43,6 +43,8 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
             Assert.AreEqual(0, mapper.Partitions.GetExistsPartitions(mappersSession).Count);
         }
 
+        Console.WriteLine("Создание партиции для группы [1 ; 2).");
+
         using (var mappersSession = mappers.OpenSession())
         {
             mapper.Partitions.CreatePartition(mappersSession, 1, 2);
@@ -52,6 +54,25 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
 
         using (var mappersSession = mappers.OpenSession())
         {
+            var existsPartitions = mapper.Partitions.GetExistsPartitions(mappersSession);
+            Assert.AreEqual(1, existsPartitions.Count);
+
+            Console.WriteLine(existsPartitions[0].ToJsonText(true));
+        }
+
+        Console.WriteLine("Создание партиции по умолчанию.");
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            Console.WriteLine($"DefaultPartitionName : {mapper.Partitions.DefaultPartitionName}");
+
             var existsPartitions = mapper.Partitions.GetExistsPartitions(mappersSession);
             Assert.AreEqual(1, existsPartitions.Count);
 
