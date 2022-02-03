@@ -13,6 +13,7 @@ using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
+using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
@@ -28,8 +29,35 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 [TestFixture]
 public class ExamplesMapperObject_A : BaseExamplesMapper
 {
-    //private MapperObject_A m_mapper;
-    //m_mapper = (MapperObject_A) mappers.GetMapper<IMapperObject_A>();
+    /// <summary>
+    /// Управление партициями таблицы БД.
+    /// </summary>
+    [Test]
+    public void Example_Partitions()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            Assert.AreEqual(0, mapper.Partitions.GetExistsPartitions(mappersSession).Count);
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatePartition(mappersSession, 1, 2);
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var existsPartitions = mapper.Partitions.GetExistsPartitions(mappersSession);
+            Assert.AreEqual(1, existsPartitions.Count);
+
+            Console.WriteLine(existsPartitions[0].ToJsonText(true));
+        }
+    }
 
     /// <summary>
     /// Генератор уникальных первичных ключей с кешированием.
@@ -37,49 +65,63 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
     [Test]
     public void Example_IdentityCache()
     {
+        var cacheSize = 100_000;
+        using var identityCache = CreateIdentityCache(cacheSize);
+
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        using var identityCache =
-            new IdentityCache<IMapperObject_A>(
-                GuidGenerator.New($"{mapper.MapperId} {nameof(IMapperObject_A)}"),
-                $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
-                $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
-                ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
-                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                TimeSpan.FromMinutes(5),
-                mapper,
-                100_000,
-                fillFactor: 0.4f,
-                methodGetNextIdentity:
-                new PairMethods<
-                    Func<IMapperObject_A, IMappersSession, long>,
-                    Func<IMapperObject_A, IMappersSession, CancellationToken, ValueTask<long>>>(
-                    (mapper, mappersSession) 
-                        => mapper.GetNextId(mappersSession),
-                    (mapper, mappersSession, cancellationToken) 
-                        => mapper.GetNextIdAsync(mappersSession, cancellationToken)),
-                methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count));
-
-        // Прогрев кэша генератора.
-        using (var mappersSession = mappers.OpenSession())
+        var identitesCount = 50 * cacheSize;
+        for (var count = 0; count < identitesCount; ++count)
         {
-            identityCache.Initialize(mappersSession);
+            using var mappersSession = mappers.OpenSession();
+
+            // Получить идентити из генератора.
+            var identity = identityCache.GetNextIdentity(mappersSession);
+
+            Assert.AreEqual(count + 1, identity);
 
             mappersSession.Commit();
         }
 
-        for (var count = 0; count < 100_000; ++count)
-        {
-            // Получить идентити из генератора.
-            using (var mappersSession = mappers.OpenSession())
-            {
-                var identity = identityCache.GetNextIdentity(mappersSession);
-                Assert.AreEqual(count + 1, identity);
+        Console.WriteLine($"Количесто идентити  : {identitesCount}");
 
-                mappersSession.Commit();
-            }
+        {
+            var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количесто идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
+            Console.WriteLine($"Количесто идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
         }
+
+        {
+            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количесто подключений к БД : {snapShot.CountDbConnections}");
+        }
+    }
+
+    /// <summary>
+    /// Асинхронный генератор уникальных первичных ключей с кешированием.
+    /// </summary>
+    [Test]
+    public async ValueTask Example_IdentityCache_Async()
+    {
+        var cacheSize = 100_000;
+        using var identityCache = CreateIdentityCache(cacheSize);
+
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+
+        var identitesCount = 50 * cacheSize;
+        for (var count = 0; count < identitesCount; ++count)
+        {
+            await using var mappersSession = await mappers.OpenSessionAsync();
+
+            // Получить идентити из генератора.
+            var identity = await identityCache.GetNextIdentityAsync(mappersSession);
+
+            Assert.AreEqual(count + 1, identity);
+
+            await mappersSession.CommitAsync();
+        }
+
+        Console.WriteLine($"Количесто идентити  : {identitesCount}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
@@ -113,6 +155,47 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
     public void TearDown()
     {
         DomainEnviromentConfigurator.DisposeAll();
+    }
+
+    #endregion
+
+    #region Helpers
+
+    private IIdentityCache CreateIdentityCache(int cacheSize)
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = mappers.GetMapper<IMapperObject_A>();
+
+        var result =
+            new IdentityCache<IMapperObject_A>(
+                GuidGenerator.New($"{mapper.MapperId} {nameof(IMapperObject_A)}"),
+                $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
+                $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
+                ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
+                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
+                TimeSpan.FromMinutes(5),
+                mapper,
+                cacheSize,
+                fillFactor: 0.4f,
+                methodGetNextIdentity:
+                new PairMethods<
+                    Func<IMapperObject_A, IMappersSession, long>,
+                    Func<IMapperObject_A, IMappersSession, CancellationToken, ValueTask<long>>>(
+                    (mapper, mappersSession)
+                        => mapper.GetNextId(mappersSession),
+                    (mapper, mappersSession, cancellationToken)
+                        => mapper.GetNextIdAsync(mappersSession, cancellationToken)),
+                methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count));
+
+        // Прогрев кэша генератора.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            result.Initialize(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        return result;
     }
 
     #endregion
