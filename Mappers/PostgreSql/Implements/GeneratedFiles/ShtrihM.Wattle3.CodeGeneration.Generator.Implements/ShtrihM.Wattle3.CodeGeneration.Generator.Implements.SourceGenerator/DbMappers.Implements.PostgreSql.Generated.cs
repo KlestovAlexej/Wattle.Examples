@@ -49,57 +49,89 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
                 var schemaObjectQuey = new PostgreSqlSchemaObjectQuey();
                 Schema.Objects.Add(schemaObjectQuey);
 
-                schemaObjectQuey.Description = @"Системный лог";
+                schemaObjectQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
                 schemaObjectQuey.Id = new Guid("266032e5-19c6-434c-a521-d1d1c652edd1");
                 schemaObjectQuey.IdentityFieldId = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
 
-                #region Поле CreateDate
+                #region Поле Value_DateTime
 
                 {
                     var schemaObjectFieldQuey = new PostgreSqlSchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Дата создания";
-                    schemaObjectFieldQuey.Id = new Guid("fabb42ed-5c3a-4234-8bf6-0cffa10baa18");
+                    schemaObjectFieldQuey.Description = @"Дата-время (DateTime). Обновляемое поле.";
+                    schemaObjectFieldQuey.Id = new Guid("dce071bb-796e-4397-91b8-eaf116747880");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
-                    schemaObjectFieldQuey.Name = @"CreateDate";
+                    schemaObjectFieldQuey.Name = @"Value_DateTime";
                     schemaObjectFieldQuey.EvaluatedValue = null;
                 }
 
-                #endregion Поле CreateDate
+                #endregion Поле Value_DateTime
 
-                #region Поле ModificationDate
+                #region Поле Value_DateTime_NotUpdate
 
                 {
                     var schemaObjectFieldQuey = new PostgreSqlSchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Дата модификации";
-                    schemaObjectFieldQuey.Id = new Guid("cc4c135f-cd40-4380-9e39-6c1654352b19");
+                    schemaObjectFieldQuey.Description = @"Дата-время (DateTime). Не обновляемое поле.";
+                    schemaObjectFieldQuey.Id = new Guid("273a65e2-7647-42db-a15d-58b69a64c69d");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
-                    schemaObjectFieldQuey.Name = @"ModificationDate";
+                    schemaObjectFieldQuey.Name = @"Value_DateTime_NotUpdate";
                     schemaObjectFieldQuey.EvaluatedValue = null;
                 }
 
-                #endregion Поле ModificationDate
+                #endregion Поле Value_DateTime_NotUpdate
 
-                #region Поле State
+                #region Поле Value_Long
 
                 {
                     var schemaObjectFieldQuey = new PostgreSqlSchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Статус";
-                    schemaObjectFieldQuey.Id = new Guid("196f6520-05e9-4412-8d85-0921588109f6");
+                    schemaObjectFieldQuey.Description = @"Число (long). Поле обновляется только при изменении значения.";
+                    schemaObjectFieldQuey.Id = new Guid("87a005ed-ca51-4c60-83ec-6540ac0823d6");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
-                    schemaObjectFieldQuey.Name = @"State";
+                    schemaObjectFieldQuey.Name = @"Value_Long";
                     schemaObjectFieldQuey.EvaluatedValue = null;
                 }
 
-                #endregion Поле State
+                #endregion Поле Value_Long
+
+                #region Поле Value_Int
+
+                {
+                    var schemaObjectFieldQuey = new PostgreSqlSchemaObjectFieldQuey();
+                    schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
+
+                    schemaObjectFieldQuey.Description = @"Число с поддержкой null (int?). Обновляемое поле.";
+                    schemaObjectFieldQuey.Id = new Guid("198251ef-8183-4a09-a760-e5baafbbb6ff");
+                    schemaObjectFieldQuey.Order = true;
+                    schemaObjectFieldQuey.Where = true;
+                    schemaObjectFieldQuey.Name = @"Value_Int";
+                    schemaObjectFieldQuey.EvaluatedValue = null;
+                }
+
+                #endregion Поле Value_Int
+
+                #region Поле Value_String
+
+                {
+                    var schemaObjectFieldQuey = new PostgreSqlSchemaObjectFieldQuey();
+                    schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
+
+                    schemaObjectFieldQuey.Description = @"Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.";
+                    schemaObjectFieldQuey.Id = new Guid("100e6573-b387-4cb5-b3d6-45df4cb2cc9c");
+                    schemaObjectFieldQuey.Order = false;
+                    schemaObjectFieldQuey.Where = false;
+                    schemaObjectFieldQuey.Name = @"Value_String";
+                    schemaObjectFieldQuey.EvaluatedValue = null;
+                }
+
+                #endregion Поле Value_String
 
                 #region Поле Id
 
@@ -107,7 +139,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
                     var schemaObjectFieldQuey = new PostgreSqlSchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Системный лог";
+                    schemaObjectFieldQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
                     schemaObjectFieldQuey.Id = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
@@ -181,7 +213,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
     /// <summary>
     /// Поточный читатель данных записей для массовой вставки записей в БД.
     /// 
-    /// Системный лог
+    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
     /// </summary>
     internal class BulkInsertDataReaderObject_A : BasePostgreSqlBulkInserter<Object_ADtoNew>
     {
@@ -189,27 +221,53 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
         {
             await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint).ConfigureAwait(false);
             await binaryImport.WriteAsync(Constants.StartRevision, NpgsqlDbType.Bigint).ConfigureAwait(false);
-            await binaryImport.WriteAsync(TypeCorrectors.DateTime(instance.CreateDate), NpgsqlDbType.Timestamp).ConfigureAwait(false);
-            await binaryImport.WriteAsync(TypeCorrectors.DateTime(instance.ModificationDate), NpgsqlDbType.Timestamp).ConfigureAwait(false);
-            await binaryImport.WriteAsync(instance.State, NpgsqlDbType.Smallint).ConfigureAwait(false);
+            await binaryImport.WriteAsync(TypeCorrectors.DateTime(instance.Value_DateTime), NpgsqlDbType.Timestamp).ConfigureAwait(false);
+            await binaryImport.WriteAsync(TypeCorrectors.DateTime(instance.Value_DateTime_NotUpdate), NpgsqlDbType.Timestamp).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Value_Long, NpgsqlDbType.Bigint).ConfigureAwait(false);
+            {
+                var value = instance.Value_Int;
+                if (value.HasValue == false)
+                {
+                    await binaryImport.WriteNullAsync().ConfigureAwait(false);
+                }
+                else
+                {
+                    await binaryImport.WriteAsync(value.Value, NpgsqlDbType.Integer).ConfigureAwait(false);
+                }
+            }
+            await binaryImport.WriteAsync(instance.Value_String, NpgsqlDbType.Text).ConfigureAwait(false);
         }
 
         protected override void DoInsertObject(NpgsqlBinaryImporter binaryImport, Object_ADtoNew instance)
         {
             binaryImport.Write(instance.Id, NpgsqlDbType.Bigint);
             binaryImport.Write(Constants.StartRevision, NpgsqlDbType.Bigint);
-            binaryImport.Write(TypeCorrectors.DateTime(instance.CreateDate), NpgsqlDbType.Timestamp);
-            binaryImport.Write(TypeCorrectors.DateTime(instance.ModificationDate), NpgsqlDbType.Timestamp);
-            binaryImport.Write(instance.State, NpgsqlDbType.Smallint);
+            binaryImport.Write(TypeCorrectors.DateTime(instance.Value_DateTime), NpgsqlDbType.Timestamp);
+            binaryImport.Write(TypeCorrectors.DateTime(instance.Value_DateTime_NotUpdate), NpgsqlDbType.Timestamp);
+            binaryImport.Write(instance.Value_Long, NpgsqlDbType.Bigint);
+            {
+                var value = instance.Value_Int;
+                if (value.HasValue == false)
+                {
+                    binaryImport.WriteNull();
+                }
+                else
+                {
+                    binaryImport.Write(value.Value, NpgsqlDbType.Integer);
+                }
+            }
+            binaryImport.Write(instance.Value_String, NpgsqlDbType.Text);
         }
 
         protected override string GetImportCommand()
         {
             var result = @"COPY Object_A (Id,
 Revision,
-CreateDate,
-ModificationDate,
-State) FROM STDIN (FORMAT BINARY)
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String) FROM STDIN (FORMAT BINARY)
 ";
 
             return (result);
@@ -217,7 +275,7 @@ State) FROM STDIN (FORMAT BINARY)
     }
 
     /// <summary>
-    /// Системный лог
+    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
     /// </summary>
     [MapperImplementation(WellknownMappersAsText.Object_A)]
     [SuppressMessage("ReSharper", "PartialTypeWithSinglePart")]
@@ -228,14 +286,14 @@ State) FROM STDIN (FORMAT BINARY)
     {
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         public MapperObject_A(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory)
-           : base("Маппер данных состояния доменного объекта '" + @"Системный лог" + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy)
+           : base("Маппер данных состояния доменного объекта '" + @"Объект с партиционированием таблицы БД и ключём из последовательности БД." + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy)
         {
             Partitions = new PartitionsManager(exceptionPolicy, @"Object_A", ComplexIdentity.Level.L1, false);
         }
 
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         public MapperObject_A(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper infrastructureMonitor = null)
-           : base("Маппер данных состояния доменного объекта '" + @"Системный лог" + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy, infrastructureMonitor)
+           : base("Маппер данных состояния доменного объекта '" + @"Объект с партиционированием таблицы БД и ключём из последовательности БД." + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy, infrastructureMonitor)
         {
             Partitions = new PartitionsManager(exceptionPolicy, @"Object_A", ComplexIdentity.Level.L1, false);
         }
@@ -710,23 +768,29 @@ State) FROM STDIN (FORMAT BINARY)
         /// <param name="reader">Читатель данных БД.</param>
         /// <param name="indexId">Индекс колонки 'Id'.</param>
         /// <param name="indexRevision">Индекс колонки 'Revision'.</param>
-        /// <param name="indexCreateDate">Индекс колонки 'CreateDate'.</param>
-        /// <param name="indexModificationDate">Индекс колонки 'ModificationDate'.</param>
-        /// <param name="indexState">Индекс колонки 'State'.</param>
+        /// <param name="indexValue_DateTime">Индекс колонки 'Value_DateTime'.</param>
+        /// <param name="indexValue_DateTime_NotUpdate">Индекс колонки 'Value_DateTime_NotUpdate'.</param>
+        /// <param name="indexValue_Long">Индекс колонки 'Value_Long'.</param>
+        /// <param name="indexValue_Int">Индекс колонки 'Value_Int'.</param>
+        /// <param name="indexValue_String">Индекс колонки 'Value_String'.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void GetColumnIndexesRaw(
             NpgsqlDataReader reader,
             out int indexId,
             out int indexRevision,
-            out int indexCreateDate,
-            out int indexModificationDate,
-            out int indexState)
+            out int indexValue_DateTime,
+            out int indexValue_DateTime_NotUpdate,
+            out int indexValue_Long,
+            out int indexValue_Int,
+            out int indexValue_String)
         {
             indexId = reader.GetOrdinal("Id");
             indexRevision = reader.GetOrdinal("Revision");
-            indexCreateDate = reader.GetOrdinal("CreateDate");
-            indexModificationDate = reader.GetOrdinal("ModificationDate");
-            indexState = reader.GetOrdinal("State");
+            indexValue_DateTime = reader.GetOrdinal("Value_DateTime");
+            indexValue_DateTime_NotUpdate = reader.GetOrdinal("Value_DateTime_NotUpdate");
+            indexValue_Long = reader.GetOrdinal("Value_Long");
+            indexValue_Int = reader.GetOrdinal("Value_Int");
+            indexValue_String = reader.GetOrdinal("Value_String");
         }
 
         /// <summary>
@@ -735,23 +799,29 @@ State) FROM STDIN (FORMAT BINARY)
         /// <param name="reader">Читатель данных БД.</param>
         /// <param name="indexId">Индекс колонки 'Id'.</param>
         /// <param name="indexRevision">Индекс колонки 'Revision'.</param>
-        /// <param name="indexCreateDate">Индекс колонки 'CreateDate'.</param>
-        /// <param name="indexModificationDate">Индекс колонки 'ModificationDate'.</param>
-        /// <param name="indexState">Индекс колонки 'State'.</param>
+        /// <param name="indexValue_DateTime">Индекс колонки 'Value_DateTime'.</param>
+        /// <param name="indexValue_DateTime_NotUpdate">Индекс колонки 'Value_DateTime_NotUpdate'.</param>
+        /// <param name="indexValue_Long">Индекс колонки 'Value_Long'.</param>
+        /// <param name="indexValue_Int">Индекс колонки 'Value_Int'.</param>
+        /// <param name="indexValue_String">Индекс колонки 'Value_String'.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void GetColumnIndexes(
             NpgsqlDataReader reader,
             out int indexId,
             out int indexRevision,
-            out int indexCreateDate,
-            out int indexModificationDate,
-            out int indexState)
+            out int indexValue_DateTime,
+            out int indexValue_DateTime_NotUpdate,
+            out int indexValue_Long,
+            out int indexValue_Int,
+            out int indexValue_String)
         {
             indexId = reader.GetOrdinal("Id");
             indexRevision = reader.GetOrdinal("Revision");
-            indexCreateDate = reader.GetOrdinal("CreateDate");
-            indexModificationDate = reader.GetOrdinal("ModificationDate");
-            indexState = reader.GetOrdinal("State");
+            indexValue_DateTime = reader.GetOrdinal("Value_DateTime");
+            indexValue_DateTime_NotUpdate = reader.GetOrdinal("Value_DateTime_NotUpdate");
+            indexValue_Long = reader.GetOrdinal("Value_Long");
+            indexValue_Int = reader.GetOrdinal("Value_Int");
+            indexValue_String = reader.GetOrdinal("Value_String");
         }
 
         /// <summary>
@@ -760,18 +830,22 @@ State) FROM STDIN (FORMAT BINARY)
         /// <param name="reader">Читатель данных БД.</param>
         /// <param name="indexId">Индекс колонки 'Id'.</param>
         /// <param name="indexRevision">Индекс колонки 'Revision'.</param>
-        /// <param name="indexCreateDate">Индекс колонки 'CreateDate'.</param>
-        /// <param name="indexModificationDate">Индекс колонки 'ModificationDate'.</param>
-        /// <param name="indexState">Индекс колонки 'State'.</param>
+        /// <param name="indexValue_DateTime">Индекс колонки 'Value_DateTime'.</param>
+        /// <param name="indexValue_DateTime_NotUpdate">Индекс колонки 'Value_DateTime_NotUpdate'.</param>
+        /// <param name="indexValue_Long">Индекс колонки 'Value_Long'.</param>
+        /// <param name="indexValue_Int">Индекс колонки 'Value_Int'.</param>
+        /// <param name="indexValue_String">Индекс колонки 'Value_String'.</param>
         /// <returns>Созданная и прочитанная запись.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Object_ADtoActual ReadRaw(
             NpgsqlDataReader reader,
             int indexId,
             int indexRevision,
-            int indexCreateDate,
-            int indexModificationDate,
-            int indexState)
+            int indexValue_DateTime,
+            int indexValue_DateTime_NotUpdate,
+            int indexValue_Long,
+            int indexValue_Int,
+            int indexValue_String)
         {
 #pragma warning disable IDE0017 // Simplify object initialization
             // ReSharper disable once UseObjectOrCollectionInitializer
@@ -780,9 +854,27 @@ State) FROM STDIN (FORMAT BINARY)
 
             result.Id = reader.GetInt64(indexId);
             result.Revision = reader.GetInt64(indexRevision);
-            result.CreateDate = reader.GetDateTime(indexCreateDate);
-            result.ModificationDate = reader.GetDateTime(indexModificationDate);
-            result.State = reader.GetInt16(indexState);
+            result.Value_DateTime = reader.GetDateTime(indexValue_DateTime);
+            result.Value_DateTime_NotUpdate = reader.GetDateTime(indexValue_DateTime_NotUpdate);
+            result.Value_Long = reader.GetInt64(indexValue_Long);
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            if (reader.IsDBNull(indexValue_Int))
+            {
+                result.Value_Int = default;
+            }
+            else
+            {
+                result.Value_Int = reader.GetInt32(indexValue_Int);
+            }
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            if (reader.IsDBNull(indexValue_String))
+            {
+                result.Value_String = default;
+            }
+            else
+            {
+                result.Value_String = reader.GetString(indexValue_String);
+            }
 
             return result;
         }
@@ -793,18 +885,22 @@ State) FROM STDIN (FORMAT BINARY)
         /// <param name="reader">Читатель данных БД.</param>
         /// <param name="indexId">Индекс колонки 'Id'.</param>
         /// <param name="indexRevision">Индекс колонки 'Revision'.</param>
-        /// <param name="indexCreateDate">Индекс колонки 'CreateDate'.</param>
-        /// <param name="indexModificationDate">Индекс колонки 'ModificationDate'.</param>
-        /// <param name="indexState">Индекс колонки 'State'.</param>
+        /// <param name="indexValue_DateTime">Индекс колонки 'Value_DateTime'.</param>
+        /// <param name="indexValue_DateTime_NotUpdate">Индекс колонки 'Value_DateTime_NotUpdate'.</param>
+        /// <param name="indexValue_Long">Индекс колонки 'Value_Long'.</param>
+        /// <param name="indexValue_Int">Индекс колонки 'Value_Int'.</param>
+        /// <param name="indexValue_String">Индекс колонки 'Value_String'.</param>
         /// <returns>Созданная и прочитанная запись.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Object_ADtoActual Read(
             NpgsqlDataReader reader,
             int indexId,
             int indexRevision,
-            int indexCreateDate,
-            int indexModificationDate,
-            int indexState)
+            int indexValue_DateTime,
+            int indexValue_DateTime_NotUpdate,
+            int indexValue_Long,
+            int indexValue_Int,
+            int indexValue_String)
         {
 #pragma warning disable IDE0017 // Simplify object initialization
             // ReSharper disable once UseObjectOrCollectionInitializer
@@ -813,9 +909,27 @@ State) FROM STDIN (FORMAT BINARY)
 
             result.Id = reader.GetInt64(indexId);
             result.Revision = reader.GetInt64(indexRevision);
-            result.CreateDate = reader.GetDateTime(indexCreateDate);
-            result.ModificationDate = reader.GetDateTime(indexModificationDate);
-            result.State = reader.GetInt16(indexState);
+            result.Value_DateTime = reader.GetDateTime(indexValue_DateTime);
+            result.Value_DateTime_NotUpdate = reader.GetDateTime(indexValue_DateTime_NotUpdate);
+            result.Value_Long = reader.GetInt64(indexValue_Long);
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            if (reader.IsDBNull(indexValue_Int))
+            {
+                result.Value_Int = default;
+            }
+            else
+            {
+                result.Value_Int = reader.GetInt32(indexValue_Int);
+            }
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            if (reader.IsDBNull(indexValue_String))
+            {
+                result.Value_String = default;
+            }
+            else
+            {
+                result.Value_String = reader.GetString(indexValue_String);
+            }
 
             return result;
         }
@@ -855,9 +969,11 @@ State) FROM STDIN (FORMAT BINARY)
                     command.CommandText = @"SELECT
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 FROM Object_A WHERE
 (Id = @Id)";
 
@@ -876,17 +992,21 @@ FROM Object_A WHERE
                                 reader,
                                 out var indexId,
                                 out var indexRevision,
-                                out var indexCreateDate,
-                                out var indexModificationDate,
-                                out var indexState);
+                                out var indexValue_DateTime,
+                                out var indexValue_DateTime_NotUpdate,
+                                out var indexValue_Long,
+                                out var indexValue_Int,
+                                out var indexValue_String);
 
                             var result = Read(
                                 reader,
                                 indexId,
                                 indexRevision,
-                                indexCreateDate,
-                                indexModificationDate,
-                                indexState);
+                                indexValue_DateTime,
+                                indexValue_DateTime_NotUpdate,
+                                indexValue_Long,
+                                indexValue_Int,
+                                indexValue_String);
 
                             SeedRevision(result.Revision);
 
@@ -941,9 +1061,11 @@ FROM Object_A WHERE
                     command.CommandText = @"SELECT
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 FROM Object_A WHERE
 (Id = @Id)";
 
@@ -963,17 +1085,21 @@ FROM Object_A WHERE
                                 reader,
                                 out var indexId,
                                 out var indexRevision,
-                                out var indexCreateDate,
-                                out var indexModificationDate,
-                                out var indexState);
+                                out var indexValue_DateTime,
+                                out var indexValue_DateTime_NotUpdate,
+                                out var indexValue_Long,
+                                out var indexValue_Int,
+                                out var indexValue_String);
 
                             var result = Read(
                                 reader,
                                 indexId,
                                 indexRevision,
-                                indexCreateDate,
-                                indexModificationDate,
-                                indexState);
+                                indexValue_DateTime,
+                                indexValue_DateTime_NotUpdate,
+                                indexValue_Long,
+                                indexValue_Int,
+                                indexValue_String);
 
                             SeedRevision(result.Revision);
 
@@ -1034,9 +1160,11 @@ FROM Object_A WHERE
                     command.CommandText = @"SELECT
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 FROM Object_A WHERE (Id = @Id)";
 
                     {
@@ -1054,17 +1182,21 @@ FROM Object_A WHERE (Id = @Id)";
                                 reader,
                                 out var indexId,
                                 out var indexRevision,
-                                out var indexCreateDate,
-                                out var indexModificationDate,
-                                out var indexState);
+                                out var indexValue_DateTime,
+                                out var indexValue_DateTime_NotUpdate,
+                                out var indexValue_Long,
+                                out var indexValue_Int,
+                                out var indexValue_String);
 
                             var result = ReadRaw(
                                 reader,
                                 indexId,
                                 indexRevision,
-                                indexCreateDate,
-                                indexModificationDate,
-                                indexState);
+                                indexValue_DateTime,
+                                indexValue_DateTime_NotUpdate,
+                                indexValue_Long,
+                                indexValue_Int,
+                                indexValue_String);
 
                             SeedRevision(result.Revision);
 
@@ -1119,9 +1251,11 @@ FROM Object_A WHERE (Id = @Id)";
                     command.CommandText = @"SELECT
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 FROM Object_A WHERE (Id = @Id)";
 
                     {
@@ -1140,17 +1274,21 @@ FROM Object_A WHERE (Id = @Id)";
                                 reader,
                                 out var indexId,
                                 out var indexRevision,
-                                out var indexCreateDate,
-                                out var indexModificationDate,
-                                out var indexState);
+                                out var indexValue_DateTime,
+                                out var indexValue_DateTime_NotUpdate,
+                                out var indexValue_Long,
+                                out var indexValue_Int,
+                                out var indexValue_String);
 
                             var result = ReadRaw(
                                 reader,
                                 indexId,
                                 indexRevision,
-                                indexCreateDate,
-                                indexModificationDate,
-                                indexState);
+                                indexValue_DateTime,
+                                indexValue_DateTime_NotUpdate,
+                                indexValue_Long,
+                                indexValue_Int,
+                                indexValue_String);
 
                             SeedRevision(result.Revision);
 
@@ -1210,9 +1348,11 @@ FROM Object_A WHERE (Id = @Id)";
                 {
                     Id = data.Id,
                     Revision = NewRevision(),
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
-                    ModificationDate = TypeCorrectors.DateTime(data.ModificationDate),
-                    State = data.State,
+                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
+                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_Long = data.Value_Long,
+                    Value_Int = data.Value_Int,
+                    Value_String = data.Value_String,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -1221,8 +1361,10 @@ FROM Object_A WHERE (Id = @Id)";
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"UPDATE Object_A SET
 Revision = @New_Revision,
-ModificationDate = @ModificationDate,
-State = @State
+Value_DateTime = @Value_DateTime,
+Value_Long = @Value_Long,
+Value_Int = @Value_Int,
+Value_String = @Value_String
 WHERE
 (Id = @Id) AND (Revision < @New_Revision)";
                     {
@@ -1230,12 +1372,28 @@ WHERE
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<DateTime>("@ModificationDate", NpgsqlDbType.Timestamp) { TypedValue = result.ModificationDate };
+                        var parameter = new NpgsqlParameter<DateTime>("@Value_DateTime", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime };
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<short>("@State", NpgsqlDbType.Smallint) { TypedValue = result.State };
+                        var parameter = new NpgsqlParameter<long>("@Value_Long", NpgsqlDbType.Bigint) { TypedValue = result.Value_Long };
                         command.Parameters.Add(parameter);
+                    }
+                    if (result.Value_Int == null)
+                    {
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                    }
+                    if (result.Value_String == null)
+                    {
+                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
@@ -1295,9 +1453,11 @@ WHERE
                 {
                     Id = data.Id,
                     Revision = NewRevision(),
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
-                    ModificationDate = TypeCorrectors.DateTime(data.ModificationDate),
-                    State = data.State,
+                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
+                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_Long = data.Value_Long,
+                    Value_Int = data.Value_Int,
+                    Value_String = data.Value_String,
                 };
 
                 var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
@@ -1307,8 +1467,10 @@ WHERE
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"UPDATE Object_A SET
 Revision = @New_Revision,
-ModificationDate = @ModificationDate,
-State = @State
+Value_DateTime = @Value_DateTime,
+Value_Long = @Value_Long,
+Value_Int = @Value_Int,
+Value_String = @Value_String
 WHERE
 (Id = @Id) AND (Revision < @New_Revision)";
                     {
@@ -1316,12 +1478,28 @@ WHERE
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<DateTime>("@ModificationDate", NpgsqlDbType.Timestamp) { TypedValue = result.ModificationDate };
+                        var parameter = new NpgsqlParameter<DateTime>("@Value_DateTime", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime };
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<short>("@State", NpgsqlDbType.Smallint) { TypedValue = result.State };
+                        var parameter = new NpgsqlParameter<long>("@Value_Long", NpgsqlDbType.Bigint) { TypedValue = result.Value_Long };
                         command.Parameters.Add(parameter);
+                    }
+                    if (result.Value_Int == null)
+                    {
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                    }
+                    if (result.Value_String == null)
+                    {
+                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
@@ -1479,9 +1657,11 @@ WHERE
                 {
                     Id = data.Id,
                     Revision = Constants.StartRevision,
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
-                    ModificationDate = TypeCorrectors.DateTime(data.ModificationDate),
-                    State = data.State,
+                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
+                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_Long = data.Value_Long,
+                    Value_Int = data.Value_Int,
+                    Value_String = data.Value_String,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -1492,29 +1672,49 @@ WHERE
 (
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 )
 VALUES
 (
 @Id,
 @New_Revision,
-@CreateDate,
-@ModificationDate,
-@State
+@Value_DateTime,
+@Value_DateTime_NotUpdate,
+@Value_Long,
+@Value_Int,
+@Value_String
 )";
                     {
-                        var parameter = new NpgsqlParameter<DateTime>(@"@CreateDate", NpgsqlDbType.Timestamp) { TypedValue = result.CreateDate };
+                        var parameter = new NpgsqlParameter<DateTime>(@"@Value_DateTime", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime };
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<DateTime>(@"@ModificationDate", NpgsqlDbType.Timestamp) { TypedValue = result.ModificationDate };
+                        var parameter = new NpgsqlParameter<DateTime>(@"@Value_DateTime_NotUpdate", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime_NotUpdate };
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<short>(@"@State", NpgsqlDbType.Smallint) { TypedValue = result.State };
+                        var parameter = new NpgsqlParameter<long>(@"@Value_Long", NpgsqlDbType.Bigint) { TypedValue = result.Value_Long };
                         command.Parameters.Add(parameter);
+                    }
+                    if (result.Value_Int == null)
+                    {
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                    }
+                    if (result.Value_String == null)
+                    {
+                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add(@"@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
@@ -1575,9 +1775,11 @@ VALUES
                 {
                     Id = data.Id,
                     Revision = Constants.StartRevision,
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
-                    ModificationDate = TypeCorrectors.DateTime(data.ModificationDate),
-                    State = data.State,
+                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
+                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_Long = data.Value_Long,
+                    Value_Int = data.Value_Int,
+                    Value_String = data.Value_String,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -1589,29 +1791,49 @@ VALUES
 (
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 )
 VALUES
 (
 @Id,
 @New_Revision,
-@CreateDate,
-@ModificationDate,
-@State
+@Value_DateTime,
+@Value_DateTime_NotUpdate,
+@Value_Long,
+@Value_Int,
+@Value_String
 )";
                     {
-                        var parameter = new NpgsqlParameter<DateTime>(@"@CreateDate", NpgsqlDbType.Timestamp) { TypedValue = result.CreateDate };
+                        var parameter = new NpgsqlParameter<DateTime>(@"@Value_DateTime", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime };
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<DateTime>(@"@ModificationDate", NpgsqlDbType.Timestamp) { TypedValue = result.ModificationDate };
+                        var parameter = new NpgsqlParameter<DateTime>(@"@Value_DateTime_NotUpdate", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime_NotUpdate };
                         command.Parameters.Add(parameter);
                     }
                     {
-                        var parameter = new NpgsqlParameter<short>(@"@State", NpgsqlDbType.Smallint) { TypedValue = result.State };
+                        var parameter = new NpgsqlParameter<long>(@"@Value_Long", NpgsqlDbType.Bigint) { TypedValue = result.Value_Long };
                         command.Parameters.Add(parameter);
+                    }
+                    if (result.Value_Int == null)
+                    {
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                    }
+                    if (result.Value_String == null)
+                    {
+                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters.Add(@"@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
@@ -1680,9 +1902,11 @@ VALUES
                     command.CommandText = @"SELECT
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 FROM Object_A";
 
                     ExpandCommand(
@@ -1711,9 +1935,11 @@ FROM Object_A";
                 {
                     int indexId;
                     int indexRevision;
-                    int indexCreateDate;
-                    int indexModificationDate;
-                    int indexState;
+                    int indexValue_DateTime;
+                    int indexValue_DateTime_NotUpdate;
+                    int indexValue_Long;
+                    int indexValue_Int;
+                    int indexValue_String;
                     try
                     {
                         command.Prepare();
@@ -1724,9 +1950,11 @@ FROM Object_A";
                             reader,
                             out indexId,
                             out indexRevision,
-                            out indexCreateDate,
-                            out indexModificationDate,
-                            out indexState);
+                            out indexValue_DateTime,
+                            out indexValue_DateTime_NotUpdate,
+                            out indexValue_Long,
+                            out indexValue_Int,
+                            out indexValue_String);
                     }
                     catch (Exception exception)
                     {
@@ -1757,9 +1985,11 @@ FROM Object_A";
                                 reader,
                                 indexId,
                                 indexRevision,
-                                indexCreateDate,
-                                indexModificationDate,
-                                indexState);
+                                indexValue_DateTime,
+                                indexValue_DateTime_NotUpdate,
+                                indexValue_Long,
+                                indexValue_Int,
+                                indexValue_String);
 
                             SeedRevision(result.Revision);
                         }
@@ -1828,9 +2058,11 @@ FROM Object_A";
                     command.CommandText = @"SELECT
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 FROM Object_A";
 
                     ExpandCommand(
@@ -1860,9 +2092,11 @@ FROM Object_A";
                 {
                     int indexId;
                     int indexRevision;
-                    int indexCreateDate;
-                    int indexModificationDate;
-                    int indexState;
+                    int indexValue_DateTime;
+                    int indexValue_DateTime_NotUpdate;
+                    int indexValue_Long;
+                    int indexValue_Int;
+                    int indexValue_String;
                     try
                     {
                         command.Prepare();
@@ -1873,9 +2107,11 @@ FROM Object_A";
                             reader,
                             out indexId,
                             out indexRevision,
-                            out indexCreateDate,
-                            out indexModificationDate,
-                            out indexState);
+                            out indexValue_DateTime,
+                            out indexValue_DateTime_NotUpdate,
+                            out indexValue_Long,
+                            out indexValue_Int,
+                            out indexValue_String);
                     }
                     catch (Exception exception)
                     {
@@ -1906,9 +2142,11 @@ FROM Object_A";
                                 reader,
                                 indexId,
                                 indexRevision,
-                                indexCreateDate,
-                                indexModificationDate,
-                                indexState);
+                                indexValue_DateTime,
+                                indexValue_DateTime_NotUpdate,
+                                indexValue_Long,
+                                indexValue_Int,
+                                indexValue_String);
 
                             SeedRevision(result.Revision);
                         }
@@ -1989,9 +2227,11 @@ FROM Object_A";
                     command.CommandText = @"SELECT
 Id,
 Revision,
-CreateDate,
-ModificationDate,
-State
+Value_DateTime,
+Value_DateTime_NotUpdate,
+Value_Long,
+Value_Int,
+Value_String
 FROM Object_A";
                     {
                         var parameter = new NpgsqlParameter<long>("@__SkipCount", NpgsqlDbType.Bigint) { TypedValue = (pageIndex - 1L) * pageSize };
@@ -2028,9 +2268,11 @@ FROM Object_A";
                 {
                     int indexId;
                     int indexRevision;
-                    int indexCreateDate;
-                    int indexModificationDate;
-                    int indexState;
+                    int indexValue_DateTime;
+                    int indexValue_DateTime_NotUpdate;
+                    int indexValue_Long;
+                    int indexValue_Int;
+                    int indexValue_String;
                     try
                     {
                         command.Prepare();
@@ -2041,9 +2283,11 @@ FROM Object_A";
                             reader,
                             out indexId,
                             out indexRevision,
-                            out indexCreateDate,
-                            out indexModificationDate,
-                            out indexState);
+                            out indexValue_DateTime,
+                            out indexValue_DateTime_NotUpdate,
+                            out indexValue_Long,
+                            out indexValue_Int,
+                            out indexValue_String);
                     }
                     catch (Exception exception)
                     {
@@ -2074,9 +2318,11 @@ FROM Object_A";
                                 reader,
                                 indexId,
                                 indexRevision,
-                                indexCreateDate,
-                                indexModificationDate,
-                                indexState);
+                                indexValue_DateTime,
+                                indexValue_DateTime_NotUpdate,
+                                indexValue_Long,
+                                indexValue_Int,
+                                indexValue_String);
 
                             SeedRevision(result.Revision);
                         }

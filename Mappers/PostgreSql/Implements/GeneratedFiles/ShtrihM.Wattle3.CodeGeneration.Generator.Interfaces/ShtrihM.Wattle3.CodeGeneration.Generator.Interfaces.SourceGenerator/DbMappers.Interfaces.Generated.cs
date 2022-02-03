@@ -24,77 +24,109 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
 {
     /// <summary>
     /// Класс данных состояния нового доменного объекта.
-    /// Системный лог
+    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     public sealed partial class Object_ADtoNew : BaseMapperNewStateDto
     {
         /// <summary>
-        /// Дата создания
+        /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
-        public DateTime CreateDate;
+        public DateTime Value_DateTime;
 
         /// <summary>
-        /// Дата модификации
+        /// Дата-время (DateTime). Не обновляемое поле.
         /// </summary>
-        public DateTime ModificationDate;
+        public DateTime Value_DateTime_NotUpdate;
 
         /// <summary>
-        /// Статус
+        /// Число (long). Поле обновляется только при изменении значения.
         /// </summary>
-        public short State;
+        public long Value_Long;
+
+        /// <summary>
+        /// Число с поддержкой null (int?). Обновляемое поле.
+        /// </summary>
+        public int? Value_Int;
+
+        /// <summary>
+        /// Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.
+        /// </summary>
+        public string Value_String;
 
     }
 
     /// <summary>
     /// Класс актуальных данных состояния доменного объекта в БД.
-    /// Системный лог
+    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     [DataContract]
     public sealed partial class Object_ADtoActual : BaseMapperActualStateDto
     {
         /// <summary>
-        /// Дата создания
+        /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
         [DataMember(Order = 3)]
-        public DateTime CreateDate;
+        public DateTime Value_DateTime;
 
         /// <summary>
-        /// Дата модификации
+        /// Дата-время (DateTime). Не обновляемое поле.
         /// </summary>
         [DataMember(Order = 4)]
-        public DateTime ModificationDate;
+        public DateTime Value_DateTime_NotUpdate;
 
         /// <summary>
-        /// Статус
+        /// Число (long). Поле обновляется только при изменении значения.
         /// </summary>
         [DataMember(Order = 5)]
-        public short State;
+        public long Value_Long;
+
+        /// <summary>
+        /// Число с поддержкой null (int?). Обновляемое поле.
+        /// </summary>
+        [DataMember(Order = 6)]
+        public int? Value_Int;
+
+        /// <summary>
+        /// Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.
+        /// </summary>
+        [DataMember(Order = 7)]
+        public string Value_String;
 
     }
 
     /// <summary>
     /// Класс данных состояния изменённого доменного объекта.
-    /// Системный лог
+    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     public sealed partial class Object_ADtoChanged : BaseMapperChangedStateDto
     {
         /// <summary>
-        /// Дата создания
+        /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
-        public DateTime CreateDate;
+        public DateTime Value_DateTime;
 
         /// <summary>
-        /// Дата модификации
+        /// Дата-время (DateTime). Не обновляемое поле.
         /// </summary>
-        public DateTime ModificationDate;
+        public DateTime Value_DateTime_NotUpdate;
 
         /// <summary>
-        /// Статус
+        /// Число (long). Поле обновляется только при изменении значения.
         /// </summary>
-        public short State;
+        public long Value_Long;
+
+        /// <summary>
+        /// Число с поддержкой null (int?). Обновляемое поле.
+        /// </summary>
+        public int? Value_Int;
+
+        /// <summary>
+        /// Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.
+        /// </summary>
+        public string Value_String;
 
     }
 
@@ -104,7 +136,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     public static class WellknownMappersAsText
     {
         /// <summary>
-        /// Системный лог
+        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
         /// </summary>
         public const string Object_A = "266032e5-19c6-434c-a521-d1d1c652edd1";
 
@@ -122,12 +154,12 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         {
             DisplayNames = new Dictionary<Guid, string>
             {
-                {new Guid(WellknownMappersAsText.Object_A), @"Системный лог"},
+                {new Guid(WellknownMappersAsText.Object_A), @"Объект с партиционированием таблицы БД и ключём из последовательности БД."},
             };
         }
 
         /// <summary>
-        /// Системный лог
+        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
         /// </summary>
         public static readonly Guid Object_A = new Guid(WellknownMappersAsText.Object_A);
 
@@ -143,7 +175,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     }
 
     /// <summary>
-    /// Системный лог
+    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
     /// </summary>
     [MapperInterface(WellknownMappersAsText.Object_A)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]

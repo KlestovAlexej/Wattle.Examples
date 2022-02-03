@@ -17,9 +17,11 @@ CREATE TABLE object_b(
 CREATE TABLE object_a(
   id bigint NOT NULL,
   revision bigint NOT NULL,
-  createdate timestamp NOT NULL,
-  modificationdate timestamp NOT NULL,
-  state smallint NOT NULL,
+  value_datetime timestamp NOT NULL,
+  value_long bigint NOT NULL,
+  value_int integer,
+  value_string text,
+  value_datetime_notupdate timestamp NOT NULL,
   PRIMARY KEY(id)
 ) PARTITION BY RANGE (id);
 

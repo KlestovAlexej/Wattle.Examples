@@ -22,7 +22,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
     public static class WellknownSchemaQueriesFields
     {
         /// <summary>
-        /// Системный лог
+        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
         /// </summary>
         public static class Object_A
         {
@@ -37,19 +37,29 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
             public static class Fields
             {
                 /// <summary>
-                /// Дата создания
+                /// Дата-время (DateTime). Обновляемое поле.
                 /// </summary>
-                public static readonly Guid CreateDate = new Guid("fabb42ed-5c3a-4234-8bf6-0cffa10baa18");
+                public static readonly Guid Value_DateTime = new Guid("dce071bb-796e-4397-91b8-eaf116747880");
 
                 /// <summary>
-                /// Дата модификации
+                /// Дата-время (DateTime). Не обновляемое поле.
                 /// </summary>
-                public static readonly Guid ModificationDate = new Guid("cc4c135f-cd40-4380-9e39-6c1654352b19");
+                public static readonly Guid Value_DateTime_NotUpdate = new Guid("273a65e2-7647-42db-a15d-58b69a64c69d");
 
                 /// <summary>
-                /// Статус
+                /// Число (long). Поле обновляется только при изменении значения.
                 /// </summary>
-                public static readonly Guid State = new Guid("196f6520-05e9-4412-8d85-0921588109f6");
+                public static readonly Guid Value_Long = new Guid("87a005ed-ca51-4c60-83ec-6540ac0823d6");
+
+                /// <summary>
+                /// Число с поддержкой null (int?). Обновляемое поле.
+                /// </summary>
+                public static readonly Guid Value_Int = new Guid("198251ef-8183-4a09-a760-e5baafbbb6ff");
+
+                /// <summary>
+                /// Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.
+                /// </summary>
+                public static readonly Guid Value_String = new Guid("100e6573-b387-4cb5-b3d6-45df4cb2cc9c");
 
                 /// <summary>
                 /// Идентити.
@@ -77,54 +87,80 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
                 var schemaObjectQuey = new SchemaObjectQuey();
                 Schema.Objects.Add(schemaObjectQuey);
 
-                schemaObjectQuey.Description = @"Системный лог";
+                schemaObjectQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
                 schemaObjectQuey.Id = new Guid("266032e5-19c6-434c-a521-d1d1c652edd1");
 
-                #region Поле CreateDate
+                #region Поле Value_DateTime
                 {
                     var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Дата создания";
-                    schemaObjectFieldQuey.Id = new Guid("fabb42ed-5c3a-4234-8bf6-0cffa10baa18");
+                    schemaObjectFieldQuey.Description = @"Дата-время (DateTime). Обновляемое поле.";
+                    schemaObjectFieldQuey.Id = new Guid("dce071bb-796e-4397-91b8-eaf116747880");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
-                    schemaObjectFieldQuey.Name = @"CreateDate";
+                    schemaObjectFieldQuey.Name = @"Value_DateTime";
                 }
-                #endregion Поле CreateDate
+                #endregion Поле Value_DateTime
 
-                #region Поле ModificationDate
+                #region Поле Value_DateTime_NotUpdate
                 {
                     var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Дата модификации";
-                    schemaObjectFieldQuey.Id = new Guid("cc4c135f-cd40-4380-9e39-6c1654352b19");
+                    schemaObjectFieldQuey.Description = @"Дата-время (DateTime). Не обновляемое поле.";
+                    schemaObjectFieldQuey.Id = new Guid("273a65e2-7647-42db-a15d-58b69a64c69d");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
-                    schemaObjectFieldQuey.Name = @"ModificationDate";
+                    schemaObjectFieldQuey.Name = @"Value_DateTime_NotUpdate";
                 }
-                #endregion Поле ModificationDate
+                #endregion Поле Value_DateTime_NotUpdate
 
-                #region Поле State
+                #region Поле Value_Long
                 {
                     var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Статус";
-                    schemaObjectFieldQuey.Id = new Guid("196f6520-05e9-4412-8d85-0921588109f6");
+                    schemaObjectFieldQuey.Description = @"Число (long). Поле обновляется только при изменении значения.";
+                    schemaObjectFieldQuey.Id = new Guid("87a005ed-ca51-4c60-83ec-6540ac0823d6");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
-                    schemaObjectFieldQuey.Name = @"State";
+                    schemaObjectFieldQuey.Name = @"Value_Long";
                 }
-                #endregion Поле State
+                #endregion Поле Value_Long
+
+                #region Поле Value_Int
+                {
+                    var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
+                    schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
+
+                    schemaObjectFieldQuey.Description = @"Число с поддержкой null (int?). Обновляемое поле.";
+                    schemaObjectFieldQuey.Id = new Guid("198251ef-8183-4a09-a760-e5baafbbb6ff");
+                    schemaObjectFieldQuey.Order = true;
+                    schemaObjectFieldQuey.Where = true;
+                    schemaObjectFieldQuey.Name = @"Value_Int";
+                }
+                #endregion Поле Value_Int
+
+                #region Поле Value_String
+                {
+                    var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
+                    schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
+
+                    schemaObjectFieldQuey.Description = @"Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.";
+                    schemaObjectFieldQuey.Id = new Guid("100e6573-b387-4cb5-b3d6-45df4cb2cc9c");
+                    schemaObjectFieldQuey.Order = false;
+                    schemaObjectFieldQuey.Where = false;
+                    schemaObjectFieldQuey.Name = @"Value_String";
+                }
+                #endregion Поле Value_String
 
                 #region Поле Id
                 {
                     var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Системный лог";
+                    schemaObjectFieldQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
                     schemaObjectFieldQuey.Id = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;

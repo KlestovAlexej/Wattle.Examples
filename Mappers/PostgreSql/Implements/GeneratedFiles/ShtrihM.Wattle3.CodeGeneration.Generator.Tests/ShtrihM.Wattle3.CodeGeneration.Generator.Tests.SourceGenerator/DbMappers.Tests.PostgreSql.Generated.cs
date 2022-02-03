@@ -35,14 +35,14 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
     {
         /// <summary>
         /// Объект тестовой среды.
-        /// Системный лог
+        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
         /// </summary>
         // ReSharper disable once InconsistentNaming
         protected Object_ADtoActual m_object_ADtoActual;
 
         /// <summary>
         /// Признак процесса создания объекта тестовой среды.
-        /// Системный лог
+        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
         /// </summary>
         // ReSharper disable once InconsistentNaming
         protected bool m_initObject_ADtoActual;
@@ -54,14 +54,14 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
 
         /// <summary>
         /// Cтратегия обработки параметров создания объекта тестовой среды.
-        /// Системный лог
+        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
         /// </summary>
         // ReSharper disable once PartialMethodWithSinglePart
         static partial void DoGetRandomNewObject_ADtoNew(Object_ADtoNew dto, AutoTestsMappersContext context);
 
         /// <summary>
         /// Получение/Установка объекта тестовой среды.
-        /// Системный лог
+        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
         /// </summary>
         // ReSharper disable once UnusedMember.Global
         public virtual Object_ADtoActual Object_ADtoActual
@@ -173,7 +173,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
     }
 
     /// <summary>
-    /// Системный лог
+    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
     /// </summary>
     [TestFixture]
     // ReSharper disable once PartialTypeWithSinglePart
@@ -365,37 +365,61 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
 
             var columnsText = "{" + Environment.NewLine + columns.Count + Environment.NewLine + columns.Aggregate("", (current, entry) => current + ($"[{entry.Key}] = [{entry.Value.ColumnName} , {entry.Value.IsNullable} , ({entry.Value.MaxLength})]" + Environment.NewLine)) + "}";
 
-            #region CreateDate
+            #region Value_DateTime
 
             {
-                Assert.IsTrue(columns.ContainsKey(@"createdate"), @"CreateDate" + Environment.NewLine + columnsText);
-                var columnInfo = columns[@"createdate"];
-                columns.Remove(@"createdate");
+                Assert.IsTrue(columns.ContainsKey(@"value_datetime"), @"Value_DateTime" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"value_datetime"];
+                columns.Remove(@"value_datetime");
                 Assert.IsFalse(columnInfo.IsNullable, columnsText);
                 Assert.IsNull(columnInfo.MaxLength, columnsText);
             }
 
             #endregion
 
-            #region ModificationDate
+            #region Value_DateTime_NotUpdate
 
             {
-                Assert.IsTrue(columns.ContainsKey(@"modificationdate"), @"ModificationDate" + Environment.NewLine + columnsText);
-                var columnInfo = columns[@"modificationdate"];
-                columns.Remove(@"modificationdate");
+                Assert.IsTrue(columns.ContainsKey(@"value_datetime_notupdate"), @"Value_DateTime_NotUpdate" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"value_datetime_notupdate"];
+                columns.Remove(@"value_datetime_notupdate");
                 Assert.IsFalse(columnInfo.IsNullable, columnsText);
                 Assert.IsNull(columnInfo.MaxLength, columnsText);
             }
 
             #endregion
 
-            #region State
+            #region Value_Long
 
             {
-                Assert.IsTrue(columns.ContainsKey(@"state"), @"State" + Environment.NewLine + columnsText);
-                var columnInfo = columns[@"state"];
-                columns.Remove(@"state");
+                Assert.IsTrue(columns.ContainsKey(@"value_long"), @"Value_Long" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"value_long"];
+                columns.Remove(@"value_long");
                 Assert.IsFalse(columnInfo.IsNullable, columnsText);
+                Assert.IsNull(columnInfo.MaxLength, columnsText);
+            }
+
+            #endregion
+
+            #region Value_Int
+
+            {
+                Assert.IsTrue(columns.ContainsKey(@"value_int"), @"Value_Int" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"value_int"];
+                columns.Remove(@"value_int");
+                Assert.IsTrue(columnInfo.IsNullable, columnsText);
+                Assert.IsNull(columnInfo.MaxLength, columnsText);
+            }
+
+            #endregion
+
+            #region Value_String
+
+            {
+                Assert.IsTrue(columns.ContainsKey(@"value_string"), @"Value_String" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"value_string"];
+                columns.Remove(@"value_string");
+                Assert.IsTrue(columnInfo.IsNullable, columnsText);
                 Assert.IsNull(columnInfo.MaxLength, columnsText);
             }
 
@@ -436,9 +460,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
             var result = new Object_ADtoNew();
 #pragma warning restore IDE0017 // Simplify object initialization
 
-            result.CreateDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
-            result.ModificationDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
-            result.State = PostgreSqlRandomValuesProvider.GetRandomValue<short>(NpgsqlDbType.Smallint);
+            result.Value_DateTime = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
+            result.Value_DateTime_NotUpdate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
+            result.Value_Long = PostgreSqlRandomValuesProvider.GetRandomValue<long>(NpgsqlDbType.Bigint);
+            result.Value_Int = PostgreSqlRandomValuesProvider.GetRandomValue<int?>(NpgsqlDbType.Integer, true);
+            result.Value_String = PostgreSqlRandomValuesProvider.GetRandomValue<string>(NpgsqlDbType.Text, true);
 
             DoGetRandomNew(result, context);
 
@@ -450,9 +476,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
             Assert.IsNotNull(expected);
             Assert.IsNotNull(actual);
 
-            Assert.AreEqual(expected.CreateDate, actual.CreateDate);
-            Assert.AreEqual(expected.ModificationDate, actual.ModificationDate);
-            Assert.AreEqual(expected.State, actual.State);
+            Assert.AreEqual(expected.Value_DateTime, actual.Value_DateTime);
+            Assert.AreEqual(expected.Value_DateTime_NotUpdate, actual.Value_DateTime_NotUpdate);
+            Assert.AreEqual(expected.Value_Long, actual.Value_Long);
+            Assert.AreEqual(expected.Value_Int, actual.Value_Int);
+            Assert.AreEqual(expected.Value_String, actual.Value_String);
 
             DoAssertAreEqual(expected, actual, context);
         }
@@ -462,9 +490,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
             Assert.IsNotNull(expected);
             Assert.IsNotNull(actual);
 
-            Assert.AreEqual(expected.CreateDate, actual.CreateDate);
-            Assert.AreEqual(expected.ModificationDate, actual.ModificationDate);
-            Assert.AreEqual(expected.State, actual.State);
+            Assert.AreEqual(expected.Value_DateTime, actual.Value_DateTime);
+            Assert.AreEqual(expected.Value_DateTime_NotUpdate, actual.Value_DateTime_NotUpdate);
+            Assert.AreEqual(expected.Value_Long, actual.Value_Long);
+            Assert.AreEqual(expected.Value_Int, actual.Value_Int);
+            Assert.AreEqual(expected.Value_String, actual.Value_String);
 
             DoAssertAreEqual(expected, actual, context);
         }
