@@ -6,12 +6,13 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
+// ReSharper disable All
+
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 
 /// <summary>
 /// Базовый класс примеров использования мапперов
 /// </summary>
-[SuppressMessage("ReSharper", "ArgumentsStyleNamedExpression")]
 public class BaseExamplesMapper
 {
     protected string m_serverConnectionString;

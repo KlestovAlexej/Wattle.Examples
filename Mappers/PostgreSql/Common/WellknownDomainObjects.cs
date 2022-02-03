@@ -5,14 +5,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ShtrihM.Wattle3.Primitives;
 
+// ReSharper disable All
+
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
 {
     /// <summary>
     /// Идентификаторы объектов.
     /// </summary>
-    [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
     public static class WellknownDomainObjects
     {
         /// <summary>

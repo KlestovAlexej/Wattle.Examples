@@ -10,11 +10,10 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
-// ReSharper disable CheckNamespace
+// ReSharper disable All
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 
-[SuppressMessage("ReSharper", "ArgumentsStyleNamedExpression")]
 public abstract partial class BaseAutoTestsMapper
 {
     protected string m_serverConnectionString;

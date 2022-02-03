@@ -25,7 +25,7 @@ public class Examples
     private CustomClassA m_classA;
 
     /// <summary>
-    /// Получе6ние телеметрии объектов приложения по REST-интерфейсу.
+    /// Получение телеметрии объектов приложения по REST-интерфейсу.
     /// </summary>
     [Test]
     public void Example()
