@@ -4,7 +4,7 @@
 
 Фреймворк кроссплатформенный, написан 100% на C# под .NET 6.
 
-Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
+Пакеты nuget начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
 
 # Содержание
 - [Как запускать примеры](#как-запускать-примеры)
