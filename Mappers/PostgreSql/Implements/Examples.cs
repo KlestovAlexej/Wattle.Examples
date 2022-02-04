@@ -93,6 +93,69 @@ public class Examples
     }
 
     /// <summary>
+    /// Асинхронное сокрытие записи, без её физического удаления из БД.
+    /// </summary>
+    [Test]
+    public async ValueTask Example_Hide_Async()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = mappers.GetMapper<IMapperObject_B>();
+
+        var id_1 = 1;
+
+        // Создать запись.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDto =
+                await mapper.NewAsync(
+                    mappersSession,
+                    new Object_BDtoNew
+                    {
+                        Id = id_1,
+                        CreateDate = DateTime.Now,
+                    });
+            Console.WriteLine("Запись в БД до сокрытия :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            await mappersSession.CommitAsync();
+        }
+
+        // Скрыть запись.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDtoActual = await mapper.GetAsync(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
+
+            await mapper.HideAsync(mappersSession,
+                new Object_BDtoDeleted
+                {
+                    Id = dbDtoActual.Id,
+                    Revision = dbDtoActual.Revision,
+                });
+
+            Assert.IsFalse(await mapper.ExistsAsync(mappersSession, id_1));
+            Assert.IsTrue(await mapper.ExistsRawAsync(mappersSession, id_1));
+
+            await mappersSession.CommitAsync();
+        }
+
+        // Проверить сокрытие записи.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDto = await mapper.GetAsync(mappersSession, id_1);
+            Assert.IsNull(dbDto);
+
+            dbDto = await mapper.GetRawAsync(mappersSession, id_1);
+            Assert.IsNotNull(dbDto);
+            Console.WriteLine("Запись в БД после скрытия :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            Assert.IsFalse(await mapper.ExistsAsync(mappersSession, id_1));
+            Assert.IsTrue(await mapper.ExistsRawAsync(mappersSession, id_1));
+        }
+    }
+
+    /// <summary>
     /// Физическое удаление записи с оптимистической конкуренцией.
     /// </summary>
     [Test]
