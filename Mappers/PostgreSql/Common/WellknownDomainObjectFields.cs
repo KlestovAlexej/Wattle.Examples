@@ -12,6 +12,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
 {
     /// <summary>
     /// Поля доменных объектов.
+    /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
     /// </summary>
     public static class WellknownDomainObjectFields
     {
@@ -32,16 +33,17 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
             DisplayNames = displayNames;
         }
 
-        #region Object_A - Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        #region Object_A - Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера.
 
         /// <summary>
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера.
+        /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
         /// </summary>
-        [Description("Объект с партиционированием таблицы БД и ключём из последовательности БД.")]
-        [SchemaMapper(MapperId = WellknownDomainObjects.Text.Object_A, IsPrepared = true)]
+        [Description("Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера")]
+        [SchemaMapper(MapperId = WellknownDomainObjects.Text.Object_A, IsPrepared = true, IsCached = true)]
         [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L1)]
         [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
-        [SchemaMapperRevisionField]
+        [SchemaMapperRevisionField(IsVersion = true)]
         public static class Object_A
         {
             /// <summary>
@@ -79,10 +81,6 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
             [SchemaMapperField(typeof(string), DbIsNull = true, UpdateMode = SchemaMapperFieldUpdateMode.Update)]
             public static readonly Guid Value_String = new("100E6573-B387-4CB5-B3D6-45DF4CB2CC9C");
         }
-
-        /*
-          value_string text,
-        */
 
         #endregion
 

@@ -1,7 +1,7 @@
 ﻿using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 
-// ReSharper disable CheckNamespace
+// ReSharper disable All
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 

@@ -35,14 +35,14 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
     {
         /// <summary>
         /// Объект тестовой среды.
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
         /// </summary>
         // ReSharper disable once InconsistentNaming
         protected Object_ADtoActual m_object_ADtoActual;
 
         /// <summary>
         /// Признак процесса создания объекта тестовой среды.
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
         /// </summary>
         // ReSharper disable once InconsistentNaming
         protected bool m_initObject_ADtoActual;
@@ -54,14 +54,14 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
 
         /// <summary>
         /// Cтратегия обработки параметров создания объекта тестовой среды.
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
         /// </summary>
         // ReSharper disable once PartialMethodWithSinglePart
         static partial void DoGetRandomNewObject_ADtoNew(Object_ADtoNew dto, AutoTestsMappersContext context);
 
         /// <summary>
         /// Получение/Установка объекта тестовой среды.
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
         /// </summary>
         // ReSharper disable once UnusedMember.Global
         public virtual Object_ADtoActual Object_ADtoActual
@@ -173,7 +173,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
     }
 
     /// <summary>
-    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     [TestFixture]
     // ReSharper disable once PartialTypeWithSinglePart

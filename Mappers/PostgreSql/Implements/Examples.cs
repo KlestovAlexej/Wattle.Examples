@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
+using ShtrihM.Wattle3.Caching;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
@@ -17,6 +18,7 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
+using ShtrihM.Wattle3.Mappers.PostgreSql;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
@@ -28,6 +30,126 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 [TestFixture]
 public class Examples
 {
+    /// <summary>
+    /// Обновление записей.
+    /// </summary>
+    [Test]
+    public void Example_Update()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+
+        // Заполнение таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = id_1,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text 1",
+                });
+
+            mappersSession.Commit();
+        }
+    }
+
+    /// <summary>
+    /// Выборка записей по первичному ключу с использовантием кеша в памяти.
+    /// </summary>
+    [Test]
+    public void Example_Select_With_MemoryCache()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id_2 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 2);
+
+        // Заполнение таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = id_1,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text 1",
+                });
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = id_2,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 600,
+                    Value_String = "Text 2",
+                });
+
+            mappersSession.Commit();
+        }
+
+        // Выборка записей по первичному ключу.
+        Parallel.For(0, 1_000_000,
+            _ =>
+            {
+                var mappersSession = mappers.OpenSession();
+
+                mapper.Get(mappersSession, id_1);
+                mapper.Get(mappersSession, id_2);
+            });
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto_1 = mapper.Get(mappersSession, id_1);
+            Console.WriteLine(dbDto_1.ToJsonText(true));
+
+            var dbDto_2 = mapper.Get(mappersSession, id_2);
+            Console.WriteLine(dbDto_2.ToJsonText(true));
+        }
+
+        {
+            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+
+        {
+            var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
+            Console.WriteLine($"Количество объектов в памяти : {snapShot.Count}");
+            Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind}");
+            Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
+        }
+    }
+
     /// <summary>
     /// Создание записей в таблице БД.
     /// </summary>
@@ -276,18 +398,18 @@ public class Examples
             mappersSession.Commit();
         }
 
-        Console.WriteLine($"Количесто идентити : {identitesCount}");
+        Console.WriteLine($"Количество идентити : {identitesCount}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количесто идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
-            Console.WriteLine($"Количесто идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
+            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
+            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
         }
 
         {
             var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количесто реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количесто сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
         }
     }
 
@@ -315,18 +437,18 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
-        Console.WriteLine($"Количесто идентити : {identitesCount}");
+        Console.WriteLine($"Количество идентити : {identitesCount}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количесто идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
-            Console.WriteLine($"Количесто идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
+            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
+            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
         }
 
         {
             var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количесто реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количесто сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
         }
     }
 
@@ -337,6 +459,7 @@ public class Examples
     [SetUp]
     public void SetUp()
     {
+        // Содание БД.
         Assert.IsTrue(DbCredentials.TryGetServerAdressForPostgreSql(out var serverAdress), "Определите адрес сервера с PostgreSQL.");
         Assert.IsTrue(DbCredentials.TryGetCredentialsForPostgreSql(out var credentials), "Определите параметры учётной записи подключения к PostgreSQL.");
 
@@ -346,6 +469,7 @@ public class Examples
         var sqlScript = typeof(WellknownDomainObjects).Assembly.GetResourceAsString("SqlScript.sql");
         PostgreSqlDbHelper.CreateDb(m_dbName, sqlScript: sqlScript);
 
+        // Настройка окружения.
         var timeService = new TimeService();
         var mappers = new Generated.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
 
@@ -355,6 +479,10 @@ public class Examples
             .SetExceptionPolicy(new ExceptionPolicy(timeService))
             .SetMappers(mappers)
             .Build();
+
+        // Object_A - Определение кэша записей БД в памяти на уровне маппера.
+        var mapper = MapperObject_A.NewWithCache(mappers, timeService);
+        mappers.ReplaceMapper(mapper);
     }
 
     [TearDown]
@@ -376,9 +504,9 @@ public class Examples
 
         var result =
             new IdentityCache<IMapperObject_A>(
-                GuidGenerator.New($"{mapper.MapperId} {nameof(IMapperObject_A)}"),
-                $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
-                $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
+                Guid.NewGuid(),
+                $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.Object_A)}'.",
+                $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.Object_A)}'.",
                 ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                 ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
                 TimeSpan.FromMinutes(5),
@@ -396,12 +524,9 @@ public class Examples
                 methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count));
 
         // Прогрев кэша генератора.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            result.Initialize(mappersSession);
-
-            mappersSession.Commit();
-        }
+        using var mappersSession = mappers.OpenSession();
+        result.Initialize(mappersSession);
+        mappersSession.Commit();
 
         return result;
     }

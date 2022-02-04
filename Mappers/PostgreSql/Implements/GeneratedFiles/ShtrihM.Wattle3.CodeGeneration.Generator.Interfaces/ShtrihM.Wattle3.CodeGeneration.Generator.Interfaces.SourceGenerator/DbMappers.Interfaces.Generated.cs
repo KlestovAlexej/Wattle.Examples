@@ -24,7 +24,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
 {
     /// <summary>
     /// Класс данных состояния нового доменного объекта.
-    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     public sealed partial class Object_ADtoNew : BaseMapperNewStateDto
@@ -58,7 +58,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
 
     /// <summary>
     /// Класс актуальных данных состояния доменного объекта в БД.
-    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     [DataContract]
@@ -98,7 +98,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
 
     /// <summary>
     /// Класс данных состояния изменённого доменного объекта.
-    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     public sealed partial class Object_ADtoChanged : BaseMapperChangedStateDto
@@ -116,7 +116,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <summary>
         /// Число (long). Поле обновляется только при изменении значения.
         /// </summary>
-        public long Value_Long;
+        public MapperChangedStateDtoField<long> Value_Long;
 
         /// <summary>
         /// Число с поддержкой null (int?). Обновляемое поле.
@@ -126,7 +126,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <summary>
         /// Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.
         /// </summary>
-        public string Value_String;
+        public MapperChangedStateDtoField<string> Value_String;
 
     }
 
@@ -136,7 +136,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     public static class WellknownMappersAsText
     {
         /// <summary>
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
         /// </summary>
         public const string Object_A = "266032e5-19c6-434c-a521-d1d1c652edd1";
 
@@ -154,12 +154,12 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         {
             DisplayNames = new Dictionary<Guid, string>
             {
-                {new Guid(WellknownMappersAsText.Object_A), @"Объект с партиционированием таблицы БД и ключём из последовательности БД."},
+                {new Guid(WellknownMappersAsText.Object_A), @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера"},
             };
         }
 
         /// <summary>
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
         /// </summary>
         public static readonly Guid Object_A = new Guid(WellknownMappersAsText.Object_A);
 
@@ -175,7 +175,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     }
 
     /// <summary>
-    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     [MapperInterface(WellknownMappersAsText.Object_A)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -243,6 +243,25 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
         ValueTask<bool> ExistsRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Проверка существования записис с указаным идентити и указаной версией данных.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="id">Идентити записи.</param>
+        /// <param name="revision">Ожидаемая версия данных записи.</param>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        bool ExistsRevision(IMappersSession session, long id, long revision);
+
+        /// <summary>
+        /// Проверка существования записис с указаным идентити и указаной версией данных.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="id">Идентити записи.</param>
+        /// <param name="revision">Ожидаемая версия данных записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        ValueTask<bool> ExistsRevisionAsync(IMappersSession session, long id, long revision, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.

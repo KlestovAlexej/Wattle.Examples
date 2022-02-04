@@ -22,7 +22,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
     public static class WellknownSchemaQueriesFields
     {
         /// <summary>
-        /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
         /// </summary>
         public static class Object_A
         {
@@ -87,7 +87,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
                 var schemaObjectQuey = new SchemaObjectQuey();
                 Schema.Objects.Add(schemaObjectQuey);
 
-                schemaObjectQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
+                schemaObjectQuey.Description = @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера";
                 schemaObjectQuey.Id = new Guid("266032e5-19c6-434c-a521-d1d1c652edd1");
 
                 #region Поле Value_DateTime
@@ -160,7 +160,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
                     var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
+                    schemaObjectFieldQuey.Description = @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера";
                     schemaObjectFieldQuey.Id = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;

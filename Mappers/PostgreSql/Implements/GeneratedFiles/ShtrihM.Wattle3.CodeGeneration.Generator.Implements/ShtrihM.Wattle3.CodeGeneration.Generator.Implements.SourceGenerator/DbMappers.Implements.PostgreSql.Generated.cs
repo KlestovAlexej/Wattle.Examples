@@ -49,7 +49,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
                 var schemaObjectQuey = new PostgreSqlSchemaObjectQuey();
                 Schema.Objects.Add(schemaObjectQuey);
 
-                schemaObjectQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
+                schemaObjectQuey.Description = @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера";
                 schemaObjectQuey.Id = new Guid("266032e5-19c6-434c-a521-d1d1c652edd1");
                 schemaObjectQuey.IdentityFieldId = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
 
@@ -139,7 +139,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
                     var schemaObjectFieldQuey = new PostgreSqlSchemaObjectFieldQuey();
                     schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
 
-                    schemaObjectFieldQuey.Description = @"Объект с партиционированием таблицы БД и ключём из последовательности БД.";
+                    schemaObjectFieldQuey.Description = @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера";
                     schemaObjectFieldQuey.Id = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
                     schemaObjectFieldQuey.Order = true;
                     schemaObjectFieldQuey.Where = true;
@@ -213,7 +213,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
     /// <summary>
     /// Поточный читатель данных записей для массовой вставки записей в БД.
     /// 
-    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     internal class BulkInsertDataReaderObject_A : BasePostgreSqlBulkInserter<Object_ADtoNew>
     {
@@ -275,25 +275,25 @@ Value_String) FROM STDIN (FORMAT BINARY)
     }
 
     /// <summary>
-    /// Объект с партиционированием таблицы БД и ключём из последовательности БД.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     [MapperImplementation(WellknownMappersAsText.Object_A)]
     [SuppressMessage("ReSharper", "PartialTypeWithSinglePart")]
     [SuppressMessage("ReSharper", "PartialMethodWithSinglePart")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
-    public partial class MapperObject_A : BasePostgreSqlMapper<Object_ADtoActual>, IMapperInitializer, IMapperObject_A
+    public partial class MapperObject_A : BasePostgreSqlMapper<Object_ADtoActual>, IMapperInitializer, IMapperObject_A, IMapperActualDtoCache
     {
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         public MapperObject_A(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory)
-           : base("Маппер данных состояния доменного объекта '" + @"Объект с партиционированием таблицы БД и ключём из последовательности БД." + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy)
+           : base("Маппер данных состояния доменного объекта '" + @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера" + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy)
         {
             Partitions = new PartitionsManager(exceptionPolicy, @"Object_A", ComplexIdentity.Level.L1, false);
         }
 
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
-        public MapperObject_A(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper infrastructureMonitor = null)
-           : base("Маппер данных состояния доменного объекта '" + @"Объект с партиционированием таблицы БД и ключём из последовательности БД." + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy, infrastructureMonitor)
+        public MapperObject_A(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper infrastructureMonitor = null, IMemoryCache<Object_ADtoActual, long> actualDtoMemoryCache = null)
+           : base("Маппер данных состояния доменного объекта '" + @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера" + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy, infrastructureMonitor, actualDtoMemoryCache)
         {
             Partitions = new PartitionsManager(exceptionPolicy, @"Object_A", ComplexIdentity.Level.L1, false);
         }
@@ -570,6 +570,12 @@ Value_String) FROM STDIN (FORMAT BINARY)
                     {
                         var result = reader.Read();
 
+                        if (false == result)
+                        {
+                            Remove(id);
+                            RemoveActualState(typedSession, id);
+                        }
+
                         return (result);
                     }
                 }
@@ -625,6 +631,12 @@ Value_String) FROM STDIN (FORMAT BINARY)
                     await using (reader.ConfigureAwait(false))
                     {
                         var result = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
+
+                        if (false == result)
+                        {
+                            Remove(id);
+                            RemoveActualState(typedSession, id);
+                        }
 
                         return (result);
                     }
@@ -687,6 +699,12 @@ Value_String) FROM STDIN (FORMAT BINARY)
                     {
                         var result = reader.Read();
 
+                        if (false == result)
+                        {
+                            Remove(id);
+                            RemoveActualState(typedSession, id);
+                        }
+
                         return (result);
                     }
                 }
@@ -743,6 +761,12 @@ Value_String) FROM STDIN (FORMAT BINARY)
                     {
                         var result = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
 
+                        if (false == result)
+                        {
+                            Remove(id);
+                            RemoveActualState(typedSession, id);
+                        }
+
                         return (result);
                     }
                 }
@@ -750,6 +774,179 @@ Value_String) FROM STDIN (FORMAT BINARY)
             catch (Exception exception)
             {
                 CatchExceptionOnExistsRaw(session, exception, id);
+                CatchException(session, exception);
+
+                var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                if (ReferenceEquals(targetException, exception))
+                {
+                    ExceptionDispatchInfo.Capture(exception).Throw();
+                }
+
+                throw targetException;
+            }
+        }
+
+        /// <summary>
+        /// Обработка исключения мапппера в методе <see cref="ExistsRevision"/>.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="exception">Исключение мапппера.</param>
+        /// <param name="id">Идентити записи.</param>
+        partial void CatchExceptionOnExistsRevision(IMappersSession session, Exception exception, long id);
+
+        /// <summary>
+        /// Проверка существования записис с указаным идентити и указаной версией данных.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="id">Идентити записи.</param>
+        /// <param name="revision">Ожидаемая версия данных записи.</param>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        public virtual bool ExistsRevision(IMappersSession session, long id, long revision)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            try
+            {
+                var typedSession = (IPostgreSqlMappersSession) session;
+
+                // ReSharper disable once ConvertToUsingDeclaration
+                using (var command = typedSession.CreateCommand()) 
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT 1 FROM Object_A WHERE (Id = @Id) AND (Revision = @Revision) LIMIT 1";
+
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = id };
+                        command.Parameters.Add(parameter);
+                    }
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Revision", NpgsqlDbType.Bigint) { TypedValue = revision };
+                        command.Parameters.Add(parameter);
+                    }
+
+                    command.Prepare();
+
+                    using (var reader = command.ExecuteReader(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult)) 
+                    {
+                        var result = reader.Read();
+
+                        if (result)
+                        {
+                            if (TryGetFromCache(id, out var dto))
+                            {
+                                if (dto.Revision != revision)
+                                {
+                                    Remove(id);
+                                    RemoveActualState(typedSession, id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (TryGetFromCache(id, out var dto))
+                            {
+                                if (dto.Revision == revision)
+                                {
+                                    Remove(id);
+                                    RemoveActualState(typedSession, id);
+                                }
+                            }
+                        }
+
+                        return (result);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                CatchExceptionOnExistsRevision(session, exception, id);
+                CatchException(session, exception);
+
+                var targetException = m_exceptionPolicy.Apply(exception);
+                if (ReferenceEquals(targetException, exception))
+                {
+                    ExceptionDispatchInfo.Capture(exception).Throw();
+                }
+
+                throw targetException;
+            }
+        }
+
+        /// <summary>
+        /// Проверка существования записис с указаным идентити и указаной версией данных.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="id">Идентити записи.</param>
+        /// <param name="revision">Ожидаемая версия данных записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        public virtual async ValueTask<bool> ExistsRevisionAsync(IMappersSession session, long id, long revision, CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            try
+            {
+                var typedSession = (IPostgreSqlMappersSession) session;
+
+                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                // ReSharper disable once ConvertToUsingDeclaration
+                await using (command.ConfigureAwait(false))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT 1 FROM Object_A WHERE (Id = @Id) AND (Revision = @Revision) LIMIT 1";
+
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = id };
+                        command.Parameters.Add(parameter);
+                    }
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Revision", NpgsqlDbType.Bigint) { TypedValue = revision };
+                        command.Parameters.Add(parameter);
+                    }
+
+                    await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
+
+                    var reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult, cancellationToken).ConfigureAwait(false);
+                    await using (reader.ConfigureAwait(false))
+                    {
+                        var result = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
+
+                        if (result)
+                        {
+                            if (TryGetFromCache(id, out var dto))
+                            {
+                                if (dto.Revision != revision)
+                                {
+                                    Remove(id);
+                                    RemoveActualState(typedSession, id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (TryGetFromCache(id, out var dto))
+                            {
+                                if (dto.Revision == revision)
+                                {
+                                    Remove(id);
+                                    RemoveActualState(typedSession, id);
+                                }
+                            }
+                        }
+
+                        return (result);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                CatchExceptionOnExistsRevision(session, exception, id);
                 CatchException(session, exception);
 
                 var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
@@ -962,6 +1159,11 @@ Value_String) FROM STDIN (FORMAT BINARY)
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
 
+                if (TryGetFromCache(typedSession, id, out var cacheResult))
+                {
+                    return (cacheResult);
+                }
+
                 // ReSharper disable once ConvertToUsingDeclaration
                 using (var command = typedSession.CreateCommand())
                 {
@@ -1010,6 +1212,8 @@ FROM Object_A WHERE
 
                             SeedRevision(result.Revision);
 
+                            AddActualState(typedSession, result);
+
                             return (result);
                         }
                     }
@@ -1052,6 +1256,11 @@ FROM Object_A WHERE
             try
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
+
+                if (TryGetFromCache(typedSession, id, out var cacheResult))
+                {
+                    return (cacheResult);
+                }
 
                 // ReSharper disable once ConvertToUsingDeclaration
                 var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
@@ -1102,6 +1311,8 @@ FROM Object_A WHERE
                                 indexValue_String);
 
                             SeedRevision(result.Revision);
+
+                            AddActualState(typedSession, result);
 
                             return (result);
                         }
@@ -1199,8 +1410,14 @@ FROM Object_A WHERE (Id = @Id)";
                                 indexValue_String);
 
                             SeedRevision(result.Revision);
+                            AddActualState(typedSession, result);
 
                             return (result);
+                        }
+                        else
+                        {
+                            Remove(id);
+                            RemoveActualState(typedSession, id);
                         }
                     }
 
@@ -1291,8 +1508,14 @@ FROM Object_A WHERE (Id = @Id)";
                                 indexValue_String);
 
                             SeedRevision(result.Revision);
+                            AddActualState(typedSession, result);
 
                             return (result);
+                        }
+                        else
+                        {
+                            Remove(id);
+                            RemoveActualState(typedSession, id);
                         }
                     }
 
@@ -1350,35 +1573,31 @@ FROM Object_A WHERE (Id = @Id)";
                     Revision = NewRevision(),
                     Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
                     Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
-                    Value_Long = data.Value_Long,
+                    Value_Long = data.Value_Long.Value,
                     Value_Int = data.Value_Int,
-                    Value_String = data.Value_String,
+                    Value_String = data.Value_String.Value,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
                 using (var command = typedSession.CreateCommand())
                 {
                     command.CommandType = CommandType.Text;
-                    command.CommandText = @"UPDATE Object_A SET
-Revision = @New_Revision,
-Value_DateTime = @Value_DateTime,
-Value_Long = @Value_Long,
-Value_Int = @Value_Int,
-Value_String = @Value_String
-WHERE
-(Id = @Id) AND (Revision < @New_Revision)";
-                    {
-                        var parameter = new NpgsqlParameter<long>("@New_Revision", NpgsqlDbType.Bigint) { TypedValue = result.Revision };
-                        command.Parameters.Add(parameter);
-                    }
+                    var commandText = new StringBuilder();
+                    commandText.Append(@"UPDATE Object_A SET ");
+                    commandText.AppendLine(@"Revision = @New_Revision");
+                    
+                    commandText.AppendLine(@", Value_DateTime = @Value_DateTime");
                     {
                         var parameter = new NpgsqlParameter<DateTime>("@Value_DateTime", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime };
                         command.Parameters.Add(parameter);
                     }
+                    if (data.Value_Long.IsChanged)
                     {
+                        commandText.AppendLine(@", Value_Long = @Value_Long");
                         var parameter = new NpgsqlParameter<long>("@Value_Long", NpgsqlDbType.Bigint) { TypedValue = result.Value_Long };
                         command.Parameters.Add(parameter);
                     }
+                    commandText.AppendLine(@", Value_Int = @Value_Int");
                     if (result.Value_Int == null)
                     {
                         command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = DBNull.Value;
@@ -1387,13 +1606,29 @@ WHERE
                     {
                         command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
                     }
-                    if (result.Value_String == null)
+                    if (data.Value_String.IsChanged)
                     {
-                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                        commandText.AppendLine(@", Value_String = @Value_String");
+                        if (result.Value_String == null)
+                        {
+                            command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
+                        }
                     }
-                    else
+                    commandText.Append(@" WHERE (Id = @Id) AND (Revision = @Old_Revision)");
+
+                    command.CommandText = commandText.ToString();
+
                     {
-                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
+                        var parameter = new NpgsqlParameter<long>("@Old_Revision", NpgsqlDbType.Bigint) { TypedValue = data.Revision };
+                        command.Parameters.Add(parameter);
+                    }
+                    {
+                        var parameter = new NpgsqlParameter<long>("@New_Revision", NpgsqlDbType.Bigint) { TypedValue = result.Revision };
+                        command.Parameters.Add(parameter);
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
@@ -1408,6 +1643,8 @@ WHERE
                         throw new InvalidOperationException($"Конкуренция при обновлении записи с идентификатором '{result.Id}' маппером '{MapperId}'.");
                     }
                 }
+
+                AddActualState(typedSession, result);
 
                 return (result);
             }
@@ -1455,9 +1692,9 @@ WHERE
                     Revision = NewRevision(),
                     Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
                     Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
-                    Value_Long = data.Value_Long,
+                    Value_Long = data.Value_Long.Value,
                     Value_Int = data.Value_Int,
-                    Value_String = data.Value_String,
+                    Value_String = data.Value_String.Value,
                 };
 
                 var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
@@ -1465,26 +1702,22 @@ WHERE
                 await using (command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
-                    command.CommandText = @"UPDATE Object_A SET
-Revision = @New_Revision,
-Value_DateTime = @Value_DateTime,
-Value_Long = @Value_Long,
-Value_Int = @Value_Int,
-Value_String = @Value_String
-WHERE
-(Id = @Id) AND (Revision < @New_Revision)";
-                    {
-                        var parameter = new NpgsqlParameter<long>("@New_Revision", NpgsqlDbType.Bigint) { TypedValue = result.Revision };
-                        command.Parameters.Add(parameter);
-                    }
+                    var commandText = new StringBuilder();
+                    commandText.Append(@"UPDATE Object_A SET ");
+                    commandText.AppendLine(@"Revision = @New_Revision");
+                    
+                    commandText.AppendLine(@", Value_DateTime = @Value_DateTime");
                     {
                         var parameter = new NpgsqlParameter<DateTime>("@Value_DateTime", NpgsqlDbType.Timestamp) { TypedValue = result.Value_DateTime };
                         command.Parameters.Add(parameter);
                     }
+                    if (data.Value_Long.IsChanged)
                     {
+                        commandText.AppendLine(@", Value_Long = @Value_Long");
                         var parameter = new NpgsqlParameter<long>("@Value_Long", NpgsqlDbType.Bigint) { TypedValue = result.Value_Long };
                         command.Parameters.Add(parameter);
                     }
+                    commandText.AppendLine(@", Value_Int = @Value_Int");
                     if (result.Value_Int == null)
                     {
                         command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = DBNull.Value;
@@ -1493,13 +1726,29 @@ WHERE
                     {
                         command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
                     }
-                    if (result.Value_String == null)
+                    if (data.Value_String.IsChanged)
                     {
-                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                        commandText.AppendLine(@", Value_String = @Value_String");
+                        if (result.Value_String == null)
+                        {
+                            command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
+                        }
                     }
-                    else
+                    commandText.Append(@" WHERE (Id = @Id) AND (Revision = @Old_Revision)");
+
+                    command.CommandText = commandText.ToString();
+
                     {
-                        command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
+                        var parameter = new NpgsqlParameter<long>("@Old_Revision", NpgsqlDbType.Bigint) { TypedValue = data.Revision };
+                        command.Parameters.Add(parameter);
+                    }
+                    {
+                        var parameter = new NpgsqlParameter<long>("@New_Revision", NpgsqlDbType.Bigint) { TypedValue = result.Revision };
+                        command.Parameters.Add(parameter);
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
@@ -1514,6 +1763,8 @@ WHERE
                         throw new InvalidOperationException($"Конкуренция при обновлении записи с идентификатором '{result.Id}' маппером '{MapperId}'.");
                     }
                 }
+
+                AddActualState(typedSession, result);
 
                 return (result);
             }
@@ -1729,6 +1980,8 @@ VALUES
                     command.ExecuteNonQuery();
                 }
 
+                AddActualState(typedSession, result);
+
                 return (result);
             }
             catch (Exception exception)
@@ -1847,6 +2100,8 @@ VALUES
 
                     await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
                 }
+
+                AddActualState(typedSession, result);
 
                 return (result);
             }
@@ -2273,10 +2528,12 @@ FROM Object_A";
                     int indexValue_Long;
                     int indexValue_Int;
                     int indexValue_String;
+                    IPostgreSqlMappersSession typedSession;
                     try
                     {
                         command.Prepare();
 
+                        typedSession = (IPostgreSqlMappersSession) session;
                         reader = command.ExecuteReader(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult);
 
                         GetColumnIndexes(
@@ -2339,6 +2596,8 @@ FROM Object_A";
 
                             throw targetException;
                         }
+
+                        AddActualState(typedSession, result);
 
                         yield return (result);
                     }
