@@ -30,7 +30,7 @@ public class CustomClassA
 ```
 
 
-Документация REST-интерфейса доступа к телеметрии приложения:
+[Swagger](https://swagger.io/) документация REST-интерфейса доступа к телеметрии приложения:
 ```csharp
 http://localhost:5601/swagger/index.html
 ```
