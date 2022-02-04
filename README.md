@@ -86,6 +86,6 @@ Write-Host ($Result)
 
 ## Автогенерация мапперов на чистом ADO.NET
 
-Примеры автогенерённых ADO.NET мапперов для [PostgreSQL](/Mappers/PostgreSql/).
+Примеры автогенерённых ADO.NET мапперов для [PostgreSQL](/Mappers/PostgreSql/Implements/).
 
-Примеры автогенерённых ADO.NET мапперов для [SQL Server](/Mappers/SqlServer/).
+Примеры автогенерённых ADO.NET мапперов для [SQL Server](/Mappers/SqlServer/Implements/).
