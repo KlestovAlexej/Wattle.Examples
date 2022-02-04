@@ -976,7 +976,7 @@ public class Examples
 
         stopwatch.Stop();
 
-        Console.WriteLine($"Время работы теста : {stopwatch.Elapsed}");
+        Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
         Console.WriteLine($"Количество идентити : {identites.Count}");
 
         {
@@ -1020,7 +1020,7 @@ public class Examples
 
         stopwatch.Stop();
 
-        Console.WriteLine($"Время работы теста : {stopwatch.Elapsed}");
+        Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
         Console.WriteLine($"Количество идентити : {identites.Count}");
 
         {
