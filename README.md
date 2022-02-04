@@ -195,6 +195,8 @@ File.WriteAllText(fileName, xml);
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
+	...
+	
 	<ItemGroup>
 		<AdditionalFiles Include="DbMappers.Schema.xml" />
 	</ItemGroup>
@@ -634,17 +636,17 @@ Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
 var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
 var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-var groupId = 67;
+var partitionId = 67;
 
 // Создание партиции таблицы.
 using (var mappersSession = mappers.OpenSession())
 {
-    mapper.Partitions.CreatePartition(mappersSession, groupId, groupId + 1);
+    mapper.Partitions.CreatePartition(mappersSession, partitionId, partitionId + 1);
 
     mappersSession.Commit();
 }
 
-var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
+var id = ComplexIdentity.Build(mapper.Partitions.Level, partitionId, 1);
 
 using (var mappersSession = mappers.OpenSession())
 {
