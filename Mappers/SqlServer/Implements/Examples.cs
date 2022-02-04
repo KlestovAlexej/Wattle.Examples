@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,21 +12,21 @@ using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implements;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
-using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
+using ShtrihM.Wattle3.Testing.Databases.SqlServer;
 
 // ReSharper disable All
 
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
 
 [TestFixture]
 public class Examples
@@ -165,15 +166,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
-        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id_1 = 1;
 
         // Создать запись.
         using (var mappersSession = mappers.OpenSession())
@@ -239,15 +232,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
-        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id_1 = 1;
 
         // Создать запись.
         using (var mappersSession = mappers.OpenSession())
@@ -301,15 +286,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
-        {
-            await mapper.Partitions.CreatedDefaultPartitionAsync(mappersSession);
-
-            await mappersSession.CommitAsync();
-        }
-
-        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id_1 = 1;
 
         // Создать запись.
         await using (var mappersSession = await mappers.OpenSessionAsync())
@@ -363,15 +340,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
-        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id_1 = 1;
 
         using (var mappersSession = mappers.OpenSession())
         {
@@ -439,15 +408,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
-        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id_1 = 1;
 
         using (var mappersSession = mappers.OpenSession())
         {
@@ -505,15 +466,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
-        {
-            await mapper.Partitions.CreatedDefaultPartitionAsync(mappersSession);
-
-            await mappersSession.CommitAsync();
-        }
-
-        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id_1 = 1;
 
         await using (var mappersSession = await mappers.OpenSessionAsync())
         {
@@ -573,16 +526,8 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
-        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
-        var id_2 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 2);
+        var id_1 = 1;
+        var id_2 = 2;
 
         // Заполнение таблицы.
         using (var mappersSession = mappers.OpenSession())
@@ -655,15 +600,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
-        var id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id = 1;
 
         using (var mappersSession = mappers.OpenSession())
         {
@@ -698,15 +635,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            await mappersSession.CommitAsync();
-        }
-
-        var id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id = 1;
 
         await using (var mappersSession = await mappers.OpenSessionAsync())
         {
@@ -742,14 +671,6 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        // Создание партиции таблицы.
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
         // Заполнение таблицы.
         using (var mappersSession = mappers.OpenSession())
         {
@@ -757,7 +678,7 @@ public class Examples
                 mappersSession,
                 new Object_ADtoNew
                 {
-                    Id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1),
+                    Id = 1,
                     Value_DateTime = DateTime.Now,
                     Value_DateTime_NotUpdate = DateTime.Now,
                     Value_Int = null,
@@ -768,7 +689,7 @@ public class Examples
                 mappersSession,
                 new Object_ADtoNew
                 {
-                    Id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 2),
+                    Id = 2,
                     Value_DateTime = DateTime.Now,
                     Value_DateTime_NotUpdate = DateTime.Now,
                     Value_Int = null,
@@ -793,74 +714,6 @@ public class Examples
 
             Console.WriteLine(dbDtos[0].ToJsonText(true));
         }
-
-        Console.WriteLine("Все записи отсортированные по убыванию по колонке Value_Long :");
-
-        using (var mappersSession = mappers.OpenSession())
-        {
-            var queryText =
-                SchemaQueriesProvider
-                    .QueryForObject_A("ORDER Value_Long DESC")
-                    .GetQuery();
-            var selectFilter = mapper.CreateSelectFilter(queryText);
-
-            var dbDtos = mapper.GetEnumerator(mappersSession, selectFilter).ToList();
-            Assert.AreEqual(2, dbDtos.Count);
-
-            Console.WriteLine(dbDtos[0].ToJsonText(true));
-            Console.WriteLine(dbDtos[1].ToJsonText(true));
-        }
-    }
-
-    /// <summary>
-    /// Управление партициями таблицы БД.
-    /// </summary>
-    [Test]
-    public void Example_Partitions()
-    {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
-
-        using (var mappersSession = mappers.OpenSession())
-        {
-            Assert.AreEqual(0, mapper.Partitions.GetExistsPartitions(mappersSession).Count);
-        }
-
-        Console.WriteLine("Создание партиции для группы [1 ; 2).");
-
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatePartition(mappersSession, 1, 2);
-
-            mappersSession.Commit();
-        }
-
-        using (var mappersSession = mappers.OpenSession())
-        {
-            var existsPartitions = mapper.Partitions.GetExistsPartitions(mappersSession);
-            Assert.AreEqual(1, existsPartitions.Count);
-
-            Console.WriteLine(existsPartitions[0].ToJsonText(true));
-        }
-
-        Console.WriteLine("Создание партиции по умолчанию.");
-
-        using (var mappersSession = mappers.OpenSession())
-        {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
-
-            mappersSession.Commit();
-        }
-
-        using (var mappersSession = mappers.OpenSession())
-        {
-            Console.WriteLine($"DefaultPartitionName : {mapper.Partitions.DefaultPartitionName}");
-
-            var existsPartitions = mapper.Partitions.GetExistsPartitions(mappersSession);
-            Assert.AreEqual(1, existsPartitions.Count);
-
-            Console.WriteLine(existsPartitions[0].ToJsonText(true));
-        }
     }
 
     /// <summary>
@@ -875,7 +728,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
 
         var identites = new HashSet<long>();
-        for (var count = 0; count < 50 * cacheSize; ++count)
+        for (var count = 0; count < 5 * cacheSize; ++count)
         {
             using var mappersSession = mappers.OpenSession();
 
@@ -915,7 +768,7 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
 
         var identites = new HashSet<long>();
-        for (var count = 0; count < 50 * cacheSize; ++count)
+        for (var count = 0; count < 5 * cacheSize; ++count)
         {
             await using var mappersSession = await mappers.OpenSessionAsync();
 
@@ -973,7 +826,7 @@ public class Examples
     {
         DomainEnviromentConfigurator.DisposeAll();
 
-        PostgreSqlDbHelper.DropDb(m_dbName);
+        SqlServerDbHelper.DropDb(m_dbName);
     }
 
     #endregion

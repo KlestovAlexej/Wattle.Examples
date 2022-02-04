@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Reflection;
 using ShtrihM.Wattle3.CodeGeneration.Common;
 using ShtrihM.Wattle3.Common;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
 using ShtrihM.Wattle3.Primitives;
 
 // ReSharper disable All
 
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common
 {
     /// <summary>
     /// Поля доменных объектов.
@@ -34,15 +34,14 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
             DisplayNames = displayNames;
         }
 
-        #region Object_A - Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера.
+        #region Object_A - Объект с первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера.
 
         /// <summary>
-        /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера.
+        /// Объект с первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера.
         /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
         /// </summary>
         [Description("Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера")]
         [SchemaMapper(MapperId = WellknownDomainObjects.Text.Object_A, IsPrepared = true, IsCached = true, DeleteMode = SchemaMapperDeleteMode.Delete)]
-        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L1)]
         [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
         [SchemaMapperRevisionField(IsVersion = true)]
         public static class Object_A

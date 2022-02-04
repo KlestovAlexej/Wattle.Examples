@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-16" standalone="yes"?>
+<Model Version="1.0.0.0" Description="Генератор XML модели тут : ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common.DbMappersSchemaXmlBuilder.Test">
+  <Mappers>
+    <Mappers Storage="SqlServer">
+      <Mappers>
+        <Mapper Id="266032e5-19c6-434c-a521-d1d1c652edd1" DeleteMode="Delete" MaxPageSize="1000" IsCached="true" UpdateCacheOnEnumerator="false" IsPrepared="true" IsOverrideTableName="false" Description="Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера" Name="Object_A">
+          <Storage Name="%ObjectName%" />
+          <Identity Name="Id" Type="long" Description="Идентити.">
+            <Storage Name="%FieldName%" Type="BigInt" SequenceName="Sequence_%ObjectName%" />
+            <Query Id="4f414fbb-4b25-4691-80c3-9897fc5be61b" Order="true" Where="true" />
+          </Identity>
+          <Revision Name="Revision" Type="long" Description="Номер ревизии." IsVersion="true">
+            <Storage Name="%FieldName%" Type="BigInt" />
+          </Revision>
+          <Fields>
+            <Field Name="Value_DateTime" Type="DateTime" Description="Дата-время (DateTime). Обновляемое поле." UseHide="false" UpdateMode="UpdateDirect" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="false" Type="DateTime" />
+              <Query Id="dce071bb-796e-4397-91b8-eaf116747880" Order="true" Where="true" />
+            </Field>
+            <Field Name="Value_DateTime_NotUpdate" Type="DateTime" Description="Дата-время (DateTime). Не обновляемое поле." UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="false" Type="DateTime" />
+              <Query Id="273a65e2-7647-42db-a15d-58b69a64c69d" Order="true" Where="true" />
+            </Field>
+            <Field Name="Value_Long" Type="long" Description="Число (long). Поле обновляется только при изменении значения." UseHide="false" UpdateMode="Update" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="false" Type="BigInt" />
+              <Query Id="87a005ed-ca51-4c60-83ec-6540ac0823d6" Order="true" Where="true" />
+            </Field>
+            <Field Name="Value_Int" Type="int?" Description="Число с поддержкой null (int?). Обновляемое поле." UseHide="false" UpdateMode="UpdateDirect" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="true" Type="Int" />
+              <Query Id="198251ef-8183-4a09-a760-e5baafbbb6ff" Order="true" Where="true" />
+            </Field>
+            <Field Name="Value_String" Type="string" Description="Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения." UseHide="false" UpdateMode="Update" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="true" Type="NText" />
+              <Query Id="100e6573-b387-4cb5-b3d6-45df4cb2cc9c" Order="false" Where="false" />
+            </Field>
+          </Fields>
+        </Mapper>
+        <Mapper Id="cb9a1909-a7b6-48a6-8fe5-7d714e0225ea" DeleteMode="Hide" MaxPageSize="1000" IsCached="false" UpdateCacheOnEnumerator="false" IsPrepared="false" IsOverrideTableName="false" Description="Объект с сокрытием записи при удалении (без фичического страниы записи в БД)" Name="Object_B">
+          <Storage Name="%ObjectName%" />
+          <Identity Name="Id" Type="long" Description="Идентити.">
+            <Storage Name="%FieldName%" Type="BigInt" />
+            <Query Id="4f414fbb-4b25-4691-80c3-9897fc5be61b" Order="true" Where="true" />
+          </Identity>
+          <Revision Name="Revision" Type="long" Description="Номер ревизии." IsVersion="false">
+            <Storage Name="%FieldName%" Type="BigInt" />
+          </Revision>
+          <Available Name="Available" Type="bool" Description="Доступность.">
+            <Storage Name="%FieldName%" Type="Bit" />
+          </Available>
+          <Fields>
+            <Field Name="CreateDate" Type="DateTime" Description="Дата создания" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="false" Type="DateTime" />
+              <Query Id="92847c2c-e7b4-4ee1-a628-042b75aa9225" Order="true" Where="true" />
+            </Field>
+          </Fields>
+        </Mapper>
+      </Mappers>
+      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+    </Mappers>
+  </Mappers>
+</Model>
