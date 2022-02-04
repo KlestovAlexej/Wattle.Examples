@@ -6,9 +6,10 @@
 
 Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
 
-Все примеры оформлены как [NUnit](https://nunit.org/)-тесты.
+Все примеры оформлены как [NUnit](https://nunit.org/)-тесты для запуска в ОС Windows.
 
 Все БД в примерах создаются и уничтожаются автоматически при запуске теста.
+
 Параметры подключения к серверу БД надо настроить в файле [DbCredentials.cs](/Common/DbCredentials.cs).
 
 # Содержание
