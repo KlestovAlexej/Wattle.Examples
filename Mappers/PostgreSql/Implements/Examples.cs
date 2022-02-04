@@ -15,6 +15,7 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
@@ -557,15 +558,7 @@ public class Examples
     [SetUp]
     public void SetUp()
     {
-        // Содание БД.
-        Assert.IsTrue(DbCredentials.TryGetServerAdressForPostgreSql(out var serverAdress), "Определите адрес сервера с PostgreSQL.");
-        Assert.IsTrue(DbCredentials.TryGetCredentialsForPostgreSql(out var credentials), "Определите параметры учётной записи подключения к PostgreSQL.");
-
-        m_dbName = "examples_wattle3_" + DateTime.Now.ToString("yyyMMddhhmmss") + "_" + Guid.NewGuid().ToString("N");
-        var dbConnectionString = PostgreSqlDbHelper.GetDatabaseConnectionString(m_dbName, serverAdress: serverAdress, userCredentials: credentials);
-
-        var sqlScript = typeof(WellknownDomainObjects).Assembly.GetResourceAsString("SqlScript.sql");
-        PostgreSqlDbHelper.CreateDb(m_dbName, sqlScript: sqlScript);
+        BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
         // Настройка окружения.
         var timeService = new TimeService();
