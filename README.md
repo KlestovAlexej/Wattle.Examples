@@ -23,7 +23,6 @@
         - [Кэширование записей по первичну ключу](#кэширование-записей-по-первичну-ключу)
 
 ---
-
 ## Телеметрия приложения
 Простая публикация и доступ по REST-интерфейсу к произвольной телеметрии приложения.
 
@@ -96,12 +95,14 @@ Write-Host ($Result)
 }
 ```
 
+---
 ## Автогенерация мапперов на чистом ADO.NET
 
 Примеры автогенерённых ADO.NET мапперов для [PostgreSQL](/Mappers/PostgreSql/Implements/).
 
 Примеры автогенерённых ADO.NET мапперов для [SQL Server](/Mappers/SqlServer/Implements/).
 
+---
 ### Определение для кодогенератора мапперов
 
 Пример определения структуры записи БД и параметров маппера (весь код примера [WellknownDomainObjectFields.cs](/Mappers/PostgreSql/Common/WellknownDomainObjectFields.cs)):
@@ -136,6 +137,7 @@ public static class Object_A
 }
 ```
 
+---
 ### Создание XML-схемы мапперов по определению
 
 Пример создания  XML-схемы маппера (весь код примера [DbMappersSchemaXmlBuilder.cs](/Mappers/PostgreSql/Common/DbMappersSchemaXmlBuilder.cs)):
@@ -179,6 +181,7 @@ var fileName = Path.Combine(ProviderProjectBasePath.ProjectPath, @"Mappers\Postg
 File.WriteAllText(fileName, xml);
 ```
 
+---
 ### Кодогенерация мапперов
 
 Пример проектного файла (весь примера в файле [Mappers.PostgreSql.Implements.csproj](/Mappers/PostgreSql/Implements/Mappers.PostgreSql.Implements.csproj)):
@@ -466,6 +469,7 @@ public partial interface IMapperObject_A : IMapper
 }
 ```
 
+---
 ### Основные возможности кодогенерированных мапперов
 
 В файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров.
