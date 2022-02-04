@@ -466,48 +466,49 @@ public partial interface IMapperObject_A : IMapper
 Генератор уникальных первичных ключей работает на базе последовательностей БД.
 Генератор позволяет получать уникальные значения без необходимости реального обращения к БД в момент генерации.
 
-В файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примера.
+В файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров.
 
-Пример последовательного создания 50.000.000 уникальных первичных ключей :
+---
+Пример последовательного создания **50.000.000** уникальных первичных ключей :
 
 ```csharp
-        using IIdentityCache identityCache = CreateIdentityCache(100_000);
+using IIdentityCache identityCache = CreateIdentityCache(100_000);
 
-        var stopwatch = Stopwatch.StartNew();
+var stopwatch = Stopwatch.StartNew();
 
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var identites = new HashSet<long>();
-        for (var count = 0; count < 50_000_000; ++count)
-        {
-            using var mappersSession = mappers.OpenSession();
+var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+var identites = new HashSet<long>();
+for (var count = 0; count < 50_000_000; ++count)
+{
+    using var mappersSession = mappers.OpenSession();
 
-            var identity = identityCache.GetNextIdentity(mappersSession);
+    var identity = identityCache.GetNextIdentity(mappersSession);
 
-            Assert.IsFalse(identites.Contains(identity));
-            identites.Add(identity);
+    Assert.IsFalse(identites.Contains(identity));
+    identites.Add(identity);
 
-            mappersSession.Commit();
-        }
+    mappersSession.Commit();
+}
 
-        stopwatch.Stop();
+stopwatch.Stop();
 
-        Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
-        Console.WriteLine($"Количество идентити : {identites.Count}");
+Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
+Console.WriteLine($"Количество идентити : {identites.Count}");
 
-        {
-            var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
-            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
-        }
+{
+    var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
+    Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
+    Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
+}
 
-        {
-            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
-        }
+{
+    var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+    Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+    Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+}
 ```
 
-Результат последовательного создания 50.000.000 уникальных первичных ключей :
+Результат последовательного создания **50.000.000** уникальных первичных ключей :
 
 ```
 Время работы : 00:00:30.1632266
