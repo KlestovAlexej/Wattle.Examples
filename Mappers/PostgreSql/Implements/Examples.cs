@@ -49,22 +49,120 @@ public class Examples
 
         var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
 
-        // Заполнение таблицы.
         using (var mappersSession = mappers.OpenSession())
         {
-            mapper.New(
+            var dbDto =
+                mapper.New(
+                    mappersSession,
+                    new Object_ADtoNew
+                    {
+                        Id = id_1,
+                        Value_DateTime = DateTime.Now,
+                        Value_DateTime_NotUpdate = DateTime.Now,
+                        Value_Int = null,
+                        Value_Long = 314,
+                        Value_String = "Text 1",
+                    });
+            Console.WriteLine("Запись в БД до изменения :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            mapper.Update(
                 mappersSession,
-                new Object_ADtoNew
+                new Object_ADtoChanged
                 {
-                    Id = id_1,
-                    Value_DateTime = DateTime.Now,
-                    Value_DateTime_NotUpdate = DateTime.Now,
-                    Value_Int = null,
-                    Value_Long = 314,
-                    Value_String = "Text 1",
+                    Id = dbDtoActual.Id,
+                    Revision = dbDtoActual.Revision,
+                    Value_DateTime = DateTime.Now.AddHours(1),
+                    Value_DateTime_NotUpdate = dbDtoActual.Value_DateTime_NotUpdate,
+                    Value_Int = 6006,
+                    Value_Long = new MapperChangedStateDtoField<long>(555, true),
+                    Value_String = new MapperChangedStateDtoField<string>(null, true),
                 });
 
             mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto = mapper.Get(mappersSession, id_1);
+            Console.WriteLine("Запись в БД после изменения :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            mappersSession.Commit();
+        }
+    }
+
+    /// <summary>
+    /// Асинхронное обновление записей.
+    /// </summary>
+    [Test]
+    public async ValueTask Example_Update_Async()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            await mapper.Partitions.CreatedDefaultPartitionAsync(mappersSession);
+
+            await mappersSession.CommitAsync();
+        }
+
+        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDto =
+                await mapper.NewAsync(
+                    mappersSession,
+                    new Object_ADtoNew
+                    {
+                        Id = id_1,
+                        Value_DateTime = DateTime.Now,
+                        Value_DateTime_NotUpdate = DateTime.Now,
+                        Value_Int = null,
+                        Value_Long = 314,
+                        Value_String = "Text 1",
+                    });
+            Console.WriteLine("Запись в БД до изменения :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            await mappersSession.CommitAsync();
+        }
+
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDtoActual = await mapper.GetAsync(mappersSession, id_1);
+            await mapper.UpdateAsync(
+                mappersSession,
+                new Object_ADtoChanged
+                {
+                    Id = dbDtoActual.Id,
+                    Revision = dbDtoActual.Revision,
+                    Value_DateTime = DateTime.Now.AddHours(1),
+                    Value_DateTime_NotUpdate = dbDtoActual.Value_DateTime_NotUpdate,
+                    Value_Int = 6006,
+                    Value_Long = new MapperChangedStateDtoField<long>(555, true),
+                    Value_String = new MapperChangedStateDtoField<string>(null, true),
+                });
+
+            await mappersSession.CommitAsync();
+        }
+
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDto = await mapper.GetAsync(mappersSession, id_1);
+            Console.WriteLine("Запись в БД после изменения :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            await mappersSession.CommitAsync();
         }
     }
 
