@@ -602,7 +602,7 @@ public class Examples
         var mapper = mappers.GetMapper<IMapperObject_A>();
 
         var ids = new List<long>();
-        for (int index = 0; index < 1_000; index++)
+        for (var index = 0; index < 1_000; index++)
         {
             ids.Add(index);
         }

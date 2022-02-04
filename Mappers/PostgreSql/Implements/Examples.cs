@@ -664,7 +664,7 @@ public class Examples
         }
 
         var ids = new List<long>();
-        for (int index = 0; index < 1_000; index++)
+        for (var index = 0; index < 1_000; index++)
         {
             var id = ComplexIdentity.Build(mapper.Partitions.Level, 0, index);
             ids.Add(id);
