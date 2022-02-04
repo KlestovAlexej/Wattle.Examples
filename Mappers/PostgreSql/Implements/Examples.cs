@@ -731,17 +731,17 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        var groupId = 67;
+        var partitionId = 67;
 
         // Создание партиции таблицы.
         using (var mappersSession = mappers.OpenSession())
         {
-            mapper.Partitions.CreatePartition(mappersSession, groupId, groupId + 1);
+            mapper.Partitions.CreatePartition(mappersSession, partitionId, partitionId + 1);
 
             mappersSession.Commit();
         }
 
-        var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
+        var id = ComplexIdentity.Build(mapper.Partitions.Level, partitionId, 1);
 
         using (var mappersSession = mappers.OpenSession())
         {
@@ -776,17 +776,17 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
-        var groupId = 67;
+        var partitionId = 67;
 
         // Создание партиции таблицы.
         await using (var mappersSession = await mappers.OpenSessionAsync())
         {
-            await mapper.Partitions.CreatePartitionAsync(mappersSession, groupId, groupId + 1);
+            await mapper.Partitions.CreatePartitionAsync(mappersSession, partitionId, partitionId + 1);
 
             await mappersSession.CommitAsync();
         }
 
-        var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
+        var id = ComplexIdentity.Build(mapper.Partitions.Level, partitionId, 1);
 
         await using (var mappersSession = await mappers.OpenSessionAsync())
         {
