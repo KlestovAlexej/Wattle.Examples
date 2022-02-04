@@ -714,6 +714,96 @@ public class Examples
 
             Console.WriteLine(dbDtos[0].ToJsonText(true));
         }
+
+        Console.WriteLine("Все записи отсортированные по убыванию по колонке Value_Long :");
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var queryText =
+                SchemaQueriesProvider
+                    .QueryForObject_A("ORDER Value_Long DESC")
+                    .GetQuery();
+            var selectFilter = mapper.CreateSelectFilter(queryText);
+
+            var dbDtos = mapper.GetEnumerator(mappersSession, selectFilter).ToList();
+            Assert.AreEqual(2, dbDtos.Count);
+
+            Console.WriteLine(dbDtos[0].ToJsonText(true));
+            Console.WriteLine(dbDtos[1].ToJsonText(true));
+        }
+    }
+
+    /// <summary>
+    /// Постраниякая выборка записей.
+    /// </summary>
+    [Test]
+    public void Example_Select_Paged()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = mappers.GetMapper<IMapperObject_A>();
+
+        // Заполнение таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = 1,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text 1",
+                });
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = 2,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 600,
+                    Value_String = "Text 2",
+                });
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = 3,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = 333,
+                    Value_Long = 3003,
+                    Value_String = "Text 3",
+                });
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var queryText =
+                SchemaQueriesProvider
+                    .QueryForObject_A("ORDER Id DESC")
+                    .GetQuery();
+            var selectFilter = mapper.CreateSelectFilter(queryText);
+
+            var dbDtosPage1 = mapper.GetEnumeratorPage(mappersSession, pageIndex: 1, pageSize: 2, selectFilter).ToList();
+            Assert.AreEqual(2, dbDtosPage1.Count);
+            Console.WriteLine("Страника №1 :");
+            Console.WriteLine(dbDtosPage1[0].ToJsonText(true));
+            Console.WriteLine(dbDtosPage1[1].ToJsonText(true));
+
+            var dbDtosPage2 = mapper.GetEnumeratorPage(mappersSession, pageIndex: 2, pageSize: 2, selectFilter).ToList();
+            Assert.AreEqual(1, dbDtosPage2.Count);
+            Console.WriteLine("Страника №2 :");
+            Console.WriteLine(dbDtosPage2[0].ToJsonText(true));
+
+            var dbDtosPage3 = mapper.GetEnumeratorPage(mappersSession, pageIndex: 3, pageSize: 2, selectFilter).ToList();
+            Assert.AreEqual(0, dbDtosPage3.Count);
+        }
     }
 
     /// <summary>

@@ -655,15 +655,17 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
+        var groupId = 67;
+
         // Создание партиции таблицы.
         using (var mappersSession = mappers.OpenSession())
         {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+            mapper.Partitions.CreatePartition(mappersSession, groupId, groupId + 1);
 
             mappersSession.Commit();
         }
 
-        var id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
 
         using (var mappersSession = mappers.OpenSession())
         {
@@ -698,15 +700,17 @@ public class Examples
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
 
+        var groupId = 67;
+
         // Создание партиции таблицы.
         await using (var mappersSession = await mappers.OpenSessionAsync())
         {
-            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+            await mapper.Partitions.CreatePartitionAsync(mappersSession, groupId, groupId + 1);
 
             await mappersSession.CommitAsync();
         }
 
-        var id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+        var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
 
         await using (var mappersSession = await mappers.OpenSessionAsync())
         {
@@ -809,6 +813,87 @@ public class Examples
 
             Console.WriteLine(dbDtos[0].ToJsonText(true));
             Console.WriteLine(dbDtos[1].ToJsonText(true));
+        }
+    }
+
+    /// <summary>
+    /// Постраниякая выборка записей.
+    /// </summary>
+    [Test]
+    public void Example_Select_Paged()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        // Заполнение таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1),
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text 1",
+                });
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 2),
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 600,
+                    Value_String = "Text 2",
+                });
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = ComplexIdentity.Build(mapper.Partitions.Level, 0, 3),
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = 333,
+                    Value_Long = 3003,
+                    Value_String = "Text 3",
+                });
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var queryText =
+                SchemaQueriesProvider
+                    .QueryForObject_A("ORDER Id DESC")
+                    .GetQuery();
+            var selectFilter = mapper.CreateSelectFilter(queryText);
+
+            var dbDtosPage1 = mapper.GetEnumeratorPage(mappersSession, pageIndex: 1, pageSize: 2, selectFilter).ToList();
+            Assert.AreEqual(2, dbDtosPage1.Count);
+            Console.WriteLine("Страника №1 :");
+            Console.WriteLine(dbDtosPage1[0].ToJsonText(true));
+            Console.WriteLine(dbDtosPage1[1].ToJsonText(true));
+
+            var dbDtosPage2 = mapper.GetEnumeratorPage(mappersSession, pageIndex: 2, pageSize: 2, selectFilter).ToList();
+            Assert.AreEqual(1, dbDtosPage2.Count);
+            Console.WriteLine("Страника №2 :");
+            Console.WriteLine(dbDtosPage2[0].ToJsonText(true));
+
+            var dbDtosPage3 = mapper.GetEnumeratorPage(mappersSession, pageIndex: 3, pageSize: 2, selectFilter).ToList();
+            Assert.AreEqual(0, dbDtosPage3.Count);
         }
     }
 
