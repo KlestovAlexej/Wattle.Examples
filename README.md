@@ -477,7 +477,9 @@ public partial interface IMapperObject_A : IMapper
 ---
 ### Основные возможности кодогенерированных мапперов
 
-В файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров.
+Для PostgreSQL в файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров работы с мапперами.
+
+Для SQL Server в файле [Examples.cs](/Mappers/SqlServer/Implements/Examples.cs) весь код примеров работы с мапперами.
 
 ---
 #### Генерация уникального значения первичного ключа с минимальным обращением к БД
