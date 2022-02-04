@@ -47,6 +47,20 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
         // ReSharper disable once InconsistentNaming
         protected bool m_initObject_ADtoActual;
 
+        /// <summary>
+        /// Объект тестовой среды.
+        /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        protected Object_BDtoActual m_object_BDtoActual;
+
+        /// <summary>
+        /// Признак процесса создания объекта тестовой среды.
+        /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        protected bool m_initObject_BDtoActual;
+
         public AutoTestsMappersContext(IMappers mappers) : base(mappers)
         {
             /* NONE */
@@ -105,6 +119,63 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
                 lock (m_lockObject)
                 {
                     m_object_ADtoActual = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Cтратегия обработки параметров создания объекта тестовой среды.
+        /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
+        /// </summary>
+        // ReSharper disable once PartialMethodWithSinglePart
+        static partial void DoGetRandomNewObject_BDtoNew(Object_BDtoNew dto, AutoTestsMappersContext context);
+
+        /// <summary>
+        /// Получение/Установка объекта тестовой среды.
+        /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global
+        public virtual Object_BDtoActual Object_BDtoActual
+        {
+            get
+            {
+                lock (m_lockObject)
+                {
+                    if (m_initObject_BDtoActual)
+                    {
+                        throw new InvalidOperationException("Рекуcия для 'Object_BDtoActual'.");
+                    }
+
+                    m_initObject_BDtoActual = true;
+                    try
+                    {
+                        if (m_object_BDtoActual == null)
+                        {
+                            var dtoNew = AutoTestsMapperObject_B.GetRandomNew(this);
+                            DoGetRandomNewObject_BDtoNew(dtoNew, this);
+                            // ReSharper disable once ConvertToUsingDeclaration
+                            using (var session = Mappers.OpenSession())
+                            {
+                                var mapper = Mappers.GetMapper<IMapperObject_B>();
+                                m_object_BDtoActual = mapper.New(session, dtoNew);
+                                
+                                session.Commit();
+                            }
+                        }
+
+                        return (m_object_BDtoActual);
+                    }
+                    finally
+                    {
+                        m_initObject_BDtoActual = false;
+                    }
+                }
+            }
+            set
+            {
+                lock (m_lockObject)
+                {
+                    m_object_BDtoActual = value;
                 }
             }
         }
@@ -495,6 +566,256 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
             Assert.AreEqual(expected.Value_Long, actual.Value_Long);
             Assert.AreEqual(expected.Value_Int, actual.Value_Int);
             Assert.AreEqual(expected.Value_String, actual.Value_String);
+
+            DoAssertAreEqual(expected, actual, context);
+        }
+    }
+
+    /// <summary>
+    /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
+    /// </summary>
+    [TestFixture]
+    // ReSharper disable once PartialTypeWithSinglePart
+    public partial class AutoTestsMapperObject_B : BaseAutoTestsMapper
+    {
+        #region Private Class PostgreSqlColumnInfo
+
+        private class PostgreSqlColumnInfo
+        {
+            public string ColumnName;
+            public bool IsNullable;
+            public int? MaxLength;
+        }
+
+        #endregion
+
+        protected string m_tableName;
+        protected IMapperObject_B m_mapper;
+
+        [SetUp]
+        public void SetUp()
+        {
+            m_mapper = (IMapperObject_B) m_mappers.GetMapper(WellknownMappers.Object_B);
+            m_tableName = "object_b";
+            DoSetUp();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DoTearDown();
+        }
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        static partial void DoGetRandomNew(Object_BDtoNew dto, object context);
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        static partial void DoBulkInsert(List<Object_BDtoNew> dtos, object context);
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        static partial void DoAssertAreEqual(Object_BDtoNew expected, Object_BDtoActual actual, object context);
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        static partial void DoAssertAreEqual(Object_BDtoActual expected, Object_BDtoActual actual, object context);
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        partial void DoSetUp();
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        partial void DoTearDown();
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        partial void DoTest_New_Get();
+
+        // ReSharper disable once PartialMethodWithSinglePart
+        partial void DoValidate_Columns(Dictionary<string, PostgreSqlColumnInfo> columns);
+
+        [Test]
+        [Category(@"Unit")]
+        [Timeout(300000)]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(3)]
+        [TestCase(20)]
+        [Description("Массовая вставка записей")]
+        public void Test_BulkInsert(int size)
+        {
+            var templates = new List<Object_BDtoNew>();
+            for (var i = 0; i < size; i++)
+            {
+                var template = GetRandomNew(m_context);
+                template.Id = i + 1;
+                templates.Add(template);
+            }
+
+            DoBulkInsert(templates, m_context);
+
+            // ReSharper disable once ConvertToUsingDeclaration
+            using (var session = m_mappers.OpenSession())
+            {
+                m_mapper.BulkInsert(session, templates);
+
+                session.Commit();
+            }
+
+            // ReSharper disable once ConvertToUsingDeclaration
+            using (var session = m_mappers.OpenSession())
+            {
+                foreach (var template in templates)
+                {
+                    var data = m_mapper.Get(session, template.Id);
+                    AssertAreEqual(template, data, m_context);
+                }
+            }
+        }
+
+        [Test]
+        [Category(@"Unit")]
+        [Timeout(300000)]
+        [Description("Создание и Получение")]
+        public void Test_New_Get()
+        {
+            DoTest_New_Get();
+
+            var template = GetRandomNew(m_context);
+            Object_BDtoActual dataNew;
+            // ReSharper disable once ConvertToUsingDeclaration
+            using (var session = m_mappers.OpenSession())
+            {
+                dataNew = m_mapper.New(session, template);
+                AssertAreEqual(template, dataNew, m_context);
+
+                session.Commit();
+            }
+
+            // ReSharper disable once ConvertToUsingDeclaration
+            using (var session = m_mappers.OpenSession())
+            {
+                var data = m_mapper.Get(session, template.Id);
+                AssertAreEqual(template, data, m_context);
+                AssertAreEqual(dataNew, data, m_context);
+            }
+        }
+
+        [Test]
+        [Category(@"Unit")]
+        [Timeout(300000)]
+        [Description("Проверка совпадения колонок маппера с реальной БД")]
+        public void Test_Validate_Columns()
+        {
+            var columns = new Dictionary<string, PostgreSqlColumnInfo>();
+            // ReSharper disable once ConvertToUsingDeclaration
+            using (var session = (IPostgreSqlMappersSession) m_mappers.OpenSession())
+            {
+                using (var command = session.CreateCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = $@"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{m_tableName}'";
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var indexMaxLength = reader.GetOrdinal(@"character_maximum_length");
+                            var columnInfo =
+                                new PostgreSqlColumnInfo
+                                {
+                                    ColumnName = reader.GetString(reader.GetOrdinal(@"column_name")),
+                                    IsNullable = (reader.GetString(reader.GetOrdinal(@"is_nullable")) == @"YES"),
+                                    MaxLength = reader.IsDBNull(indexMaxLength) ? (int?) null : reader.GetInt32(indexMaxLength),
+                                };
+                            columns.Add(columnInfo.ColumnName, columnInfo);
+                        }
+                    }
+                }
+            }
+
+            DoValidate_Columns(columns);
+
+            var columnsText = "{" + Environment.NewLine + columns.Count + Environment.NewLine + columns.Aggregate("", (current, entry) => current + ($"[{entry.Key}] = [{entry.Value.ColumnName} , {entry.Value.IsNullable} , ({entry.Value.MaxLength})]" + Environment.NewLine)) + "}";
+
+            #region CreateDate
+
+            {
+                Assert.IsTrue(columns.ContainsKey(@"createdate"), @"CreateDate" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"createdate"];
+                columns.Remove(@"createdate");
+                Assert.IsFalse(columnInfo.IsNullable, columnsText);
+                Assert.IsNull(columnInfo.MaxLength, columnsText);
+            }
+
+            #endregion
+
+            #region Id
+
+            {
+                Assert.IsTrue(columns.ContainsKey(@"id"), @"Id" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"id"];
+                columns.Remove(@"id");
+                Assert.IsFalse(columnInfo.IsNullable, columnsText);
+                Assert.IsNull(columnInfo.MaxLength, columnsText);
+            }
+
+            #endregion
+
+            #region Available
+
+            {
+                Assert.IsTrue(columns.ContainsKey(@"available"), @"Available" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"available"];
+                columns.Remove(@"available");
+                Assert.IsFalse(columnInfo.IsNullable, columnsText);
+                Assert.IsNull(columnInfo.MaxLength, columnsText);
+            }
+
+            #endregion
+
+            #region Revision
+
+            {
+                Assert.IsTrue(columns.ContainsKey(@"revision"), @"Revision" + Environment.NewLine + columnsText);
+                var columnInfo = columns[@"revision"];
+                columns.Remove(@"revision");
+                Assert.IsFalse(columnInfo.IsNullable, columnsText);
+                Assert.IsNull(columnInfo.MaxLength, columnsText);
+            }
+
+            #endregion
+
+            columnsText = "{" + Environment.NewLine + columns.Count + Environment.NewLine + columns.Aggregate("", (current, entry) => current + ($"[{entry.Key}] = [{entry.Value.ColumnName} , {entry.Value.IsNullable} , ({entry.Value.MaxLength})]" + Environment.NewLine)) + "}";
+            Assert.AreEqual(0, columns.Count, columnsText);
+        }
+
+        public static Object_BDtoNew GetRandomNew(object context)
+        {
+#pragma warning disable IDE0017 // Simplify object initialization
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var result = new Object_BDtoNew();
+#pragma warning restore IDE0017 // Simplify object initialization
+
+            result.CreateDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
+
+            DoGetRandomNew(result, context);
+
+            return (result);
+        }
+
+        public static void AssertAreEqual(Object_BDtoNew expected, Object_BDtoActual actual, object context)
+        {
+            Assert.IsNotNull(expected);
+            Assert.IsNotNull(actual);
+
+            Assert.AreEqual(expected.CreateDate, actual.CreateDate);
+
+            DoAssertAreEqual(expected, actual, context);
+        }
+
+        public static void AssertAreEqual(Object_BDtoActual expected, Object_BDtoActual actual, object context)
+        {
+            Assert.IsNotNull(expected);
+            Assert.IsNotNull(actual);
+
+            Assert.AreEqual(expected.CreateDate, actual.CreateDate);
 
             DoAssertAreEqual(expected, actual, context);
         }

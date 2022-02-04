@@ -37,6 +37,25 @@
             </Field>
           </Fields>
         </Mapper>
+        <Mapper Id="cb9a1909-a7b6-48a6-8fe5-7d714e0225ea" DeleteMode="Hide" MaxPageSize="1000" IsCached="false" UpdateCacheOnEnumerator="false" IsPrepared="false" IsOverrideTableName="false" Description="Объект с сокрытием записи при удалении (без фичического страниы записи в БД)" Name="Object_B">
+          <Storage Name="%ObjectName%" IsQuotedName="false" IsGenerateMapperTestsNewGet="true" IsGenerateMapperTestsGetNextId="true" IsGenerateMapperTestsBulkInsert="true" />
+          <Identity Name="Id" Type="long" Description="Идентити.">
+            <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" />
+            <Query Id="4f414fbb-4b25-4691-80c3-9897fc5be61b" Order="true" Where="true" />
+          </Identity>
+          <Revision Name="Revision" Type="long" Description="Номер ревизии." IsVersion="false">
+            <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" />
+          </Revision>
+          <Available Name="Available" Type="bool" Description="Доступность.">
+            <Storage Name="%FieldName%" Type="Boolean" IsQuotedName="false" />
+          </Available>
+          <Fields>
+            <Field Name="CreateDate" Type="DateTime" Description="Дата создания" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="false" Type="Timestamp" IsQuotedName="false" />
+              <Query Id="92847c2c-e7b4-4ee1-a628-042b75aa9225" Order="true" Where="true" />
+            </Field>
+          </Fields>
+        </Mapper>
       </Mappers>
       <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
     </Mappers>

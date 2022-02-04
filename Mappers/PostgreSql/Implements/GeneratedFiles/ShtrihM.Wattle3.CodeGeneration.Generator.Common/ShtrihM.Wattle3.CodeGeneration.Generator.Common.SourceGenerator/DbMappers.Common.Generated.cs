@@ -69,6 +69,34 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
             }
         }
 
+        /// <summary>
+        /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
+        /// </summary>
+        public static class Object_B
+        {
+            /// <summary>
+            /// Идентификатр объекта.
+            /// </summary>
+            public static readonly Guid ObjectId = new Guid("cb9a1909-a7b6-48a6-8fe5-7d714e0225ea");
+
+            /// <summary>
+            /// Идентификатр полей объекта доступные для формирования фильтра.
+            /// </summary>
+            public static class Fields
+            {
+                /// <summary>
+                /// Дата создания
+                /// </summary>
+                public static readonly Guid CreateDate = new Guid("92847c2c-e7b4-4ee1-a628-042b75aa9225");
+
+                /// <summary>
+                /// Идентити.
+                /// </summary>
+                public static readonly Guid Id = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
+
+            }
+        }
+
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -171,6 +199,43 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
             }
             #endregion Объект Object_A
 
+            #region Объект Object_B
+            {
+                var schemaObjectQuey = new SchemaObjectQuey();
+                Schema.Objects.Add(schemaObjectQuey);
+
+                schemaObjectQuey.Description = @"Объект с сокрытием записи при удалении (без фичического страниы записи в БД)";
+                schemaObjectQuey.Id = new Guid("cb9a1909-a7b6-48a6-8fe5-7d714e0225ea");
+
+                #region Поле CreateDate
+                {
+                    var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
+                    schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
+
+                    schemaObjectFieldQuey.Description = @"Дата создания";
+                    schemaObjectFieldQuey.Id = new Guid("92847c2c-e7b4-4ee1-a628-042b75aa9225");
+                    schemaObjectFieldQuey.Order = true;
+                    schemaObjectFieldQuey.Where = true;
+                    schemaObjectFieldQuey.Name = @"CreateDate";
+                }
+                #endregion Поле CreateDate
+
+                #region Поле Id
+                {
+                    var schemaObjectFieldQuey = new SchemaObjectFieldQuey();
+                    schemaObjectQuey.Fields.Add(schemaObjectFieldQuey);
+
+                    schemaObjectFieldQuey.Description = @"Объект с сокрытием записи при удалении (без фичического страниы записи в БД)";
+                    schemaObjectFieldQuey.Id = new Guid("4f414fbb-4b25-4691-80c3-9897fc5be61b");
+                    schemaObjectFieldQuey.Order = true;
+                    schemaObjectFieldQuey.Where = true;
+                    schemaObjectFieldQuey.Name = @"Id";
+                }
+                #endregion Поле Id
+
+            }
+            #endregion Объект Object_B
+
         }
 
         /// <summary>
@@ -185,6 +250,20 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Commo
             }
 
             return QueryBuilder.New(Schema, new Guid("266032e5-19c6-434c-a521-d1d1c652edd1"), query);
+        }
+
+        /// <summary>
+        /// Создание конструктора текста запроса доменных объектов Object_B.
+        /// </summary>
+        /// <param name="query">Запрос.</param>
+        public static QueryBuilder QueryForObject_B(string query)
+        {
+            if (query == null)
+            {
+                throw new ArgumentNullException(nameof(query));
+            }
+
+            return QueryBuilder.New(Schema, new Guid("cb9a1909-a7b6-48a6-8fe5-7d714e0225ea"), query);
         }
     }
 

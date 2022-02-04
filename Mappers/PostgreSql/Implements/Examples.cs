@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.Caching;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
@@ -19,7 +18,6 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Mappers.PostgreSql;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
@@ -31,6 +29,69 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 [TestFixture]
 public class Examples
 {
+    /// <summary>
+    /// Сокрытие записи, без её физического удаления из БД.
+    /// </summary>
+    [Test]
+    public void Example_Hide()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = mappers.GetMapper<IMapperObject_B>();
+
+        var id_1 = 1;
+
+        // Создать запись.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto =
+                mapper.New(
+                    mappersSession,
+                    new Object_BDtoNew
+                    {
+                        Id = id_1,
+                        CreateDate = DateTime.Now,
+                    });
+            Console.WriteLine("Запись в БД до сокрытия :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            mappersSession.Commit();
+        }
+
+        // Скрыть запись.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
+
+            mapper.Hide(mappersSession,
+                new Object_BDtoDeleted
+                {
+                    Id = dbDtoActual.Id,
+                    Revision = dbDtoActual.Revision,
+                });
+
+            Assert.IsFalse(mapper.Exists(mappersSession, id_1));
+            Assert.IsTrue(mapper.ExistsRaw(mappersSession, id_1));
+
+            mappersSession.Commit();
+        }
+
+        // Проверить сокрытие записи.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto = mapper.Get(mappersSession, id_1);
+            Assert.IsNull(dbDto);
+
+            dbDto = mapper.GetRaw(mappersSession, id_1);
+            Assert.IsNotNull(dbDto);
+            Console.WriteLine("Запись в БД после скрытия :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            Assert.IsFalse(mapper.Exists(mappersSession, id_1));
+            Assert.IsTrue(mapper.ExistsRaw(mappersSession, id_1));
+        }
+    }
+
     /// <summary>
     /// Физическое удаление записи с оптимистической конкуренцией.
     /// </summary>
@@ -127,18 +188,17 @@ public class Examples
         // Создать запись.
         using (var mappersSession = mappers.OpenSession())
         {
-            var dbDto =
-                mapper.New(
-                    mappersSession,
-                    new Object_ADtoNew
-                    {
-                        Id = id_1,
-                        Value_DateTime = DateTime.Now,
-                        Value_DateTime_NotUpdate = DateTime.Now,
-                        Value_Int = null,
-                        Value_Long = 314,
-                        Value_String = "Text 1",
-                    });
+            mapper.New(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = id_1,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text 1",
+                });
 
             mappersSession.Commit();
         }
@@ -165,6 +225,68 @@ public class Examples
         using (var mappersSession = mappers.OpenSession())
         {
             Assert.IsFalse(mapper.Exists(mappersSession, id_1));
+        }
+    }
+
+    /// <summary>
+    /// Асинхронное физическое удаление записи.
+    /// </summary>
+    [Test]
+    public async  ValueTask Example_Delete_Async()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            await mapper.Partitions.CreatedDefaultPartitionAsync(mappersSession);
+
+            await mappersSession.CommitAsync();
+        }
+
+        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+
+        // Создать запись.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            await mapper.NewAsync(
+                mappersSession,
+                new Object_ADtoNew
+                {
+                    Id = id_1,
+                    Value_DateTime = DateTime.Now,
+                    Value_DateTime_NotUpdate = DateTime.Now,
+                    Value_Int = null,
+                    Value_Long = 314,
+                    Value_String = "Text 1",
+                });
+
+            await mappersSession.CommitAsync();
+        }
+
+        // Удалить запись.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            var dbDtoActual = await mapper.GetAsync(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
+
+            await mapper.DeleteAsync(mappersSession,
+                new Object_ADtoDeleted
+                {
+                    Id = dbDtoActual.Id,
+                    Revision = dbDtoActual.Revision,
+                });
+
+            Assert.IsFalse(await mapper.ExistsAsync(mappersSession, id_1));
+
+            await mappersSession.CommitAsync();
+        }
+
+        // Проверить удаление записи.
+        await using (var mappersSession = await mappers.OpenSessionAsync())
+        {
+            Assert.IsFalse(await mapper.ExistsAsync(mappersSession, id_1));
         }
     }
 
@@ -818,10 +940,10 @@ public class Examples
                 new PairMethods<
                     Func<IMapperObject_A, IMappersSession, long>,
                     Func<IMapperObject_A, IMappersSession, CancellationToken, ValueTask<long>>>(
-                    (mapper, mappersSession)
-                        => mapper.GetNextId(mappersSession),
-                    (mapper, mappersSession, cancellationToken)
-                        => mapper.GetNextIdAsync(mappersSession, cancellationToken)),
+                    (mapperObjectA, mappersSession)
+                        => mapperObjectA.GetNextId(mappersSession),
+                    (mapperObjectA, mappersSession, cancellationToken)
+                        => mapperObjectA.GetNextIdAsync(mappersSession, cancellationToken)),
                 methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count));
 
         // Прогрев кэша генератора.
