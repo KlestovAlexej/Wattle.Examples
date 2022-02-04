@@ -853,6 +853,53 @@ public class Examples
     }
 
     /// <summary>
+    /// Генератор уникальных первичных ключей с кешированием в параллельном режиме.
+    /// </summary>
+    [Test]
+    public void Example_IdentityCache_Parallel()
+    {
+        var cacheSize = 100_000;
+        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+
+        var stopwatch = Stopwatch.StartNew();
+
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var identites = new HashSet<long>();
+        Parallel.For(0, 50 * cacheSize,
+            _ =>
+            {
+                using var mappersSession = mappers.OpenSession();
+
+                var identity = identityCache.GetNextIdentity(mappersSession);
+
+                lock (identites)
+                {
+                    Assert.IsFalse(identites.Contains(identity));
+                    identites.Add(identity);
+                }
+
+                mappersSession.Commit();
+            });
+
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
+        Console.WriteLine($"Количество идентити : {identites.Count}");
+
+        {
+            var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
+            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
+        }
+
+        {
+            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+    }
+
+    /// <summary>
     /// Асинхронный генератор уникальных первичных ключей с кешированием.
     /// </summary>
     [Test]
