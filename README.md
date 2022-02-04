@@ -4,9 +4,10 @@
 
 Фреймворк кроссплатформенный, написан 100% на C# под .NET 6.
 
-Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
+Пакеты nuget начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
 
 # Содержание
+- [Как запускать примеры](#как-запускать-примеры)
 - [Телеметрия приложения](#телеметрия-приложения)
 - [Автогенерация мапперов на чистом ADO.NET для PostgreSQL и SQL Server](#автогенерация-мапперов-на-чистом-adonet)
     - [Определение для кодогенератора мапперов](#определение-для-кодогенератора-мапперов)
@@ -14,9 +15,20 @@
     - [Кодогенерация мапперов](#кодогенерация-мапперов)
     - [Основные возможности кодогенерированных мапперов](#основные-возможности-кодогенерированных-мапперов)
         - [Генерация уникального значения первичного ключа с минимальным обращением к БД](#генерация-уникального-значения-первичного-ключа-с-минимальным-обращением-к-бд)
+            - [Результат последовательного создания **50.000.000** уникальных первичных ключей](#результат-последовательного-создания-50000000-уникальных-первичных-ключей)
+        - [Кэширование записей по первичну ключу](#кэширование-записей-по-первичну-ключу)
+            - [Результат параллельного чтения **10.000.000** записей БД по первичному ключу](#результат-параллельного-чтения-10000000-записей-бд-по-первичному-ключу)
+        - [Поддержка партиционирования PostgreSQL из коробки](#поддержка-партиционирования-postgresql-из-коробки)
 
 ---
+## Как запускать примеры
+Все примеры оформлены как [NUnit](https://nunit.org/)-тесты для запуска в ОС Windows.
 
+Все БД в примерах создаются и уничтожаются автоматически при запуске теста.
+
+Параметры подключения к серверу БД надо настроить в файле [DbCredentials.cs](/Common/DbCredentials.cs) и примеры 100% готовы к запуску.
+
+---
 ## Телеметрия приложения
 Простая публикация и доступ по REST-интерфейсу к произвольной телеметрии приложения.
 
@@ -89,12 +101,14 @@ Write-Host ($Result)
 }
 ```
 
+---
 ## Автогенерация мапперов на чистом ADO.NET
 
 Примеры автогенерённых ADO.NET мапперов для [PostgreSQL](/Mappers/PostgreSql/Implements/).
 
 Примеры автогенерённых ADO.NET мапперов для [SQL Server](/Mappers/SqlServer/Implements/).
 
+---
 ### Определение для кодогенератора мапперов
 
 Пример определения структуры записи БД и параметров маппера (весь код примера [WellknownDomainObjectFields.cs](/Mappers/PostgreSql/Common/WellknownDomainObjectFields.cs)):
@@ -129,6 +143,7 @@ public static class Object_A
 }
 ```
 
+---
 ### Создание XML-схемы мапперов по определению
 
 Пример создания  XML-схемы маппера (весь код примера [DbMappersSchemaXmlBuilder.cs](/Mappers/PostgreSql/Common/DbMappersSchemaXmlBuilder.cs)):
@@ -172,6 +187,7 @@ var fileName = Path.Combine(ProviderProjectBasePath.ProjectPath, @"Mappers\Postg
 File.WriteAllText(fileName, xml);
 ```
 
+---
 ### Кодогенерация мапперов
 
 Пример проектного файла (весь примера в файле [Mappers.PostgreSql.Implements.csproj](/Mappers/PostgreSql/Implements/Mappers.PostgreSql.Implements.csproj)):
@@ -459,17 +475,20 @@ public partial interface IMapperObject_A : IMapper
 }
 ```
 
+---
 ### Основные возможности кодогенерированных мапперов
 
+Для PostgreSQL в файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров работы с мапперами.
+
+Для SQL Server в файле [Examples.cs](/Mappers/SqlServer/Implements/Examples.cs) весь код примеров работы с мапперами.
+
+---
 #### Генерация уникального значения первичного ключа с минимальным обращением к БД
 
 Генератор уникальных первичных ключей работает на базе последовательностей БД.
 
 Генератор позволяет получать уникальные значения без необходимости реального обращения к БД в момент генерации.
 
-В файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров.
-
----
 Пример последовательного создания **50.000.000** уникальных первичных ключей :
 
 ```csharp
@@ -509,7 +528,7 @@ Console.WriteLine($"Количество идентити : {identites.Count}");
 }
 ```
 
-Результат последовательного создания **50.000.000** уникальных первичных ключей :
+##### Результат последовательного создания **50.000.000** уникальных первичных ключей
 
 ```
 Время работы : 00:00:30.1632266
@@ -518,4 +537,130 @@ Console.WriteLine($"Количество идентити : {identites.Count}");
 Количество идентити полученных из БД : 478
 Количество реальных подключений к БД : 1311
 Количество сессий мапперов : 50000834
+```
+
+---
+#### Кэширование записей по первичну ключу
+
+Кэширование записей по первичну ключу происходит автоматически (если это наcтроено для маппера).
+
+У каждого маппера свой кэш.
+
+Кэш обновляется и очищается автоматически при создании, чтении, обновлении или удалении записи.
+
+Пример параллельного чтения **10.000.000** записей БД по первичному ключу :
+
+```csharp
+var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+var mapper = mappers.GetMapper<IMapperObject_A>();
+
+var ids = new List<long>();
+for (var index = 0; index < 1_000; index++)
+{
+    ids.Add(index);
+}
+
+// Заполнение таблицы.
+using (var mappersSession = mappers.OpenSession())
+{
+    foreach (var id in ids)
+    {
+        mapper.New(
+            mappersSession,
+            new Object_ADtoNew
+            {
+                Id = id,
+                Value_DateTime = DateTime.Now,
+                Value_DateTime_NotUpdate = DateTime.Now,
+                Value_Int = null,
+                Value_Long = id,
+                Value_String = $"Text {id}",
+            });
+    }
+
+    mappersSession.Commit();
+}
+
+var stopwatch = Stopwatch.StartNew();
+
+// Выборка записей по первичному ключу.
+Parallel.For(0, 10_000_000,
+    _ =>
+    {
+        var mappersSession = mappers.OpenSession();
+
+        var id = ProviderRandomValues.GetItem(ids);
+        var dto = mapper.Get(mappersSession, id);
+        Assert.IsNotNull(dto);
+    });
+
+stopwatch.Stop();
+
+Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
+
+{
+    var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+    Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+    Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+}
+
+{
+    var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
+    Console.WriteLine($"Количество объектов в памяти : {snapShot.Count}");
+    Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind}");
+    Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
+}
+```
+
+##### Результат параллельного чтения **10.000.000** записей БД по первичному ключу
+
+```
+Время работы : 00:00:19.5278083
+Количество реальных подключений к БД : 2
+Количество сессий мапперов : 10000003
+Количество объектов в памяти : 1000
+Количество поисков объектов в памяти : 10000000
+Количество найденных объектов в памяти : 10000000
+```
+
+---
+#### Поддержка партиционирования PostgreSQL из коробки
+
+Мапперы для PostgreSQL имеют готовый компонент управлениями партициями (если это настроено для маппера) таблицы которую они обслуживают.
+
+Пример создания партиции и записи в неё :
+
+```csharp
+var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+var groupId = 67;
+
+// Создание партиции таблицы.
+using (var mappersSession = mappers.OpenSession())
+{
+    mapper.Partitions.CreatePartition(mappersSession, groupId, groupId + 1);
+
+    mappersSession.Commit();
+}
+
+var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
+
+using (var mappersSession = mappers.OpenSession())
+{
+    // Запись в партицию таблицы.
+    mapper.New(
+        mappersSession,
+        new Object_ADtoNew
+        {
+            Id = id,
+            Value_DateTime = DateTime.Now,
+            Value_DateTime_NotUpdate = DateTime.Now,
+            Value_Int = null,
+            Value_Long = 314,
+            Value_String = "Text",
+        });
+
+    mappersSession.Commit();
+}
 ```
