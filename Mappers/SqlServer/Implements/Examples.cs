@@ -23,6 +23,7 @@ using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
+using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.SqlServer;
 
 // ReSharper disable All
@@ -560,14 +561,13 @@ public class Examples
         }
 
         // Выборка записей по первичному ключу.
-        Parallel.For(0, 1_000_000,
-            _ =>
-            {
-                var mappersSession = mappers.OpenSession();
+        for (var index = 0; index < 1_000_000; index++)
+        {
+            var mappersSession = mappers.OpenSession();
 
-                mapper.Get(mappersSession, id_1);
-                mapper.Get(mappersSession, id_2);
-            });
+            mapper.Get(mappersSession, id_1);
+            mapper.Get(mappersSession, id_2);
+        }
 
         using (var mappersSession = mappers.OpenSession())
         {
@@ -577,6 +577,73 @@ public class Examples
             var dbDto_2 = mapper.Get(mappersSession, id_2);
             Console.WriteLine(dbDto_2.ToJsonText(true));
         }
+
+        {
+            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+
+        {
+            var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
+            Console.WriteLine($"Количество объектов в памяти : {snapShot.Count}");
+            Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind}");
+            Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
+        }
+    }
+
+    /// <summary>
+    /// Выборка записей по первичному ключу с использовантием кеша в памяти в параллельном режиме.
+    /// </summary>
+    [Test]
+    public void Example_Select_With_MemoryCache_Parallel()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = mappers.GetMapper<IMapperObject_A>();
+
+        var ids = new List<long>();
+        for (int index = 0; index < 1_000; index++)
+        {
+            ids.Add(index);
+        }
+
+        // Заполнение таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            foreach (var id in ids)
+            {
+                mapper.New(
+                    mappersSession,
+                    new Object_ADtoNew
+                    {
+                        Id = id,
+                        Value_DateTime = DateTime.Now,
+                        Value_DateTime_NotUpdate = DateTime.Now,
+                        Value_Int = null,
+                        Value_Long = id,
+                        Value_String = $"Text {id}",
+                    });
+            }
+
+            mappersSession.Commit();
+        }
+
+        var stopwatch = Stopwatch.StartNew();
+
+        // Выборка записей по первичному ключу.
+        Parallel.For(0, 10_000_000,
+            _ =>
+            {
+                var mappersSession = mappers.OpenSession();
+
+                var id = ProviderRandomValues.GetItem(ids);
+                var dto = mapper.Get(mappersSession, id);
+                Assert.IsNotNull(dto);
+            });
+
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
 
         {
             var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
