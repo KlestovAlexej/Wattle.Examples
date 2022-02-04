@@ -10,6 +10,7 @@ using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
@@ -18,13 +19,14 @@ using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
+using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
 // ReSharper disable All
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 
 [TestFixture]
-public class ExamplesMapperObject_A : BaseExamplesMapper
+public class Examples
 {
     /// <summary>
     /// Создание записей в таблице БД.
@@ -274,7 +276,7 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
             mappersSession.Commit();
         }
 
-        Console.WriteLine($"Количесто идентити  : {identitesCount}");
+        Console.WriteLine($"Количесто идентити : {identitesCount}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
@@ -284,7 +286,8 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
 
         {
             var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количесто подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количесто реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количесто сессий мапперов : {snapShot.CountSessions}");
         }
     }
 
@@ -312,7 +315,7 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
             await mappersSession.CommitAsync();
         }
 
-        Console.WriteLine($"Количесто идентити  : {identitesCount}");
+        Console.WriteLine($"Количесто идентити : {identitesCount}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
@@ -322,17 +325,29 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
 
         {
             var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количесто подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количесто реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количесто сессий мапперов : {snapShot.CountSessions}");
         }
     }
 
     #region Enviroment
 
+    private string m_dbName;
+
     [SetUp]
     public void SetUp()
     {
+        Assert.IsTrue(DbCredentials.TryGetServerAdressForPostgreSql(out var serverAdress), "Определите адрес сервера с PostgreSQL.");
+        Assert.IsTrue(DbCredentials.TryGetCredentialsForPostgreSql(out var credentials), "Определите параметры учётной записи подключения к PostgreSQL.");
+
+        m_dbName = "examples_wattle3_" + DateTime.Now.ToString("yyyMMddhhmmss") + "_" + Guid.NewGuid().ToString("N");
+        var dbConnectionString = PostgreSqlDbHelper.GetDatabaseConnectionString(m_dbName, serverAdress: serverAdress, userCredentials: credentials);
+
+        var sqlScript = typeof(WellknownDomainObjects).Assembly.GetResourceAsString("SqlScript.sql");
+        PostgreSqlDbHelper.CreateDb(m_dbName, sqlScript: sqlScript);
+
         var timeService = new TimeService();
-        var mappers = new Generated.Implements.Mappers(new MappersExceptionPolicy(), m_dbConnectionString, timeService);
+        var mappers = new Generated.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
 
         DomainEnviromentConfigurator
             .Begin(LoggerFactory.Create(builder => builder.AddConsole()))
@@ -346,6 +361,8 @@ public class ExamplesMapperObject_A : BaseExamplesMapper
     public void TearDown()
     {
         DomainEnviromentConfigurator.DisposeAll();
+
+        PostgreSqlDbHelper.DropDb(m_dbName);
     }
 
     #endregion

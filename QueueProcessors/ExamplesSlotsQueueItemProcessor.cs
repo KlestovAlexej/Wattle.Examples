@@ -19,8 +19,6 @@ namespace ShtrihM.Wattle3.Examples.QueueProcessors;
 [TestFixture]
 public class ExamplesSlotsQueueItemProcessor
 {
-    private const byte SlotsSize = 3;
-
     /// <summary>
     /// Добавить и обработать элемент.
     /// </summary>
@@ -284,6 +282,8 @@ public class ExamplesSlotsQueueItemProcessor
     #endregion
 
     #region Helpers
+
+    private const byte SlotsSize = 3;
 
     private ISlotsQueueItemProcessor CreateQueue()
     {

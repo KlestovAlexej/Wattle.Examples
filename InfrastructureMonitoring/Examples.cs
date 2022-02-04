@@ -21,7 +21,6 @@ namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring;
 [TestFixture]
 public class Examples
 {
-    private MonitorsHostApplet m_monitorsHostApplet;
     private CustomClassA m_classA;
 
     /// <summary>
@@ -98,6 +97,8 @@ public class Examples
     }
 
     #region Enviroment
+
+    private MonitorsHostApplet m_monitorsHostApplet;
 
     [SetUp]
     public void SetUp()
