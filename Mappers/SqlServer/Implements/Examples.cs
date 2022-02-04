@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading;
@@ -813,7 +814,9 @@ public class Examples
     public void Example_IdentityCache()
     {
         var cacheSize = 100_000;
-        using var identityCache = CreateIdentityCache(cacheSize);
+        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+
+        var stopwatch = Stopwatch.StartNew();
 
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
 
@@ -831,6 +834,9 @@ public class Examples
             mappersSession.Commit();
         }
 
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время работы теста : {stopwatch.Elapsed}");
         Console.WriteLine($"Количество идентити : {identites.Count}");
 
         {
@@ -853,7 +859,9 @@ public class Examples
     public async ValueTask Example_IdentityCache_Async()
     {
         var cacheSize = 100_000;
-        using var identityCache = CreateIdentityCache(cacheSize);
+        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+
+        var stopwatch = Stopwatch.StartNew();
 
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
 
@@ -871,6 +879,9 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время работы теста : {stopwatch.Elapsed}");
         Console.WriteLine($"Количество идентити : {identites.Count}");
 
         {

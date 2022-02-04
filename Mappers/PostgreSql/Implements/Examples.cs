@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -955,16 +956,16 @@ public class Examples
     public void Example_IdentityCache()
     {
         var cacheSize = 100_000;
-        using var identityCache = CreateIdentityCache(cacheSize);
+        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+
+        var stopwatch = Stopwatch.StartNew();
 
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-
         var identites = new HashSet<long>();
         for (var count = 0; count < 50 * cacheSize; ++count)
         {
             using var mappersSession = mappers.OpenSession();
 
-            // Получить идентити из генератора.
             var identity = identityCache.GetNextIdentity(mappersSession);
 
             Assert.IsFalse(identites.Contains(identity));
@@ -973,6 +974,9 @@ public class Examples
             mappersSession.Commit();
         }
 
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время работы теста : {stopwatch.Elapsed}");
         Console.WriteLine($"Количество идентити : {identites.Count}");
 
         {
@@ -995,10 +999,11 @@ public class Examples
     public async ValueTask Example_IdentityCache_Async()
     {
         var cacheSize = 100_000;
-        using var identityCache = CreateIdentityCache(cacheSize);
+        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+
+        var stopwatch = Stopwatch.StartNew();
 
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-
         var identites = new HashSet<long>();
         for (var count = 0; count < 50 * cacheSize; ++count)
         {
@@ -1013,6 +1018,9 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время работы теста : {stopwatch.Elapsed}");
         Console.WriteLine($"Количество идентити : {identites.Count}");
 
         {
