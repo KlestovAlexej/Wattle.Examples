@@ -18,6 +18,7 @@
             - [Результат последовательного создания **50.000.000** уникальных первичных ключей](#результат-последовательного-создания-50000000-уникальных-первичных-ключей)
         - [Кэширование записей по первичну ключу](#кэширование-записей-по-первичну-ключу)
             - [Результат параллельного чтения **10.000.000** записей БД по первичному ключу](#результат-параллельного-чтения-10000000-записей-бд-по-первичному-ключу)
+        - [Поддержка партиционирования PostgreSQL из коробки](#поддержка-партиционирования-postgresql-из-коробки)
 
 ---
 ## Как запускать примеры
@@ -620,4 +621,46 @@ Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
 Количество объектов в памяти : 1000
 Количество поисков объектов в памяти : 10000000
 Количество найденных объектов в памяти : 10000000
+```
+
+---
+#### Поддержка партиционирования PostgreSQL из коробки
+
+Мапперы для PostgreSQL имеют готовый компонент управлениями партициями (если это настроено для маппера) таблицы которую они обслуживают.
+
+Пример создания партиции и записи в неё :
+
+```csharp
+var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+var groupId = 67;
+
+// Создание партиции таблицы.
+using (var mappersSession = mappers.OpenSession())
+{
+    mapper.Partitions.CreatePartition(mappersSession, groupId, groupId + 1);
+
+    mappersSession.Commit();
+}
+
+var id = ComplexIdentity.Build(mapper.Partitions.Level, groupId, 1);
+
+using (var mappersSession = mappers.OpenSession())
+{
+    // Запись в партицию таблицы.
+    mapper.New(
+        mappersSession,
+        new Object_ADtoNew
+        {
+            Id = id,
+            Value_DateTime = DateTime.Now,
+            Value_DateTime_NotUpdate = DateTime.Now,
+            Value_Int = null,
+            Value_Long = 314,
+            Value_String = "Text",
+        });
+
+    mappersSession.Commit();
+}
 ```
