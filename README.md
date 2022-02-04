@@ -14,6 +14,7 @@
     - [Кодогенерация мапперов](#кодогенерация-мапперов)
     - [Основные возможности кодогенерированных мапперов](#основные-возможности-кодогенерированных-мапперов)
         - [Генерация уникального значения первичного ключа с минимальным обращением к БД](#генерация-уникального-значения-первичного-ключа-с-минимальным-обращением-к-бд)
+        - [Кэширование записей по первичну ключу](#кэширование-записей-по-первичну-ключу)
 
 ---
 
@@ -461,15 +462,15 @@ public partial interface IMapperObject_A : IMapper
 
 ### Основные возможности кодогенерированных мапперов
 
+В файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров.
+
+---
 #### Генерация уникального значения первичного ключа с минимальным обращением к БД
 
 Генератор уникальных первичных ключей работает на базе последовательностей БД.
 
 Генератор позволяет получать уникальные значения без необходимости реального обращения к БД в момент генерации.
 
-В файле [Examples.cs](/Mappers/PostgreSql/Implements/Examples.cs) весь код примеров.
-
----
 Пример последовательного создания **50.000.000** уникальных первичных ключей :
 
 ```csharp
@@ -518,4 +519,88 @@ Console.WriteLine($"Количество идентити : {identites.Count}");
 Количество идентити полученных из БД : 478
 Количество реальных подключений к БД : 1311
 Количество сессий мапперов : 50000834
+```
+
+---
+#### Кэширование записей по первичну ключу
+
+Кэширование записей по первичну ключу происходит автоматически (если это наcтроено для маппера).
+
+У каждого маппера свой кэш.
+
+Кэш обновляется и очищается автоматически при создании, чтении, обновлении или удалении записи.
+
+Пример параллельного чтения **10.000.000** записей по первичному ключу :
+
+```csharp
+var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+var mapper = mappers.GetMapper<IMapperObject_A>();
+
+var ids = new List<long>();
+for (var index = 0; index < 1_000; index++)
+{
+    ids.Add(index);
+}
+
+// Заполнение таблицы.
+using (var mappersSession = mappers.OpenSession())
+{
+    foreach (var id in ids)
+    {
+        mapper.New(
+            mappersSession,
+            new Object_ADtoNew
+            {
+                Id = id,
+                Value_DateTime = DateTime.Now,
+                Value_DateTime_NotUpdate = DateTime.Now,
+                Value_Int = null,
+                Value_Long = id,
+                Value_String = $"Text {id}",
+            });
+    }
+
+    mappersSession.Commit();
+}
+
+var stopwatch = Stopwatch.StartNew();
+
+// Выборка записей по первичному ключу.
+Parallel.For(0, 10_000_000,
+    _ =>
+    {
+        var mappersSession = mappers.OpenSession();
+
+        var id = ProviderRandomValues.GetItem(ids);
+        var dto = mapper.Get(mappersSession, id);
+        Assert.IsNotNull(dto);
+    });
+
+stopwatch.Stop();
+
+Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
+
+{
+    var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+    Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+    Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+}
+
+{
+    var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
+    Console.WriteLine($"Количество объектов в памяти : {snapShot.Count}");
+    Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind}");
+    Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
+}
+```
+
+Результат параллельного чтения **10.000.000** записей по первичному ключу :
+
+```
+Время работы : 00:00:19.5278083
+Количество реальных подключений к БД : 2
+Количество сессий мапперов : 10000003
+Количество объектов в памяти : 1000
+Количество поисков объектов в памяти : 10000000
+Количество найденных объектов в памяти : 10000000
 ```
