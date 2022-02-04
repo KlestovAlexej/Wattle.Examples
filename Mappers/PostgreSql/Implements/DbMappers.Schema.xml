@@ -3,7 +3,7 @@
   <Mappers>
     <Mappers Storage="PostgreSql">
       <Mappers>
-        <Mapper Id="266032e5-19c6-434c-a521-d1d1c652edd1" DeleteMode="Disabled" MaxPageSize="1000" IsCached="true" UpdateCacheOnEnumerator="false" IsPrepared="true" IsOverrideTableName="false" Description="Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера" Name="Object_A">
+        <Mapper Id="266032e5-19c6-434c-a521-d1d1c652edd1" DeleteMode="Delete" MaxPageSize="1000" IsCached="true" UpdateCacheOnEnumerator="false" IsPrepared="true" IsOverrideTableName="false" Description="Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера" Name="Object_A">
           <Storage Name="%ObjectName%" IsQuotedName="false" IsGenerateMapperTestsNewGet="true" IsGenerateMapperTestsGetNextId="true" IsGenerateMapperTestsBulkInsert="true" />
           <Identity Name="Id" Type="long" Description="Идентити.">
             <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" SequenceName="Sequence_%ObjectName%">

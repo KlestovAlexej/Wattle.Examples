@@ -131,6 +131,15 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     }
 
     /// <summary>
+    /// Класс данных состояния удалённого доменного объекта.
+    /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
+    /// </summary>
+    // ReSharper disable once PartialTypeWithSinglePart
+    public sealed partial class Object_ADtoDeleted : BaseMapperDeletedStateDto
+    {
+    }
+
+    /// <summary>
     /// Идентификаторы мапперов в тектовом виде.
     /// </summary>
     public static class WellknownMappersAsText
@@ -345,6 +354,21 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
         ValueTask<Object_ADtoActual> NewAsync(IMappersSession session, Object_ADtoNew data, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Удаление записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="data">Данные достаточные для удаления записи.</param>
+        void Delete(IMappersSession session, Object_ADtoDeleted data);
+
+        /// <summary>
+        /// Удаление записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="data">Данные достаточные для удаления записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        ValueTask DeleteAsync(IMappersSession session, Object_ADtoDeleted data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.

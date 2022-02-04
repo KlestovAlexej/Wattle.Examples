@@ -32,6 +32,219 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 public class Examples
 {
     /// <summary>
+    /// Физическое удаление записи с оптимистической конкуренцией.
+    /// </summary>
+    [Test]
+    public void Example_Delete_With_Optimistic_Concurrency()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+
+        // Создать запись.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto =
+                mapper.New(
+                    mappersSession,
+                    new Object_ADtoNew
+                    {
+                        Id = id_1,
+                        Value_DateTime = DateTime.Now,
+                        Value_DateTime_NotUpdate = DateTime.Now,
+                        Value_Int = null,
+                        Value_Long = 314,
+                        Value_String = "Text 1",
+                    });
+            Console.WriteLine("Запись в БД до удаления :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            mappersSession.Commit();
+        }
+
+        // Удалить запись.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
+
+            try
+            {
+                mapper.Delete(mappersSession,
+                    new Object_ADtoDeleted
+                    {
+                        Id = dbDtoActual.Id,
+                        Revision = dbDtoActual.Revision + 1, // Неверная ожидаемая версия записи в БД.
+                    });
+
+                Assert.Fail();
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.IsTrue(exception.Message.Contains("Конкуренция при удалении записи"));
+            }
+
+            mappersSession.Commit();
+        }
+
+        // Проверить удаление записи.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto = mapper.Get(mappersSession, id_1);
+            Console.WriteLine("Запись в БД без изменений :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+        }
+    }
+
+    /// <summary>
+    /// Физическое удаление записи.
+    /// </summary>
+    [Test]
+    public void Example_Delete()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+
+        // Создать запись.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto =
+                mapper.New(
+                    mappersSession,
+                    new Object_ADtoNew
+                    {
+                        Id = id_1,
+                        Value_DateTime = DateTime.Now,
+                        Value_DateTime_NotUpdate = DateTime.Now,
+                        Value_Int = null,
+                        Value_Long = 314,
+                        Value_String = "Text 1",
+                    });
+
+            mappersSession.Commit();
+        }
+
+        // Удалить запись.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
+
+            mapper.Delete(mappersSession,
+                new Object_ADtoDeleted
+                {
+                    Id = dbDtoActual.Id,
+                    Revision = dbDtoActual.Revision,
+                });
+
+            Assert.IsFalse(mapper.Exists(mappersSession, id_1));
+
+            mappersSession.Commit();
+        }
+
+        // Проверить удаление записи.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            Assert.IsFalse(mapper.Exists(mappersSession, id_1));
+        }
+    }
+
+    /// <summary>
+    /// Обновление записей с оптимистической конкуренцией.
+    /// </summary>
+    [Test]
+    public void Example_Update_With_Optimistic_Concurrency()
+    {
+        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+
+        // Создание партиции таблицы.
+        using (var mappersSession = mappers.OpenSession())
+        {
+            mapper.Partitions.CreatedDefaultPartition(mappersSession);
+
+            mappersSession.Commit();
+        }
+
+        var id_1 = ComplexIdentity.Build(mapper.Partitions.Level, 0, 1);
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto =
+                mapper.New(
+                    mappersSession,
+                    new Object_ADtoNew
+                    {
+                        Id = id_1,
+                        Value_DateTime = DateTime.Now,
+                        Value_DateTime_NotUpdate = DateTime.Now,
+                        Value_Int = null,
+                        Value_Long = 314,
+                        Value_String = "Text 1",
+                    });
+            Console.WriteLine("Запись в БД до изменения :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDtoActual = mapper.Get(mappersSession, id_1);
+
+            try
+            {
+                mapper.Update(
+                    mappersSession,
+                    new Object_ADtoChanged
+                    {
+                        Id = dbDtoActual.Id,
+                        Revision = dbDtoActual.Revision + 1, // Неверная ожидаемая версия записи в БД.
+                        Value_DateTime = DateTime.Now.AddHours(1),
+                        Value_DateTime_NotUpdate = dbDtoActual.Value_DateTime_NotUpdate,
+                        Value_Int = 6006,
+                        Value_Long = new MapperChangedStateDtoField<long>(555, true),
+                        Value_String = new MapperChangedStateDtoField<string>(null, true),
+                    });
+
+                Assert.Fail();
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.IsTrue(exception.Message.Contains("Конкуренция при обновлении записи"));
+            }
+
+            mappersSession.Commit();
+        }
+
+        using (var mappersSession = mappers.OpenSession())
+        {
+            var dbDto = mapper.Get(mappersSession, id_1);
+            Console.WriteLine("Запись в БД без изменений :");
+            Console.WriteLine(dbDto.ToJsonText(true));
+        }
+    }
+
+    /// <summary>
     /// Обновление записей.
     /// </summary>
     [Test]
@@ -94,8 +307,6 @@ public class Examples
             var dbDto = mapper.Get(mappersSession, id_1);
             Console.WriteLine("Запись в БД после изменения :");
             Console.WriteLine(dbDto.ToJsonText(true));
-
-            mappersSession.Commit();
         }
     }
 
@@ -290,7 +501,6 @@ public class Examples
         using (var mappersSession = mappers.OpenSession())
         {
             var dbDto = mapper.Get(mappersSession, id);
-
             Console.WriteLine(dbDto.ToJsonText(true));
         }
     }

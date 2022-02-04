@@ -2121,6 +2121,138 @@ VALUES
         }
 
         /// <summary>
+        /// Обработка исключения мапппера в методе <see cref="Delete"/>.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="exception">Исключение мапппера.</param>
+        /// <param name="data">Данные достаточные для удаления записи.</param>
+        partial void CatchExceptionOnDelete(IMappersSession session, Exception exception, Object_ADtoDeleted data);
+
+        /// <summary>
+        /// Удаление записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="data">Данные достаточные для удаления записи.</param>
+        public virtual void Delete(IMappersSession session, Object_ADtoDeleted data)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            try
+            {
+                var typedSession = (IPostgreSqlMappersSession) session;
+
+                RemoveActualState(typedSession, data.Id);
+
+                // ReSharper disable once ConvertToUsingDeclaration
+                using (var command = typedSession.CreateCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"DELETE FROM Object_A WHERE (Id = @Id) AND (Revision = @Revision)";
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Revision", NpgsqlDbType.Bigint) { TypedValue = data.Revision };
+                        command.Parameters.Add(parameter);
+                    }
+
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
+                        command.Parameters.Add(parameter);
+                    }
+
+                    command.Prepare();
+
+                    var deleteCount = command.ExecuteNonQuery();
+                    if (deleteCount != 1)
+                    {
+                        throw new InvalidOperationException($"Конкуренция при удалении записи с идентификатором '{data.Id}' маппером '{MapperId}'.");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                CatchExceptionOnDelete(session, exception, data);
+                CatchException(session, exception);
+
+                var targetException = m_exceptionPolicy.Apply(exception);
+                if (ReferenceEquals(targetException, exception))
+                {
+                    ExceptionDispatchInfo.Capture(exception).Throw();
+                }
+
+                throw targetException;
+            }
+        }
+
+        /// <summary>
+        /// Удаление записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="data">Данные достаточные для удаления записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        public virtual async ValueTask DeleteAsync(IMappersSession session, Object_ADtoDeleted data, CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            try
+            {
+                var typedSession = (IPostgreSqlMappersSession) session;
+
+                RemoveActualState(typedSession, data.Id);
+
+                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                // ReSharper disable once ConvertToUsingDeclaration
+                await using (command.ConfigureAwait(false))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"DELETE FROM Object_A WHERE (Id = @Id) AND (Revision = @Revision)";
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Revision", NpgsqlDbType.Bigint) { TypedValue = data.Revision };
+                        command.Parameters.Add(parameter);
+                    }
+
+                    {
+                        var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
+                        command.Parameters.Add(parameter);
+                    }
+
+                    await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
+
+                    var deleteCount = await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+                    if (deleteCount != 1)
+                    {
+                        throw new InvalidOperationException($"Конкуренция при удалении записи с идентификатором '{data.Id}' маппером '{MapperId}'.");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                CatchExceptionOnDelete(session, exception, data);
+                CatchException(session, exception);
+
+                var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                if (ReferenceEquals(targetException, exception))
+                {
+                    ExceptionDispatchInfo.Capture(exception).Throw();
+                }
+
+                throw targetException;
+            }
+        }
+
+        /// <summary>
         /// Обработка исключения мапппера в методе <see cref="GetEnumerator"/>.
         /// </summary>
         /// <param name="session">Сессия БД.</param>
