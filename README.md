@@ -195,6 +195,8 @@ File.WriteAllText(fileName, xml);
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
+	...
+	
 	<ItemGroup>
 		<AdditionalFiles Include="DbMappers.Schema.xml" />
 	</ItemGroup>
