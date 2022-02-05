@@ -4,6 +4,6 @@
 
 SQL-скрипт наполнения БД.
 
-# DbModel.dmm
+# DbModel.erwin
 
-SQL-скрипт наполнения БД.
+Проектный файл [Erwin Data Modeler](https://www.erwin.com/products/erwin-data-modeler/) c моделью БД.

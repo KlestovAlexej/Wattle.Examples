@@ -557,7 +557,7 @@ Console.WriteLine($"Количество идентити : {identites.Count}");
 Количество реальных подключений к БД : 1311
 Количество сессий мапперов : 50000834
 ```
-Параметры ПК : _OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 14.1_
+Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 14.1_
 
 ---
 #### Кэширование записей по первичну ключу
@@ -642,7 +642,7 @@ Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
 Количество поисков объектов в памяти : 10000000
 Количество найденных объектов в памяти : 10000000
 ```
-Параметры ПК : _OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 14.1_
+Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 14.1_
 
 ---
 #### Поддержка партиционирования PostgreSQL из коробки
