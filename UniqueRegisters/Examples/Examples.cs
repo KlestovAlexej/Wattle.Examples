@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,17 +12,15 @@ using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
-using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
-using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
 // ReSharper disable All
 
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
 [TestFixture]
 public class Examples
@@ -36,6 +31,14 @@ public class Examples
     [Test]
     public void Example_Hide()
     {
+        using var directory = new TestDirectory("Data");
+        using var identityCache = CreateIdentityCache();
+        using var registerTransactionKeys = new ExampleRegisterTransactionKeys(identityCache, directory.BasePath);
+
+        registerTransactionKeys.Start();
+        WaitHelpers.TimeOut(() => registerTransactionKeys.IsReady, TimeSpan.FromMinutes(1));
+
+        registerTransactionKeys.Stop();
     }
 
     #region Enviroment
@@ -57,6 +60,7 @@ public class Examples
             .SetExceptionPolicy(new ExceptionPolicy(timeService))
             .SetMappers(mappers)
             .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
+            .SetUnitOfWorkProvider()
             .Build();
     }
 

@@ -49,32 +49,28 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
         private readonly DateTime m_startDay;
 
         public ExampleRegisterTransactionKeys(
-            IExceptionPolicy exceptionPolicy,
-            ITimeService timeService,
-            IMappers mappers,
-            IWorkflowExceptionPolicy workflowExceptionPolicy,
             IIdentityCache identityCache,
             string dataPath)
             : base(
-                exceptionPolicy,
-                timeService,
-                mappers,
-                workflowExceptionPolicy,
+                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
+                ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
+                ServiceProviderHolder.Instance.GetRequiredService<IMappers>(),
+                ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>(),
                 InitializeThreadEmergencyTimeout,
                 new QueueItemProcessor(
                         KeysRepairThreads,
                         KeysEmergencyTimeout,
                         "Очередь восстановления реестра уникальных ключей транзакций.",
-                        exceptionPolicy,
-                        timeService,
+                        ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
+                        ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                         new Guid("CBD01E52-4216-407C-9992-7EFBF3B76AE3"))
                     .GetSmartDisposableReference<IQueueItemProcessor>(true),
                 new CommandQueueProcessor(
                         KeysDeleteGroupThreads,
                         KeysEmergencyTimeout,
                         "Очередь удаления групп ключей в реестре уникальных ключей транзакций.",
-                        exceptionPolicy,
-                        timeService,
+                        ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
+                        ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                         new Guid("DC36249F-38D0-4022-BE3E-AF95862C5696"))
                     .GetSmartDisposableReference<ICommandQueueProcessor>(true),
                 "Реестр уникальных ключей транзакций.",
@@ -82,8 +78,8 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                 new ScheduledService(
                         CleanupTimeoutKeys,
                         "Расписание очистки реестре уникальных ключей транзакций.",
-                        exceptionPolicy,
-                        timeService,
+                        ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
+                        ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                         "Расписание очистки реестре уникальных ключей транзакций.",
                         new Guid("F1D06D78-F8F7-47F2-9442-522026203599"))
                     .GetSmartDisposableReference<ITrigger>(true),
@@ -92,9 +88,9 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                 DomainBehaviourWithСonfirmation.DefaultMaxCountTryAndSkipVerify,
                 CreateKeysPersistentStorage(dataPath))
         {
-            m_timeService = timeService;
-            m_mappers = mappers;
-            m_workflowExceptionPolicy = workflowExceptionPolicy;
+            m_timeService = ServiceProviderHolder.Instance.GetRequiredService<ITimeService>();
+            m_mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
+            m_workflowExceptionPolicy = ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>();
             m_activeDays = ActiveDays;
             m_mapper = m_mappers.GetMapper<IMapperTransactionKey>();
             m_startDay = new DateTime(2022, 2, 5);
@@ -106,6 +102,13 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
         public static IUniqueRegisterKeysPersistentStorage<long> CreateKeysPersistentStorage(string dataPath)
         {
             var basePath = Path.Combine(dataPath, KeysDirectoryName);
+
+            if (false == Directory.Exists(basePath))
+            {
+                Directory.CreateDirectory(basePath);
+            }
+
+            basePath = new DirectoryInfo(basePath).FullName;
 
             return new UniqueRegisterKeysPersistentStorageFileSystemGroupInt64(
                 new UniqueRegisterKeysPersistentStorageFileSystemSettings
