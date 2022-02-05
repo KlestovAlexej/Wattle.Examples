@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Reflection;
 using ShtrihM.Wattle3.CodeGeneration.Common;
 using ShtrihM.Wattle3.Common;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
 using ShtrihM.Wattle3.Primitives;
 
 // ReSharper disable All

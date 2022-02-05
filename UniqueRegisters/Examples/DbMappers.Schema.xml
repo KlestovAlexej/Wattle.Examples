@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-16" standalone="yes"?>
+<Model Version="1.0.0.0" Description="Генератор XML модели тут : ShtrihM.Wattle3.Examples.UniqueRegisters.Common.DbMappersSchemaXmlBuilder.Test">
+  <Mappers>
+    <Mappers Storage="PostgreSql">
+      <Mappers>
+        <Mapper Id="52af162d-5f87-4c74-965f-eefc9850c088" DeleteMode="Disabled" MaxPageSize="1000" IsCached="false" UpdateCacheOnEnumerator="false" IsPrepared="false" IsOverrideTableName="false" Description="Уникальный ключ транзакции" Name="TransactionKey">
+          <Storage Name="%ObjectName%" IsQuotedName="false" IsGenerateMapperTestsNewGet="true" IsGenerateMapperTestsGetNextId="true" IsGenerateMapperTestsBulkInsert="true" />
+          <Identity Name="Id" Type="long" Description="Идентити.">
+            <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" SequenceName="Sequence_%ObjectName%">
+              <Partitions Level="L2" />
+            </Storage>
+            <Query Id="4f414fbb-4b25-4691-80c3-9897fc5be61b" Order="true" Where="true" />
+          </Identity>
+          <Fields>
+            <Field Name="Tag" Type="long" Description="Произвольные данные транзакции" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="false" Type="Bigint" IsQuotedName="false" />
+              <Query Id="9d0ff6d9-4059-4db8-9b58-883707710026" Order="true" Where="true" />
+            </Field>
+            <Field Name="Key" Type="Guid" Description="Ключ транзакции" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+              <Storage Name="%FieldName%" IsNull="false" Type="Uuid" IsQuotedName="false" />
+              <Query Id="7e371548-201d-463f-85ff-95e1741ac449" Order="true" Where="true" />
+            </Field>
+          </Fields>
+        </Mapper>
+      </Mappers>
+      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+    </Mappers>
+  </Mappers>
+</Model>

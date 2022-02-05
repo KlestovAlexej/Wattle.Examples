@@ -8,7 +8,7 @@ using ShtrihM.Wattle3.CodeGeneration.Generators.Schem;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Testing;
 
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Common;
 
 /// <summary>
 /// Создание XML-схемы мапперов по которой будет идти кодогенерация.
@@ -25,14 +25,14 @@ public class DbMappersSchemaXmlBuilder
         var mappers =
             new SchemaMappers
             {
-                Storage = SchemaMapperStorage.SqlServer,
+                Storage = SchemaMapperStorage.PostgreSql,
                 CodeGeneration =
                     new SchemaMappersCodeGeneration
                     {
-                        MappersCommonNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common",
-                        MappersIntefacesNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface",
-                        MappersImplementsNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implements",
-                        MappersTestsNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests",
+                        MappersCommonNamespaceName = "ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common",
+                        MappersIntefacesNamespaceName = "ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface",
+                        MappersImplementsNamespaceName = "ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Implements",
+                        MappersTestsNamespaceName = "ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests",
                         UnitTestCategoryName = TestCategory.Unit,
                         UnitTestTimeout = TestTimeout.Unit,
                     },
@@ -59,7 +59,7 @@ public class DbMappersSchemaXmlBuilder
         }
 
         var xml = schemaModel.ToXml();
-        var fileName = Path.Combine(ProviderProjectBasePath.ProjectPath, @"Mappers\SqlServer\Implements\DbMappers.Schema.xml");
+        var fileName = Path.Combine(ProviderProjectBasePath.ProjectPath, @"UniqueRegisters\Examples\DbMappers.Schema.xml");
         Console.WriteLine(fileName);
         File.WriteAllText(fileName, xml);
     }

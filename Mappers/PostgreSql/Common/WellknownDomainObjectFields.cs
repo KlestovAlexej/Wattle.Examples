@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Reflection;
 using ShtrihM.Wattle3.CodeGeneration.Common;
 using ShtrihM.Wattle3.Common;
