@@ -648,8 +648,6 @@ using (var mappersSession = mappers.OpenSession())
     mappersSession.Commit();
 }
 
-var id = ComplexIdentity.Build(mapper.Partitions.Level, partitionId, 1);
-
 using (var mappersSession = mappers.OpenSession())
 {
     // Запись в партицию таблицы.
@@ -657,7 +655,7 @@ using (var mappersSession = mappers.OpenSession())
         mappersSession,
         new Object_ADtoNew
         {
-            Id = id,
+            Id = ComplexIdentity.Build(mapper.Partitions.Level, partitionId, 1),
             Value_DateTime = DateTime.Now,
             Value_DateTime_NotUpdate = DateTime.Now,
             Value_Int = null,
