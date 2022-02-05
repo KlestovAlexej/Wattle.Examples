@@ -143,7 +143,7 @@ public static class Object_A
 }
 ```
 
-SQL-скрипт создания таблицы и последовательности PostgreSQL для объекта Object_A (весь скрипт [SqlScript.sql](r/Mappers/PostgreSql/Common/SqlScripts/SqlScript.sql)):
+SQL-скрипт создания таблицы и последовательности PostgreSQL для объекта Object_A (весь скрипт [SqlScript.sql](/Mappers/PostgreSql/Common/SqlScripts/SqlScript.sql)):
 
 ```sql
 CREATE SEQUENCE Sequence_Object_A START WITH 1 INCREMENT BY 1;
