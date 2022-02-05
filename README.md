@@ -143,6 +143,23 @@ public static class Object_A
 }
 ```
 
+SQL-скрипт создания таблицы и последовательности PostgreSQL для объекта Object_A (весь скрипт [SqlScript.sql](r/Mappers/PostgreSql/Common/SqlScripts/SqlScript.sql)):
+
+```sql
+CREATE SEQUENCE Sequence_Object_A START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE object_a(
+  id bigint NOT NULL,
+  revision bigint NOT NULL,
+  value_datetime timestamp NOT NULL,
+  value_long bigint NOT NULL,
+  value_int integer,
+  value_string text,
+  value_datetime_notupdate timestamp NOT NULL,
+  PRIMARY KEY(id)
+) PARTITION BY RANGE (id);
+```
+
 ---
 ### Создание XML-схемы мапперов по определению
 
