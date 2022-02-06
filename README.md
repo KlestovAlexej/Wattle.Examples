@@ -45,7 +45,7 @@
 - Хранение ключей и данных в оперативной памяти оптимизировано и не нагружает сбощик мусора.
 - Ключи и данные в оперативной памяти занимают места *O(_Число ключей * (sizeof(long) + размер ключа + размер данных)_)* и не расходуют память на служебную информацию CLR.
 - Регистрация нового ключа задействует БД только в момент подтверждения [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html).
-- Регистрация нового ключа отменяется автоматически в аварийных ситуациях работы [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html).
+- Регистрация нового ключа отменяется автоматически в аварийных ситуациях работы Unit of Work.
  
 В проекте [UniqueRegisters.Examples](https://github.com/KlestovAlexej/Wattle3.Examples/tree/master/UniqueRegisters/Examples) весь код примеров.
 
