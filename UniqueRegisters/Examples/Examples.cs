@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
+using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
@@ -32,43 +33,252 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 [TestFixture]
 public class Examples
 {
+    /*
+        /// <summary>
+        /// Сокрытие записи, без её физического удаления из БД.
+        /// </summary>
+        [Test]
+        public void Example_Hide_()
+        {
+            using var registerTransactionKeys = CreateRegisterTransactionKeys();
+
+            var kys = new List<(Guid Key, long Tag)>();
+            Parallel.For(0, 1_000_000,
+                _ =>
+                {
+                    var key = (Guid.NewGuid(), ProviderRandomValues.GetInt64());
+                    lock (kys)
+                    {
+                        kys.Add(key);
+                    }
+                    using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                    {
+                        Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key.Item1, key.Item2));
+
+                        unitOfWork.Commit();
+                    }
+                });
+
+    /*
+            Parallel.For(0, 1_000_000,
+                _ =>
+                {
+                    using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                    {
+                        Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 2));
+
+                        unitOfWork.Commit();
+                    }
+                });
+    * /
+
+            {
+                var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+                Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            }
+
+            {
+                var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
+                Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+                Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
+                Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
+            }
+        }
+    */
+
     /// <summary>
-    /// Сокрытие записи, без её физического удаления из БД.
+    /// Пример попытки регистрации ключа.
     /// </summary>
     [Test]
-    public void Example_Hide_()
+    public void Example_TryRegisterKey()
     {
         using var registerTransactionKeys = CreateRegisterTransactionKeys();
 
-        var kys = new List<(Guid Key, long Tag)>();
-        Parallel.For(0, 1_000_000,
+        var key = Guid.NewGuid();
+        var tag = 111;
+
+        Assert.IsFalse(registerTransactionKeys.ContainsKey(key));
+
+        // Регистрация ключа.
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            // Ключ предварительно зарегистрирован. Для окончательной регистрации UnitOfWork должен быть подтверждён.
+            Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key, tag));
+
+            // Ключ не зарегистрирован т.к. ключ находится в процессе регистрации в текущем или параллельнорм не подтверждёном UnitOfWork.
+            Assert.AreEqual(UniqueRegisterRegisterKeyResult.Locked, registerTransactionKeys.TryRegisterKey(key, tag));
+
+            // Ключ не существует т.к. UnitOfWork с регистрацией ключа не подтверждён.
+            Assert.IsFalse(registerTransactionKeys.ContainsKey(key));
+
+            // Тэг не получен т.к. UnitOfWork с регистрацией ключа не подтверждён.
+            Assert.IsFalse(registerTransactionKeys.TryGetTag(key, out _));
+
+            unitOfWork.Commit();
+        }
+
+        // Проверка регистрации ключа.
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            Assert.IsTrue(registerTransactionKeys.ContainsKey(key));
+
+            Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, tag));
+
+            Assert.IsTrue(registerTransactionKeys.TryGetTag(key, out var registerTag));
+            Assert.AreEqual(tag, registerTag);
+
+            unitOfWork.Commit();
+        }
+
+        Console.WriteLine("После регистрации ключа :");
+        {
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+
+        {
+            var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
+            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+        }
+
+        // Массовая и параллельная попытка регистрации ключа.
+        Parallel.For(0, 500_000,
             _ =>
             {
-                var key = (Guid.NewGuid(), ProviderRandomValues.GetInt64());
-                lock (kys)
-                {
-                    kys.Add(key);
-                }
                 using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
                 {
-                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key.Item1, key.Item2));
+                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, tag));
 
                     unitOfWork.Commit();
                 }
             });
 
-/*
-        Parallel.For(0, 1_000_000,
+        Console.WriteLine("После попыток регистрации ключа :");
+        {
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+
+        {
+            var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
+            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+        }
+    }
+
+    /// <summary>
+    /// Пример регистрации ключа.
+    /// </summary>
+    [Test]
+    public void Example_RegisterKey()
+    {
+        using var registerTransactionKeys = CreateRegisterTransactionKeys();
+
+        var key = Guid.NewGuid();
+        var tag = 111;
+
+        Assert.IsFalse(registerTransactionKeys.ContainsKey(key));
+
+        // Регистрация ключа.
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            // Ключ предварительно зарегистрирован. Для окончательной регистрации UnitOfWork должен быть подтверждён.
+            registerTransactionKeys.RegisterKey(key, tag);
+
+            // Ключ не зарегистрирован т.к. ключ находится в процессе регистрации в текущем или параллельнорм не подтверждёном UnitOfWork.
+            try
+            {
+                registerTransactionKeys.RegisterKey(key, tag);
+                Assert.Fail();
+            }
+            catch (WorkflowException exception)
+            {
+                Assert.AreEqual(CommonWorkflowExceptionErrorCodes.ServiceTemporarilyUnavailable, exception.Code);
+                Assert.IsTrue(exception.Details.Contains($@"Ключ '{key}' в неопределённом состоянии."));
+            }
+
+            // Ключ не существует т.к. UnitOfWork с регистрацией ключа не подтверждён.
+            Assert.IsFalse(registerTransactionKeys.ContainsKey(key));
+
+            // Тэг не получен т.к. UnitOfWork с регистрацией ключа не подтверждён.
+            Assert.IsFalse(registerTransactionKeys.TryGetTag(key, out _));
+
+            unitOfWork.Commit();
+        }
+
+        // Проверка регистрации ключа.
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            Assert.IsTrue(registerTransactionKeys.ContainsKey(key));
+
+            Assert.IsTrue(registerTransactionKeys.TryGetTag(key, out var registerTag));
+            Assert.AreEqual(tag, registerTag);
+
+            unitOfWork.Commit();
+        }
+
+        Console.WriteLine("После регистрации ключа :");
+        {
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+
+        {
+            var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
+            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+        }
+
+        // Массовая и параллельная попытка регистрации ключа.
+        Parallel.For(0, 500_000,
             _ =>
             {
                 using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
                 {
-                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 2));
+                    try
+                    {
+                        registerTransactionKeys.RegisterKey(key, tag);
+                        Assert.Fail();
+                    }
+                    catch (WorkflowException exception)
+                    {
+                        Assert.AreEqual(CommonWorkflowExceptionErrorCodes.ServiceTemporarilyUnavailable, exception.Code);
+                        Assert.IsTrue(exception.Details.Contains($@"Ключ '{key}' уже зарегистрирован."), exception.Details);
+                    }
 
                     unitOfWork.Commit();
                 }
             });
-*/
+
+        Console.WriteLine("После попыток регистрации ключа :");
+        {
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+
+        {
+            var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
+            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+        }
+    }
+
+    /// <summary>
+    /// Пример попытки регистрации с исключениями в рамках UnitOfWork.
+    /// </summary>
+    [Test]
+    public void Example_TryRegisterKey_With_Exceptions()
+    {
+        using var registerTransactionKeys = CreateRegisterTransactionKeys();
+
+        Console.WriteLine("До попыток регистрации ключа :");
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
@@ -80,40 +290,57 @@ public class Examples
             var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
             Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
-            Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
-            Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
         }
-    }
-
-    /// <summary>
-    /// Сокрытие записи, без её физического удаления из БД.
-    /// </summary>
-    [Test]
-    public void Example_Hide()
-    {
-        using var registerTransactionKeys = CreateRegisterTransactionKeys();
 
         var key = Guid.NewGuid();
-        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-        {
-            Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key, 1));
 
-            unitOfWork.Commit();
-        }
+        // Регистрация ключа без подтверждения UnitOfWork.
+        // Регистрация ключа автоматически отменяется.
+        Parallel.For(0, 100_000,
+            _ =>
+            {
+                using (m_entryPoint.CreateUnitOfWork())
+                {
+                    Assert.AreNotEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 1));
+                }
+            });
 
-        Parallel.For(0, 1_000_000,
+        // Регистрация ключа без подтверждения UnitOfWork.
+        // Регистрация ключа автоматически отменяется.
+        Parallel.For(0, 100_000,
             _ =>
             {
                 using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
                 {
-                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 2));
+                    Assert.AreNotEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 1));
 
-                    Assert.IsTrue(registerTransactionKeys.TryGetTag(key, out var tag));
-                    Assert.AreEqual(1, tag);
-
-                    unitOfWork.Commit();
+                    unitOfWork.Rollback();
                 }
             });
+
+        // Регистрация ключа без подтверждения UnitOfWork из-за исклоючения.
+        // Регистрация ключа автоматически отменяется.
+        Parallel.For(0, 100_000,
+            _ =>
+            {
+                try
+                {
+                    using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                    {
+                        Assert.AreNotEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 1));
+
+                        throw new ApplicationException();
+                    }
+                }
+                catch (ApplicationException)
+                {
+                    /* NONE */
+                }
+            });
+
+        Assert.IsFalse(registerTransactionKeys.ContainsKey(key));
+
+        Console.WriteLine("После попыток регистрации ключа :");
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
