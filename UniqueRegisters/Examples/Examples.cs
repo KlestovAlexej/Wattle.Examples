@@ -90,8 +90,8 @@ public class Examples
         BaseTests.GcCollectMemory();
         var step2Memory = GC.GetTotalMemory(true);
 
-        Console.WriteLine($"Занято памяти (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
-        Console.WriteLine($"Занято памяти (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
+        Console.WriteLine($"Занято памяти (до оптимизации)    : {step1Memory - startMemory:##,###} байт");
+        Console.WriteLine($"Занято памяти (после оптимизации) : {step2Memory - startMemory:##,###} байт");
 
         Parallel.ForEach(keys,
             key =>
@@ -107,15 +107,15 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions - startMappersSnapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions - startMappersSnapShot.CountSessions:##,###}");
             startMappersSnapShot = snapShot;
         }
 
         {
             var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
-            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
+            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey:##,###}");
             Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
             Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
         }
@@ -130,7 +130,7 @@ public class Examples
         #endregion
 
         Console.WriteLine("");
-        Console.WriteLine($"Холодный старт рееста на '{keys.Count}' ключах в БД и файловом кэше.");
+        Console.WriteLine($"Холодный старт рееста на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
         Console.WriteLine("");
 
         BaseTests.GcCollectMemory();
@@ -148,7 +148,7 @@ public class Examples
         var step3Memory = GC.GetTotalMemory(true);
 
         Console.WriteLine($"Время создания и 100% инициализации реестра : {stopwatch.Elapsed}");
-        Console.WriteLine($"Занято памяти : {(step3Memory - startMemory):##,###} байт");
+        Console.WriteLine($"Занято памяти : {step3Memory - startMemory:##,###} байт");
 
         Parallel.ForEach(keys,
             key =>
@@ -164,13 +164,13 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions - startMappersSnapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions - startMappersSnapShot.CountSessions:##,###}");
         }
 
         {
             var snapShot = registerTransactionKeys_2.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
+            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
             Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
             Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
             Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
