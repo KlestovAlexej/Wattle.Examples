@@ -19,6 +19,7 @@ using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
+using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
@@ -38,19 +39,21 @@ public class Examples
     /// Создание миллионов ключей в БД и почти мгновенный холодный старт рееста с 100% ключами в памяти.
     /// </summary>
     [Test]
-    [TestCase()]
-    public void Example_Start()
+    [TestCase(1_000_000)]
+    [TestCase(5_000_000)]
+    [TestCase(10_000_000)]
+    public void Example_Start(int сountKeys)
     {
-        const int CountKeys = 5_000_000;
-
         var keys = new List<(Guid Key, long Tag)>();
 
         #region Создание миллионов ключей в БД.
 
+        var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+
         Console.WriteLine($"Создание миллионов ключей в БД.");
         Console.WriteLine("");
 
-        for (int i = 0; i < CountKeys; i++)
+        for (int i = 0; i < сountKeys; i++)
         {
             var key = (Guid.NewGuid(), ProviderRandomValues.GetInt64());
             keys.Add(key);
@@ -103,8 +106,9 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions - startMappersSnapShot.CountSessions}");
+            startMappersSnapShot = snapShot;
         }
 
         {
@@ -159,8 +163,8 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions - startMappersSnapShot.CountSessions}");
         }
 
         {
