@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,16 +25,33 @@ using ShtrihM.Wattle3.Utils;
 using ShtrihM.Wattle3.Utils.DataIndexers;
 using ShtrihM.Wattle3.Utils.DataIndexers.TypedDataIndexers;
 
+// ReSharper disable All
+
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 {
+    /// <summary>
+    /// Пример реестра уникальных ключей.
+    /// Все ключи хранятся в БД.
+    /// Ключи хранятся в партициях БД по дням их появления в реестре.
+    /// </summary>
     public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup<Guid, long, long, object, long>
     {
+        /// <summary>
+        /// Количество дней в течении которых реестр помнит все ключи за эти дни и держит их в памяти.
+        /// </summary>
+        private static readonly int ActiveDays = 100;
+
+        /// <summary>
+        /// День с которого идёт нумерация дней.
+        /// День с индексом ноль.
+        /// </summary>
+        private static readonly DateTime StartDay = new DateTime(2022, 2, 5);
+
         private static readonly int VariableGroupDays = 1;
         private static readonly int KeysRepairThreads = 2;
         private static readonly int KeysDeleteGroupThreads = 1;
-        private static readonly int ActiveDays = 100;
-        private static readonly TimeSpan KeysEmergencyTimeout = TimeSpan.FromSeconds(3);
-        private static readonly TimeSpan CleanupTimeoutKeys = TimeSpan.FromSeconds(3);
+        private static readonly TimeSpan KeysEmergencyTimeout = TimeSpan.FromSeconds(1);
+        private static readonly TimeSpan CleanupTimeoutKeys = TimeSpan.FromSeconds(1);
         private static readonly TimeSpan InitializeThreadEmergencyTimeout = TimeSpan.FromSeconds(1);
         private static readonly string KeysFilePrefix = "TransactionKeys_";
         private static readonly string KeysDirectoryName = "TransactionKeys";
@@ -93,7 +109,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
             m_workflowExceptionPolicy = ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>();
             m_activeDays = ActiveDays;
             m_mapper = m_mappers.GetMapper<IMapperTransactionKey>();
-            m_startDay = new DateTime(2022, 2, 5);
+            m_startDay = StartDay;
             m_identityCache = identityCache;
         }
 
