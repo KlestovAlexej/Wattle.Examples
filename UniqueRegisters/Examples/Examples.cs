@@ -43,6 +43,7 @@ public class Examples
     [TestCase(1_000_000)]
     [TestCase(5_000_000)]
     [TestCase(10_000_000)]
+    [TestCase(100_000_000)]
     public void Example_Start(int сountKeys)
     {
         var keys = new List<(Guid Key, long Tag)>();
