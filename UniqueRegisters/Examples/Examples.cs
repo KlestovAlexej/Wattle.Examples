@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,59 @@ public class Examples
     /// Сокрытие записи, без её физического удаления из БД.
     /// </summary>
     [Test]
+    public void Example_Hide_()
+    {
+        using var registerTransactionKeys = CreateRegisterTransactionKeys();
+
+        var kys = new List<(Guid Key, long Tag)>();
+        Parallel.For(0, 1_000_000,
+            _ =>
+            {
+                var key = (Guid.NewGuid(), ProviderRandomValues.GetInt64());
+                lock (kys)
+                {
+                    kys.Add(key);
+                }
+                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                {
+                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key.Item1, key.Item2));
+
+                    unitOfWork.Commit();
+                }
+            });
+
+/*
+        Parallel.For(0, 1_000_000,
+            _ =>
+            {
+                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                {
+                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 2));
+
+                    unitOfWork.Commit();
+                }
+            });
+*/
+
+        {
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+        }
+
+        {
+            var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys}");
+            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+            Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
+            Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
+        }
+    }
+
+    /// <summary>
+    /// Сокрытие записи, без её физического удаления из БД.
+    /// </summary>
+    [Test]
     public void Example_Hide()
     {
         using var registerTransactionKeys = CreateRegisterTransactionKeys();
@@ -53,6 +107,9 @@ public class Examples
                 using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
                 {
                     Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 2));
+
+                    Assert.IsTrue(registerTransactionKeys.TryGetTag(key, out var tag));
+                    Assert.AreEqual(1, tag);
 
                     unitOfWork.Commit();
                 }
