@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,13 +38,19 @@ public class Examples
     /// Создание миллионов ключей в БД и почти мгновенный холодный старт рееста с 100% ключами в памяти.
     /// </summary>
     [Test]
+    [TestCase()]
     public void Example_Start()
     {
+        const int CountKeys = 5_000_000;
+
         var keys = new List<(Guid Key, long Tag)>();
 
         #region Создание миллионов ключей в БД.
 
-        for (int i = 0; i < 1_000_000; i++)
+        Console.WriteLine($"Создание миллионов ключей в БД.");
+        Console.WriteLine("");
+
+        for (int i = 0; i < CountKeys; i++)
         {
             var key = (Guid.NewGuid(), ProviderRandomValues.GetInt64());
             keys.Add(key);
@@ -79,8 +86,8 @@ public class Examples
         BaseTests.GcCollectMemory();
         var step2Memory = GC.GetTotalMemory(true);
 
-        Console.WriteLine($"Занято памяти (байт, до оптимизации)    : {(step1Memory - startMemory):##.000}");
-        Console.WriteLine($"Занято памяти (байт, после оптимизации) : {(step2Memory - startMemory):##.000}");
+        Console.WriteLine($"Занято памяти (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
+        Console.WriteLine($"Занято памяти (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
 
         Parallel.ForEach(keys,
             key =>
@@ -108,10 +115,18 @@ public class Examples
             Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
         }
 
+        Console.WriteLine("");
+        Console.WriteLine($"Содержимого файлового кэша для быстрого холодного старта '{registerTransactionKeys.DataPath}' :");
+        foreach (var fileName in Directory.GetFiles(registerTransactionKeys.DataPath))
+        {
+            Console.WriteLine(Path.GetFileName(fileName));
+        }
+
         #endregion
 
         Console.WriteLine("");
         Console.WriteLine($"Холодный старт рееста на '{keys.Count}' ключах в БД и файловом кэше.");
+        Console.WriteLine("");
 
         BaseTests.GcCollectMemory();
         startMemory = GC.GetTotalMemory(true);
@@ -128,7 +143,7 @@ public class Examples
         var step3Memory = GC.GetTotalMemory(true);
 
         Console.WriteLine($"Время создания и 100% инициализации реестра : {stopwatch.Elapsed}");
-        Console.WriteLine($"Занято памяти (байт) : {(step3Memory - startMemory):##.000}");
+        Console.WriteLine($"Занято памяти : {(step3Memory - startMemory):##,###} байт");
 
         Parallel.ForEach(keys,
             key =>
