@@ -51,7 +51,7 @@
 
 ### Пример старта реестра на **50.000.000** ключей
 
-Предварительн в БД создано *50.000.000* ключей, а на дисковой системе файловй кэш ключей из БД.
+Предварительн в БД создано *50.000.000* ключей, а на дисковой системе создан файловый кэш ключей из БД.
 <br>Ключ : 16 байт [Guid](https://docs.microsoft.com/ru-ru/dotnet/api/system.guid?view=net-6.0)
 <br>Данные : 8 байт [Long](https://docs.microsoft.com/ru-ru/dotnet/api/system.int64?view=net-6.0)
 <br>Весь код примера в файле [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs) метод **Example_Start**.
