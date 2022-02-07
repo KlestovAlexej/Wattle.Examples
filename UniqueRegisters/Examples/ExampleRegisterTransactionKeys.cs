@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.Common.Queries;
+using ShtrihM.Wattle3.Containers;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
@@ -99,8 +100,8 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                         "Расписание очистки реестре уникальных ключей транзакций.",
                         new Guid("F1D06D78-F8F7-47F2-9442-522026203599"))
                     .GetSmartDisposableReference<ITrigger>(true),
-                new UniqueRegisterDictionaryFactoryOfShardedConcurrentDictionary<Guid, long>(),
-                FactoryTypedDataIndexer.Create<Guid>(new SaltDataIndexer(Convert.FromBase64String(@"EVaQ4Rt/f4B2/0SGJKttvLcgahwz6Q5aaJY9XIzLLO9oY0FCexS6ZwdYwLTXrf/GtD0jNV9miogHED7VApuZDQ=="))),
+                new SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary(),
+                null,
                 DomainBehaviourWithСonfirmation.DefaultMaxCountTryAndSkipVerify,
                 CreateKeysPersistentStorage(dataPath))
         {
@@ -355,6 +356,35 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
             var result = (long)(dateTime - m_startDay).TotalDays;
 
             return result;
+        }
+
+        public class SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary : BaseSlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary<Guid, long>
+        {
+            public SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary()
+                : base(
+                    new Guid("32DD4839-2E5B-47D0-9D19-BA2899CC91DE"),
+                    8,
+                    16,
+                    false)
+            {
+            }
+
+            protected override byte[] KeyToBytes(Guid key)
+            {
+                return key.ToByteArray();
+            }
+
+            protected override byte[] ValueToBytes(long value)
+            {
+                return BitConverter.GetBytes(value);
+            }
+
+            protected override long ValueBytesToValue(ElementsFrame<byte> valueBytes)
+            {
+                var result = BitConverter.ToInt64(valueBytes.Elements, valueBytes.Index);
+
+                return result;
+            }
         }
     }
 }

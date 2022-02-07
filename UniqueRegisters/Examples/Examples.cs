@@ -43,7 +43,7 @@ public class Examples
     [TestCase(1_000_000)]
     [TestCase(5_000_000)]
     [TestCase(10_000_000)]
-    [TestCase(100_000_000)]
+    [TestCase(50_000_000)]
     public void Example_Start(int сountKeys)
     {
         var keys = new List<(Guid Key, long Tag)>();
@@ -54,6 +54,8 @@ public class Examples
 
         Console.WriteLine($"Создание миллионов ключей в БД.");
         Console.WriteLine("");
+
+        var stopwatch = Stopwatch.StartNew();
 
         for (int i = 0; i < сountKeys; i++)
         {
@@ -86,11 +88,14 @@ public class Examples
         // Ожидание пока реестр оптимизирует свою память и сохранить оптимизированные ключи в файловый кэш.
         WaitHelpers.TimeOut(
             () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().CountPersistentStorageGroupSaves == 1,
-            TimeSpan.FromMinutes(1));
+            TimeSpan.FromHours(1));
 
         BaseTests.GcCollectMemory();
         var step2Memory = GC.GetTotalMemory(true);
 
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время заполнекния реестра : {stopwatch.Elapsed}");
         Console.WriteLine($"Занято памяти (до оптимизации)    : {step1Memory - startMemory:##,###} байт");
         Console.WriteLine($"Занято памяти (после оптимизации) : {step2Memory - startMemory:##,###} байт");
 
@@ -137,12 +142,14 @@ public class Examples
         BaseTests.GcCollectMemory();
         startMemory = GC.GetTotalMemory(true);
 
-        var stopwatch = Stopwatch.StartNew();
+        stopwatch = Stopwatch.StartNew();
+
         var registerTransactionKeys_2 = new ExampleRegisterTransactionKeys(m_identityCache, m_directory.BasePath);
 
         // Запуск реестра и ожидание его полной инициализации.
         registerTransactionKeys_2.Start();
         WaitHelpers.TimeOut(() => registerTransactionKeys_2.IsReady, TimeSpan.FromMinutes(1));
+
         stopwatch.Stop();
 
         BaseTests.GcCollectMemory();
