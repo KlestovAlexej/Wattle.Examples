@@ -51,8 +51,7 @@
 
 ### Пример старта реестра на **50.000.000** ключей
 
-Предварительн в БД создано *50.000.000* ключей, а на дисковой системе создан файловый кэш ключей из БД (на подготовку окружения ушло времени '01:09:53').
-<br>Ключ : 16 байт [Guid](https://docs.microsoft.com/ru-ru/dotnet/api/system.guid?view=net-6.0)
+Ключ : 16 байт [Guid](https://docs.microsoft.com/ru-ru/dotnet/api/system.guid?view=net-6.0)
 <br>Данные : 8 байт [Long](https://docs.microsoft.com/ru-ru/dotnet/api/system.int64?view=net-6.0)
 <br>Весь код примера в файле [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs) метод **Example_Start**.
 ```
@@ -66,6 +65,9 @@
 Количество сохранений групп ключей в персистентное хранилище : 0
 ```
 Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 14.1_
+
+Предварительно в БД создано *50.000.000* ключей, а на дисковой системе создан файловый кэш ключей из БД.
+<br>На подготовку окружения ушло времени '01:09:53'.
 
 ---
 ## Телеметрия приложения
