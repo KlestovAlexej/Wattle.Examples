@@ -136,7 +136,7 @@ public class Examples
         #endregion
 
         Console.WriteLine("");
-        Console.WriteLine($"Холодный старт рееста на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
+        Console.WriteLine($"Старт рееста на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
         Console.WriteLine("");
 
         BaseTests.GcCollectMemory();
