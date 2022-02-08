@@ -44,6 +44,7 @@ public class Examples
     [TestCase(5_000_000)]
     [TestCase(10_000_000)]
     [TestCase(50_000_000)]
+    [TestCase(100_000_000)]
     public void Example_Start(int сountKeys)
     {
         var keys = new List<(Guid Key, long Tag)>();
@@ -82,7 +83,7 @@ public class Examples
         BaseTests.GcCollectMemory();
         var step1Memory = GC.GetTotalMemory(true);
 
-        // Смещение времени на 2 дня в перёд.
+        // Смещение времени на 2 дня вперёд.
         m_timeService.SetOffeset(TimeSpan.FromDays(2));
 
         // Ожидание пока реестр оптимизирует свою память и сохранить оптимизированные ключи в файловый кэш.
@@ -95,7 +96,7 @@ public class Examples
 
         stopwatch.Stop();
 
-        Console.WriteLine($"Время заполнекния реестра : {stopwatch.Elapsed}");
+        Console.WriteLine($"Время заполнения реестра : {stopwatch.Elapsed}");
         Console.WriteLine($"Занято памяти (до оптимизации)    : {step1Memory - startMemory:##,###} байт");
         Console.WriteLine($"Занято памяти (после оптимизации) : {step2Memory - startMemory:##,###} байт");
 
