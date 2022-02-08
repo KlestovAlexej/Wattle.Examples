@@ -101,7 +101,6 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                         new Guid("F1D06D78-F8F7-47F2-9442-522026203599"))
                     .GetSmartDisposableReference<ITrigger>(true),
                 new SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary(),
-                null,
                 DomainBehaviourWithСonfirmation.DefaultMaxCountTryAndSkipVerify,
                 CreateKeysPersistentStorage(dataPath))
         {
