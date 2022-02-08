@@ -31,7 +31,7 @@
 
 Параметры подключения к серверу БД надо настроить в файле [DbCredentials.cs](/Common/DbCredentials.cs) и примеры 100% готовы к запуску.
 
-Базы данных на которых проверялись примеры [PostgreSQL 14.1](https://www.postgresql.org/) и [SQL Server 2019](https://www.microsoft.com/ru-ru/sql-server/sql-server-2019).
+Базы данных на которых проверялись примеры [PostgreSQL 14.1](https://www.postgresql.org/) и [SQL Server 2019 Standard](https://www.microsoft.com/ru-ru/sql-server/sql-server-2019).
 
 ---
 ## Идемпотентность
