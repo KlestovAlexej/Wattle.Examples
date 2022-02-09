@@ -178,7 +178,7 @@ public class Examples
 
         {
             var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks}");
+            Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
         }
 
         {
