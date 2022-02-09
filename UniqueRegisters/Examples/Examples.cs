@@ -159,6 +159,8 @@ public class Examples
         Console.WriteLine($"Время создания и 100% инициализации реестра : {stopwatch.Elapsed}");
         Console.WriteLine($"Занято памяти : {step3Memory - startMemory:##,###} байт");
 
+        stopwatch = Stopwatch.StartNew();
+
         Parallel.ForEach(keys,
             key =>
             {
@@ -170,6 +172,10 @@ public class Examples
                     unitOfWork.Commit();
                 }
             });
+
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время посиска всех ключей : {stopwatch.Elapsed}");
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
