@@ -127,7 +127,7 @@ public class Examples
         }
 
         Console.WriteLine("");
-        Console.WriteLine($"Содержимого файлового кэша для быстрого холодного старта '{registerTransactionKeys.DataPath}' :");
+        Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' :");
         foreach (var fileName in Directory.GetFiles(registerTransactionKeys.DataPath))
         {
             Console.WriteLine(Path.GetFileName(fileName));
