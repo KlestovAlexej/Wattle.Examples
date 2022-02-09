@@ -175,7 +175,7 @@ public class Examples
 
         stopwatch.Stop();
 
-        Console.WriteLine($"Время посиска всех ключей : {stopwatch.Elapsed}");
+        Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
