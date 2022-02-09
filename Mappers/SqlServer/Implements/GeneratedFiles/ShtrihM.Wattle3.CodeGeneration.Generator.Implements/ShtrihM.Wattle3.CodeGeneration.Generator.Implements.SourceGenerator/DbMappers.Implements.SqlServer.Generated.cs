@@ -280,8 +280,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implem
         {
             (instance) => instance.Id,
             (instance) => Constants.StartRevision,
-            (instance) => TypeCorrectors.DateTime(instance.Value_DateTime),
-            (instance) => TypeCorrectors.DateTime(instance.Value_DateTime_NotUpdate),
+            (instance) => instance.Value_DateTime,
+            (instance) => instance.Value_DateTime_NotUpdate,
             (instance) => instance.Value_Long,
             (instance) => instance.Value_Int,
             (instance) => instance.Value_String,
@@ -1457,8 +1457,8 @@ FROM [Object_A] WHERE ([Id] = @Id)";
                     {
                         Id = data.Id,
                         Revision = NewRevision(),
-                        Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                        Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                        Value_DateTime = data.Value_DateTime,
+                        Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                         Value_Long = data.Value_Long.Value,
                         Value_Int = data.Value_Int,
                         Value_String = data.Value_String.Value,
@@ -1565,8 +1565,8 @@ FROM [Object_A] WHERE ([Id] = @Id)";
                     {
                         Id = data.Id,
                         Revision = NewRevision(),
-                        Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                        Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                        Value_DateTime = data.Value_DateTime,
+                        Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                         Value_Long = data.Value_Long.Value,
                         Value_Int = data.Value_Int,
                         Value_String = data.Value_String.Value,
@@ -1831,8 +1831,8 @@ FROM [Object_A] WHERE ([Id] = @Id)";
                     {
                         Id = data.Id,
                         Revision = Constants.StartRevision,
-                        Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                        Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                        Value_DateTime = data.Value_DateTime,
+                        Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                         Value_Long = data.Value_Long,
                         Value_Int = data.Value_Int,
                         Value_String = data.Value_String,
@@ -1935,8 +1935,8 @@ VALUES
                     {
                         Id = data.Id,
                         Revision = Constants.StartRevision,
-                        Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                        Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                        Value_DateTime = data.Value_DateTime,
+                        Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                         Value_Long = data.Value_Long,
                         Value_Int = data.Value_Int,
                         Value_String = data.Value_String,
@@ -2875,7 +2875,7 @@ FROM [Object_A]";
             (instance) => instance.Id,
             (instance) => Constants.StartRevision,
             (instance) => true,
-            (instance) => TypeCorrectors.DateTime(instance.CreateDate),
+            (instance) => instance.CreateDate,
         };
 
         public BulkInsertDataReaderObject_B(IEnumerable<Object_BDtoNew> collection)
@@ -3647,7 +3647,7 @@ FROM [Object_B] WHERE ([Id] = @Id)";
                         Id = data.Id,
                         Available = true,
                         Revision = NewRevision(),
-                        CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                        CreateDate = data.CreateDate,
                     };
                 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -3720,7 +3720,7 @@ WHERE
                         Id = data.Id,
                         Available = true,
                         Revision = NewRevision(),
-                        CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                        CreateDate = data.CreateDate,
                     };
                 
                 var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
@@ -3944,7 +3944,7 @@ WHERE
                         Id = data.Id,
                         Available = true,
                         Revision = Constants.StartRevision,
-                        CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                        CreateDate = data.CreateDate,
                     };
                 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -4020,7 +4020,7 @@ VALUES
                         Id = data.Id,
                         Available = true,
                         Revision = Constants.StartRevision,
-                        CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                        CreateDate = data.CreateDate,
                     };
                 
                 // ReSharper disable once ConvertToUsingDeclaration

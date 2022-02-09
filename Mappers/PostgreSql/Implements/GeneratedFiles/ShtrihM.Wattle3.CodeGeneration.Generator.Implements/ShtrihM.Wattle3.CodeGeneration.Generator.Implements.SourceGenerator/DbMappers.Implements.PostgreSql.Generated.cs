@@ -269,8 +269,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
         {
             await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint).ConfigureAwait(false);
             await binaryImport.WriteAsync(Constants.StartRevision, NpgsqlDbType.Bigint).ConfigureAwait(false);
-            await binaryImport.WriteAsync(TypeCorrectors.DateTime(instance.Value_DateTime), NpgsqlDbType.Timestamp).ConfigureAwait(false);
-            await binaryImport.WriteAsync(TypeCorrectors.DateTime(instance.Value_DateTime_NotUpdate), NpgsqlDbType.Timestamp).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Value_DateTime, NpgsqlDbType.Timestamp).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Value_DateTime_NotUpdate, NpgsqlDbType.Timestamp).ConfigureAwait(false);
             await binaryImport.WriteAsync(instance.Value_Long, NpgsqlDbType.Bigint).ConfigureAwait(false);
             {
                 var value = instance.Value_Int;
@@ -290,8 +290,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Imple
         {
             binaryImport.Write(instance.Id, NpgsqlDbType.Bigint);
             binaryImport.Write(Constants.StartRevision, NpgsqlDbType.Bigint);
-            binaryImport.Write(TypeCorrectors.DateTime(instance.Value_DateTime), NpgsqlDbType.Timestamp);
-            binaryImport.Write(TypeCorrectors.DateTime(instance.Value_DateTime_NotUpdate), NpgsqlDbType.Timestamp);
+            binaryImport.Write(instance.Value_DateTime, NpgsqlDbType.Timestamp);
+            binaryImport.Write(instance.Value_DateTime_NotUpdate, NpgsqlDbType.Timestamp);
             binaryImport.Write(instance.Value_Long, NpgsqlDbType.Bigint);
             {
                 var value = instance.Value_Int;
@@ -1619,8 +1619,8 @@ FROM Object_A WHERE (Id = @Id)";
                 {
                     Id = data.Id,
                     Revision = NewRevision(),
-                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_DateTime = data.Value_DateTime,
+                    Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                     Value_Long = data.Value_Long.Value,
                     Value_Int = data.Value_Int,
                     Value_String = data.Value_String.Value,
@@ -1738,8 +1738,8 @@ FROM Object_A WHERE (Id = @Id)";
                 {
                     Id = data.Id,
                     Revision = NewRevision(),
-                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_DateTime = data.Value_DateTime,
+                    Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                     Value_Long = data.Value_Long.Value,
                     Value_Int = data.Value_Int,
                     Value_String = data.Value_String.Value,
@@ -1956,8 +1956,8 @@ FROM Object_A WHERE (Id = @Id)";
                 {
                     Id = data.Id,
                     Revision = Constants.StartRevision,
-                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_DateTime = data.Value_DateTime,
+                    Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                     Value_Long = data.Value_Long,
                     Value_Int = data.Value_Int,
                     Value_String = data.Value_String,
@@ -2076,8 +2076,8 @@ VALUES
                 {
                     Id = data.Id,
                     Revision = Constants.StartRevision,
-                    Value_DateTime = TypeCorrectors.DateTime(data.Value_DateTime),
-                    Value_DateTime_NotUpdate = TypeCorrectors.DateTime(data.Value_DateTime_NotUpdate),
+                    Value_DateTime = data.Value_DateTime,
+                    Value_DateTime_NotUpdate = data.Value_DateTime_NotUpdate,
                     Value_Long = data.Value_Long,
                     Value_Int = data.Value_Int,
                     Value_String = data.Value_String,
@@ -3002,7 +3002,7 @@ FROM Object_A";
             await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint).ConfigureAwait(false);
             await binaryImport.WriteAsync(true, NpgsqlDbType.Boolean).ConfigureAwait(false);
             await binaryImport.WriteAsync(Constants.StartRevision, NpgsqlDbType.Bigint).ConfigureAwait(false);
-            await binaryImport.WriteAsync(TypeCorrectors.DateTime(instance.CreateDate), NpgsqlDbType.Timestamp).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.CreateDate, NpgsqlDbType.Timestamp).ConfigureAwait(false);
         }
 
         protected override void DoInsertObject(NpgsqlBinaryImporter binaryImport, Object_BDtoNew instance)
@@ -3010,7 +3010,7 @@ FROM Object_A";
             binaryImport.Write(instance.Id, NpgsqlDbType.Bigint);
             binaryImport.Write(true, NpgsqlDbType.Boolean);
             binaryImport.Write(Constants.StartRevision, NpgsqlDbType.Bigint);
-            binaryImport.Write(TypeCorrectors.DateTime(instance.CreateDate), NpgsqlDbType.Timestamp);
+            binaryImport.Write(instance.CreateDate, NpgsqlDbType.Timestamp);
         }
 
         protected override string GetImportCommand()
@@ -3877,7 +3877,7 @@ FROM Object_B WHERE (Id = @Id)";
                     Id = data.Id,
                     Available = true,
                     Revision = NewRevision(),
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                    CreateDate = data.CreateDate,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -3955,7 +3955,7 @@ AND (Available = @Old_Available)";
                     Id = data.Id,
                     Available = true,
                     Revision = NewRevision(),
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                    CreateDate = data.CreateDate,
                 };
 
                 var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
@@ -4131,7 +4131,7 @@ AND (Available = @Old_Available)";
                     Id = data.Id,
                     Available = true,
                     Revision = Constants.StartRevision,
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                    CreateDate = data.CreateDate,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -4218,7 +4218,7 @@ VALUES
                     Id = data.Id,
                     Available = true,
                     Revision = Constants.StartRevision,
-                    CreateDate = TypeCorrectors.DateTime(data.CreateDate),
+                    CreateDate = data.CreateDate,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
