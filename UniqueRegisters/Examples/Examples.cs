@@ -178,6 +178,11 @@ public class Examples
         Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
 
         {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks}");
+        }
+
+        {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections:##,###}");
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions - startMappersSnapShot.CountSessions:##,###}");
