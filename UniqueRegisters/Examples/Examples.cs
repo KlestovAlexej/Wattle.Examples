@@ -19,7 +19,6 @@ using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
-using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;

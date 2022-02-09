@@ -23,8 +23,6 @@ using ShtrihM.Wattle3.Triggers;
 using ShtrihM.Wattle3.UniqueRegisters;
 using ShtrihM.Wattle3.UniqueRegisters.Dictionaries;
 using ShtrihM.Wattle3.Utils;
-using ShtrihM.Wattle3.Utils.DataIndexers;
-using ShtrihM.Wattle3.Utils.DataIndexers.TypedDataIndexers;
 
 // ReSharper disable All
 
