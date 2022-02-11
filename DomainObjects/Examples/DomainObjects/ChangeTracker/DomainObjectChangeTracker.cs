@@ -27,6 +27,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
         /// </summary>
         public override IDomainObjectData GetData(DomainObjectDataTarget target)
         {
+            // Создание объекта.
             if (target == DomainObjectDataTarget.Create)
             {
                 var data =
