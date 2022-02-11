@@ -9,7 +9,6 @@ using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.Common.Queries;
 using ShtrihM.Wattle3.Containers;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
