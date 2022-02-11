@@ -16,6 +16,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         private MutableField<long> m_value_Long;
         private MutableFieldNullable<int> m_value_Int;
 
+        /// <summary>
+        /// Восстановить экземпляр из данных БД.
+        /// </summary>
         public DomainObjectDocument(DocumentDtoActual data)
             : base(data.Id)
         {
@@ -27,6 +30,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             m_value_Int = data.Value_Int;
         }
 
+        /// <summary>
+        /// Создать экземпляр по данным шаблона.
+        /// </summary>
         public DomainObjectDocument(
             long identity,
             DateTime createDate,
@@ -113,7 +119,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         }
 
         /// <summary>
-        /// Метод сбора данных доменного объекта для их отправки в БД.
+        /// Сбор данных доменного объекта для их отправки в БД.
         /// </summary>
         public override IDomainObjectData GetData(DomainObjectDataTarget target)
         {
