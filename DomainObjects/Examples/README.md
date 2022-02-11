@@ -2,11 +2,11 @@
 
 # ExampleEntryPoint.cs
 
-Примеры реализации точки входа в доменную область.
+Пример реализации точки входа в доменную область.
 
 # ExampleUnitOfWork.cs
 
-Примеры реализации [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html).
+Пример реализации [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html).
 
 # Директория DomainObjects
 
