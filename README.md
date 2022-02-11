@@ -173,6 +173,188 @@ Write-Host ($Result)
 В проекте [DomainObjects](/DomainObjects) весь код примера.
 
 ---
+### Unit of Work
+Работа с доменными объектами идёт в пределах [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html) с контраком *IUnitOfWork*.
+Сам Unit of Work создаётся точкой входа в доменную область с контраком *IEntryPoint*.
+
+Пример создания доменного объекта:
+```csharp
+IEntryPoint entryPoint;
+
+using (var unitOfWork = entryPoint.CreateUnitOfWork())
+{
+    var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+    var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
+
+    unitOfWork.Commit();
+}
+```
+
+Контракт *IEntryPoint* :
+```csharp
+/// <summary>
+/// Точка входа в доменную область.
+/// </summary>
+public interface IEntryPoint : IDisposable, IDrivenObject
+{
+    /// <summary>
+    /// Монитор инфраструктуры.
+    /// </summary>
+    new IInfrastructureMonitorEntryPoint InfrastructureMonitor { get; }
+
+    /// <summary>
+    /// Создание <see cref="IUnitOfWork"/> для вызывающего потока. 
+    /// </summary>
+    /// <param name="context">Конекст сосздания <see cref="IUnitOfWork"/>.</param>
+    /// <returns>Созданный <see cref="IUnitOfWork"/>.</returns>
+    /// <exception cref="InternalException">Если для вызывающего потока уже определён <see cref="IUnitOfWork"/>.</exception>
+    IUnitOfWork CreateUnitOfWork(object context = null);
+
+    /// <summary>
+    /// Создание <see cref="IUnitOfWork"/> для вызывающего потока. 
+    /// </summary>
+    /// <param name="context">Конекст сосздания <see cref="IUnitOfWork"/>.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Созданный <see cref="IUnitOfWork"/>.</returns>
+    /// <exception cref="InternalException">Если для вызывающего потока уже определён <see cref="IUnitOfWork"/>.</exception>
+    ValueTask<IUnitOfWork> CreateUnitOfWorkAsync(object context = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Получить доменный сервис по типу сервиса.
+    /// </summary>
+    /// <param name="typeId">Тип доменного сервиса.</param>
+    /// <param name="service">Доменный сервис.</param>
+    /// <returns>Возвращается признак, что доменный сервис найден.
+    /// <see langword="true" /> - доменный сервис найден и определён аргумент <paramref name="service"/>.
+    /// <see langword="false" /> - доменный сервис не найден и аргумент <paramref name="service"/> установлен в <see langword="null" />.</returns>
+    bool TryGetDomainService(Guid typeId, out IDomainService service);
+
+    /// <summary>
+    /// Исполнить системный метод.
+    /// Если метод не найден генерируется исключение <exception cref="WorkflowException"><seealso cref="CommonWorkflowException.SystemMethodNotFound"/></exception>.
+    /// </summary>
+    /// <param name="methodParameters">Параметры метода.</param>
+    /// <param name="methodResult">Результат исполнения метода.</param>
+    /// <returns>Возвращается признак, что метод имеет результат. 
+    /// <see langword="true" /> - исполнение метода имеет результат сохраненный в аргументе <paramref name="methodResult"/>.
+    /// <see langword="false" /> - исполнение метода не имеет результата, аргументе <paramref name="methodResult"/> установлен в <see langword="null" />.</returns>
+    // ReSharper disable once UnusedMember.Global
+    bool CallMethod(ISystemMethodParameters methodParameters, out ISystemMethodResult methodResult);
+}
+```
+
+Контракт *IUnitOfWork* :
+```csharp
+/// <summary>
+/// Сессия доменной области.
+/// </summary>
+public interface IUnitOfWork : IHostMappersSession, IDisposable, IAsyncDisposable
+{
+    /// <summary>
+    /// Признак уничтожения <see cref="IUnitOfWork"/>.
+    /// </summary>
+    bool IsDisposed { get; }
+
+    /// <summary>
+    /// Произвольные ассоциированные данные.
+    /// </summary>
+    IDictionary<Guid, object> Tags { get; }
+
+    /// <summary>
+    /// Точка входа в доменную область.
+    /// </summary>
+    IEntryPoint EntryPoint { get; }
+
+    /// <summary>
+    /// Реест локальных изменяемых состояний доменных объектов использованных в <see cref="IUnitOfWork"/>. 
+    /// </summary>
+    IDomainObjectMutableStatesRegister DomainObjectMutableStates { get; }
+
+    /// <summary>
+    /// Реестры доменных объектов. 
+    /// </summary>
+    IDomainObjectRegisters Registers { get; }
+
+    /// <summary>
+    /// Стратегия проверки успешности завершения <see cref="IUnitOfWork"/>.
+    /// </summary>
+    IUnitOfWorkCommitVerifying CommitVerifying { get; set; }
+
+    /// <summary>
+    /// Добавить доменное поведение в <see cref="IUnitOfWork"/>.
+    /// </summary>
+    /// <param name="domainBehaviour">Доменное поведение.</param>
+    void AddBehaviour(IDomainBehaviour domainBehaviour);
+
+    /// <summary>
+    /// Добавить новый доменный объект в <see cref="IUnitOfWork"/> (<see cref="IDomainObject.GetData"/>, <see cref="DomainObjectDataTarget.Create"/>).
+    /// </summary>
+    /// <param name="domainObject">Доменный объект.</param>
+    void AddNew(IDomainObject domainObject);
+
+    /// <summary>
+    /// Добавить изменённый доменный объект в <see cref="IUnitOfWork"/> (<see cref="IDomainObject.GetData"/>, <see cref="DomainObjectDataTarget.Update"/>).
+    /// </summary>
+    /// <param name="domainObject">Доменный объект.</param>
+    void AddUpdate(IDomainObject domainObject);
+
+    /// <summary>
+    /// Добавить удалённый доменный объект в <see cref="IUnitOfWork"/> (<see cref="IDomainObject.GetData"/>, <see cref="DomainObjectDataTarget.Delete"/>).
+    /// </summary>
+    /// <param name="domainObject">Доменный объект.</param>
+    void AddDelete(IDomainObject domainObject);
+
+    /// <summary>
+    /// Добавить проверку верси данных доменного объект в <see cref="IUnitOfWork"/> (<see cref="IDomainObject.GetData"/>, <see cref="DomainObjectDataTarget.Version"/>).
+    /// </summary>
+    /// <param name="domainObject">Доменный объект.</param>
+    void AddVersion(IDomainObject domainObject);
+
+    /// <summary>
+    /// Подтвердить <see cref="IUnitOfWork"/>.
+    /// Вызов может быть только один.
+    /// </summary>
+    /// <returns><see langword="true" /> - если были изменения. <see langword="false" /> - если изменений не было или <see cref="IUnitOfWork"/> был отменён.</returns>
+    bool Commit();
+
+    /// <summary>
+    /// Подтвердить <see cref="IUnitOfWork"/>.
+    /// Вызов может быть только один.
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns><see langword="true" /> - если были изменения. <see langword="false" /> - если изменений не было или <see cref="IUnitOfWork"/> был отменён.</returns>
+    ValueTask<bool> CommitAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Отменить <see cref="IUnitOfWork"/>.
+    /// Вызывать можно неограниченное количество раз.
+    /// </summary>
+    void Rollback();
+
+    /// <summary>
+    /// Пометить <see cref="IUnitOfWork"/> как подозрительный для принудительного восстановления всех доменных объектов задействованных в <see cref="IUnitOfWork"/>.
+    /// Вызывать можно неограниченное количество раз.
+    /// </summary>
+    void Suspect();
+
+    /// <summary>
+    /// Получить сервис <see cref="IUnitOfWorkService"/> по типу сервиса.
+    /// </summary>
+    /// <param name="typeId">Тип сервиса UnitOfWork.</param>
+    /// <param name="service">Сервис UnitOfWork.</param>
+    /// <returns>Возвращается признак, что сервис UnitOfWork найден.
+    /// <see langword="true" /> - сервис UnitOfWork найден и определён аргумент <paramref name="service"/>.
+    /// <see langword="false" /> - сервис UnitOfWork не найден и аргумент <paramref name="service"/> установлен в <see langword="null" />.</returns>
+    bool TryGetUnitOfWorkService(Guid typeId, out IUnitOfWorkService service);
+
+    /// <summary>
+    /// Статус <see cref="IUnitOfWork"/>.
+    /// </summary>
+    UnitOfWorkState State { get; }
+}
+```
+
+---
 ## Автогенерация мапперов на чистом ADO.NET
 
 Примеры автогенерённых ADO.NET мапперов для [PostgreSQL](/Mappers/PostgreSql/Implements/).
