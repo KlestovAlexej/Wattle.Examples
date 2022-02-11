@@ -5,7 +5,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
     public class DomainObjectTemplateDocument : IDomainObjectTemplate
     {
-        private DomainObjectTemplateDocument(
+        public DomainObjectTemplateDocument(
             DateTime valueDateTime, 
             long valueLong, 
             int? valueInt)

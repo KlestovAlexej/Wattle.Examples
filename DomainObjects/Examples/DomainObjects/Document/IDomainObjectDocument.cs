@@ -10,6 +10,11 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
     public interface IDomainObjectDocument : IDomainObject
     {
         /// <summary>
+        /// Версия данных в БД.
+        /// </summary>
+        long Revision { get; }
+
+        /// <summary>
         /// Дата-время создания.
         /// </summary>
         DateTime CreateDate { get; }

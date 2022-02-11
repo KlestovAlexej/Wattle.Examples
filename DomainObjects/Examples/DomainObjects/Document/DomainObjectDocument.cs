@@ -42,6 +42,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 
         public override Guid TypeId => WellknownDomainObjects.Document;
 
+        public long Revision => m_revision; 
         public DateTime CreateDate { get; }
         public DateTime ModificationDate { get; private set; }
 
