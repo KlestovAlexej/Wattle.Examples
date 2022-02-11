@@ -11,7 +11,71 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
     public class DomainObjectDocument : BaseDomainObject, IDomainObjectDocument
     {
-        private readonly long m_revision;
+        public long Revision { get; }
+        public DateTime CreateDate { get; }
+        public DateTime ModificationDate { get; private set; }
+
+        public DateTime Value_DateTime
+        {
+            get => m_value_DateTime.Value;
+            set
+            {
+                if (m_value_DateTime.SetValue(value))
+                {
+                    DoUpdated();
+                }
+            }
+        }
+
+        public long Value_Long
+        {
+            get => m_value_Long.Value;
+            set
+            {
+                if (m_value_Long.SetValue(value))
+                {
+                    DoUpdated();
+                }
+            }
+        }
+
+        public int? Value_Int
+        {
+            get => m_value_Int.Value;
+            set
+            {
+                if (m_value_Int.SetValue(value))
+                {
+                    DoUpdated();
+                }
+            }
+        }
+
+        public string Method(DateTime value_DateTime, long value_Long, int? value_Int)
+        {
+            var changed = m_value_DateTime.SetValue(value_DateTime);
+            changed = m_value_Long.SetValue(value_Long) || changed;
+            changed = m_value_Int.SetValue(value_Int) || changed;
+
+            if (changed)
+            {
+                DoUpdated();
+            }
+
+            return "Test";
+        }
+
+        private void DoUpdated()
+        {
+            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+            var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
+            ModificationDate = entryPoint.TimeService.NowDateTime;
+
+            unitOfWork.AddUpdate(this);
+        }
+
+        #region Ритуальный код
+
         private MutableField<DateTime> m_value_DateTime;
         private MutableField<long> m_value_Long;
         private MutableFieldNullable<int> m_value_Int;
@@ -22,7 +86,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         public DomainObjectDocument(DocumentDtoActual data)
             : base(data.Id)
         {
-            m_revision = data.Revision;
+            Revision = data.Revision;
             CreateDate = data.CreateDate;
             ModificationDate = data.ModificationDate;
             m_value_DateTime = data.Value_DateTime;
@@ -47,76 +111,6 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         }
 
         public override Guid TypeId => WellknownDomainObjects.Document;
-
-        public long Revision => m_revision; 
-        public DateTime CreateDate { get; }
-        public DateTime ModificationDate { get; private set; }
-
-        public DateTime Value_DateTime
-        {
-            get => m_value_DateTime.Value;
-            set
-            {
-                if (m_value_DateTime.SetValue(value))
-                {
-                    var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
-                    var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
-                    ModificationDate = entryPoint.TimeService.NowDateTime;
-
-                    unitOfWork.AddUpdate(this);
-                }
-            }
-        }
-
-        public long Value_Long
-        {
-            get => m_value_Long.Value;
-            set
-            {
-                if (m_value_Long.SetValue(value))
-                {
-                    var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
-                    var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
-                    ModificationDate = entryPoint.TimeService.NowDateTime;
-
-                    unitOfWork.AddUpdate(this);
-                }
-            }
-        }
-
-        public int? Value_Int
-        {
-            get => m_value_Int.Value;
-            set
-            {
-                if (m_value_Int.SetValue(value))
-                {
-                    var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
-                    var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
-                    ModificationDate = entryPoint.TimeService.NowDateTime;
-
-                    unitOfWork.AddUpdate(this);
-                }
-            }
-        }
-
-        public string Method(DateTime value_DateTime, long value_Long, int? value_Int)
-        {
-            var changed = m_value_DateTime.SetValue(value_DateTime);
-            changed = m_value_Long.SetValue(value_Long) || changed;
-            changed = m_value_Int.SetValue(value_Int) || changed;
-
-            if (changed)
-            {
-                var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
-                var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
-                ModificationDate = entryPoint.TimeService.NowDateTime;
-
-                unitOfWork.AddUpdate(this);
-            }
-
-            return "Test";
-        }
 
         /// <summary>
         /// Сбор данных доменного объекта для их отправки в БД.
@@ -148,7 +142,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                     new DocumentDtoDeleted
                     {
                         Id = Identity,
-                        Revision = m_revision,
+                        Revision = Revision,
                     };
                 var result = new DomainObjectData(data);
 
@@ -162,7 +156,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                     new DocumentDtoChanged
                     {
                         Id = Identity,
-                        Revision = m_revision,
+                        Revision = Revision,
                         ModificationDate = ModificationDate,
                         CreateDate = CreateDate,
                         Value_DateTime = m_value_DateTime,
@@ -177,12 +171,14 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             // Проверка ревизии объекта в БД.
             if (target == DomainObjectDataTarget.Version)
             {
-                var result = new DomainObjectDataRevision(Identity, m_revision);
+                var result = new DomainObjectDataRevision(Identity, Revision);
 
                 return (result);
             }
 
             return base.GetData(target);
         }
+
+        #endregion
     }
 }
