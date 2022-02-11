@@ -62,12 +62,70 @@ public class Examples
 
             unitOfWork.Commit();
         }
+
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+    }
+
+    /// <summary>
+    /// Создание доменнного объекта и его массовое чтение из БД.
+    /// Демострация работы кэша на уровне мапперов.
+    /// </summary>
+    [Test]
+    public void Example_Read_Cache()
+    {
+        long id;
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
+
+            id = instance.Identity;
+
+            unitOfWork.Commit();
+        }
+
+        Console.WriteLine("После создания доменного объекта.");
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+
+        Parallel.For(
+            0, 1_000_000,
+            _ =>
+            {
+                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                {
+                    var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+                    var instance = register.Find(id, true);
+
+                    Assert.AreEqual(1, instance.Revision);
+                    Assert.AreEqual(new DateTime(2022, 1, 2, 3, 4, 5, 6), instance.Value_DateTime);
+                    Assert.AreEqual(1002, instance.Value_Long);
+                    Assert.AreEqual(444, instance.Value_Int);
+
+                    unitOfWork.Commit();
+                }
+            });
+
+        Console.WriteLine("");
+        Console.WriteLine("После массового чтения доменного объекта.");
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
     }
 
     #region Enviroment
 
     private string m_dbName;
-    private IEntryPoint m_entryPoint;
+    private ExampleEntryPoint m_entryPoint;
     private ManagedTimeService m_timeService;
 
     [SetUp]
