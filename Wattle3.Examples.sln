@@ -47,6 +47,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniqueRegisters.Examples", "UniqueRegisters\Examples\UniqueRegisters.Examples.csproj", "{E0FA4678-A7EE-4992-B572-A71AAF85BC56}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainObjects", "DomainObjects", "{4721133F-B6E1-4898-9CE4-5453386B521C}"
+	ProjectSection(SolutionItems) = preProject
+		Mappers\README.md = Mappers\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainObjects.Common", "DomainObjects\Common\DomainObjects.Common.csproj", "{01330887-485B-43DF-ACB8-F506BB90E060}"
 EndProject
