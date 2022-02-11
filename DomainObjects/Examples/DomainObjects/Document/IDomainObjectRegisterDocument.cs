@@ -13,6 +13,14 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 public interface IDomainObjectRegisterDocument : IDomainObjectRegister
 {
     /// <summary>
+    /// Найти доменный объект по идентити.
+    /// </summary>
+    /// <param name="identity">Идентити объекта.</param>
+    /// <param name="throwIfNotFound">Генерировать исключение <seealso cref="InvalidOperationException"/> если доменный объект не найден.</param>
+    /// <returns>Доменный объект или <see langword="null" /> если объект не найден.</returns>
+    IDomainObjectDocument Find(long identity, bool throwIfNotFound = false);
+
+    /// <summary>
     /// Создать доменный объект по шаблону.
     /// </summary>
     /// <returns>Созданный доменный объект.</returns>

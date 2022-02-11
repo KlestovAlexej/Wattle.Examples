@@ -183,6 +183,28 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             {
             }
 
+            /// <summary>
+            /// Найти доменный объект по идентити.
+            /// </summary>
+            /// <param name="identity">Идентити объекта.</param>
+            /// <param name="throwIfNotFound">Генерировать исключение <seealso cref="InvalidOperationException"/> если доменный объект не найден.</param>
+            /// <returns>Доменный объект или <see langword="null" /> если объект не найден.</returns>
+            public IDomainObjectDocument Find(long identity, bool throwIfNotFound = false)
+            {
+                var result = base.Find(identity);
+
+                if (throwIfNotFound && (result is null))
+                {
+                    throw new InvalidOperationException($"Не найден доменный объект '{typeof(IDomainObjectDocument)}' ({WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document)}) с идентити '{identity}'.");
+                }
+
+                return (IDomainObjectDocument)result;
+            }
+
+            /// <summary>
+            /// Создать доменный объект по шаблону.
+            /// </summary>
+            /// <returns>Созданный доменный объект.</returns>
             public IDomainObjectDocument New(DateTime valueDateTime, long valueLong, int? valueInt)
             {
                 var result = New(new DomainObjectTemplateDocument(valueDateTime, valueLong, valueInt));
@@ -197,6 +219,24 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         [ProxyDomainObjectRegister(WellknownDomainObjects.Text.Document)]
         public class ProxyDomainObjectRegisterDocument : ProxyDomainObjectRegister, IDomainObjectRegisterDocument
         {
+            /// <summary>
+            /// Найти доменный объект по идентити.
+            /// </summary>
+            /// <param name="identity">Идентити объекта.</param>
+            /// <param name="throwIfNotFound">Генерировать исключение <seealso cref="InvalidOperationException"/> если доменный объект не найден.</param>
+            /// <returns>Доменный объект или <see langword="null" /> если объект не найден.</returns>
+            public IDomainObjectDocument Find(long identity, bool throwIfNotFound = false)
+            {
+                var register = (IDomainObjectRegisterDocument)m_register;
+                var result = register.Find(identity, throwIfNotFound);
+
+                return result;
+            }
+
+            /// <summary>
+            /// Создать доменный объект по шаблону.
+            /// </summary>
+            /// <returns>Созданный доменный объект.</returns>
             public IDomainObjectDocument New(DateTime valueDateTime, long valueLong, int? valueInt)
             {
                 var register = (IDomainObjectRegisterDocument)m_register;

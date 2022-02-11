@@ -50,9 +50,8 @@ public class Examples
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
-            var instance = register.Find<IDomainObjectDocument>(id);
+            var instance = register.Find(id, true);
 
-            Assert.IsNotNull(instance);
             Assert.AreEqual(1, instance.Revision);
             Assert.AreEqual(new DateTime(2022, 1, 2, 3, 4, 5, 6), instance.Value_DateTime);
             Assert.AreEqual(1002, instance.Value_Long);
