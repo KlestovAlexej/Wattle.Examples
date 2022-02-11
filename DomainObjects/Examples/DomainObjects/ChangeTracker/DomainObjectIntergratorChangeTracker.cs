@@ -8,6 +8,7 @@ using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
@@ -15,11 +16,17 @@ using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker
 {
+    /// <summary>
+    /// Класс автоматической регистрации доменного объекта в точке входа в доменную область.
+    /// </summary>
     [DomainObjectIntergrator]
     public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator
     {
-        #region Activator
+        #region Activator - Создание экземпляра доменного объекта по шаблону создания
 
+        /// <summary>
+        /// Создание экземпляра доменного объекта по шаблону создания.
+        /// </summary>
         private class DomainObjectActivatorChangeTracker : BaseDomainObjectActivator<DomainObjectTemplateChangeTracker>
         {
             private readonly ComplexIdentity.Level m_complexIdentityLevel;
@@ -34,37 +41,51 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                 m_partitionsDay = partitionsDay ?? throw new ArgumentNullException(nameof(partitionsDay));
             }
 
+            /// <summary>
+            /// Создание экземпляра доменного объекта.
+            /// </summary>
             protected override IDomainObject DoCreate(
                 IDomainObjectIdentityGenerator identityGenerator, 
                 DomainObjectTemplateChangeTracker template)
             {
+                // Получить текущий Unit Of Work для данного потока.
                 var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+
+                // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
                 var nowDayIndex = m_partitionsDay.NowDayIndex;
                 var identity = identityGenerator.GetNextIdentity(unitOfWork.GetMappersSession());
-                
                 identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
 
+                // Создание экземпляра доменного объккта.
                 var result = new DomainObjectChangeTracker(identity);
 
+                // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
                 unitOfWork.AddNew(result);
 
                 return (result);
             }
 
+            /// <summary>
+            /// Асинхронное создание экземпляра доменного объекта.
+            /// </summary>
             protected override async ValueTask<IDomainObject> DoCreateAsync(
                 IDomainObjectIdentityGenerator identityGenerator, 
                 DomainObjectTemplateChangeTracker template,
                 CancellationToken cancellationToken = default)
             {
+                // Получить текущий Unit Of Work для данного потока.
                 var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+
+                // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
                 var nowDayIndex = m_partitionsDay.NowDayIndex;
                 var mappersSession = await unitOfWork.GetMappersSessionAsync(cancellationToken).ConfigureAwait(false);
                 var identity = await identityGenerator.GetNextIdentityAsync(mappersSession, cancellationToken).ConfigureAwait(false);
-
                 identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
 
+                // Создание экземпляра доменного объккта.
                 var result = new DomainObjectChangeTracker(identity);
 
+                // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
                 unitOfWork.AddNew(result);
 
                 return (result);
@@ -73,8 +94,11 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
 
         #endregion
 
-        #region DataActivator
+        #region DataActivator - Восстановление экземпляра доменного объекта по данным из БД
 
+        /// <summary>
+        /// Восстановление экземпляра доменного объекта по данным из БД.
+        /// </summary>
         private class DomainObjectDataActivatorChangeTracker : BaseDomainObjectDataActivatorForActualStateDto<ChangeTrackerDtoActual>
         {
             public DomainObjectDataActivatorChangeTracker()
@@ -92,7 +116,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
 
         #endregion
 
-        #region DataMapper
+        #region DataMapper - Работа с БД.
 
         private class DomainObjectDataMapperChangeTracker : BaseDomainObjectDataMapperNoDeleteUpdate<IMapperChangeTracker, ChangeTrackerDtoNew, ChangeTrackerDtoActual>
         {
@@ -117,10 +141,15 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
         }
         #endregion
 
+        /// <summary>
+        /// Метод автоматической регистрации доменного объекта в точке входа в доменную область.
+        /// </summary>
+        /// <param name="context"></param>
         protected override void DoRun(DomainObjectIntergratorContext context)
         {
-            var entryPoint = context.GetObject<ExampleEntryPoint>(WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
+            var entryPoint = context.GetObject<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
             var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
+
             var dataMapper = 
                 new DomainObjectDataMapperChangeTracker(
                     entryPoint.TimeService,
@@ -141,9 +170,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                             (m, session) => m.GetNextId(session),
                             (m, session, cancellationToken) => m.GetNextIdAsync(session, cancellationToken)),
                         methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count)));
-            context.GetObject<DomainObjectDataMappers>(WellknownDomainObjectIntergratorContextObjectNames.DataMappers).AddMapper(dataMapper);
+            entryPoint.DataMappers.AddMapper(dataMapper);
 
-            context.GetObject<DomainObjectRegisters>(WellknownDomainObjectIntergratorContextObjectNames.ObjectRegisters).AddRegister(
+            entryPoint.ObjectRegisters.AddRegister(
                 new DomainObjectRegisterStateless(
                     WellknownDomainObjects.ChangeTracker,
                     WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.ChangeTracker),

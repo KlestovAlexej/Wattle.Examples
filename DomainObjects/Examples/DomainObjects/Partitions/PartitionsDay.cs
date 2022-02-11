@@ -1,7 +1,7 @@
 ﻿using System;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions
 {
     /// <summary>
     /// Индексатор дней по которым идёт партиционирование таблиц БД.

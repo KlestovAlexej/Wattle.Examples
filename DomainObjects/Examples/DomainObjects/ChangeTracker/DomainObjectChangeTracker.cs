@@ -22,6 +22,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
 
         public override Guid TypeId => WellknownDomainObjects.ChangeTracker;
 
+        /// <summary>
+        /// Метод сбора данных доменного объекта для их отправки в БД.
+        /// </summary>
         public override IDomainObjectData GetData(DomainObjectDataTarget target)
         {
             if (target == DomainObjectDataTarget.Create)

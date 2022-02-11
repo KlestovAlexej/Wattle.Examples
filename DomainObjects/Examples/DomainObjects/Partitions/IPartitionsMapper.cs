@@ -1,6 +1,6 @@
 ﻿using ShtrihM.Wattle3.Mappers.PostgreSql;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions
 {
     /// <summary>
     /// Интерфейс маппера с поддержкой партиционирования таблицы БД.

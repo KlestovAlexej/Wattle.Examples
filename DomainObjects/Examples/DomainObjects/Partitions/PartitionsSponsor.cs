@@ -16,7 +16,7 @@ using ShtrihM.Wattle3.Services;
 using ShtrihM.Wattle3.Triggers;
 using ShtrihM.Wattle3.Utils;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions
 {
     /// <summary>
     /// Автоматический создатель партиция таблиц БД.

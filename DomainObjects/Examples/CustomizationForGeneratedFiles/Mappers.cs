@@ -18,7 +18,7 @@ public partial class Mappers
     partial void OnExitConstructor(object context)
     {
         var intergratorContext = (DomainObjectIntergratorContext)context;
-        var entryPoint = intergratorContext.GetObject<ExampleEntryPoint>(WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
+        var entryPoint = intergratorContext.GetObject<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
 
         var mapper = MapperDocument.NewWithCache(this, entryPoint.TimeService);
         RemoveMapper(mapper.MapperId).SilentDispose();

@@ -1,4 +1,5 @@
 ﻿using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 
 // ReSharper disable once CheckNamespace

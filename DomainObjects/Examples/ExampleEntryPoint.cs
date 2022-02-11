@@ -13,6 +13,7 @@ using ShtrihM.Wattle3.DomainObjects.SystemMethods;
 using ShtrihM.Wattle3.DomainObjects.UnitOfWorks;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
 using ShtrihM.Wattle3.Mappers;
@@ -26,6 +27,17 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 
 public class ExampleEntryPoint : BaseEntryPoint
 {
+    #region Public Static Class
+
+    public static class WellknownDomainObjectIntergratorContextObjectNames
+    {
+        public static readonly string TimeService = "TimeService";
+        public static readonly string EntryPoint = "EntryPoint";
+        public static readonly string ConnectionString = "ConnectionString";
+    }
+
+    #endregion
+
     private volatile bool m_stopping;
     private ProxyDomainObjectRegisterFactory m_proxyDomainObjectRegisterFactories;
     private UnitOfWorkContext m_unitOfWorkContext;
@@ -56,6 +68,8 @@ public class ExampleEntryPoint : BaseEntryPoint
     public PartitionsDay PartitionsDay => m_partitionsDay;
     public new WorkflowExceptionPolicy WorkflowExceptionPolicy => (WorkflowExceptionPolicy)m_workflowExceptionPolicy;
     public InfrastructureMonitorRegisters InfrastructureMonitorRegisters => m_infrastructureMonitorRegisters;
+    public DomainObjectDataMappers DataMappers => (DomainObjectDataMappers)m_dataMappers;
+    public DomainObjectRegisters ObjectRegisters => (DomainObjectRegisters)m_registers;
 
     public override void Start()
     {
@@ -260,9 +274,6 @@ public class ExampleEntryPoint : BaseEntryPoint
 
         var dataMappers = new DomainObjectDataMappers();
         var registers = new DomainObjectRegisters(result.TimeService);
-
-        domainObjectIntergratorContext.AddObject(WellknownDomainObjectIntergratorContextObjectNames.DataMappers, dataMappers);
-        domainObjectIntergratorContext.AddObject(WellknownDomainObjectIntergratorContextObjectNames.ObjectRegisters, registers);
 
         var infrastructureMonitor = new InfrastructureMonitorEntryPoint(result, TimeSpan.FromMinutes(30), result.TimeService);
 
