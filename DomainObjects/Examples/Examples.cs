@@ -33,8 +33,11 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 [TestFixture]
 public class Examples
 {
+    /// <summary>
+    /// Создать доменный объект в БД и прочитать его.
+    /// </summary>
     [Test]
-    public void Example()
+    public void Example_Create()
     {
         long id;
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
