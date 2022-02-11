@@ -36,16 +36,11 @@ public class Examples
     [Test]
     public void Example()
     {
-        var template =
-            new DomainObjectTemplateDocument(
-                new DateTime(2022, 1, 2, 3, 4, 5, 6),
-                1002,
-                444);
         long id;
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
-            var register = unitOfWork.Registers.GetRegister(WellknownDomainObjects.Document);
-            var instance = register.New<IDomainObjectDocument>(template);
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
 
             id = instance.Identity;
 
@@ -54,13 +49,14 @@ public class Examples
 
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
-            var register = unitOfWork.Registers.GetRegister(WellknownDomainObjects.Document);
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
             var instance = register.Find<IDomainObjectDocument>(id);
+
             Assert.IsNotNull(instance);
             Assert.AreEqual(1, instance.Revision);
-            Assert.AreEqual(template.Value_DateTime, instance.Value_DateTime);
-            Assert.AreEqual(template.Value_Int, instance.Value_Int);
-            Assert.AreEqual(template.Value_Long, instance.Value_Long);
+            Assert.AreEqual(new DateTime(2022, 1, 2, 3, 4, 5, 6), instance.Value_DateTime);
+            Assert.AreEqual(1002, instance.Value_Long);
+            Assert.AreEqual(444, instance.Value_Int);
 
             unitOfWork.Commit();
         }

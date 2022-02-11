@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
@@ -150,6 +151,63 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         }
         #endregion
 
+        #region DomainObjectRegister - Кастомный реестр доменных объектов
+
+        /// <summary>
+        /// Кастомный реестр доменных объектов.
+        /// </summary>
+        private class DomainObjectRegisterStatelessDocument : DomainObjectRegisterStateless, IDomainObjectRegisterDocument
+        {
+            public DomainObjectRegisterStatelessDocument(
+                Guid typeId, 
+                string name, 
+                IDomainObjectDataMapper dataMapper, 
+                IDomainObjectDataActivator dataActivator, 
+                IDomainObjectActivator activator, 
+                IMappers mappers, 
+                ITimeService timeService, 
+                IWorkflowExceptionPolicy workflowExceptionPolicy, 
+                IExceptionPolicy exceptionPolicy) 
+                : base(
+                    WellknownDomainObjects.Document,
+                    WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document), 
+                    dataMapper, 
+                    dataActivator, 
+                    activator,
+                    TimeSpan.FromSeconds(1), 
+                    null,
+                    mappers, 
+                    timeService, 
+                    workflowExceptionPolicy, 
+                    exceptionPolicy)
+            {
+            }
+
+            public IDomainObjectDocument New(DateTime valueDateTime, long valueLong, int? valueInt)
+            {
+                var result = New(new DomainObjectTemplateDocument(valueDateTime, valueLong, valueInt));
+
+                return (IDomainObjectDocument)result;
+            }
+        }
+
+        /// <summary>
+        /// Прокси уровня Unit Of Work для кастомного реестр доменных объектов <see cref="DomainObjectRegisterStatelessDocument"/>.
+        /// </summary>
+        [ProxyDomainObjectRegister(WellknownDomainObjects.Text.Document)]
+        public class ProxyDomainObjectRegisterDocument : ProxyDomainObjectRegister, IDomainObjectRegisterDocument
+        {
+            public IDomainObjectDocument New(DateTime valueDateTime, long valueLong, int? valueInt)
+            {
+                var register = (IDomainObjectRegisterDocument)m_register;
+                var result = register.New(valueDateTime, valueLong, valueInt);
+                
+                return result;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Метод автоматической регистрации доменного объекта в точке входа в доменную область.
         /// </summary>
@@ -182,14 +240,12 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             entryPoint.DataMappers.AddMapper(dataMapper);
 
             entryPoint.ObjectRegisters.AddRegister(
-                new DomainObjectRegisterStateless(
+                new DomainObjectRegisterStatelessDocument(
                     WellknownDomainObjects.Document,
                     WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document),
                     dataMapper,
                     new DomainObjectDataActivatorDocument(),
                     new DomainObjectActivatorDocument(mapper.Partitions.Level, entryPoint.PartitionsDay),
-                    TimeSpan.FromSeconds(1),
-                    null,
                     entryPoint.Mappers,
                     entryPoint.TimeService,
                     entryPoint.WorkflowExceptionPolicy,
