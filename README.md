@@ -169,33 +169,20 @@ Write-Host ($Result)
 
 ---
 ## Доменные объекты
-Примеры создания и применения доменных объектов.
+Фреймворк позволяет программировать [доменные объекты](https://en.wikipedia.org/wiki/Business_object) и максимально сосредоточиться на бизнес-значимых понятиях не в ущерб производительности.
 
-В проекте [DomainObjects](/DomainObjects) весь код примера.
+В проекте [DomainObjects](/DomainObjects) весь код примеров.
 
 ---
 ### Паттерн Unit of Work
 Работа с доменными объектами идёт в пределах [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html) с контраком *IUnitOfWork*.
 <br/>Сам Unit of Work создаётся точкой входа в доменную область с контраком *IEntryPoint*.
 
-Весь кад примера в файле [Examples.cs](DomainObjects/Examples/Examples.cs).
+Весь код примеров в файле [Examples.cs](DomainObjects/Examples/Examples.cs).
 
-Пример создания доменного объекта :
-```csharp
-IEntryPoint entryPoint;
+<details>
+<summary>Контракт IEntryPoint :</summary>
 
-...
-
-using (var unitOfWork = entryPoint.CreateUnitOfWork())
-{
-    var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
-    var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
-
-    unitOfWork.Commit();
-}
-```
-
-Контракт *IEntryPoint* :
 ```csharp
 /// <summary>
 /// Точка входа в доменную область.
@@ -248,7 +235,11 @@ public interface IEntryPoint : IDisposable, IDrivenObject
 }
 ```
 
-Контракт *IUnitOfWork* :
+</details>
+
+<details>
+<summary>Контракт IUnitOfWork :</summary>
+
 ```csharp
 /// <summary>
 /// Сессия доменной области.
@@ -356,6 +347,23 @@ public interface IUnitOfWork : IHostMappersSession, IDisposable, IAsyncDisposabl
     /// Статус <see cref="IUnitOfWork"/>.
     /// </summary>
     UnitOfWorkState State { get; }
+}
+```
+
+</details>
+
+Пример создания доменного объекта :
+```csharp
+IEntryPoint entryPoint;
+
+...
+
+using (var unitOfWork = entryPoint.CreateUnitOfWork())
+{
+    var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+    var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
+
+    unitOfWork.Commit();
 }
 ```
 
