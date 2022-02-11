@@ -178,9 +178,13 @@ Write-Host ($Result)
 Работа с доменными объектами идёт в пределах [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html) с контраком *IUnitOfWork*.
 <br/>Сам Unit of Work создаётся точкой входа в доменную область с контраком *IEntryPoint*.
 
-Пример создания доменного объекта:
+Весь кад примера в файле [Examples.cs](DomainObjects/Examples/Examples.cs).
+
+Пример создания доменного объекта :
 ```csharp
 IEntryPoint entryPoint;
+
+...
 
 using (var unitOfWork = entryPoint.CreateUnitOfWork())
 {
