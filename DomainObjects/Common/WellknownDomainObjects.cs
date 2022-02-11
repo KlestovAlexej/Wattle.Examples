@@ -17,9 +17,14 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
         public static class Text
         {
             /// <summary>
-            /// Уникальный ключ транзакции.
+            /// Отслеживание изменений.
             /// </summary>
-            public const string TransactionKey = "52AF162D-5F87-4C74-965F-EEFC9850C088";
+            public const string ChangeTracker = "67BF3734-17BB-4E9A-B0F1-B8F85382E690";
+
+            /// <summary>
+            /// Документ.
+            /// </summary>
+            public const string Document = "D70D5118-2C04-4A66-A5A1-4573B7F91631";
         }
 
         /// <summary>
@@ -33,10 +38,16 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
         }
 
         /// <summary>
-        /// Уникальный ключ транзакции.
+        /// Отслеживание изменений.
         /// </summary>
-        [Description("Уникальный ключ транзакции")]
-        public static readonly Guid TransactionKey = new(Text.TransactionKey);
+        [Description("Отслеживание изменений")]
+        public static readonly Guid ChangeTracker = new(Text.ChangeTracker);
+
+        /// <summary>
+        /// Документ.
+        /// </summary>
+        [Description("Документ")]
+        public static readonly Guid Document = new(Text.Document);
 
         public static string GetDisplayName(Guid id)
         {

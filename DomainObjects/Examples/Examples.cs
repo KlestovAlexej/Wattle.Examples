@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -440,7 +441,7 @@ public class Examples
                 }
                 catch (ApplicationException)
                 {
-                    /* NONE */
+                    /* NONE * /
                 }
             });
 
@@ -628,3 +629,5 @@ public class Examples
 
     #endregion
 }
+
+*/

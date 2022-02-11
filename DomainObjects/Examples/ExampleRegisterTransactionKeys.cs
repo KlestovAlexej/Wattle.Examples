@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -382,3 +383,4 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples
         }
     }
 }
+*/

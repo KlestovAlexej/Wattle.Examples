@@ -3,7 +3,7 @@
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 
-public partial interface IMapperTransactionKey
+public partial interface IMapperDocument
 {
     public IPartitionsManager Partitions { get; }
 }

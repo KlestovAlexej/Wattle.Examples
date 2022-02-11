@@ -3,7 +3,7 @@
 		"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88": {
 			"id": "d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
 			"visible": true,
-			"name": "transactionkey",
+			"name": "document",
 			"desc": "",
 			"cols": [
 				{
@@ -22,9 +22,9 @@
 					}
 				},
 				{
-					"id": "d6bbc2cb-0e62-4d11-8005-78d3b9f94e91",
-					"name": "key",
-					"datatype": "uuid",
+					"id": "75aeb5cf-3c52-417b-833e-eaa6b76262e5",
+					"name": "revision",
+					"datatype": "bigint",
 					"param": "",
 					"pk": false,
 					"nn": true,
@@ -39,12 +39,80 @@
 					}
 				},
 				{
-					"id": "315c1d06-e455-4847-8e7e-26d2d7316e6f",
-					"name": "tag",
+					"id": "abb708c3-f50d-44bf-bb50-3a14cd4c921c",
+					"name": "createdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "a94b50b8-bed7-49a6-bf84-e4a1fdd95134",
+					"name": "modificationdate",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "a1655676-f236-472f-805c-2cef4e474ae7",
+					"name": "value_datetime",
+					"datatype": "timestamp",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "6207a56d-3431-4b2d-8710-ae60506e1803",
+					"name": "value_long",
 					"datatype": "bigint",
 					"param": "",
 					"pk": false,
 					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "18381064-b545-4e82-9b60-d4d0113e51d8",
+					"name": "value_int",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": false,
 					"comment": "",
 					"defaultvalue": "",
 					"data": "",
@@ -61,6 +129,56 @@
 			"keys": [
 				{
 					"id": "dc5f92a2-c235-41f9-86f9-a4bcbd6418fb",
+					"name": "Primary key",
+					"isPk": true,
+					"using": "",
+					"cols": [
+						{
+							"id": "d673b1b8-f446-4bbc-81ee-d78b732ad3d1",
+							"colid": "9bab4db6-1153-4b8d-ba14-294a9240a5f7"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"partition": "BY RANGE (id)"
+			},
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": ""
+		},
+		"2cc46c93-aaea-41f8-a75b-d3fffc117a4f": {
+			"id": "2cc46c93-aaea-41f8-a75b-d3fffc117a4f",
+			"visible": true,
+			"name": "changetracker",
+			"desc": "",
+			"cols": [
+				{
+					"id": "9bab4db6-1153-4b8d-ba14-294a9240a5f7",
+					"name": "id",
+					"datatype": "bigint",
+					"pk": true,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				}
+			],
+			"relations": [],
+			"lines": [],
+			"keys": [
+				{
+					"id": "06ed27ba-cbbb-4d52-b090-f0a324b78757",
 					"name": "Primary key",
 					"isPk": true,
 					"using": "",
@@ -114,7 +232,7 @@
 		"pg": {
 			"schema": ""
 		},
-		"lastSaved": "04.02.2022",
+		"lastSaved": "Fri Feb 11 2022 16:48:31 GMT+0300 (Москва, стандартное время)",
 		"writeFileParam": true,
 		"activeDiagram": "f1669b85-a87c-45bc-806a-d4c1a20593bc",
 		"schemaContainerIsDisplayed": false,
@@ -141,10 +259,24 @@
 		"9a8623f7-d52c-479b-ab2c-a1b338465ba8": {
 			"id": "9a8623f7-d52c-479b-ab2c-a1b338465ba8",
 			"visible": true,
-			"name": "Sequence_TransactionKey",
+			"name": "Sequence_Document",
 			"desc": "",
 			"type": "Sequence",
-			"code": "CREATE SEQUENCE Sequence_TransactionKey START WITH 1 INCREMENT BY 1;",
+			"code": "CREATE SEQUENCE Sequence_Document START WITH 1 INCREMENT BY 1;",
+			"lines": [],
+			"pg": {
+				"schema": ""
+			},
+			"generate": true,
+			"generateCustomCode": true
+		},
+		"52d70078-66e3-4832-836a-dd25e81347c6": {
+			"id": "52d70078-66e3-4832-836a-dd25e81347c6",
+			"visible": true,
+			"name": "Sequence_ChangeTracker",
+			"desc": "",
+			"type": "Sequence",
+			"code": "CREATE SEQUENCE Sequence_ChangeTracker START WITH 1 INCREMENT BY 1;",
 			"lines": [],
 			"pg": {
 				"schema": ""
@@ -173,21 +305,43 @@
 			"diagramItems": {
 				"9a8623f7-d52c-479b-ab2c-a1b338465ba8": {
 					"referencedItemId": "9a8623f7-d52c-479b-ab2c-a1b338465ba8",
-					"x": 45,
+					"x": 46,
 					"y": 30,
 					"gHeight": 44,
-					"gWidth": 166,
+					"gWidth": 150,
 					"color": "#eee",
 					"background": "#795548",
-					"resized": false,
+					"resized": true,
 					"autoExpand": true
 				},
 				"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88": {
 					"referencedItemId": "d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
 					"x": 45,
 					"y": 117,
-					"gHeight": 123,
-					"gWidth": 229,
+					"gHeight": 153,
+					"gWidth": 265,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true
+				},
+				"52d70078-66e3-4832-836a-dd25e81347c6": {
+					"referencedItemId": "52d70078-66e3-4832-836a-dd25e81347c6",
+					"x": 356,
+					"y": 30,
+					"gHeight": 44,
+					"gWidth": 164,
+					"color": "#eee",
+					"background": "#795548",
+					"resized": false,
+					"autoExpand": true
+				},
+				"2cc46c93-aaea-41f8-a75b-d3fffc117a4f": {
+					"referencedItemId": "2cc46c93-aaea-41f8-a75b-d3fffc117a4f",
+					"x": 347,
+					"y": 118,
+					"gHeight": 52,
+					"gWidth": 195,
 					"color": "#ffffff",
 					"background": "#03a9f4",
 					"resized": true,
@@ -198,6 +352,8 @@
 	},
 	"order": [
 		"9a8623f7-d52c-479b-ab2c-a1b338465ba8",
-		"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88"
+		"52d70078-66e3-4832-836a-dd25e81347c6",
+		"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
+		"2cc46c93-aaea-41f8-a75b-d3fffc117a4f"
 	]
 }

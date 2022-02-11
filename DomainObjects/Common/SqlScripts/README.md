@@ -6,4 +6,4 @@ SQL-скрипт наполнения БД.
 
 # DbModel.dmm
 
-SQL-скрипт наполнения БД.
+Проектный файл [Moon Modeler](https://www.datensen.com/data-modeling/moon-modeler-for-databases.html) c моделью БД.

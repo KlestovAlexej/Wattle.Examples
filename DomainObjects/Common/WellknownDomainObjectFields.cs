@@ -31,31 +31,70 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
             DisplayNames = displayNames;
         }
 
-        #region TransactionKey - Уникальный ключ транзакции.
+        #region Document - Документ.
 
         /// <summary>
-        /// Уникальный ключ транзакции.
+        /// Документ.
         /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
         /// </summary>
-        [Description("Уникальный ключ транзакции")]
-        [SchemaMapper(MapperId = WellknownDomainObjects.Text.TransactionKey)]
+        [Description("Документ")]
+        [SchemaMapper(MapperId = WellknownDomainObjects.Text.Document, IsPrepared = true, IsCached = true, DeleteMode = SchemaMapperDeleteMode.Delete)]
         [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2)]
         [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
-        public static class TransactionKey
+        [SchemaMapperRevisionField(IsVersion = true)]
+        public static class Document
         {
             /// <summary>
-            /// Произвольные данные транзакции.
+            /// Дата-время создания.
             /// </summary>
-            [Description("Произвольные данные транзакции")]
-            [SchemaMapperField(typeof(long), Where = true, Order = true)]
-            public static readonly Guid Tag = new("9D0FF6D9-4059-4DB8-9B58-883707710026");
+            [Description("Дата-время создания")]
+            [SchemaMapperField(typeof(DateTime), Where = true, Order = true)]
+            public static readonly Guid CreateDate = new("7EF5BC59-73AE-485F-A1D5-7A7CEC7B691C");
 
             /// <summary>
-            /// Ключ транзакции.
+            /// Дата-время модификации.
             /// </summary>
-            [Description("Ключ транзакции")]
-            [SchemaMapperField(typeof(Guid), Where = true, Order = true)]
-            public static readonly Guid Key = new("7E371548-201D-463F-85FF-95E1741AC449");
+            [Description("Дата-время модификации")]
+            [SchemaMapperField(typeof(DateTime), Where = true, Order = true, UpdateMode = SchemaMapperFieldUpdateMode.UpdateDirect)]
+            public static readonly Guid ModificationDate = new("F1A9D132-E6B2-4C4C-96E7-BDFCB1E0A330");
+
+            /// <summary>
+            /// Доле документа - дата-время.
+            /// </summary>
+            [Description("Доле документа - дата-время")]
+            [SchemaMapperField(typeof(DateTime), Where = true, Order = true, UpdateMode = SchemaMapperFieldUpdateMode.Update)]
+            public static readonly Guid Value_DateTime = new("31BECBF5-304F-4E0B-9540-25EFD7191F19");
+
+            /// <summary>
+            /// Доле документа - число.
+            /// </summary>
+            [Description("Доле документа - число")]
+            [SchemaMapperField(typeof(long), Where = true, Order = true, UpdateMode = SchemaMapperFieldUpdateMode.Update)]
+            public static readonly Guid Value_Long = new("15713B81-57C2-4A29-A978-2F2EA00D4554");
+
+            /// <summary>
+            /// Доле документа - число с поддержкой null.
+            /// </summary>
+            [Description("Доле документа - число с поддержкой null")]
+            [SchemaMapperField(typeof(int?), Where = true, Order = true, UpdateMode = SchemaMapperFieldUpdateMode.Update)]
+            public static readonly Guid Value_Int = new("C238F1B0-C802-41F3-A6F0-AE2B52A1598F");
+        }
+
+        #endregion
+
+        #region ChangeTracker - Отслеживание изменений.
+
+        /// <summary>
+        /// Отслеживание изменений.
+        /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
+        /// </summary>
+        [Description("Отслеживание изменений")]
+        [SchemaMapper(MapperId = WellknownDomainObjects.Text.ChangeTracker, IsPrepared = true)]
+        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2)]
+        [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
+        public static class ChangeTracker
+        {
+            /* NONE */
         }
 
         #endregion
