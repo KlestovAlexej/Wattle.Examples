@@ -24,8 +24,6 @@ using ShtrihM.Wattle3.UniqueRegisters;
 using ShtrihM.Wattle3.UniqueRegisters.Dictionaries;
 using ShtrihM.Wattle3.Utils;
 
-// ReSharper disable All
-
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 {
     /// <summary>

@@ -25,8 +25,6 @@ using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
-// ReSharper disable All
-
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 
 [TestFixture]

@@ -4,9 +4,7 @@ using System.ComponentModel;
 using System.Reflection;
 using ShtrihM.Wattle3.Primitives;
 
-// ReSharper disable All
-
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Common
 {
     /// <summary>
     /// Идентификаторы объектов.

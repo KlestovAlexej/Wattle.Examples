@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
+using ShtrihM.Wattle3.Primitives;
+
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
+{
+    /// <summary>
+    /// Идентификаторы объектов.
+    /// </summary>
+    public static class WellknownDomainObjects
+    {
+        /// <summary>
+        /// Идентификаторы объектов в текстовом виде.
+        /// </summary>
+        public static class Text
+        {
+            /// <summary>
+            /// Уникальный ключ транзакции.
+            /// </summary>
+            public const string TransactionKey = "52AF162D-5F87-4C74-965F-EEFC9850C088";
+        }
+
+        /// <summary>
+        /// Все идентификаторы объектов и их описание.
+        /// </summary>
+        public static readonly IReadOnlyDictionary<Guid, string> DisplayNames;
+
+        static WellknownDomainObjects()
+        {
+            WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod().DeclaringType);
+        }
+
+        /// <summary>
+        /// Уникальный ключ транзакции.
+        /// </summary>
+        [Description("Уникальный ключ транзакции")]
+        public static readonly Guid TransactionKey = new(Text.TransactionKey);
+
+        public static string GetDisplayName(Guid id)
+        {
+            return DisplayNames.TryGetValue(id, out var result) ? result : id.ToString();
+        }
+    }
+}

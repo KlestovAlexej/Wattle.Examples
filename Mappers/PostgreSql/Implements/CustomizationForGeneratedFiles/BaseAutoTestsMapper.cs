@@ -5,8 +5,7 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
-// ReSharper disable All
-
+// ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 
 public abstract partial class BaseAutoTestsMapper

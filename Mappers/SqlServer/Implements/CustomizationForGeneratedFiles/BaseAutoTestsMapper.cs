@@ -5,8 +5,7 @@ using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.SqlServer;
 
-// ReSharper disable All
-
+// ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
 
 public abstract partial class BaseAutoTestsMapper

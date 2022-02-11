@@ -24,8 +24,6 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.SqlServer;
 
-// ReSharper disable All
-
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
 
 [TestFixture]

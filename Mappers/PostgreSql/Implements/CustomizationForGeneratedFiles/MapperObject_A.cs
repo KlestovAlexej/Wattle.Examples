@@ -7,8 +7,7 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 
-// ReSharper disable All
-
+// ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
 
 public partial class MapperObject_A

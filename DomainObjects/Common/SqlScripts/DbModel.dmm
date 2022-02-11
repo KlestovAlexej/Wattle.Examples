@@ -1,0 +1,203 @@
+{
+	"tables": {
+		"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88": {
+			"id": "d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
+			"visible": true,
+			"name": "transactionkey",
+			"desc": "",
+			"cols": [
+				{
+					"id": "9bab4db6-1153-4b8d-ba14-294a9240a5f7",
+					"name": "id",
+					"datatype": "bigint",
+					"pk": true,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "d6bbc2cb-0e62-4d11-8005-78d3b9f94e91",
+					"name": "key",
+					"datatype": "uuid",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				},
+				{
+					"id": "315c1d06-e455-4847-8e7e-26d2d7316e6f",
+					"name": "tag",
+					"datatype": "bigint",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"collation": null,
+					"list": false,
+					"after": "",
+					"pg": {
+						"generatedIdentity": "no"
+					}
+				}
+			],
+			"relations": [],
+			"lines": [],
+			"keys": [
+				{
+					"id": "dc5f92a2-c235-41f9-86f9-a4bcbd6418fb",
+					"name": "Primary key",
+					"isPk": true,
+					"using": "",
+					"cols": [
+						{
+							"id": "d673b1b8-f446-4bbc-81ee-d78b732ad3d1",
+							"colid": "9bab4db6-1153-4b8d-ba14-294a9240a5f7"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"partition": "BY RANGE (id)"
+			},
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": ""
+		}
+	},
+	"relations": {},
+	"notes": {},
+	"lines": {},
+	"model": {
+		"name": "Emerald.Accounts",
+		"id": "4c92d881-8d9d-4364-b985-30062712879e",
+		"desc": "",
+		"path": "",
+		"type": "PG",
+		"version": 1,
+		"keysgraphics": true,
+		"linegraphics": true,
+		"zoom": 100,
+		"parentTableInFkCols": true,
+		"caseConvention": "camel",
+		"replaceSpace": "_",
+		"color": "transparent",
+		"background": "transparent",
+		"sideSelections": true,
+		"isDirty": true,
+		"storedin": {
+			"major": 2,
+			"minor": 9,
+			"extra": 6
+		},
+		"def_coltopk": true,
+		"pg": {
+			"schema": ""
+		},
+		"lastSaved": "04.02.2022",
+		"writeFileParam": true,
+		"activeDiagram": "f1669b85-a87c-45bc-806a-d4c1a20593bc",
+		"schemaContainerIsDisplayed": false,
+		"embeddedInParentsIsDisplayed": true,
+		"sqlSettings": {
+			"wrapLines": true,
+			"wrapOffset": 80,
+			"indent": true,
+			"indentationString": "spaces",
+			"indentationSize": 2,
+			"limitItemsOnLine": true,
+			"maxListItemsOnLine": 3,
+			"statementDelimiter": ";",
+			"routineDelimiter": ";",
+			"keywordCase": "upper",
+			"identiferCase": "original",
+			"includeSchema": "always",
+			"quotation": "if_needed"
+		},
+		"cardinalityIsDisplayed": false,
+		"customDataTypes": []
+	},
+	"otherObjects": {
+		"9a8623f7-d52c-479b-ab2c-a1b338465ba8": {
+			"id": "9a8623f7-d52c-479b-ab2c-a1b338465ba8",
+			"visible": true,
+			"name": "Sequence_TransactionKey",
+			"desc": "",
+			"type": "Sequence",
+			"code": "CREATE SEQUENCE Sequence_TransactionKey START WITH 1 INCREMENT BY 1;",
+			"lines": [],
+			"pg": {
+				"schema": ""
+			},
+			"generate": true,
+			"generateCustomCode": true
+		}
+	},
+	"diagrams": {
+		"f1669b85-a87c-45bc-806a-d4c1a20593bc": {
+			"name": "Main Diagram",
+			"description": "",
+			"id": "f1669b85-a87c-45bc-806a-d4c1a20593bc",
+			"keysgraphics": true,
+			"linegraphics": "detailed",
+			"color": "transparent",
+			"background": "transparent",
+			"lineColor": "transparent",
+			"isOpen": true,
+			"zoom": 1,
+			"scroll": {
+				"left": 0,
+				"top": 0
+			},
+			"main": true,
+			"diagramItems": {
+				"9a8623f7-d52c-479b-ab2c-a1b338465ba8": {
+					"referencedItemId": "9a8623f7-d52c-479b-ab2c-a1b338465ba8",
+					"x": 45,
+					"y": 30,
+					"gHeight": 44,
+					"gWidth": 166,
+					"color": "#eee",
+					"background": "#795548",
+					"resized": false,
+					"autoExpand": true
+				},
+				"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88": {
+					"referencedItemId": "d28c2f38-2782-4fa2-ab6c-60e4dbd35e88",
+					"x": 45,
+					"y": 117,
+					"gHeight": 123,
+					"gWidth": 229,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": true,
+					"autoExpand": true
+				}
+			}
+		}
+	},
+	"order": [
+		"9a8623f7-d52c-479b-ab2c-a1b338465ba8",
+		"d28c2f38-2782-4fa2-ab6c-60e4dbd35e88"
+	]
+}

@@ -2,8 +2,7 @@
 using ShtrihM.Wattle3.Mappers.SqlServer;
 using ShtrihM.Wattle3.Utils;
 
-// ReSharper disable All
-
+// ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implements;
 
 public partial class Mappers

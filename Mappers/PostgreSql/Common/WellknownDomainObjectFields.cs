@@ -6,8 +6,6 @@ using ShtrihM.Wattle3.CodeGeneration.Common;
 using ShtrihM.Wattle3.Common;
 using ShtrihM.Wattle3.Primitives;
 
-// ReSharper disable All
-
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
 {
     /// <summary>
