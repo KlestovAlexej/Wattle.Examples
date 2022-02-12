@@ -531,8 +531,6 @@ File.WriteAllText(fileName, xml);
 /// Объект Object_A
 /// </summary>
 [MapperInterface(WellknownMappersAsText.Object_A)]
-[SuppressMessage("ReSharper", "UnusedMember.Global")]
-// ReSharper disable once PartialTypeWithSinglePart
 public partial interface IMapperObject_A : IMapper
 {
     /// <summary>
@@ -619,19 +617,19 @@ public partial interface IMapperObject_A : IMapper
     /// <summary>
     /// Получить запись с указаным идентити.
     /// </summary>
-    /// <param name="session">Сессия БД.</param>
+    /// <param name="hostMappersSession">Хост сессии БД.</param>
     /// <param name="id">Идентити записи.</param>
     /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-    Object_ADtoActual Get(IMappersSession session, long id);
+    Object_ADtoActual Get(IHostMappersSession hostMappersSession, long id);
 
     /// <summary>
     /// Получить запись с указаным идентити.
     /// </summary>
-    /// <param name="session">Сессия БД.</param>
+    /// <param name="hostMappersSession">Хост сессии БД.</param>
     /// <param name="id">Идентити записи.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-    ValueTask<Object_ADtoActual> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+    ValueTask<Object_ADtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Получить запись с указаным идентити.
