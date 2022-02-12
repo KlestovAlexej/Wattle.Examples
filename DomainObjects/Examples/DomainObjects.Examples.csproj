@@ -25,31 +25,31 @@
 		<PackageReference Include="Npgsql" Version="6.0.3" />
 		<PackageReference Include="NUnit" Version="3.13.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.0.0.35849">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.0.0.35851">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.0.0.35849">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.0.0.35851">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.0.0.35849">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.0.0.35851">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.0.0.35849">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.0.0.35851">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers.PostgreSql" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.PostgreSql" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.DomainObjects" Version="3.0.0.35849" />
-		<PackageReference Include="ShtrihM.Wattle3.UniqueRegisters" Version="3.0.0.35849" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers.PostgreSql" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.PostgreSql" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing.DomainObjects" Version="3.0.0.35851" />
+		<PackageReference Include="ShtrihM.Wattle3.UniqueRegisters" Version="3.0.0.35851" />
 	</ItemGroup>
 
 	<ItemGroup>

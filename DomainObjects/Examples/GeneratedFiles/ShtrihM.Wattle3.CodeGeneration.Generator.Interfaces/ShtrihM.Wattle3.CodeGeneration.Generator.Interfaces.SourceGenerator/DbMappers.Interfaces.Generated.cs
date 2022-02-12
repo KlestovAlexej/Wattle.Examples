@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
+using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using System.Runtime.Serialization;
 
 #pragma warning disable 1591
@@ -305,19 +306,19 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        DocumentDtoActual Get(IMappersSession session, long id);
+        DocumentDtoActual Get(IHostMappersSession hostMappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<DocumentDtoActual> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<DocumentDtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -518,19 +519,19 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ChangeTrackerDtoActual Get(IMappersSession session, long id);
+        ChangeTrackerDtoActual Get(IHostMappersSession hostMappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<ChangeTrackerDtoActual> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<ChangeTrackerDtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.

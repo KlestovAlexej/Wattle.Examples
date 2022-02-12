@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
+using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using System.Runtime.Serialization;
 
 #pragma warning disable 1591
@@ -345,19 +346,19 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        Object_ADtoActual Get(IMappersSession session, long id);
+        Object_ADtoActual Get(IHostMappersSession hostMappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<Object_ADtoActual> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<Object_ADtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -545,20 +546,20 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// Получить запись с указаным идентити.
         /// ВАЖНО : Получение не учитывает скрытые записи.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает <see langword="true" /> если записи существует иначе если запись не существует или скрыта возвращает <see langword="null" />.</returns>
-        Object_BDtoActual Get(IMappersSession session, long id);
+        Object_BDtoActual Get(IHostMappersSession hostMappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
         /// ВАЖНО : Получение не учитывает скрытые записи.
         /// </summary>
-        /// <param name="session">Сессия БД.</param>
+        /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает <see langword="true" /> если записи существует иначе если запись не существует или скрыта возвращает <see langword="null" />.</returns>
-        ValueTask<Object_BDtoActual> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<Object_BDtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.

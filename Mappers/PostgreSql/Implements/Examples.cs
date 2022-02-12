@@ -59,10 +59,12 @@ public class Examples
         }
 
         // Скрыть запись.
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            var dbDtoActual = mapper.Get(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
+
+            var mappersSession = hostMappersSession.GetMappersSession();
 
             mapper.Hide(mappersSession,
                 new Object_BDtoDeleted
@@ -78,10 +80,12 @@ public class Examples
         }
 
         // Проверить сокрытие записи.
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = mapper.Get(mappersSession, id_1);
+            var dbDto = mapper.Get(hostMappersSession, id_1);
             Assert.IsNull(dbDto);
+
+            var mappersSession = hostMappersSession.GetMappersSession();
 
             dbDto = mapper.GetRaw(mappersSession, id_1);
             Assert.IsNotNull(dbDto);
@@ -122,10 +126,12 @@ public class Examples
         }
 
         // Скрыть запись.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = await mapper.GetAsync(mappersSession, id_1);
+            var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
+
+            var mappersSession = await hostMappersSession.GetMappersSessionAsync();
 
             await mapper.HideAsync(mappersSession,
                 new Object_BDtoDeleted
@@ -141,10 +147,12 @@ public class Examples
         }
 
         // Проверить сокрытие записи.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = await mapper.GetAsync(mappersSession, id_1);
+            var dbDto = await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNull(dbDto);
+
+            var mappersSession = await hostMappersSession.GetMappersSessionAsync();
 
             dbDto = await mapper.GetRawAsync(mappersSession, id_1);
             Assert.IsNotNull(dbDto);
@@ -197,10 +205,12 @@ public class Examples
         }
 
         // Удалить запись.
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            var dbDtoActual = mapper.Get(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
+
+            var mappersSession = hostMappersSession.GetMappersSession();
 
             try
             {
@@ -222,9 +232,9 @@ public class Examples
         }
 
         // Проверить удаление записи.
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = mapper.Get(mappersSession, id_1);
+            var dbDto = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД без изменений :");
             Console.WriteLine(dbDto.ToJsonText(true));
         }
@@ -268,10 +278,12 @@ public class Examples
         }
 
         // Удалить запись.
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            var dbDtoActual = mapper.Get(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
+
+            var mappersSession = hostMappersSession.GetMappersSession();
 
             mapper.Delete(mappersSession,
                 new Object_ADtoDeleted
@@ -330,10 +342,12 @@ public class Examples
         }
 
         // Удалить запись.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = await mapper.GetAsync(mappersSession, id_1);
+            var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
+
+            var mappersSession = await hostMappersSession.GetMappersSessionAsync();
 
             await mapper.DeleteAsync(mappersSession,
                 new Object_ADtoDeleted
@@ -393,9 +407,11 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            var dbDtoActual = mapper.Get(hostMappersSession, id_1);
+
+            var mappersSession = hostMappersSession.GetMappersSession();
 
             try
             {
@@ -422,9 +438,9 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = mapper.Get(mappersSession, id_1);
+            var dbDto = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД без изменений :");
             Console.WriteLine(dbDto.ToJsonText(true));
         }
@@ -469,9 +485,12 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = mapper.Get(mappersSession, id_1);
+            var dbDtoActual = mapper.Get(hostMappersSession, id_1);
+
+            var mappersSession = hostMappersSession.GetMappersSession();
+
             mapper.Update(
                 mappersSession,
                 new Object_ADtoChanged
@@ -488,9 +507,9 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = mapper.Get(mappersSession, id_1);
+            var dbDto = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД после изменения :");
             Console.WriteLine(dbDto.ToJsonText(true));
         }
@@ -535,9 +554,12 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = await mapper.GetAsync(mappersSession, id_1);
+            var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
+
+            var mappersSession = await hostMappersSession.GetMappersSessionAsync();
+
             await mapper.UpdateAsync(
                 mappersSession,
                 new Object_ADtoChanged
@@ -554,13 +576,11 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = await mapper.GetAsync(mappersSession, id_1);
+            var dbDto = await mapper.GetAsync(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД после изменения :");
             Console.WriteLine(dbDto.ToJsonText(true));
-
-            await mappersSession.CommitAsync();
         }
     }
 
@@ -613,22 +633,29 @@ public class Examples
             mappersSession.Commit();
         }
 
+        var stopwatch = Stopwatch.StartNew();
+
+        // Выборка записей по первичному ключу.
         for (var index = 0; index < 1_000_000; index++)
         {
-            var mappersSession = mappers.OpenSession();
+            var hostMappersSession = mappers.CreateHostMappersSession();
 
-            mapper.Get(mappersSession, id_1);
-            mapper.Get(mappersSession, id_2);
+            mapper.Get(hostMappersSession, id_1);
+            mapper.Get(hostMappersSession, id_2);
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto_1 = mapper.Get(mappersSession, id_1);
+            var dbDto_1 = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine(dbDto_1.ToJsonText(true));
 
-            var dbDto_2 = mapper.Get(mappersSession, id_2);
+            var dbDto_2 = mapper.Get(hostMappersSession, id_2);
             Console.WriteLine(dbDto_2.ToJsonText(true));
         }
+
+        stopwatch.Stop();
+
+        Console.WriteLine($"Время выборки : {stopwatch.Elapsed}");
 
         {
             var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
@@ -695,10 +722,10 @@ public class Examples
         Parallel.For(0, 10_000_000,
             _ =>
             {
-                var mappersSession = mappers.OpenSession();
+                using var hostMappersSession = mappers.CreateHostMappersSession();
 
                 var id = ProviderRandomValues.GetItem(ids);
-                var dto = mapper.Get(mappersSession, id);
+                var dto = mapper.Get(hostMappersSession, id);
                 Assert.IsNotNull(dto);
             });
 
@@ -758,9 +785,9 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = mapper.Get(mappersSession, id);
+            var dbDto = mapper.Get(hostMappersSession, id);
             Console.WriteLine(dbDto.ToJsonText(true));
         }
     }
@@ -803,10 +830,9 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var hostMappersSession = mappers.CreateHostMappersSession())
         {
-            var dbDto = await mapper.GetAsync(mappersSession, id);
-
+            var dbDto = await mapper.GetAsync(hostMappersSession, id);
             Console.WriteLine(dbDto.ToJsonText(true));
         }
     }

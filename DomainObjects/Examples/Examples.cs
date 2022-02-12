@@ -95,6 +95,8 @@ public class Examples
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
         }
 
+        var stopwatch = Stopwatch.StartNew();
+
         Parallel.For(
             0, 1_000_000,
             _ =>
@@ -113,8 +115,12 @@ public class Examples
                 }
             });
 
+        stopwatch.Stop();
+
         Console.WriteLine("");
         Console.WriteLine("После массового чтения доменного объекта.");
+        Console.WriteLine($"Время чтения : {stopwatch.Elapsed}");
+
         {
             var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
