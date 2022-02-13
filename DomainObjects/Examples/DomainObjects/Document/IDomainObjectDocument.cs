@@ -1,5 +1,4 @@
 ﻿using System;
-using ShtrihM.Wattle3.CodeGeneration.Common;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document

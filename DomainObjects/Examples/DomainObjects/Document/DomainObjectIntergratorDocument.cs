@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
@@ -202,12 +201,49 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             }
 
             /// <summary>
+            /// Найти доменный объект по идентити.
+            /// </summary>
+            /// <param name="identity">Идентити объекта.</param>
+            /// <param name="throwIfNotFound">Генерировать исключение <seealso cref="InvalidOperationException"/> если доменный объект не найден.</param>
+            /// <param name="cancellationToken">Токен отмены</param>
+            /// <returns>Доменный объект или <see langword="null" /> если объект не найден.</returns>
+            public async ValueTask<IDomainObjectDocument> FindAsync(long identity, bool throwIfNotFound = false, CancellationToken cancellationToken = default)
+            {
+                var result = await base.FindAsync(identity, cancellationToken).ConfigureAwait(false);
+
+                if (throwIfNotFound && (result is null))
+                {
+                    throw new InvalidOperationException($"Не найден доменный объект '{typeof(IDomainObjectDocument)}' ({WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document)}) с идентити '{identity}'.");
+                }
+
+                return (IDomainObjectDocument)result;
+            }
+
+            /// <summary>
             /// Создать доменный объект по шаблону.
             /// </summary>
+            /// <param name="valueDateTime">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
+            /// <param name="valueLong">Поле <see cref="IDomainObjectDocument.Value_Long"/>.</param>
+            /// <param name="valueInt">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
             /// <returns>Созданный доменный объект.</returns>
             public IDomainObjectDocument New(DateTime valueDateTime, long valueLong, int? valueInt)
             {
                 var result = New(new DomainObjectTemplateDocument(valueDateTime, valueLong, valueInt));
+
+                return (IDomainObjectDocument)result;
+            }
+
+            /// <summary>
+            /// Создать доменный объект по шаблону.
+            /// </summary>
+            /// <param name="valueDateTime">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
+            /// <param name="valueLong">Поле <see cref="IDomainObjectDocument.Value_Long"/>.</param>
+            /// <param name="valueInt">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Созданный доменный объект.</returns>
+            public async ValueTask<IDomainObjectDocument> NewAsync(DateTime valueDateTime, long valueLong, int? valueInt, CancellationToken cancellationToken = default)
+            {
+                var result = await NewAsync(new DomainObjectTemplateDocument(valueDateTime, valueLong, valueInt), cancellationToken).ConfigureAwait(false);
 
                 return (IDomainObjectDocument)result;
             }
@@ -234,14 +270,48 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             }
 
             /// <summary>
+            /// Найти доменный объект по идентити.
+            /// </summary>
+            /// <param name="identity">Идентити объекта.</param>
+            /// <param name="throwIfNotFound">Генерировать исключение <seealso cref="InvalidOperationException"/> если доменный объект не найден.</param>
+            /// <param name="cancellationToken">Токен отмены</param>
+            /// <returns>Доменный объект или <see langword="null" /> если объект не найден.</returns>
+            public ValueTask<IDomainObjectDocument> FindAsync(long identity, bool throwIfNotFound = false, CancellationToken cancellationToken = default)
+            {
+                var register = (IDomainObjectRegisterDocument)m_register;
+                var result = register.FindAsync(identity, throwIfNotFound, cancellationToken);
+
+                return result;
+            }
+
+            /// <summary>
             /// Создать доменный объект по шаблону.
             /// </summary>
+            /// <param name="valueDateTime">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
+            /// <param name="valueLong">Поле <see cref="IDomainObjectDocument.Value_Long"/>.</param>
+            /// <param name="valueInt">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
             /// <returns>Созданный доменный объект.</returns>
             public IDomainObjectDocument New(DateTime valueDateTime, long valueLong, int? valueInt)
             {
                 var register = (IDomainObjectRegisterDocument)m_register;
                 var result = register.New(valueDateTime, valueLong, valueInt);
                 
+                return result;
+            }
+
+            /// <summary>
+            /// Создать доменный объект по шаблону.
+            /// </summary>
+            /// <param name="valueDateTime">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
+            /// <param name="valueLong">Поле <see cref="IDomainObjectDocument.Value_Long"/>.</param>
+            /// <param name="valueInt">Поле <see cref="IDomainObjectDocument.Value_DateTime"/>.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Созданный доменный объект.</returns>
+            public ValueTask<IDomainObjectDocument> NewAsync(DateTime valueDateTime, long valueLong, int? valueInt, CancellationToken cancellationToken = default)
+            {
+                var register = (IDomainObjectRegisterDocument)m_register;
+                var result = register.NewAsync(valueDateTime, valueLong, valueInt, cancellationToken);
+
                 return result;
             }
         }
