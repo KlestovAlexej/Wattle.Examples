@@ -51,6 +51,20 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             }
         }
 
+        public void Version()
+        {
+            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+
+            unitOfWork.AddVersion(this);
+        }
+
+        public void Delete()
+        {
+            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+
+            unitOfWork.AddDelete(this);
+        }
+
         public string Method(DateTime value_DateTime, long value_Long, int? value_Int)
         {
             var changed = m_value_DateTime.SetValue(value_DateTime);

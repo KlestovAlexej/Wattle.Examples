@@ -43,5 +43,15 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// Метод доменного объекта с доменнной логикой.
         /// </summary>
         string Method(DateTime value_DateTime, long value_Long, int? value_Int);
+
+        /// <summary>
+        /// Удалить доменный объект.
+        /// </summary>
+        void Delete();
+
+        /// <summary>
+        /// Верификация версии данных в БД.
+        /// </summary>
+        void Version();
     }
 }

@@ -19,6 +19,7 @@ using ShtrihM.Wattle3.DomainObjects.UnitOfWorks;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
@@ -34,11 +35,12 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 public class Examples
 {
     /// <summary>
-    /// Создать доменный объект в БД и прочитать его.
+    /// Создать доменный объект в БД.
     /// </summary>
     [Test]
-    public void Example_Create()
+    public void Example_DomainObject_Create()
     {
+        // Создание
         long id;
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
@@ -50,6 +52,7 @@ public class Examples
             unitOfWork.Commit();
         }
 
+        // Чтение
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -63,6 +66,11 @@ public class Examples
             unitOfWork.Commit();
         }
 
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
         {
             var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
@@ -75,8 +83,9 @@ public class Examples
     /// Демострация работы кэша на уровне мапперов.
     /// </summary>
     [Test]
-    public void Example_Read_Cache()
+    public void Example_DomainObject_Read()
     {
+        // Создание
         long id;
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
@@ -89,6 +98,12 @@ public class Examples
         }
 
         Console.WriteLine("После создания доменного объекта.");
+
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
         {
             var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
@@ -97,6 +112,7 @@ public class Examples
 
         var stopwatch = Stopwatch.StartNew();
 
+        // Чтение
         Parallel.For(
             0, 1_000_000,
             _ =>
@@ -121,12 +137,285 @@ public class Examples
         Console.WriteLine("После массового чтения доменного объекта.");
         Console.WriteLine($"Время чтения : {stopwatch.Elapsed}");
 
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
         {
             var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
         }
     }
+
+    /// <summary>
+    /// Изменение доменного объекта в БД.
+    /// </summary>
+    [Test]
+    public void Example_DomainObject_Update()
+    {
+        // Создание
+        long id;
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
+
+            id = instance.Identity;
+
+            unitOfWork.Commit();
+        }
+
+        // Изменение
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id, true);
+
+            Assert.AreEqual(1, instance.Revision);
+            Assert.AreEqual(new DateTime(2022, 1, 2, 3, 4, 5, 6), instance.Value_DateTime);
+            Assert.AreEqual(1002, instance.Value_Long);
+            Assert.AreEqual(444, instance.Value_Int);
+
+            instance.Value_DateTime = new DateTime(2022, 5, 6, 7, 8, 9, 10);
+            instance.Value_Long = 303;
+            instance.Value_Int = 999;
+
+            unitOfWork.Commit();
+        }
+
+        // Чтение
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id, true);
+
+            Assert.AreEqual(2, instance.Revision);
+            Assert.AreEqual(new DateTime(2022, 5, 6, 7, 8, 9, 10), instance.Value_DateTime);
+            Assert.AreEqual(303, instance.Value_Long);
+            Assert.AreEqual(999, instance.Value_Int);
+
+            unitOfWork.Commit();
+        }
+
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+    }
+
+    /// <summary>
+    /// Удаление доменного объекта в БД.
+    /// </summary>
+    [Test]
+    public void Example_DomainObject_Delete()
+    {
+        // Создание
+        long id_1;
+        long id_2;
+        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            id_1 = register.New(DomainObjectTemplateDocument.GetRandomTemplate()).Identity;
+            id_2 = register.New(template).Identity;
+
+            unitOfWork.Commit();
+        }
+
+        // Удаление
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id_1, true);
+
+            instance.Delete();
+
+            unitOfWork.Commit();
+        }
+
+        // Чтение
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+
+            var instance = register.Find(id_1);
+            Assert.IsNull(instance);
+
+            instance = register.Find(id_2);
+            Assert.IsNotNull(instance);
+
+            Assert.AreEqual(1, instance.Revision);
+            Assert.AreEqual(template.Value_DateTime, instance.Value_DateTime);
+            Assert.AreEqual(template.Value_Long, instance.Value_Long);
+            Assert.AreEqual(template.Value_Int, instance.Value_Int);
+
+            unitOfWork.Commit();
+        }
+
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+    }
+
+    /// <summary>
+    /// Верификация версии данных в БД.
+    /// </summary>
+    [Test]
+    public void Example_DomainObject_Version()
+    {
+        // Создание
+        long id;
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            id = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444).Identity;
+
+            unitOfWork.Commit();
+        }
+
+        // Верификация версии данных в БД - без изменения доменного объекта
+        var workflowException =
+            Assert.Throws<WorkflowException>(
+                () =>
+                {
+                    using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                    {
+                        var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+                        var instance = register.Find(id, true);
+
+                        // Параллельное изменение данных в БД
+                        ChangeDocument(id, new DateTime(2023, 4, 5, 6, 7, 8, 9), 303, 999);
+
+                        instance.Version();
+
+                        unitOfWork.Commit();
+                    }
+                });
+        Assert.AreEqual(CommonWorkflowExceptionErrorCodes.ServiceTemporarilyUnavailable, workflowException.Code);
+        Assert.AreEqual("Доменный объект не найден или версия его данных изменилась.", workflowException.Details);
+
+        // Чтение
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id);
+
+            Assert.AreEqual(2, instance.Revision);
+            Assert.AreEqual(new DateTime(2023, 4, 5, 6, 7, 8, 9), instance.Value_DateTime);
+            Assert.AreEqual(303, instance.Value_Long);
+            Assert.AreEqual(999, instance.Value_Int);
+
+            unitOfWork.Commit();
+        }
+
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+    }
+
+    /// <summary>
+    /// Оптимистическая конкуренция на уровне БД.
+    /// </summary>
+    [Test]
+    public void Example_DomainObject_OptimisticConcurrency()
+    {
+        // Создание
+        long id;
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            id = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444).Identity;
+
+            unitOfWork.Commit();
+        }
+
+        // Верификация версии данных в БД - без изменения доменного объекта
+        var exception =
+            Assert.Throws<InvalidOperationException>(
+                () =>
+                {
+                    using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+                    {
+                        var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+                        var instance = register.Find(id, true);
+
+                        // Параллельное изменение данных в БД
+                        ChangeDocument(id, new DateTime(2023, 4, 5, 6, 7, 8, 9), 303, 999);
+
+                        instance.Method(new DateTime(2024, 7, 8, 9, 10, 11, 12), 77, 44);
+
+                        unitOfWork.Commit();
+                    }
+                });
+        Assert.IsTrue(exception.Message.Contains("Конкуренция при обновлении записи"));
+
+        // Чтение
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id);
+
+            Assert.AreEqual(2, instance.Revision);
+            Assert.AreEqual(new DateTime(2023, 4, 5, 6, 7, 8, 9), instance.Value_DateTime);
+            Assert.AreEqual(303, instance.Value_Long);
+            Assert.AreEqual(999, instance.Value_Int);
+
+            unitOfWork.Commit();
+        }
+
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+    }
+
+    #region Helpers
+
+    private void ChangeDocument(long id, DateTime value_DateTime, long value_Long, int? value_Int)
+    {
+        var oldUnitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().SetCurrentUnitOfWork(null); // Отключение для потока Unit of Work
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id, true);
+
+            var result = instance.Method(value_DateTime, value_Long, value_Int);
+            Assert.AreEqual("Test", result);
+
+            unitOfWork.Commit();
+        }
+        ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().SetCurrentUnitOfWork(oldUnitOfWork); // Вернуть для потока Unit of Work
+    }
+
+    #endregion
 
     #region Enviroment
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
+using ShtrihM.Wattle3.Testing;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
@@ -18,5 +19,10 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         public readonly DateTime Value_DateTime;
         public readonly long Value_Long;
         public readonly int? Value_Int;
+
+        public static DomainObjectTemplateDocument GetRandomTemplate() => new(
+            ProviderRandomValues.GetDateTime(),
+            ProviderRandomValues.GetInt64(),
+            ProviderRandomValues.GetInt32Nullable());
     }
 }
