@@ -71,6 +71,9 @@ public class ExampleEntryPoint : BaseEntryPoint
     public DomainObjectDataMappers DataMappers => (DomainObjectDataMappers)m_dataMappers;
     public DomainObjectRegisters ObjectRegisters => (DomainObjectRegisters)m_registers;
 
+    /// <summary>
+    /// Создание стратегии слежения за результатом исполнения Unit of Work.
+    /// </summary>
     public DomainBehaviourWithСonfirmation CreateDomainBehaviourWithСonfirmation()
     {
         var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
