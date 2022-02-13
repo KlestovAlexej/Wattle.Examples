@@ -281,13 +281,11 @@ public class ExampleEntryPoint : BaseEntryPoint
             result.m_workflowExceptionPolicy,
             dataMappers,
             registers,
-            new UnitOfWorkServiceFactoriesRegister().Add(result.GetType().Assembly),
             new SystemMethodRegisters(),
             infrastructureMonitor);
 
         result.m_unitOfWorkContext = new UnitOfWorkContext(result,
                 result.m_dataMappers,
-                result.m_unitOfWorkServiceFactoriesRegister,
                 result.m_mappers,
                 result.m_exceptionPolicy,
                 result.m_workflowExceptionPolicy);

@@ -252,6 +252,11 @@ public interface IUnitOfWork : IHostMappersSession, IDisposable, IAsyncDisposabl
     bool IsDisposed { get; }
 
     /// <summary>
+    /// Статус <see cref="IUnitOfWork"/>.
+    /// </summary>
+    UnitOfWorkState State { get; }
+
+    /// <summary>
     /// Произвольные ассоциированные данные.
     /// </summary>
     IDictionary<Guid, object> Tags { get; }
@@ -332,21 +337,6 @@ public interface IUnitOfWork : IHostMappersSession, IDisposable, IAsyncDisposabl
     /// Вызывать можно неограниченное количество раз.
     /// </summary>
     void Suspect();
-
-    /// <summary>
-    /// Получить сервис <see cref="IUnitOfWorkService"/> по типу сервиса.
-    /// </summary>
-    /// <param name="typeId">Тип сервиса UnitOfWork.</param>
-    /// <param name="service">Сервис UnitOfWork.</param>
-    /// <returns>Возвращается признак, что сервис UnitOfWork найден.
-    /// <see langword="true" /> - сервис UnitOfWork найден и определён аргумент <paramref name="service"/>.
-    /// <see langword="false" /> - сервис UnitOfWork не найден и аргумент <paramref name="service"/> установлен в <see langword="null" />.</returns>
-    bool TryGetUnitOfWorkService(Guid typeId, out IUnitOfWorkService service);
-
-    /// <summary>
-    /// Статус <see cref="IUnitOfWork"/>.
-    /// </summary>
-    UnitOfWorkState State { get; }
 }
 ```
 

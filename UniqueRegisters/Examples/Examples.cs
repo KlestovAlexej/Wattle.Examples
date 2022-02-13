@@ -543,7 +543,6 @@ public class Examples
                 workflowExceptionPolicy,
                 new DomainObjectDataMappers(),
                 new DomainObjectRegisters(timeService),
-                new UnitOfWorkServiceFactoriesRegister().Add(GetType().Assembly),
                 new SystemMethodRegisters(),
                 new InfrastructureMonitorEntryPoint(this, TimeSpan.FromMinutes(15), timeService));
 
@@ -554,7 +553,6 @@ public class Examples
                 new UnitOfWorkContext(
                     this,
                     m_dataMappers,
-                    m_unitOfWorkServiceFactoriesRegister,
                     mappers,
                     exceptionPolicy,
                     workflowExceptionPolicy);
