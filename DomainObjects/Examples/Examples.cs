@@ -35,6 +35,147 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 public class Examples
 {
     /// <summary>
+    /// Демонстрация работы стратегии слежения за результатом исполнения Unit of Work.
+    /// В пределах Unit of Work произошло исключение.
+    /// </summary>
+    [Test]
+    public void Example_UnitOfWork_Сonfirmation_Fail()
+    {
+        // Создание
+        var id = long.MinValue;
+        try
+        {
+            using var unitOfWork = m_entryPoint.CreateUnitOfWork();
+
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
+            id = instance.Identity;
+
+            // Добавление в Unit of Work стратегии слежения за результатом исполнения Unit of Work.
+            var domainBehaviour = m_entryPoint.CreateDomainBehaviourWithСonfirmation();
+            domainBehaviour
+                // Реакция на успешное завершение Unit of Work. Вызван Commit и от успешно отработал. Данные гарантированно ушли в БД.
+                .SetSuccessful(
+                    () =>
+                        Console.WriteLine("UnitOfWork - Successful"),
+                    () =>
+                    {
+                        Console.WriteLine("UnitOfWork - async Successful");
+
+                        return ValueTask.CompletedTask;
+                    })
+                // Реакция отмену или ошибку завершения Unit of Work. Данные гарантированно не ушли в БД.
+                .SetFail(
+                    () =>
+                        Console.WriteLine("UnitOfWork - Fail"),
+                    () =>
+                    {
+                        Console.WriteLine("UnitOfWork - async Fail");
+
+                        return ValueTask.CompletedTask;
+                    });
+            unitOfWork.AddBehaviour(domainBehaviour);
+
+            throw new ApplicationException("Test");
+        }
+        catch (ApplicationException exception)
+        {
+            Assert.AreEqual("Test", exception.Message);
+        }
+
+        // Чтение
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id);
+
+            Assert.IsNull(instance);
+
+            unitOfWork.Commit();
+        }
+
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+    }
+
+    /// <summary>
+    /// Демонстрация работы стратегии слежения за результатом исполнения Unit of Work.
+    /// Unit of Work успешно завершён.
+    /// </summary>
+    [Test]
+    public void Example_UnitOfWork_Сonfirmation_Successful()
+    {
+        // Создание
+        long id;
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.New(new DateTime(2022, 1, 2, 3, 4, 5, 6), 1002, 444);
+            id = instance.Identity;
+
+            // Добавление в Unit of Work стратегии слежения за результатом исполнения Unit of Work.
+            var domainBehaviour = m_entryPoint.CreateDomainBehaviourWithСonfirmation();
+            domainBehaviour
+                // Реакция на успешное завершение Unit of Work. Вызван Commit и от успешно отработал. Данные гарантированно ушли в БД.
+                .SetSuccessful(
+                    () => 
+                        Console.WriteLine("UnitOfWork - Successful"),
+                    () =>
+                    {
+                        Console.WriteLine("UnitOfWork - async Successful");
+
+                        return ValueTask.CompletedTask;
+                    })
+                // Реакция отмену или ошибку завершения Unit of Work. Данные гарантированно не ушли в БД.
+                .SetFail(
+                    () =>
+                        Console.WriteLine("UnitOfWork - Fail"),
+                    () =>
+                    {
+                        Console.WriteLine("UnitOfWork - async Fail");
+
+                        return ValueTask.CompletedTask;
+                    });
+            unitOfWork.AddBehaviour(domainBehaviour);
+
+            unitOfWork.Commit();
+        }
+
+        // Чтение
+        using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
+        {
+            var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
+            var instance = register.Find(id, true);
+
+            Assert.AreEqual(1, instance.Revision);
+            Assert.AreEqual(new DateTime(2022, 1, 2, 3, 4, 5, 6), instance.Value_DateTime);
+            Assert.AreEqual(1002, instance.Value_Long);
+            Assert.AreEqual(444, instance.Value_Int);
+
+            unitOfWork.Commit();
+        }
+
+        // Мониторинг инфраструктуры
+        {
+            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+        }
+        {
+            var snapShot = m_entryPoint.Mappers.InfrastructureMonitor.GetSnapShot();
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
+        }
+    }
+
+    /// <summary>
     /// Создать доменный объект в БД.
     /// </summary>
     [Test]

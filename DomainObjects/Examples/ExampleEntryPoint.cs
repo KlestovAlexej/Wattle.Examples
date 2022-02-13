@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.DomainObjects.Common;
+using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
@@ -70,6 +71,19 @@ public class ExampleEntryPoint : BaseEntryPoint
     public InfrastructureMonitorRegisters InfrastructureMonitorRegisters => m_infrastructureMonitorRegisters;
     public DomainObjectDataMappers DataMappers => (DomainObjectDataMappers)m_dataMappers;
     public DomainObjectRegisters ObjectRegisters => (DomainObjectRegisters)m_registers;
+
+    public DomainBehaviourWithСonfirmation CreateDomainBehaviourWithСonfirmation()
+    {
+        var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+        var result =
+            new DomainBehaviourWithСonfirmation(
+                ExceptionPolicy,
+                Mappers,
+                QueueEmergencyDomainBehaviour,
+                unitOfWork.CommitVerifying);
+
+        return result;
+    }
 
     public override void Start()
     {
