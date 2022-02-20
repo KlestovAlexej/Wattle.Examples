@@ -314,7 +314,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
     [SuppressMessage("ReSharper", "PartialMethodWithSinglePart")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
-    public partial class MapperDocument : BasePostgreSqlMapper<DocumentDtoActual>, IMapperInitializer, IMapperDocument, IMapperActualDtoCache
+    public partial class MapperDocument : BasePostgreSqlMapper<DocumentDtoActual>, IPartitionsMapper, IMapperInitializer, IMapperDocument, IMapperActualDtoCache
     {
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         public MapperDocument(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory)
@@ -2987,7 +2987,7 @@ FROM Document";
     [SuppressMessage("ReSharper", "PartialMethodWithSinglePart")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
-    public partial class MapperChangeTracker : BasePostgreSqlMapper<ChangeTrackerDtoActual>, IMapperInitializer, IMapperChangeTracker
+    public partial class MapperChangeTracker : BasePostgreSqlMapper<ChangeTrackerDtoActual>, IPartitionsMapper, IMapperInitializer, IMapperChangeTracker
     {
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         public MapperChangeTracker(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory)

@@ -202,7 +202,7 @@ Key) FROM STDIN (FORMAT BINARY)
     [SuppressMessage("ReSharper", "PartialMethodWithSinglePart")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
-    public partial class MapperTransactionKey : BasePostgreSqlMapper<TransactionKeyDtoActual>, IMapperInitializer, IMapperTransactionKey
+    public partial class MapperTransactionKey : BasePostgreSqlMapper<TransactionKeyDtoActual>, IPartitionsMapper, IMapperInitializer, IMapperTransactionKey
     {
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         public MapperTransactionKey(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory)

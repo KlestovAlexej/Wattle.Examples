@@ -13,8 +13,6 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Implements;
 
 public partial class MapperDocument
 {
-    IPartitionsManager IPartitionsMapper.Partitions => Partitions;
-
     public static MapperDocument NewWithCache(Mappers mappers, ITimeService timeService)
     {
         var actualDtoMemoryCache =

@@ -330,7 +330,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
     [SuppressMessage("ReSharper", "PartialMethodWithSinglePart")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
-    public partial class MapperObject_A : BasePostgreSqlMapper<Object_ADtoActual>, IMapperInitializer, IMapperObject_A, IMapperActualDtoCache
+    public partial class MapperObject_A : BasePostgreSqlMapper<Object_ADtoActual>, IPartitionsMapper, IMapperInitializer, IMapperObject_A, IMapperActualDtoCache
     {
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         public MapperObject_A(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory)
