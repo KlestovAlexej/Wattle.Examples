@@ -194,6 +194,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests
         protected IMappersExceptionPolicy m_mappersExceptionPolicy;
         protected ITimeService m_timeService;
         protected object m_context;
+        protected object m_contextMappers;
 
         [SetUp]
         public void Base_SetUp()
@@ -209,7 +210,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests
             }
             if (m_mappers == null)
             {
-                m_mappers = new __Mappers(m_mappersExceptionPolicy, m_dbConnectionString, m_timeService);
+                m_mappers = new __Mappers(m_mappersExceptionPolicy, m_dbConnectionString, m_timeService, context: m_contextMappers);
             }
             (m_mappers as IMappersInitializer)?.Initialize();
             if (m_context == null)

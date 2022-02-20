@@ -1,7 +1,10 @@
 ﻿using System;
 using NUnit.Framework;
+using ShtrihM.Wattle3.DomainObjects.Common;
+using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
+using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
@@ -18,6 +21,12 @@ public abstract partial class BaseAutoTestsMapper
     partial void DoBase_BeginSetUp()
     {
         CreateDb(out m_dbName, out m_dbConnectionString);
+
+        m_timeService = new TimeService();
+
+        var domainObjectIntergratorContext = new DomainObjectIntergratorContext();
+        domainObjectIntergratorContext.AddObject(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService);
+        m_contextMappers = domainObjectIntergratorContext;
     }
 
     /// <summary>

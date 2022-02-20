@@ -12,9 +12,9 @@ public partial class Mappers
     partial void OnExitConstructor(object context)
     {
         var intergratorContext = (DomainObjectIntergratorContext)context;
-        var entryPoint = intergratorContext.GetObject<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
+        var timeService = intergratorContext.GetObject<ITimeService>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService);
 
-        var mapper = MapperDocument.NewWithCache(this, entryPoint.TimeService);
+        var mapper = MapperDocument.NewWithCache(this, timeService);
         RemoveMapper(mapper.MapperId).SilentDispose();
         AddMapper(mapper);
     }
