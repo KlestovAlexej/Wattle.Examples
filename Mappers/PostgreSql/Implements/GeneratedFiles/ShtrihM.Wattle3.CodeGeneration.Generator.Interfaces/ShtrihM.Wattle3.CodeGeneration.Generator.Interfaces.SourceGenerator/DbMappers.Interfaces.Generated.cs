@@ -16,6 +16,7 @@ using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
+using ShtrihM.Wattle3.Mappers.PostgreSql;
 using System.Runtime.Serialization;
 
 #pragma warning disable 1591
@@ -260,7 +261,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     [MapperInterface(WellknownMappersAsText.Object_A)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     // ReSharper disable once PartialTypeWithSinglePart
-    public partial interface IMapperObject_A : IMapper
+    public partial interface IMapperObject_A : IMapper, IPartitionsMapper
     {
         /// <summary>
         /// Имя таблицы БД.

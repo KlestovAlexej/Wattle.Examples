@@ -39,7 +39,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Common
         /// </summary>
         [Description("Уникальный ключ транзакции")]
         [SchemaMapper(MapperId = WellknownDomainObjects.Text.TransactionKey)]
-        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2)]
+        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2, ExpandInterface = true)]
         [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
         public static class TransactionKey
         {

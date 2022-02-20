@@ -326,7 +326,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         protected override void DoRun(DomainObjectIntergratorContext context)
         {
             var entryPoint = context.GetObject<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
-            var mapper = (MapperDocument)entryPoint.Mappers.GetMapper<IMapperDocument>();
+            var mapper = entryPoint.Mappers.GetMapper<IMapperDocument>();
 
             var dataMapper = 
                 new DomainObjectDataMapperDocument(
