@@ -15,7 +15,7 @@
 		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
 		<PackageReference Include="ShtrihM.Wattle3.Caching" Version="3.0.0.35913" />
 		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.35913" />
-		<PackageReference Include="ShtrihM.Wattle3.Infrastructures.Rest.Clients" Version="3.0.0.35905" />
+		<PackageReference Include="ShtrihM.Wattle3.Infrastructures.Rest.Clients" Version="3.0.0.35913" />
 		<PackageReference Include="ShtrihM.Wattle3.Infrastructures.Rest.Controllers" Version="3.0.0.35913" />
 		<PackageReference Include="ShtrihM.Wattle3.Json" Version="3.0.0.35913" />
 		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.35913" />
