@@ -171,9 +171,9 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Implements
     {
         protected override async ValueTask DoInsertObjectAsync(NpgsqlBinaryImporter binaryImport, TransactionKeyDtoNew instance, CancellationToken cancellationToken = default)
         {
-            await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint).ConfigureAwait(false);
-            await binaryImport.WriteAsync(instance.Tag, NpgsqlDbType.Bigint).ConfigureAwait(false);
-            await binaryImport.WriteAsync(instance.Key, NpgsqlDbType.Uuid).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Tag, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Key, NpgsqlDbType.Uuid, cancellationToken).ConfigureAwait(false);
         }
 
         protected override void DoInsertObject(NpgsqlBinaryImporter binaryImport, TransactionKeyDtoNew instance)

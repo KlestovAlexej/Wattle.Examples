@@ -251,21 +251,21 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Implements
     {
         protected override async ValueTask DoInsertObjectAsync(NpgsqlBinaryImporter binaryImport, DocumentDtoNew instance, CancellationToken cancellationToken = default)
         {
-            await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint).ConfigureAwait(false);
-            await binaryImport.WriteAsync(Constants.StartRevision, NpgsqlDbType.Bigint).ConfigureAwait(false);
-            await binaryImport.WriteAsync(instance.CreateDate, NpgsqlDbType.Timestamp).ConfigureAwait(false);
-            await binaryImport.WriteAsync(instance.ModificationDate, NpgsqlDbType.Timestamp).ConfigureAwait(false);
-            await binaryImport.WriteAsync(instance.Value_DateTime, NpgsqlDbType.Timestamp).ConfigureAwait(false);
-            await binaryImport.WriteAsync(instance.Value_Long, NpgsqlDbType.Bigint).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
+            await binaryImport.WriteAsync(Constants.StartRevision, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.CreateDate, NpgsqlDbType.Timestamp, cancellationToken).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.ModificationDate, NpgsqlDbType.Timestamp, cancellationToken).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Value_DateTime, NpgsqlDbType.Timestamp, cancellationToken).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Value_Long, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
             {
                 var value = instance.Value_Int;
                 if (value.HasValue == false)
                 {
-                    await binaryImport.WriteNullAsync().ConfigureAwait(false);
+                    await binaryImport.WriteNullAsync(cancellationToken).ConfigureAwait(false);
                 }
                 else
                 {
-                    await binaryImport.WriteAsync(value.Value, NpgsqlDbType.Integer).ConfigureAwait(false);
+                    await binaryImport.WriteAsync(value.Value, NpgsqlDbType.Integer, cancellationToken).ConfigureAwait(false);
                 }
             }
         }
@@ -2962,7 +2962,7 @@ FROM Document";
     {
         protected override async ValueTask DoInsertObjectAsync(NpgsqlBinaryImporter binaryImport, ChangeTrackerDtoNew instance, CancellationToken cancellationToken = default)
         {
-            await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint).ConfigureAwait(false);
+            await binaryImport.WriteAsync(instance.Id, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
         }
 
         protected override void DoInsertObject(NpgsqlBinaryImporter binaryImport, ChangeTrackerDtoNew instance)
