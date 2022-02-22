@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
@@ -10,6 +7,9 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Mappers.Primitives;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples
 {

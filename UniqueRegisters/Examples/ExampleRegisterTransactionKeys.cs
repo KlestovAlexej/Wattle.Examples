@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.Common.Queries;
@@ -22,6 +17,11 @@ using ShtrihM.Wattle3.Triggers;
 using ShtrihM.Wattle3.UniqueRegisters;
 using ShtrihM.Wattle3.UniqueRegisters.Dictionaries;
 using ShtrihM.Wattle3.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 {

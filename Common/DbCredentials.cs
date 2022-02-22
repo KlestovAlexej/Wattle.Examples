@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using ShtrihM.Wattle3.Testing;
+﻿using ShtrihM.Wattle3.Testing;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ShtrihM.Wattle3.Examples.Common
 {

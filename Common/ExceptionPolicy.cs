@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.DomainObjects.EntryPoints;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
+using System;
 
 namespace ShtrihM.Wattle3.Examples.Common;
 

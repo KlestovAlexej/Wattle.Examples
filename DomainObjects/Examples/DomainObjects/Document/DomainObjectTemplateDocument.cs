@@ -1,14 +1,14 @@
-﻿using System;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
+﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Testing;
+using System;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
     public class DomainObjectTemplateDocument : IDomainObjectTemplate
     {
         public DomainObjectTemplateDocument(
-            DateTime valueDateTime, 
-            long valueLong, 
+            DateTime valueDateTime,
+            long valueLong,
             int? valueInt)
         {
             Value_DateTime = valueDateTime;

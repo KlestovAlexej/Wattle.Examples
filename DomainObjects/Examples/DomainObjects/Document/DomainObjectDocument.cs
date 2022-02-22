@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.DomainObjects.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives.MutableFields;
+using System;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {

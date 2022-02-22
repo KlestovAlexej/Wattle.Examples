@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.DomainObjects;
@@ -25,6 +18,13 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 
@@ -310,7 +310,7 @@ public class Examples
     /// Асинхронное физическое удаление записи.
     /// </summary>
     [Test]
-    public async  ValueTask Example_Delete_Async()
+    public async ValueTask Example_Delete_Async()
     {
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
@@ -748,7 +748,7 @@ public class Examples
             Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
         }
     }
-    
+
     /// <summary>
     /// Создание записей в таблице БД.
     /// </summary>

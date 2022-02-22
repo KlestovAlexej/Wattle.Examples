@@ -1,11 +1,11 @@
-﻿using System;
-using ShtrihM.Wattle3.Caching;
+﻿using ShtrihM.Wattle3.Caching;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.SqlServer;
+using System;
 
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implements;

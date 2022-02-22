@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ShtrihM.Wattle3.Common.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using ShtrihM.Wattle3.Common.Interfaces;
 
 namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
 

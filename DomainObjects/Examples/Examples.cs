@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Exceptions;
@@ -14,6 +10,10 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 using ShtrihM.Wattle3.Testing.DomainObjects;
+using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 
@@ -186,7 +186,7 @@ public class Examples
             domainBehaviour
                 // Реакция на успешное завершение Unit of Work. Вызван Commit и от успешно отработал. Данные гарантированно ушли в БД.
                 .SetSuccessful(
-                    () => 
+                    () =>
                         Console.WriteLine("UnitOfWork - Successful"),
                     () =>
                     {

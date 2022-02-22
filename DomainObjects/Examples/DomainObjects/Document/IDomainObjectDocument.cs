@@ -1,5 +1,5 @@
-﻿using System;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
+﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
+using System;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {

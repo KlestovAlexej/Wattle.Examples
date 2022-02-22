@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
-using System.Threading;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
@@ -15,6 +8,13 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Services;
 using ShtrihM.Wattle3.Triggers;
 using ShtrihM.Wattle3.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
+using System.Threading;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions
 {
@@ -29,7 +29,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitio
         public PartitionsSponsor(ExampleEntryPoint entryPoint)
             : base(
                 entryPoint.ExceptionPolicy,
-                TimeSpan.FromSeconds(1), 
+                TimeSpan.FromSeconds(1),
                 WellknownCommonInfrastructureMonitors.GetDisplayName(WellknownCommonInfrastructureMonitors.PartitionsSponsor),
                 owner => new InfrastructureMonitorDrivenObject(
                     WellknownCommonInfrastructureMonitors.PartitionsSponsor,
@@ -83,12 +83,12 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitio
                 using var session = m_entryPoint.Mappers.OpenSession();
                 var existsPartitions = manager.GetExistsPartitions(session);
 
-                if (false == existsPartitions.Any(pi => 
+                if (false == existsPartitions.Any(pi =>
                     (pi.MinGroupId == nowDayPartitionInfo.MinGroupId)
                     && (pi.MaxNotIncludeGroupId == nowDayPartitionInfo.MaxNotIncludeGroupId)))
                 {
                     var partitionInfo = manager.CreatePartition(
-                        session, 
+                        session,
                         nowDayPartitionInfo.MinGroupId,
                         nowDayPartitionInfo.MaxNotIncludeGroupId);
 

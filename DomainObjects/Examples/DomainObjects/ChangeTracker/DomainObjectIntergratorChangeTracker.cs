@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
@@ -13,6 +10,9 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker
 {
@@ -45,7 +45,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
             /// Создание экземпляра доменного объекта.
             /// </summary>
             protected override IDomainObject DoCreate(
-                IDomainObjectIdentityGenerator identityGenerator, 
+                IDomainObjectIdentityGenerator identityGenerator,
                 DomainObjectTemplateChangeTracker template)
             {
                 // Получить текущий Unit Of Work для данного потока.
@@ -69,7 +69,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
             /// Асинхронное создание экземпляра доменного объекта.
             /// </summary>
             protected override async ValueTask<IDomainObject> DoCreateAsync(
-                IDomainObjectIdentityGenerator identityGenerator, 
+                IDomainObjectIdentityGenerator identityGenerator,
                 DomainObjectTemplateChangeTracker template,
                 CancellationToken cancellationToken = default)
             {
@@ -150,7 +150,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
             var entryPoint = context.GetObject<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
             var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
 
-            var dataMapper = 
+            var dataMapper =
                 new DomainObjectDataMapperChangeTracker(
                     entryPoint.TimeService,
                     mapper,
@@ -160,12 +160,12 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                         $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
                         entryPoint.TimeService,
                         entryPoint.ExceptionPolicy,
-                        TimeSpan.FromMinutes(30), 
+                        TimeSpan.FromMinutes(30),
                         mapper,
                         10_000,
                         fillFactor: 0.4f,
                         timeoutWaitCacheReady: 100,
-                        methodGetNextIdentity: 
+                        methodGetNextIdentity:
                         new PairMethods<Func<IMapperChangeTracker, IMappersSession, long>, Func<IMapperChangeTracker, IMappersSession, CancellationToken, ValueTask<long>>>(
                             (m, session) => m.GetNextId(session),
                             (m, session, cancellationToken) => m.GetNextIdAsync(session, cancellationToken)),

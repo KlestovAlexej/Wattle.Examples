@@ -1,8 +1,8 @@
-﻿using System;
-using ShtrihM.Wattle3.DomainObjects.DomainObjects;
+﻿using ShtrihM.Wattle3.DomainObjects.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
+using System;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
@@ -13,6 +10,9 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
@@ -45,7 +45,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             /// Создание экземпляра доменного объекта.
             /// </summary>
             protected override IDomainObject DoCreate(
-                IDomainObjectIdentityGenerator identityGenerator, 
+                IDomainObjectIdentityGenerator identityGenerator,
                 DomainObjectTemplateDocument template)
             {
                 // Получить текущий Unit Of Work для данного потока.
@@ -72,7 +72,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             /// Асинхронное создание экземпляра доменного объекта.
             /// </summary>
             protected override async ValueTask<IDomainObject> DoCreateAsync(
-                IDomainObjectIdentityGenerator identityGenerator, 
+                IDomainObjectIdentityGenerator identityGenerator,
                 DomainObjectTemplateDocument template,
                 CancellationToken cancellationToken = default)
             {
@@ -158,24 +158,24 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         private class DomainObjectRegisterStatelessDocument : DomainObjectRegisterStateless, IDomainObjectRegisterDocument
         {
             public DomainObjectRegisterStatelessDocument(
-                IDomainObjectDataMapper dataMapper, 
-                IDomainObjectDataActivator dataActivator, 
-                IDomainObjectActivator activator, 
-                IMappers mappers, 
-                ITimeService timeService, 
-                IWorkflowExceptionPolicy workflowExceptionPolicy, 
-                IExceptionPolicy exceptionPolicy) 
+                IDomainObjectDataMapper dataMapper,
+                IDomainObjectDataActivator dataActivator,
+                IDomainObjectActivator activator,
+                IMappers mappers,
+                ITimeService timeService,
+                IWorkflowExceptionPolicy workflowExceptionPolicy,
+                IExceptionPolicy exceptionPolicy)
                 : base(
                     WellknownDomainObjects.Document,
-                    WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document), 
-                    dataMapper, 
-                    dataActivator, 
+                    WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document),
+                    dataMapper,
+                    dataActivator,
                     activator,
-                    TimeSpan.FromSeconds(1), 
+                    TimeSpan.FromSeconds(1),
                     null,
-                    mappers, 
-                    timeService, 
-                    workflowExceptionPolicy, 
+                    mappers,
+                    timeService,
+                    workflowExceptionPolicy,
                     exceptionPolicy)
             {
             }
@@ -293,7 +293,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             {
                 var register = (IDomainObjectRegisterDocument)m_register;
                 var result = register.New(valueDateTime, valueLong, valueInt);
-                
+
                 return result;
             }
 
@@ -325,7 +325,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             var entryPoint = context.GetObject<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
             var mapper = entryPoint.Mappers.GetMapper<IMapperDocument>();
 
-            var dataMapper = 
+            var dataMapper =
                 new DomainObjectDataMapperDocument(
                     entryPoint.TimeService,
                     mapper,
@@ -335,12 +335,12 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                         $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
                         entryPoint.TimeService,
                         entryPoint.ExceptionPolicy,
-                        TimeSpan.FromMinutes(30), 
+                        TimeSpan.FromMinutes(30),
                         mapper,
                         10_000,
                         fillFactor: 0.4f,
                         timeoutWaitCacheReady: 100,
-                        methodGetNextIdentity: 
+                        methodGetNextIdentity:
                         new PairMethods<Func<IMapperDocument, IMappersSession, long>, Func<IMapperDocument, IMappersSession, CancellationToken, ValueTask<long>>>(
                             (m, session) => m.GetNextId(session),
                             (m, session, cancellationToken) => m.GetNextIdAsync(session, cancellationToken)),

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
@@ -22,6 +20,8 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.QueueProcessors;
 using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Utils;
+using System;
+using System.Text;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 
@@ -48,7 +48,7 @@ public class ExampleEntryPoint : BaseEntryPoint
     private InfrastructureMonitorRegisters m_infrastructureMonitorRegisters;
     private IQueueItemProcessor m_queueEmergencyDomainBehaviour;
 
-    private ExampleEntryPoint(ITimeService timeService) 
+    private ExampleEntryPoint(ITimeService timeService)
         : base(timeService)
     {
         if (timeService == null)

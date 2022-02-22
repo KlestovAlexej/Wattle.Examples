@@ -1,7 +1,7 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
+﻿using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
 

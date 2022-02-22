@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions
 {

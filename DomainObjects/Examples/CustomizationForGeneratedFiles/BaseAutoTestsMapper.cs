@@ -1,11 +1,11 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
+using System;
 
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;

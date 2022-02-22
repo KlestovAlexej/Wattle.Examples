@@ -1,9 +1,9 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
+using System;
 
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;

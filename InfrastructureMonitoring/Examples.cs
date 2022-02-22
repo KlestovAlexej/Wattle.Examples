@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Interfaces;
 using ShtrihM.Wattle3.DomainObjects;
@@ -12,6 +9,9 @@ using ShtrihM.Wattle3.Infrastructures.Rest.Controllers.Monitors;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Json.ValueData;
 using ShtrihM.Wattle3.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring;
 

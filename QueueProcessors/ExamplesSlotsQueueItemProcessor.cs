@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.DomainObjects;
@@ -10,6 +9,7 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.QueueProcessors;
 using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Testing;
+using System;
 
 namespace ShtrihM.Wattle3.Examples.QueueProcessors;
 

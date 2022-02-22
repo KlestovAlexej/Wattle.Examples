@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ShtrihM.Wattle3.CodeGeneration.Common;
 using ShtrihM.Wattle3.CodeGeneration.Generators.Schem;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Testing;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
 

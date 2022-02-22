@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ShtrihM.Wattle3.Primitives;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
-using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
 

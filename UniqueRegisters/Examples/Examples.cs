@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Exceptions;
@@ -27,6 +20,13 @@ using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 using ShtrihM.Wattle3.Testing.DomainObjects;
 using ShtrihM.Wattle3.Utils;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
@@ -472,7 +472,7 @@ public class Examples
         BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
         // Настройка окружения.
-        var configurator = 
+        var configurator =
             DomainEnviromentConfigurator
                 .Begin(LoggerFactory.Create(builder => builder.AddConsole()));
 
