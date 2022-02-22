@@ -110,7 +110,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 
         public string DataPath => ((UniqueRegisterKeysPersistentStorageFileSystemGroupInt64)m_keysPersistentStorage).BasePath;
 
-        public static IUniqueRegisterKeysPersistentStorage<long> CreateKeysPersistentStorage(string dataPath)
+        private static IUniqueRegisterKeysPersistentStorage<long> CreateKeysPersistentStorage(string dataPath)
         {
             var basePath = Path.Combine(dataPath, KeysDirectoryName);
 
@@ -338,7 +338,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
             return true;
         }
 
-        public DateTime GetDayByIndex(long dayIndex)
+        private DateTime GetDayByIndex(long dayIndex)
         {
             var result = m_startDay.AddDays(dayIndex);
 
@@ -352,7 +352,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
             return result;
         }
 
-        public class SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary : BaseSlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary<Guid, long>
+        private class SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary : BaseSlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary<Guid, long>
         {
             public SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary()
                 : base(

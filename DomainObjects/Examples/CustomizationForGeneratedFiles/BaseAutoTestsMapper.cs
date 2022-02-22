@@ -4,7 +4,6 @@ using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
-using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 
@@ -13,7 +12,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
 
 public abstract partial class BaseAutoTestsMapper
 {
-    protected string m_dbName;
+    private string m_dbName;
 
     /// <summary>
     /// Создание тестовой БД.

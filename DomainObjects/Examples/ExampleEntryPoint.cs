@@ -62,7 +62,6 @@ public class ExampleEntryPoint : BaseEntryPoint
 
     }
 
-    public IQueueItemProcessor QueueEmergencyDomainBehaviour => m_queueEmergencyDomainBehaviour;
     public IMappers Mappers => m_mappers;
     public IExceptionPolicy ExceptionPolicy => m_exceptionPolicy;
     public PartitionsDay PartitionsDay => m_partitionsDay;
@@ -81,7 +80,7 @@ public class ExampleEntryPoint : BaseEntryPoint
             new DomainBehaviourWithСonfirmation(
                 ExceptionPolicy,
                 Mappers,
-                QueueEmergencyDomainBehaviour,
+                m_queueEmergencyDomainBehaviour,
                 unitOfWork.CommitVerifying);
 
         return result;
@@ -323,7 +322,7 @@ public class ExampleEntryPoint : BaseEntryPoint
             domainObjectIntergrator.Run(domainObjectIntergratorContext);
         }
 
-        infrastructureMonitor.AddSubMonitor(result.QueueEmergencyDomainBehaviour.InfrastructureMonitor);
+        infrastructureMonitor.AddSubMonitor(result.m_queueEmergencyDomainBehaviour.InfrastructureMonitor);
         infrastructureMonitor.AddSubMonitor(result.m_prtitionsSponsor.InfrastructureMonitor);
 
         result.InfrastructureMonitorRegisters.AddMonitor(infrastructureMonitor);

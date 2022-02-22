@@ -1,10 +1,12 @@
-﻿using ShtrihM.Wattle3.Testing;
+﻿using System.Diagnostics.CodeAnalysis;
+using ShtrihM.Wattle3.Testing;
 
 namespace ShtrihM.Wattle3.Examples.Common
 {
     /// <summary>
     /// Параметры учётных записей подключения к БД.
     /// </summary>
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class DbCredentials
     {
         /// <summary>

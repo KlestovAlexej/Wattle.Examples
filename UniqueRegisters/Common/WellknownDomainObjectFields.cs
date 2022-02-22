@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ShtrihM.Wattle3.CodeGeneration.Common;
 using ShtrihM.Wattle3.Common;
@@ -12,6 +13,9 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Common
     /// Поля доменных объектов.
     /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
     /// </summary>
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class WellknownDomainObjectFields
     {
         /// <summary>
@@ -21,8 +25,8 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Common
 
         static WellknownDomainObjectFields()
         {
-            var mainType = MethodBase.GetCurrentMethod().DeclaringType;
-            var types = mainType.GetNestedTypes();
+            var mainType = MethodBase.GetCurrentMethod()!.DeclaringType;
+            var types = mainType!.GetNestedTypes();
             var displayNames = new Dictionary<Guid, string>(CommonDomainObjectValues.DisplayNames);
             foreach (var type in types)
             {

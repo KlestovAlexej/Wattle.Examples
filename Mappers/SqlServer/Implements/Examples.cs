@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ using ShtrihM.Wattle3.Testing.Databases.SqlServer;
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
 
 [TestFixture]
+[SuppressMessage("ReSharper", "AccessToDisposedClosure")]
 public class Examples
 {
     /// <summary>
@@ -946,14 +948,14 @@ public class Examples
     [Test]
     public void Example_IdentityCache_Parallel()
     {
-        var cacheSize = 100_000;
-        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+        const int CacheSize = 100_000;
+        using var identityCache = CreateIdentityCache(CacheSize);
 
         var stopwatch = Stopwatch.StartNew();
 
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var identites = new HashSet<long>();
-        Parallel.For(0, 50 * cacheSize,
+        Parallel.For(0, 50 * CacheSize,
             _ =>
             {
                 using var mappersSession = mappers.OpenSession();

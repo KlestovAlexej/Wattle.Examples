@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ShtrihM.Wattle3.Primitives;
 
@@ -9,6 +10,8 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
     /// <summary>
     /// Идентификаторы объектов.
     /// </summary>
+    [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class WellknownDomainObjects
     {
         /// <summary>
@@ -34,7 +37,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
 
         static WellknownDomainObjects()
         {
-            WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod().DeclaringType);
+            WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod()!.DeclaringType);
         }
 
         /// <summary>

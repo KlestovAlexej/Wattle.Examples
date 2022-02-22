@@ -10,7 +10,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
 
 public abstract partial class BaseAutoTestsMapper
 {
-    protected string m_dbName;
+    private string m_dbName;
 
     /// <summary>
     /// Создание тестовой БД.

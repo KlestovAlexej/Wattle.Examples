@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ using ShtrihM.Wattle3.Utils;
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
 [TestFixture]
+[SuppressMessage("ReSharper", "AccessToDisposedClosure")]
 public class Examples
 {
     /// <summary>
@@ -50,7 +52,7 @@ public class Examples
 
         var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
 
-        Console.WriteLine($"Создание миллионов ключей в БД.");
+        Console.WriteLine("Создание миллионов ключей в БД.");
         Console.WriteLine("");
 
         var stopwatch = Stopwatch.StartNew();
@@ -69,12 +71,11 @@ public class Examples
         Parallel.ForEach(keys,
             key =>
             {
-                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-                {
-                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key.Item1, key.Item2));
+                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    unitOfWork.Commit();
-                }
+                Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key.Item1, key.Item2));
+
+                unitOfWork.Commit();
             });
 
         BaseTests.GcCollectMemory();
@@ -100,13 +101,12 @@ public class Examples
         Parallel.ForEach(keys,
             key =>
             {
-                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-                {
-                    Assert.IsTrue(registerTransactionKeys.TryGetTag(key.Key, out var tag));
-                    Assert.AreEqual(key.Tag, tag);
+                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    unitOfWork.Commit();
-                }
+                Assert.IsTrue(registerTransactionKeys.TryGetTag(key.Key, out var tag));
+                Assert.AreEqual(key.Tag, tag);
+
+                unitOfWork.Commit();
             });
 
         {
@@ -161,13 +161,12 @@ public class Examples
         Parallel.ForEach(keys,
             key =>
             {
-                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-                {
-                    Assert.IsTrue(registerTransactionKeys_2.TryGetTag(key.Key, out var tag));
-                    Assert.AreEqual(key.Tag, tag);
+                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    unitOfWork.Commit();
-                }
+                Assert.IsTrue(registerTransactionKeys_2.TryGetTag(key.Key, out var tag));
+                Assert.AreEqual(key.Tag, tag);
+
+                unitOfWork.Commit();
             });
 
         stopwatch.Stop();
@@ -255,12 +254,11 @@ public class Examples
         Parallel.For(0, 500_000,
             _ =>
             {
-                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-                {
-                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, tag));
+                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    unitOfWork.Commit();
-                }
+                Assert.AreEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, tag));
+
+                unitOfWork.Commit();
             });
 
         Console.WriteLine("После попыток регистрации ключа :");
@@ -345,21 +343,20 @@ public class Examples
         Parallel.For(0, 500_000,
             _ =>
             {
-                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-                {
-                    try
-                    {
-                        registerTransactionKeys.RegisterKey(key, tag);
-                        Assert.Fail();
-                    }
-                    catch (WorkflowException exception)
-                    {
-                        Assert.AreEqual(CommonWorkflowExceptionErrorCodes.ServiceTemporarilyUnavailable, exception.Code);
-                        Assert.IsTrue(exception.Details.Contains($@"Ключ '{key}' уже зарегистрирован."), exception.Details);
-                    }
+                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    unitOfWork.Commit();
+                try
+                {
+                    registerTransactionKeys.RegisterKey(key, tag);
+                    Assert.Fail();
                 }
+                catch (WorkflowException exception)
+                {
+                    Assert.AreEqual(CommonWorkflowExceptionErrorCodes.ServiceTemporarilyUnavailable, exception.Code);
+                    Assert.IsTrue(exception.Details.Contains($@"Ключ '{key}' уже зарегистрирован."), exception.Details);
+                }
+
+                unitOfWork.Commit();
             });
 
         Console.WriteLine("После попыток регистрации ключа :");
@@ -416,12 +413,11 @@ public class Examples
         Parallel.For(0, 100_000,
             _ =>
             {
-                using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-                {
-                    Assert.AreNotEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 1));
+                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    unitOfWork.Rollback();
-                }
+                Assert.AreNotEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 1));
+
+                unitOfWork.Rollback();
             });
 
         // Регистрация ключа без подтверждения UnitOfWork из-за исклоючения.
@@ -431,12 +427,11 @@ public class Examples
             {
                 try
                 {
-                    using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
-                    {
-                        Assert.AreNotEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 1));
+                    using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                        throw new ApplicationException();
-                    }
+                    Assert.AreNotEqual(UniqueRegisterRegisterKeyResult.AlreadyExists, registerTransactionKeys.TryRegisterKey(key, 1));
+
+                    throw new ApplicationException();
                 }
                 catch (ApplicationException)
                 {
@@ -511,7 +506,7 @@ public class Examples
         m_identityCache.SilentDispose();
     }
 
-    public class ExampleUnitOfWork : BaseUnitOfWork
+    private class ExampleUnitOfWork : BaseUnitOfWork
     {
         public ExampleUnitOfWork(
             UnitOfWorkContext unitOfWorkContext,
@@ -527,7 +522,7 @@ public class Examples
         }
     }
 
-    public class ExampleEntryPoint : BaseEntryPoint
+    private class ExampleEntryPoint : BaseEntryPoint
     {
         private readonly ProxyDomainObjectRegisterFactory m_proxyDomainObjectRegisterFactories;
         private readonly UnitOfWorkContext m_unitOfWorkContext;
@@ -539,6 +534,7 @@ public class Examples
             IExceptionPolicy exceptionPolicy)
             : base(timeService)
         {
+            // ReSharper disable once VirtualMemberCallInConstructor
             Initialize(
                 workflowExceptionPolicy,
                 new DomainObjectDataMappers(),

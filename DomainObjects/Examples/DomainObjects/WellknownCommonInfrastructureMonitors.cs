@@ -16,7 +16,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects
 
         static WellknownCommonInfrastructureMonitors()
         {
-            WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod().DeclaringType);
+            WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod()!.DeclaringType);
         }
 
         /// <summary>

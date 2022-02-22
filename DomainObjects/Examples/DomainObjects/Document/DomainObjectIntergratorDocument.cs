@@ -9,7 +9,6 @@ using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Implements;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
@@ -159,8 +158,6 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         private class DomainObjectRegisterStatelessDocument : DomainObjectRegisterStateless, IDomainObjectRegisterDocument
         {
             public DomainObjectRegisterStatelessDocument(
-                Guid typeId, 
-                string name, 
                 IDomainObjectDataMapper dataMapper, 
                 IDomainObjectDataActivator dataActivator, 
                 IDomainObjectActivator activator, 
@@ -352,8 +349,6 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 
             entryPoint.ObjectRegisters.AddRegister(
                 new DomainObjectRegisterStatelessDocument(
-                    WellknownDomainObjects.Document,
-                    WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document),
                     dataMapper,
                     new DomainObjectDataActivatorDocument(),
                     new DomainObjectActivatorDocument(mapper.Partitions.Level, entryPoint.PartitionsDay),

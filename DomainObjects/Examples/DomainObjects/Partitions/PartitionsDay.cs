@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions
@@ -6,9 +7,11 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitio
     /// <summary>
     /// Индексатор дней по которым идёт партиционирование таблиц БД.
     /// </summary>
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class PartitionsDay
     {
-        public static readonly DateTime DefaultStartDay = new(2022, 02, 11);
+        private static readonly DateTime DefaultStartDay = new(2022, 02, 11);
 
         private readonly ITimeService m_timeService;
 

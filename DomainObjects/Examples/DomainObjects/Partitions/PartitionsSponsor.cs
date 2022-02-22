@@ -45,7 +45,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitio
                     WellknownCommonInfrastructureMonitors.GetDisplayName(WellknownCommonInfrastructureMonitors.ActivatePartitionsSponsor),
                     WellknownCommonInfrastructureMonitors.ActivatePartitionsSponsor)
                     .GetSmartDisposableReference<ITrigger>(true),
-                ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger(MethodBase.GetCurrentMethod().DeclaringType))
+                ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger(MethodBase.GetCurrentMethod()!.DeclaringType!))
         {
             m_entryPoint = entryPoint;
             m_managers = new List<IPartitionsManager>();
@@ -56,7 +56,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitio
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<(IMapper Mapper, IPartitionsManager PartitionsManager)> GetAllPartitionsManagers(IMappers mappers)
+        private static IEnumerable<(IMapper Mapper, IPartitionsManager PartitionsManager)> GetAllPartitionsManagers(IMappers mappers)
         {
             if (mappers == null)
             {

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
 
 namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
 
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
 public class CustomClassC
 {
     #region Infrastructure Monitor
@@ -53,13 +56,6 @@ public class CustomClassC
                     m_onwer.Value);
 
             return (result);
-        }
-
-        public SnapShotInfrastructureMonitor GetSnapShot()
-        {
-            var result = DoGetSnapShot();
-
-            return (SnapShotInfrastructureMonitor)result;
         }
     }
 
