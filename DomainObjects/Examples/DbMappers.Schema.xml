@@ -7,7 +7,7 @@
           <Storage Name="%ObjectName%" IsQuotedName="false" IsGenerateMapperTestsNewGet="true" IsGenerateMapperTestsGetNextId="true" IsGenerateMapperTestsBulkInsert="true" />
           <Identity Name="Id" Type="long" Description="Идентити.">
             <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" SequenceName="Sequence_%ObjectName%">
-              <Partitions Level="L2" ExpandInterface="True" />
+              <Partitions Level="L2" PartitionsExpandInterface="True" />
             </Storage>
             <Query Id="4f414fbb-4b25-4691-80c3-9897fc5be61b" Order="true" Where="true" />
           </Identity>
@@ -41,7 +41,7 @@
           <Storage Name="%ObjectName%" IsQuotedName="false" IsGenerateMapperTestsNewGet="true" IsGenerateMapperTestsGetNextId="true" IsGenerateMapperTestsBulkInsert="true" />
           <Identity Name="Id" Type="long" Description="Идентити.">
             <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" SequenceName="Sequence_%ObjectName%">
-              <Partitions Level="L2" ExpandInterface="True" />
+              <Partitions Level="L2" PartitionsExpandInterface="True" />
             </Storage>
             <Query Id="4f414fbb-4b25-4691-80c3-9897fc5be61b" Order="true" Where="true" />
           </Identity>

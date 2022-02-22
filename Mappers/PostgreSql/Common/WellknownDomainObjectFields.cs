@@ -39,7 +39,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common
         /// </summary>
         [Description("Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера")]
         [SchemaMapper(MapperId = WellknownDomainObjects.Text.Object_A, IsPrepared = true, IsCached = true, DeleteMode = SchemaMapperDeleteMode.Delete)]
-        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L1, ExpandInterface = true)]
+        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L1, PartitionsExpandInterface = true)]
         [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
         [SchemaMapperRevisionField(IsVersion = true)]
         public static class Object_A

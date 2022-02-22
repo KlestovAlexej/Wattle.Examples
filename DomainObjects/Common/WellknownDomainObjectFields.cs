@@ -39,7 +39,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
         /// </summary>
         [Description("Документ")]
         [SchemaMapper(MapperId = WellknownDomainObjects.Text.Document, IsPrepared = true, IsCached = true, DeleteMode = SchemaMapperDeleteMode.Delete)]
-        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2, ExpandInterface = true)]
+        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2, PartitionsExpandInterface = true)]
         [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
         [SchemaMapperRevisionField(IsVersion = true)]
         public static class Document
@@ -90,7 +90,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
         /// </summary>
         [Description("Отслеживание изменений")]
         [SchemaMapper(MapperId = WellknownDomainObjects.Text.ChangeTracker, IsPrepared = true)]
-        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2, ExpandInterface = true)]
+        [SchemaMapperIdentityFieldPostgreSql(PartitionsLevel = ComplexIdentity.Level.L2, PartitionsExpandInterface = true)]
         [SchemaMapperIdentityField(DbSequenceName = "Sequence_%ObjectName%")]
         public static class ChangeTracker
         {
