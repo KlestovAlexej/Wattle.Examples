@@ -13,6 +13,7 @@ using ShtrihM.Wattle3.Primitives;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
@@ -20,7 +21,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
     /// Класс автоматической регистрации доменного объекта в точке входа в доменную область.
     /// </summary>
     [DomainObjectIntergrator]
-    public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator
+    public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnityContainer>
     {
         #region Activator - Создание экземпляра доменного объекта по шаблону создания
 
@@ -319,10 +320,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// <summary>
         /// Метод автоматической регистрации доменного объекта в точке входа в доменную область.
         /// </summary>
-        /// <param name="context"></param>
-        protected override void DoRun(DomainObjectIntergratorContext context)
+        protected override void DoRun(IUnityContainer container)
         {
-            var entryPoint = context.GetObject<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
+            var entryPoint = container.Resolve<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
             var mapper = entryPoint.Mappers.GetMapper<IMapperDocument>();
 
             var dataMapper =

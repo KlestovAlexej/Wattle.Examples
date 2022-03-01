@@ -22,6 +22,7 @@ using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Utils;
 using System;
 using System.Text;
+using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 
@@ -257,23 +258,28 @@ public class ExampleEntryPoint : BaseEntryPoint
         return text.ToString();
     }
 
-    public static ExampleEntryPoint New(DomainObjectIntergratorContext domainObjectIntergratorContext)
+    public static ExampleEntryPoint New(IUnityContainer container)
     {
-        if (false == domainObjectIntergratorContext.TryGetObject<ITimeService>(WellknownDomainObjectIntergratorContextObjectNames.TimeService, out var timeService))
+        ITimeService timeService;
+        if (container.IsRegistered<ITimeService>(WellknownDomainObjectIntergratorContextObjectNames.TimeService))
+        {
+            timeService = container.Resolve<ITimeService>(WellknownDomainObjectIntergratorContextObjectNames.TimeService);
+        }
+        else
         {
             timeService = new TimeService();
-            domainObjectIntergratorContext.AddObject(WellknownDomainObjectIntergratorContextObjectNames.TimeService, timeService);
+            container.RegisterInstance(WellknownDomainObjectIntergratorContextObjectNames.TimeService, timeService, InstanceLifetime.External);
         }
 
         var result = new ExampleEntryPoint(timeService);
 
-        domainObjectIntergratorContext.AddObject(WellknownDomainObjectIntergratorContextObjectNames.EntryPoint, result);
+        container.RegisterInstance(WellknownDomainObjectIntergratorContextObjectNames.EntryPoint, result, InstanceLifetime.External);
 
         result.m_exceptionPolicy = new ExceptionPolicy(result.TimeService);
         result.m_partitionsDay = new PartitionsDay(timeService);
         result.m_infrastructureMonitorRegisters = new InfrastructureMonitorRegisters();
 
-        var connectionString = domainObjectIntergratorContext.GetObject<string>(WellknownDomainObjectIntergratorContextObjectNames.ConnectionString);
+        var connectionString = container.Resolve<string>(WellknownDomainObjectIntergratorContextObjectNames.ConnectionString);
 
         result.m_mappers =
             new Generated.Implements.Mappers(
@@ -282,7 +288,7 @@ public class ExampleEntryPoint : BaseEntryPoint
                 timeService,
                 TimeSpan.FromMinutes(30),
                 0,
-                domainObjectIntergratorContext);
+                container);
 
         result.m_prtitionsSponsor = new PartitionsSponsor(result);
         result.m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
@@ -316,10 +322,10 @@ public class ExampleEntryPoint : BaseEntryPoint
                 TimeSpan.FromMinutes(30));
 
         var logger = ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger(result.GetType());
-        var domainObjectIntergrators = new DefaultDomainObjectIntergrators(logger).Add(result.GetType().Assembly);
+        var domainObjectIntergrators = new DefaultDomainObjectIntergrators<IUnityContainer>(logger).Add(result.GetType().Assembly);
         foreach (var domainObjectIntergrator in domainObjectIntergrators)
         {
-            domainObjectIntergrator.Run(domainObjectIntergratorContext);
+            domainObjectIntergrator.Run(container);
         }
 
         infrastructureMonitor.AddSubMonitor(result.m_queueEmergencyDomainBehaviour.InfrastructureMonitor);

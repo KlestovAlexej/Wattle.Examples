@@ -14,6 +14,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 
@@ -1063,13 +1064,13 @@ public class Examples
             DomainEnviromentConfigurator
                 .Begin(LoggerFactory.Create(builder => builder.AddConsole()));
 
-        var domainObjectIntergratorContext = new DomainObjectIntergratorContext();
-        domainObjectIntergratorContext.AddObject(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString);
+        var container = new UnityContainer();
+        container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString, InstanceLifetime.External);
 
         m_timeService = new ManagedTimeService();
-        domainObjectIntergratorContext.AddObject(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService);
+        container.RegisterInstance<ITimeService>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService, InstanceLifetime.External);
 
-        var entryPoint = ExampleEntryPoint.New(domainObjectIntergratorContext);
+        var entryPoint = ExampleEntryPoint.New(container);
 
         configurator
             .SetTimeService(entryPoint.TimeService)

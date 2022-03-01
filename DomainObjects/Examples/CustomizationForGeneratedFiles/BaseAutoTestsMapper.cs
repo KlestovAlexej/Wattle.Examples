@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
 using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 using System;
+using Unity;
 
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
@@ -23,9 +23,9 @@ public abstract partial class BaseAutoTestsMapper
 
         m_timeService = new TimeService();
 
-        var domainObjectIntergratorContext = new DomainObjectIntergratorContext();
-        domainObjectIntergratorContext.AddObject(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService);
-        m_contextMappers = domainObjectIntergratorContext;
+        var container = new UnityContainer();
+        container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService, InstanceLifetime.External);
+        m_contextMappers = container;
     }
 
     /// <summary>
