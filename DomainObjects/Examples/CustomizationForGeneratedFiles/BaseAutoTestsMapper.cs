@@ -5,6 +5,7 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 using System;
+using ShtrihM.Wattle3.Utils;
 using Unity;
 
 // ReSharper disable once CheckNamespace
@@ -23,7 +24,7 @@ public abstract partial class BaseAutoTestsMapper
 
         m_timeService = new TimeService();
 
-        using var container = new UnityContainer();
+        var container = new UnityContainer();
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService, InstanceLifetime.External);
         m_contextMappers = container;
     }
@@ -34,6 +35,7 @@ public abstract partial class BaseAutoTestsMapper
     partial void DoBase_TearDown()
     {
         PostgreSqlDbHelper.DropDb(m_dbName);
+        (m_contextMappers as IDisposable).SilentDispose();
     }
 
     public static void CreateDb(out string dbName, out string dbConnectionString)
