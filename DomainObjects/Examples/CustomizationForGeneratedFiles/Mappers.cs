@@ -13,7 +13,7 @@ public partial class Mappers
     partial void OnExitConstructor(object context)
     {
         var intergratorContext = (IUnityContainer)context;
-        var timeService = intergratorContext.Resolve<ITimeService>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService);
+        var timeService = intergratorContext.Resolve<ITimeService>();
 
         var mapper = MapperDocument.NewWithCache(this, timeService);
         RemoveMapper(mapper.MapperId).SilentDispose();

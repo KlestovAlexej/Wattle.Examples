@@ -147,7 +147,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
         /// </summary>
         protected override void DoRun(IUnityContainer container)
         {
-            var entryPoint = container.Resolve<ExampleEntryPoint>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.EntryPoint);
+            var entryPoint = container.Resolve<ExampleEntryPoint>();
             var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
 
             var dataMapper =

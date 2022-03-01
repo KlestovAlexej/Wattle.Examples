@@ -1068,7 +1068,7 @@ public class Examples
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString, InstanceLifetime.External);
 
         m_timeService = new ManagedTimeService();
-        container.RegisterInstance<ITimeService>(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService, InstanceLifetime.External);
+        container.RegisterInstance<ITimeService>(m_timeService, InstanceLifetime.External);
 
         var entryPoint = ExampleEntryPoint.New(container);
 

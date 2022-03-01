@@ -32,8 +32,6 @@ public class ExampleEntryPoint : BaseEntryPoint
 
     public static class WellknownDomainObjectIntergratorContextObjectNames
     {
-        public static readonly string TimeService = "TimeService";
-        public static readonly string EntryPoint = "EntryPoint";
         public static readonly string ConnectionString = "ConnectionString";
     }
 
@@ -260,20 +258,11 @@ public class ExampleEntryPoint : BaseEntryPoint
 
     public static ExampleEntryPoint New(IUnityContainer container)
     {
-        ITimeService timeService;
-        if (container.IsRegistered<ITimeService>(WellknownDomainObjectIntergratorContextObjectNames.TimeService))
-        {
-            timeService = container.Resolve<ITimeService>(WellknownDomainObjectIntergratorContextObjectNames.TimeService);
-        }
-        else
-        {
-            timeService = new TimeService();
-            container.RegisterInstance(WellknownDomainObjectIntergratorContextObjectNames.TimeService, timeService, InstanceLifetime.External);
-        }
+        var timeService = container.ResolveWithDefault<ITimeService>(() => new TimeService());
 
         var result = new ExampleEntryPoint(timeService);
 
-        container.RegisterInstance(WellknownDomainObjectIntergratorContextObjectNames.EntryPoint, result, InstanceLifetime.External);
+        container.RegisterInstance(result, InstanceLifetime.External);
 
         result.m_exceptionPolicy = new ExceptionPolicy(result.TimeService);
         result.m_partitionsDay = new PartitionsDay(timeService);
