@@ -23,7 +23,7 @@ public abstract partial class BaseAutoTestsMapper
 
         m_timeService = new TimeService();
 
-        var container = new UnityContainer();
+        using var container = new UnityContainer();
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.TimeService, m_timeService, InstanceLifetime.External);
         m_contextMappers = container;
     }

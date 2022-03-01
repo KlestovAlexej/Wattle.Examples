@@ -1064,7 +1064,7 @@ public class Examples
             DomainEnviromentConfigurator
                 .Begin(LoggerFactory.Create(builder => builder.AddConsole()));
 
-        var container = new UnityContainer();
+        using var container = new UnityContainer();
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString, InstanceLifetime.External);
 
         m_timeService = new ManagedTimeService();
