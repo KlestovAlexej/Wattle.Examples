@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 #pragma warning disable 1591
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Common
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "UnusedType.Global")]

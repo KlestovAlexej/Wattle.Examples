@@ -1,8 +1,8 @@
-﻿using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Implements;
+﻿using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.PostgreSql.Implements;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Tests;
 
 public partial class AutoTestsMapperTransactionKey
 {

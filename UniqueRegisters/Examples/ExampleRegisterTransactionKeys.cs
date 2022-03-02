@@ -5,8 +5,6 @@ using ShtrihM.Wattle3.Common.Queries;
 using ShtrihM.Wattle3.Containers;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using ShtrihM.Wattle3.Mappers.Primitives;
@@ -22,6 +20,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Common;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Interface;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 {

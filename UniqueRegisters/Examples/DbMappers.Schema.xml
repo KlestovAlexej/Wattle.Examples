@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16" standalone="yes"?>
-<Model Version="1.0.0.0" Description="Генератор XML модели тут : ShtrihM.Wattle3.Examples.UniqueRegisters.Common.DbMappersSchemaXmlBuilder.Test">
+<Model Version="1.0.0.0" Description="Примеры мапперов">
   <Mappers>
     <Mappers Storage="PostgreSql">
       <Mappers>
@@ -23,7 +23,7 @@
           </Fields>
         </Mapper>
       </Mappers>
-      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.PostgreSql.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
     </Mappers>
   </Mappers>
 </Model>

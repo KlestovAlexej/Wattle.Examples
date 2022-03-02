@@ -22,13 +22,13 @@ using ShtrihM.Wattle3.Mappers.PostgreSql;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.CodeGeneration.Generators;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
-using __Mappers = ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Implements.Mappers;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Interface;
+using __Mappers = ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.PostgreSql.Implements.Mappers;
 
 #pragma warning disable 1591
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Tests
 {
     // ReSharper disable once PartialTypeWithSinglePart
     public partial class AutoTestsMappersContext : BaseAutoTestsMappersContext

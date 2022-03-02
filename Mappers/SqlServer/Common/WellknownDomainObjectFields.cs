@@ -16,6 +16,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "UnusedType.Global")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [Description("Примеры мапперов")]
+    [SchemaMappers(SchemaMapperStorage.SqlServer, Namespace = "ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements")]
     public static class WellknownDomainObjectFields
     {
         /// <summary>

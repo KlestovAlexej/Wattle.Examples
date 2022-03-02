@@ -2,13 +2,13 @@
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using System;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Interface;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements;
+namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.PostgreSql.Implements;
 
 public partial class MapperObject_A
 {

@@ -16,6 +16,8 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
     [SuppressMessage("ReSharper", "UnusedType.Global")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [Description("Примеры мапперов")]
+    [SchemaMappers(SchemaMapperStorage.PostgreSql, Namespace = "ShtrihM.Wattle3.Examples.DomainObjects.Examples")]
     public static class WellknownDomainObjectFields
     {
         /// <summary>

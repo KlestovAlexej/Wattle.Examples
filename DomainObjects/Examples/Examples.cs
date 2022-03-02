@@ -5,7 +5,6 @@ using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
@@ -14,6 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Tests;
 using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;

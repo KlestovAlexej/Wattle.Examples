@@ -4,10 +4,11 @@ using ShtrihM.Wattle3.Utils;
 using Unity;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Implements;
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.PostgreSql.Implements;
 
 public partial class Mappers
 {
+    // ReSharper disable once ConvertToAutoProperty
     public IPostgreSqlMapperSelectFilterFactory SelectFilterFactory => m_selectFilterFactory;
 
     partial void OnExitConstructor(object context)

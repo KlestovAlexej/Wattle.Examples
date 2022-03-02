@@ -1,8 +1,8 @@
-﻿using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Implements;
+﻿using ShtrihM.Wattle3.Examples.DomainObjects.Examples.PostgreSql.Implements;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Tests;
 
 public partial class AutoTestsMapperDocument
 {

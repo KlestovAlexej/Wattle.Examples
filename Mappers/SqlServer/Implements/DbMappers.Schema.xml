@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16" standalone="yes"?>
-<Model Version="1.0.0.0" Description="Генератор XML модели тут : ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common.DbMappersSchemaXmlBuilder.Test">
+<Model Version="1.0.0.0" Description="Примеры мапперов">
   <Mappers>
     <Mappers Storage="SqlServer">
       <Mappers>
@@ -55,7 +55,7 @@
           </Fields>
         </Mapper>
       </Mappers>
-      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.SqlServer.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
     </Mappers>
   </Mappers>
 </Model>

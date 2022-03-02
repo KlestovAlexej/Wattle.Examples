@@ -3,10 +3,11 @@ using ShtrihM.Wattle3.Mappers.SqlServer;
 using ShtrihM.Wattle3.Utils;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Implements;
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.SqlServer.Implements;
 
 public partial class Mappers
 {
+    // ReSharper disable once ConvertToAutoProperty
     public ISqlServerMapperSelectFilterFactory SelectFilterFactory => m_selectFilterFactory;
 
     public void ReplaceMapper(IMapper mapper)

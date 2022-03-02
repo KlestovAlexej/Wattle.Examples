@@ -28,12 +28,12 @@ using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Caching.Interfaces;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Interface;
 
 #pragma warning disable 1591
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Implements
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.PostgreSql.Implements
 {
     public static class PostgreSqlSchemaQueriesProvider
     {
