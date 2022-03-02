@@ -20,10 +20,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Common;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Interface;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.PostgreSql.Implements;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Tests;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
@@ -1195,7 +1195,7 @@ public class Examples
 
         // Настройка окружения.
         var timeService = new TimeService();
-        var mappers = new PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
+        var mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
 
         DomainEnviromentConfigurator
             .Begin(LoggerFactory.Create(builder => builder.AddConsole()))

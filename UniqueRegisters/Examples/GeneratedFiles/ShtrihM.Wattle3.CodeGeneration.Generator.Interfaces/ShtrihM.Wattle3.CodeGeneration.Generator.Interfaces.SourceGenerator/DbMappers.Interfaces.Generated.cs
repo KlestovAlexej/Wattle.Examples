@@ -22,7 +22,7 @@ using System.Runtime.Serialization;
 #pragma warning disable 1591
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Interface
+namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
 {
     /// <summary>
     /// Класс данных состояния нового доменного объекта.

@@ -4,7 +4,7 @@ using ShtrihM.Wattle3.Utils;
 using Unity;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.PostgreSql.Implements;
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.PostgreSql.Implements;
 
 public partial class Mappers
 {

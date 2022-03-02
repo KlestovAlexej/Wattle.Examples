@@ -57,7 +57,7 @@
           </Fields>
         </Mapper>
       </Mappers>
-      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.PostgreSql.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
     </Mappers>
   </Mappers>
 </Model>

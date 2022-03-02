@@ -19,10 +19,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Common;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Interface;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.SqlServer.Implements;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Tests;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
@@ -1045,7 +1045,7 @@ public class Examples
 
         // Настройка окружения.
         var timeService = new TimeService();
-        var mappers = new SqlServer.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
+        var mappers = new Generated.SqlServer.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
 
         DomainEnviromentConfigurator
             .Begin(LoggerFactory.Create(builder => builder.AddConsole()))

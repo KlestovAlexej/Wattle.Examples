@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Common;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Interface;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 {

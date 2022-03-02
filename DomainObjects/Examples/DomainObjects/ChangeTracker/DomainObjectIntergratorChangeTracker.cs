@@ -12,7 +12,7 @@ using ShtrihM.Wattle3.Primitives;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Interface;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker

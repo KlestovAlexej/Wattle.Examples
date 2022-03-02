@@ -22,13 +22,13 @@ using ShtrihM.Wattle3.Mappers.SqlServer;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.CodeGeneration.Generators;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Interface;
-using __Mappers = ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.SqlServer.Implements.Mappers;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
+using __Mappers = ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements.Mappers;
 
 #pragma warning disable 1591
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Tests
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests
 {
     // ReSharper disable once PartialTypeWithSinglePart
     public partial class AutoTestsMappersContext : BaseAutoTestsMappersContext

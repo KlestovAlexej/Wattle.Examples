@@ -5,7 +5,7 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives.MutableFields;
 using System;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Interface;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {

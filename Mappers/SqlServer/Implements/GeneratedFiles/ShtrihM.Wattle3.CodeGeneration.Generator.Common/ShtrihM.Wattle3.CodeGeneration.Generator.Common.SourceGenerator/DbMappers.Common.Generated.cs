@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 #pragma warning disable 1591
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Common
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "UnusedType.Global")]

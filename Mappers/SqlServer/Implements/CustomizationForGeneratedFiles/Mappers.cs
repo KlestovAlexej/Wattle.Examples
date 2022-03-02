@@ -3,7 +3,7 @@ using ShtrihM.Wattle3.Mappers.SqlServer;
 using ShtrihM.Wattle3.Utils;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.SqlServer.Implements;
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
 
 public partial class Mappers
 {

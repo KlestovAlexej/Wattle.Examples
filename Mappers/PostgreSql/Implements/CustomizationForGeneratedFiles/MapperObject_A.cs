@@ -5,10 +5,10 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using System;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Interface;
+using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.PostgreSql.Implements;
+namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
 
 public partial class MapperObject_A
 {

@@ -5,10 +5,10 @@ using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.SqlServer;
 using System;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Interface;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.SqlServer.Implements;
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
 
 public partial class MapperObject_A
 {

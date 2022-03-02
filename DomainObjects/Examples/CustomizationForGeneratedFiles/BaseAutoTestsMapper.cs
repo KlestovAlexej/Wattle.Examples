@@ -9,7 +9,7 @@ using ShtrihM.Wattle3.Utils;
 using Unity;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Tests;
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
 
 public abstract partial class BaseAutoTestsMapper
 {

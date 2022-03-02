@@ -25,8 +25,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Interface;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Tests;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
+using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
@@ -477,7 +477,7 @@ public class Examples
                 .Begin(LoggerFactory.Create(builder => builder.AddConsole()));
 
         m_timeService = new ManagedTimeService();
-        m_mappers = new PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
+        m_mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
         var workflowExceptionPolicy = new WorkflowExceptionPolicy();
         var exceptionPolicy = new ExceptionPolicy(m_timeService);
         m_entryPoint = new ExampleEntryPoint(m_timeService, workflowExceptionPolicy, m_mappers, exceptionPolicy);

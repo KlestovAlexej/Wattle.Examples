@@ -6,7 +6,7 @@ using ShtrihM.Wattle3.Testing.Databases.SqlServer;
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Tests;
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
 
 public abstract partial class BaseAutoTestsMapper
 {

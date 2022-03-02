@@ -5,10 +5,10 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using System;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Interface;
+using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.PostgreSql.Implements;
+namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.PostgreSql.Implements;
 
 public partial class MapperDocument
 {

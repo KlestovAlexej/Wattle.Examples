@@ -271,7 +271,7 @@ public class ExampleEntryPoint : BaseEntryPoint
         var connectionString = container.Resolve<string>(WellknownDomainObjectIntergratorContextObjectNames.ConnectionString);
 
         result.m_mappers =
-            new PostgreSql.Implements.Mappers(
+            new Generated.PostgreSql.Implements.Mappers(
                 new MappersExceptionPolicy(),
                 connectionString,
                 timeService,

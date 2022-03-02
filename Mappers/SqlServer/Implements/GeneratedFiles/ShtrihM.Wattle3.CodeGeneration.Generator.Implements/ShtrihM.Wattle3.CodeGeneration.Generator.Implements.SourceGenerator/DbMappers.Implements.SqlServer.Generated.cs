@@ -26,12 +26,12 @@ using ShtrihM.Wattle3.Caching.Interfaces;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using Constants = ShtrihM.Wattle3.Mappers.Constants;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Interface;
+using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 
 #pragma warning disable 1591
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.SqlServer.Implements
+namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements
 {
     public static class SqlServerSchemaQueriesProvider
     {
