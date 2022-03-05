@@ -9,10 +9,19 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
-    public class DomainObjectDocument : BaseDomainObject, IDomainObjectDocument
+    [DomainObjectDataTargetAsCreate(typeof(DocumentDtoNew))]
+    [DomainObjectDataTargetAsUpdate(typeof(DocumentDtoChanged))]
+    [DomainObjectDataTargetAsDelete(typeof(DocumentDtoDeleted))]
+    [DomainObjectDataTargetAsVersion]
+    public class DomainObjectDocument : BaseDomainObject<DomainObjectDocument>, IDomainObjectDocument
     {
+        [DomainObjectFieldValue(DomainObjectDataTarget.Update, DomainObjectDataTarget.Delete, DomainObjectDataTarget.Version)]
         public long Revision { get; }
+
+        [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update)]
         public DateTime CreateDate { get; }
+
+        [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update)]
         public DateTime ModificationDate { get; private set; }
 
         public DateTime Value_DateTime
@@ -90,8 +99,13 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 
         #region Ритуальный код
 
+        [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DtoFiledName = nameof(WellknownDomainObjectFields.Document.Value_DateTime))]
         private MutableField<DateTime> m_value_DateTime;
+
+        [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DtoFiledName = nameof(WellknownDomainObjectFields.Document.Value_Long))]
         private MutableField<long> m_value_Long;
+
+        [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DtoFiledName = nameof(WellknownDomainObjectFields.Document.Value_Int))]
         private MutableFieldNullable<int> m_value_Int;
 
         /// <summary>
@@ -125,73 +139,6 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         }
 
         public override Guid TypeId => WellknownDomainObjects.Document;
-
-        /// <summary>
-        /// Сбор данных доменного объекта для их отправки в БД.
-        /// </summary>
-        public override IDomainObjectData GetData(DomainObjectDataTarget target)
-        {
-            // Создание объекта.
-            if (target == DomainObjectDataTarget.Create)
-            {
-                var data =
-                    new DocumentDtoNew
-                    {
-                        Id = Identity,
-                        ModificationDate = ModificationDate,
-                        CreateDate = CreateDate,
-                        Value_DateTime = m_value_DateTime,
-                        Value_Int = m_value_Int,
-                        Value_Long = m_value_Long,
-                    };
-                var result = new DomainObjectData(data);
-
-                return (result);
-            }
-
-            // Удаление объекта.
-            if (target == DomainObjectDataTarget.Delete)
-            {
-                var data =
-                    new DocumentDtoDeleted
-                    {
-                        Id = Identity,
-                        Revision = Revision,
-                    };
-                var result = new DomainObjectData(data);
-
-                return (result);
-            }
-
-            // Обновление объекта.
-            if (target == DomainObjectDataTarget.Update)
-            {
-                var data =
-                    new DocumentDtoChanged
-                    {
-                        Id = Identity,
-                        Revision = Revision,
-                        ModificationDate = ModificationDate,
-                        CreateDate = CreateDate,
-                        Value_DateTime = m_value_DateTime,
-                        Value_Int = m_value_Int,
-                        Value_Long = m_value_Long,
-                    };
-                var result = new DomainObjectData(data);
-
-                return (result);
-            }
-
-            // Проверка ревизии объекта в БД.
-            if (target == DomainObjectDataTarget.Version)
-            {
-                var result = new DomainObjectDataRevision(Identity, Revision);
-
-                return (result);
-            }
-
-            return base.GetData(target);
-        }
 
         #endregion
     }
