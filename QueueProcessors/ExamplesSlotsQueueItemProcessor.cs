@@ -5,7 +5,6 @@ using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.QueueProcessors;
 using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Testing;

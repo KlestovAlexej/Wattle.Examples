@@ -5,7 +5,6 @@ using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.DomainObjects.UnitOfWorks;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
-using ShtrihM.Wattle3.Mappers.Primitives;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;

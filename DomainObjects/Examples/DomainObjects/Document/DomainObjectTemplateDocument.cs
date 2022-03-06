@@ -1,5 +1,4 @@
 ﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Testing;
 using System;
 using System.Runtime.CompilerServices;
 

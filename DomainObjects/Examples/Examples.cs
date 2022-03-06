@@ -5,7 +5,6 @@ using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
-using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 using ShtrihM.Wattle3.Testing.DomainObjects;

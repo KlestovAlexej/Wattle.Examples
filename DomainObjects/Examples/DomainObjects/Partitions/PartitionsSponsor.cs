@@ -4,7 +4,6 @@ using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
-using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Services;
 using ShtrihM.Wattle3.Triggers;
 using ShtrihM.Wattle3.Utils;

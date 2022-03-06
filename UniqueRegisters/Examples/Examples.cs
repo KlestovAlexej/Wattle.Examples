@@ -13,7 +13,6 @@ using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Common;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 using ShtrihM.Wattle3.Testing.DomainObjects;

@@ -2,7 +2,6 @@
 using ShtrihM.Wattle3.DomainObjects.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
-using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives.MutableFields;
 using System;
 using System.Runtime.CompilerServices;

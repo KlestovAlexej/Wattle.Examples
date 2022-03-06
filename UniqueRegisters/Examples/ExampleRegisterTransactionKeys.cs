@@ -7,7 +7,6 @@ using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
-using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.QueueProcessors;
 using ShtrihM.Wattle3.QueueProcessors.Interfaces;
