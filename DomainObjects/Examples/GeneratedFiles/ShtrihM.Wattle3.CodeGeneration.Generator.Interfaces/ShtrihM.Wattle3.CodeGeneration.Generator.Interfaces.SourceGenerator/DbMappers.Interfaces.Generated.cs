@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using MessagePack;
+using MessagePack.Formatters;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
@@ -79,18 +81,21 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// Дата-время создания
         /// </summary>
         [DataMember(Order = 3)]
+        [MessagePackFormatter(typeof(MessagePackFormatterForDateTime))]
         public DateTime CreateDate;
 
         /// <summary>
         /// Дата-время модификации
         /// </summary>
         [DataMember(Order = 4)]
+        [MessagePackFormatter(typeof(MessagePackFormatterForDateTime))]
         public DateTime ModificationDate;
 
         /// <summary>
         /// Доле документа - дата-время
         /// </summary>
         [DataMember(Order = 5)]
+        [MessagePackFormatter(typeof(MessagePackFormatterForDateTime))]
         public DateTime Value_DateTime;
 
         /// <summary>

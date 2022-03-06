@@ -6,6 +6,7 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives.MutableFields;
 using System;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
+using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
@@ -115,8 +116,8 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             : base(data.Id)
         {
             Revision = data.Revision;
-            CreateDate = data.CreateDate;
-            ModificationDate = data.ModificationDate;
+            CreateDate = data.CreateDate.SpecifyKindLocal();
+            ModificationDate = data.ModificationDate.SpecifyKindLocal();
             m_value_DateTime = data.Value_DateTime;
             m_value_Long = data.Value_Long;
             m_value_Int = data.Value_Int;

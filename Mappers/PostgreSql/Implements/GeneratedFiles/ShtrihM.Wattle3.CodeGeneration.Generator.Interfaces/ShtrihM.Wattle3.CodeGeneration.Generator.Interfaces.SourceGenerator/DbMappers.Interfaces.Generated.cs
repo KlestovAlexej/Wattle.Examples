@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using MessagePack;
+using MessagePack.Formatters;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
@@ -84,12 +86,14 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
         [DataMember(Order = 3)]
+        [MessagePackFormatter(typeof(MessagePackFormatterForDateTime))]
         public DateTime Value_DateTime;
 
         /// <summary>
         /// Дата-время (DateTime). Не обновляемое поле.
         /// </summary>
         [DataMember(Order = 4)]
+        [MessagePackFormatter(typeof(MessagePackFormatterForDateTime))]
         public DateTime Value_DateTime_NotUpdate;
 
         /// <summary>
@@ -130,6 +134,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// Дата создания
         /// </summary>
         [DataMember(Order = 4)]
+        [MessagePackFormatter(typeof(MessagePackFormatterForDateTime))]
         public DateTime CreateDate;
 
     }

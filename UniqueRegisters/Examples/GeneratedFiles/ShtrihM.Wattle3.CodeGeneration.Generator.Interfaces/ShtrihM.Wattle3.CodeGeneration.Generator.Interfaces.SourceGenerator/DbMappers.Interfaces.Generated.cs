@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using MessagePack;
+using MessagePack.Formatters;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
