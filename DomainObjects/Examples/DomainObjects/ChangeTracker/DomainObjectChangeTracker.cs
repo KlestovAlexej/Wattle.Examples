@@ -8,7 +8,7 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker
 {
     [DomainObjectDataTargetAsCreate(typeof(ChangeTrackerDtoNew))]
-    public class DomainObjectChangeTracker : BaseDomainObject, IDomainObjectChangeTracker
+    public class DomainObjectChangeTracker : BaseDomainObject<DomainObjectChangeTracker>, IDomainObjectChangeTracker
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectChangeTracker(ChangeTrackerDtoActual data)
