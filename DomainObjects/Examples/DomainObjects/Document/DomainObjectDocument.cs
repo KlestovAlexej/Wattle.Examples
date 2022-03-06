@@ -16,15 +16,27 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
     [DomainObjectDataTargetAsVersion]
     public class DomainObjectDocument : BaseDomainObject<DomainObjectDocument>, IDomainObjectDocument
     {
+        /// <summary>
+        /// Версия данных в БД.
+        /// </summary>
         [DomainObjectFieldValue(DomainObjectDataTarget.Update, DomainObjectDataTarget.Delete, DomainObjectDataTarget.Version)]
         public long Revision { get; }
 
+        /// <summary>
+        /// Дата-время создания.
+        /// </summary>
         [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update)]
         public DateTime CreateDate { get; }
 
+        /// <summary>
+        /// Дата-время модификации.
+        /// </summary>
         [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update)]
         public DateTime ModificationDate { get; private set; }
 
+        /// <summary>
+        /// Доле документа - дата-время.
+        /// </summary>
         public DateTime Value_DateTime
         {
             get => m_value_DateTime.Value;
@@ -37,6 +49,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             }
         }
 
+        /// <summary>
+        /// Доле документа - число.
+        /// </summary>
         public long Value_Long
         {
             get => m_value_Long.Value;
@@ -49,6 +64,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             }
         }
 
+        /// <summary>
+        /// Доле документа - число с поддержкой null.
+        /// </summary>
         public int? Value_Int
         {
             get => m_value_Int.Value;
@@ -61,20 +79,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             }
         }
 
-        public void Version()
-        {
-            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
-
-            unitOfWork.AddVersion(this);
-        }
-
-        public void Delete()
-        {
-            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
-
-            unitOfWork.AddDelete(this);
-        }
-
+        /// <summary>
+        /// Метод доменного объекта с доменнной логикой.
+        /// </summary>
         public string Method(DateTime value_DateTime, long value_Long, int? value_Int)
         {
             var changed = m_value_DateTime.SetValue(value_DateTime);
@@ -89,6 +96,29 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             return "Test";
         }
 
+        /// <summary>
+        /// Удалить доменный объект.
+        /// </summary>
+        public void Delete()
+        {
+            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+
+            unitOfWork.AddDelete(this);
+        }
+
+        /// <summary>
+        /// Верификация версии данных в БД.
+        /// </summary>
+        public void Version()
+        {
+            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+
+            unitOfWork.AddVersion(this);
+        }
+
+        /// <summary>
+        /// Регистрация изменения.
+        /// </summary>
         private void DoUpdated()
         {
             var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
