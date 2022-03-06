@@ -24,6 +24,7 @@ using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
+using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
 

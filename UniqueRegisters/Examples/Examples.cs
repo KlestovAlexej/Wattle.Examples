@@ -27,6 +27,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
+using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 

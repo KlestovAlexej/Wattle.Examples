@@ -5,6 +5,7 @@ using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using System;
+using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.Common;
 

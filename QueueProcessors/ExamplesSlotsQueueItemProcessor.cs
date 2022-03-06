@@ -10,6 +10,7 @@ using ShtrihM.Wattle3.QueueProcessors;
 using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Testing;
 using System;
+using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.QueueProcessors;
 

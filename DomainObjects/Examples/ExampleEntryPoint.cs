@@ -22,6 +22,7 @@ using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Utils;
 using System;
 using System.Text;
+using ShtrihM.Wattle3.Primitives;
 using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;

@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
+using ShtrihM.Wattle3.Primitives;
 using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
