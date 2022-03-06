@@ -36,7 +36,7 @@ public class Examples
             using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
-            var instance = register.New(DomainObjectTemplateDocument.GetRandomTemplate());
+            var instance = register.New(GetRandomDomainObjectTemplateDocument());
             id = instance.Identity;
 
             // Добавление в Unit of Work стратегии слежения за результатом исполнения Unit of Work.
@@ -108,7 +108,7 @@ public class Examples
             await using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
-            var instance = await register.NewAsync(DomainObjectTemplateDocument.GetRandomTemplate());
+            var instance = await register.NewAsync(GetRandomDomainObjectTemplateDocument());
             id = instance.Identity;
 
             // Добавление в Unit of Work стратегии слежения за результатом исполнения Unit of Work.
@@ -175,7 +175,7 @@ public class Examples
     {
         // Создание
         long id;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -242,7 +242,7 @@ public class Examples
     {
         // Создание
         long id;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         await using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -308,7 +308,7 @@ public class Examples
     {
         // Создание
         long id;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -350,7 +350,7 @@ public class Examples
     {
         // Создание
         long id;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         await using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -393,7 +393,7 @@ public class Examples
     {
         // Создание
         long id;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -471,7 +471,7 @@ public class Examples
     {
         // Создание
         long id;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         await using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -665,11 +665,11 @@ public class Examples
         // Создание
         long id_1;
         long id_2;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
-            id_1 = register.New(DomainObjectTemplateDocument.GetRandomTemplate()).Identity;
+            id_1 = register.New(GetRandomDomainObjectTemplateDocument()).Identity;
             id_2 = register.New(template).Identity;
 
             unitOfWork.Commit();
@@ -723,11 +723,11 @@ public class Examples
         // Создание
         long id_1;
         long id_2;
-        var template = DomainObjectTemplateDocument.GetRandomTemplate();
+        var template = GetRandomDomainObjectTemplateDocument();
         await using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
-            id_1 = (await register.NewAsync(DomainObjectTemplateDocument.GetRandomTemplate())).Identity;
+            id_1 = (await register.NewAsync(GetRandomDomainObjectTemplateDocument())).Identity;
             id_2 = (await register.NewAsync(template)).Identity;
 
             await unitOfWork.CommitAsync();
@@ -1098,6 +1098,11 @@ public class Examples
 
         PostgreSqlDbHelper.DropDb(m_dbName);
     }
+
+    private DomainObjectTemplateDocument GetRandomDomainObjectTemplateDocument() =>
+        new(ProviderRandomValues.GetDateTime(),
+            ProviderRandomValues.GetInt64(),
+            ProviderRandomValues.GetInt32Nullable());
 
     #endregion
 }

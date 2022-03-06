@@ -2,18 +2,22 @@
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using System;
+using System.Runtime.CompilerServices;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker
 {
+    [DomainObjectDataTargetAsCreate(typeof(ChangeTrackerDtoNew))]
     public class DomainObjectChangeTracker : BaseDomainObject, IDomainObjectChangeTracker
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectChangeTracker(ChangeTrackerDtoActual data)
             : base(data.Id)
         {
             /* NONE */
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectChangeTracker(long identity)
             : base(identity)
         {
@@ -21,26 +25,5 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
         }
 
         public override Guid TypeId => WellknownDomainObjects.ChangeTracker;
-
-        /// <summary>
-        /// Метод сбора данных доменного объекта для их отправки в БД.
-        /// </summary>
-        public override IDomainObjectData GetData(DomainObjectDataTarget target)
-        {
-            // Создание объекта.
-            if (target == DomainObjectDataTarget.Create)
-            {
-                var data =
-                    new ChangeTrackerDtoNew
-                    {
-                        Id = Identity,
-                    };
-                var result = new DomainObjectData(data);
-
-                return (result);
-            }
-
-            return base.GetData(target);
-        }
     }
 }

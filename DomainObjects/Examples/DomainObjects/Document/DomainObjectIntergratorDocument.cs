@@ -10,6 +10,7 @@ using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Primitives;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
@@ -21,6 +22,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
     /// Класс автоматической регистрации доменного объекта в точке входа в доменную область.
     /// </summary>
     [DomainObjectIntergrator]
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnityContainer>
     {
         #region Activator - Создание экземпляра доменного объекта по шаблону создания

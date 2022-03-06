@@ -5,6 +5,7 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives.MutableFields;
 using System;
+using System.Runtime.CompilerServices;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Primitives;
 
@@ -142,6 +143,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// <summary>
         /// Восстановить экземпляр из данных БД.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectDocument(DocumentDtoActual data)
             : base(data.Id)
         {
@@ -156,6 +158,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// <summary>
         /// Создать экземпляр по данным шаблона.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectDocument(
             long identity,
             DateTime createDate,
