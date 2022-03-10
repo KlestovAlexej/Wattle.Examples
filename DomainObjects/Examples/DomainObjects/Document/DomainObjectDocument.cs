@@ -10,10 +10,7 @@ using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 {
-    [DomainObjectDataTargetAsCreate(typeof(DocumentDtoNew))]
-    [DomainObjectDataTargetAsUpdate(typeof(DocumentDtoChanged))]
-    [DomainObjectDataTargetAsDelete(typeof(DocumentDtoDeleted))]
-    [DomainObjectDataTargetAsVersion]
+    [DomainObjectDataMapper(WellknownMappersAsText.Document, DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DomainObjectDataTarget.Delete, DomainObjectDataTarget.Version)]
     public class DomainObjectDocument : BaseDomainObject<DomainObjectDocument>, IDomainObjectDocument
     {
         /// <summary>

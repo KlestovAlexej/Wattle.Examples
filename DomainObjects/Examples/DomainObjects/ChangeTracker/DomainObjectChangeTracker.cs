@@ -2,11 +2,12 @@
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using System;
 using System.Runtime.CompilerServices;
+using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker
 {
-    [DomainObjectDataTargetAsCreate(typeof(ChangeTrackerDtoNew))]
+    [DomainObjectDataMapper(WellknownMappersAsText.ChangeTracker, DomainObjectDataTarget.Create)]
     public class DomainObjectChangeTracker : BaseDomainObject<DomainObjectChangeTracker>, IDomainObjectChangeTracker
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

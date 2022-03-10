@@ -31,8 +31,14 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
     /// Уникальный ключ транзакции
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class TransactionKeyDtoNew : BaseMapperNewStateDto
+    [MapperDtoCreate(WellknownMappersAsText.TransactionKey)]
+    public sealed partial class TransactionKeyDtoNew : IMapperDto
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        public long Id { get; set; }
+
         /// <summary>
         /// Произвольные данные транзакции
         /// </summary>
@@ -50,19 +56,26 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
     /// Уникальный ключ транзакции
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
+    [MapperDtoSelect(WellknownMappersAsText.TransactionKey)]
     [DataContract]
-    public sealed partial class TransactionKeyDtoActual : BaseMapperActualStateDto
+    public sealed partial class TransactionKeyDtoActual : IMapperDto
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
         /// <summary>
         /// Произвольные данные транзакции
         /// </summary>
-        [DataMember(Order = 3)]
+        [DataMember(Order = 2)]
         public long Tag;
 
         /// <summary>
         /// Ключ транзакции
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 3)]
         public Guid Key;
 
     }

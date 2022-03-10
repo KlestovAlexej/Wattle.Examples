@@ -31,8 +31,14 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     /// Документ
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class DocumentDtoNew : BaseMapperNewStateDto
+    [MapperDtoCreate(WellknownMappersAsText.Document)]
+    public sealed partial class DocumentDtoNew : IMapperDto
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        public long Id { get; set; }
+
         /// <summary>
         /// Дата-время создания
         /// </summary>
@@ -65,8 +71,14 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     /// Отслеживание изменений
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class ChangeTrackerDtoNew : BaseMapperNewStateDto
+    [MapperDtoCreate(WellknownMappersAsText.ChangeTracker)]
+    public sealed partial class ChangeTrackerDtoNew : IMapperDto
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        public long Id { get; set; }
+
     }
 
     /// <summary>
@@ -74,9 +86,22 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     /// Документ
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
+    [MapperDtoSelect(WellknownMappersAsText.Document)]
     [DataContract]
-    public sealed partial class DocumentDtoActual : BaseMapperActualStateDto
+    public sealed partial class DocumentDtoActual : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
         /// <summary>
         /// Дата-время создания
         /// </summary>
@@ -117,9 +142,16 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     /// Отслеживание изменений
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
+    [MapperDtoSelect(WellknownMappersAsText.ChangeTracker)]
     [DataContract]
-    public sealed partial class ChangeTrackerDtoActual : BaseMapperActualStateDto
+    public sealed partial class ChangeTrackerDtoActual : IMapperDto
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
     }
 
     /// <summary>
@@ -127,8 +159,21 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     /// Документ
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class DocumentDtoChanged : BaseMapperChangedStateDto
+    [MapperDtoUpdate(WellknownMappersAsText.Document)]
+    public sealed partial class DocumentDtoChanged : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
         /// <summary>
         /// Дата-время создания
         /// </summary>
@@ -161,8 +206,21 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     /// Документ
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class DocumentDtoDeleted : BaseMapperDeletedStateDto
+    [MapperDtoDelete(WellknownMappersAsText.Document)]
+    public sealed partial class DocumentDtoDeleted : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
     }
 
     /// <summary>

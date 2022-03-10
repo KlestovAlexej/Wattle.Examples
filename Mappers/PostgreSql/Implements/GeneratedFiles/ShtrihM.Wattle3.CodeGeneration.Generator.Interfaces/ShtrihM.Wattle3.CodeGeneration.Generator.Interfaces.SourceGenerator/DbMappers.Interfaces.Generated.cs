@@ -31,8 +31,19 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class Object_ADtoNew : BaseMapperNewStateDto
+    [MapperDtoCreate(WellknownMappersAsText.Object_A)]
+    public sealed partial class Object_ADtoNew : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        public long Revision { get; set; }
+
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
@@ -65,8 +76,19 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class Object_BDtoNew : BaseMapperNewStateDto
+    [MapperDtoCreate(WellknownMappersAsText.Object_B)]
+    public sealed partial class Object_BDtoNew : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        public long Revision { get; set; }
+
         /// <summary>
         /// Дата создания
         /// </summary>
@@ -79,9 +101,22 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
+    [MapperDtoSelect(WellknownMappersAsText.Object_A)]
     [DataContract]
-    public sealed partial class Object_ADtoActual : BaseMapperActualStateDto
+    public sealed partial class Object_ADtoActual : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
@@ -121,9 +156,22 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
+    [MapperDtoSelect(WellknownMappersAsText.Object_B)]
     [DataContract]
-    public sealed partial class Object_BDtoActual : BaseMapperActualStateDto
+    public sealed partial class Object_BDtoActual : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
         /// <summary>
         /// Доступность.
         /// </summary>
@@ -144,8 +192,21 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class Object_ADtoChanged : BaseMapperChangedStateDto
+    [MapperDtoSelect(WellknownMappersAsText.Object_A)]
+    public sealed partial class Object_ADtoChanged : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
@@ -178,8 +239,21 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class Object_BDtoChanged : BaseMapperChangedStateDto
+    [MapperDtoSelect(WellknownMappersAsText.Object_B)]
+    public sealed partial class Object_BDtoChanged : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
         /// <summary>
         /// Дата создания
         /// </summary>
@@ -192,8 +266,21 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class Object_ADtoDeleted : BaseMapperDeletedStateDto
+    [MapperDtoDelete(WellknownMappersAsText.Object_A)]
+    public sealed partial class Object_ADtoDeleted : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
     }
 
     /// <summary>
@@ -201,8 +288,21 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    public sealed partial class Object_BDtoDeleted : BaseMapperDeletedStateDto
+    [MapperDtoDelete(WellknownMappersAsText.Object_B)]
+    public sealed partial class Object_BDtoDeleted : IMapperDtoVersion
     {
+        /// <summary>
+        /// Идентити.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Номер ревизии данных.
+        /// </summary>
+        [DataMember(Order = 2)]
+        public long Revision { get; set; }
+
     }
 
     /// <summary>
