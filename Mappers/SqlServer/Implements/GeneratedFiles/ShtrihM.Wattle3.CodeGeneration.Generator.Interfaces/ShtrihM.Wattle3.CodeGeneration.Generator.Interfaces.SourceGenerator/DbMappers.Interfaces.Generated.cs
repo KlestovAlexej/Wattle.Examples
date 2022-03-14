@@ -31,17 +31,12 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     [MapperDtoCreate(WellknownMappersAsText.Object_A)]
-    public sealed partial class Object_ADtoNew : IMapperDtoVersion
+    public sealed partial class Object_ADtoNew : IMapperDto
     {
         /// <summary>
         /// Идентити.
         /// </summary>
         public long Id { get; set; }
-
-        /// <summary>
-        /// Номер ревизии данных.
-        /// </summary>
-        public long Revision { get; set; }
 
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
@@ -76,17 +71,12 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     [MapperDtoCreate(WellknownMappersAsText.Object_B)]
-    public sealed partial class Object_BDtoNew : IMapperDtoVersion
+    public sealed partial class Object_BDtoNew : IMapperDto
     {
         /// <summary>
         /// Идентити.
         /// </summary>
         public long Id { get; set; }
-
-        /// <summary>
-        /// Номер ревизии данных.
-        /// </summary>
-        public long Revision { get; set; }
 
         /// <summary>
         /// Дата создания
@@ -191,7 +181,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
     /// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    [MapperDtoSelect(WellknownMappersAsText.Object_A)]
+    [MapperDtoUpdate(WellknownMappersAsText.Object_A)]
     public sealed partial class Object_ADtoChanged : IMapperDtoVersion
     {
         /// <summary>
@@ -238,7 +228,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
     /// Объект с сокрытием записи при удалении (без фичического страниы записи в БД)
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
-    [MapperDtoSelect(WellknownMappersAsText.Object_B)]
+    [MapperDtoUpdate(WellknownMappersAsText.Object_B)]
     public sealed partial class Object_BDtoChanged : IMapperDtoVersion
     {
         /// <summary>

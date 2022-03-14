@@ -19,14 +19,38 @@ public partial class MapperObject_A
                 timeService,
                 new MemoryCacheSettings
                 {
-                    ExpirationTimeout = TimeSpan.FromMinutes(10),
-                    Enabled = true,
-                    PollingInterval = TimeSpan.FromMinutes(5),
-                    ActiveExpired = true,
-                    ExpirationMode = MemoryCacheSettings.ExpirationTimeoutMode.Absolute,
-                    FillFactor = 99,
-                    FoundBehavior = MemoryCacheSettings.FoundBehaviorMode.None,
-                    MaxItems = 1_000_000,
+                    ExpirationTimeout =
+                    {
+                        Value = TimeSpan.FromMinutes(10)
+                    },
+                    Enabled =
+                    {
+                        Value = true,
+                    },
+                    PollingInterval =
+                    {
+                        Value = TimeSpan.FromMinutes(5)
+                    },
+                    ActiveExpired =
+                    {
+                        Value = true
+                    },
+                    ExpirationMode =
+                    {
+                        Value = MemoryCacheSettings.ExpirationTimeoutMode.Absolute
+                    },
+                    FillFactor =
+                    {
+                        Value = 99,
+                    },
+                    FoundBehavior =
+                    {
+                        Value = MemoryCacheSettings.FoundBehaviorMode.None,
+                    },
+                    MaxItems =
+                    {
+                        Value = 1_000_000,
+                    },
                 },
                 $"Кэш актуальных данных состояния объекта '{nameof(WellknownDomainObjects.Object_A)}' в БД.",
                 new LocksPoolEx<long>(
