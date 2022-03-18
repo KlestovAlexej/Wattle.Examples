@@ -210,28 +210,6 @@ public interface IEntryPoint : IDisposable, IDrivenObject
     /// <returns>Созданный <see cref="IUnitOfWork"/>.</returns>
     /// <exception cref="InternalException">Если для вызывающего потока уже определён <see cref="IUnitOfWork"/>.</exception>
     ValueTask<IUnitOfWork> CreateUnitOfWorkAsync(object context = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Получить доменный сервис по типу сервиса.
-    /// </summary>
-    /// <param name="typeId">Тип доменного сервиса.</param>
-    /// <param name="service">Доменный сервис.</param>
-    /// <returns>Возвращается признак, что доменный сервис найден.
-    /// <see langword="true" /> - доменный сервис найден и определён аргумент <paramref name="service"/>.
-    /// <see langword="false" /> - доменный сервис не найден и аргумент <paramref name="service"/> установлен в <see langword="null" />.</returns>
-    bool TryGetDomainService(Guid typeId, out IDomainService service);
-
-    /// <summary>
-    /// Исполнить системный метод.
-    /// Если метод не найден генерируется исключение <exception cref="WorkflowException"><seealso cref="CommonWorkflowException.SystemMethodNotFound"/></exception>.
-    /// </summary>
-    /// <param name="methodParameters">Параметры метода.</param>
-    /// <param name="methodResult">Результат исполнения метода.</param>
-    /// <returns>Возвращается признак, что метод имеет результат. 
-    /// <see langword="true" /> - исполнение метода имеет результат сохраненный в аргументе <paramref name="methodResult"/>.
-    /// <see langword="false" /> - исполнение метода не имеет результата, аргументе <paramref name="methodResult"/> установлен в <see langword="null" />.</returns>
-    // ReSharper disable once UnusedMember.Global
-    bool CallMethod(ISystemMethodParameters methodParameters, out ISystemMethodResult methodResult);
 }
 ```
 
