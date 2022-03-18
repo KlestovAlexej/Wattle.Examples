@@ -7,7 +7,6 @@ using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.EntryPoints;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.DomainObjects.SystemMethods;
 using ShtrihM.Wattle3.DomainObjects.UnitOfWorks;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Common;
@@ -539,7 +538,6 @@ public class Examples
                 workflowExceptionPolicy,
                 new DomainObjectDataMappers(),
                 new DomainObjectRegisters(timeService),
-                new SystemMethodRegisters(),
                 new InfrastructureMonitorEntryPoint(this, TimeSpan.FromMinutes(15), timeService));
 
             m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory();

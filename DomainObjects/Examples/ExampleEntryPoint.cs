@@ -7,7 +7,6 @@ using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.EntryPoints;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.DomainObjects.SystemMethods;
 using ShtrihM.Wattle3.DomainObjects.UnitOfWorks;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects;
@@ -291,7 +290,6 @@ public class ExampleEntryPoint : BaseEntryPoint
             result.m_workflowExceptionPolicy,
             dataMappers,
             registers,
-            new SystemMethodRegisters(),
             infrastructureMonitor);
 
         result.m_unitOfWorkContext = new UnitOfWorkContext(result,
