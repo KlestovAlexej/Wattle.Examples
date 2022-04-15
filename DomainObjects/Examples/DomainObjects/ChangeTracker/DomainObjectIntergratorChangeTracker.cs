@@ -161,6 +161,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                         $"Кэширующий провайдер идентити доменных объектов '{mapper.MapperId}'.",
                         entryPoint.TimeService,
                         entryPoint.ExceptionPolicy,
+                        entryPoint.WorkflowExceptionPolicy,
                         TimeSpan.FromMinutes(30),
                         mapper,
                         10_000,
@@ -170,7 +171,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                         new PairMethods<Func<IMapperChangeTracker, IMappersSession, long>, Func<IMapperChangeTracker, IMappersSession, CancellationToken, ValueTask<long>>>(
                             (m, session) => m.GetNextId(session),
                             (m, session, cancellationToken) => m.GetNextIdAsync(session, cancellationToken)),
-                        methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count)));
+                        methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken)));
             entryPoint.DataMappers.AddMapper(dataMapper);
 
             entryPoint.ObjectRegisters.AddRegister(

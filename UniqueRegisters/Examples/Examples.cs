@@ -596,6 +596,7 @@ public class Examples
                 $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.TransactionKey)}'.",
                 ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                 ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
+                ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>(),
                 TimeSpan.FromMinutes(5),
                 mapper,
                 100_000,
@@ -608,11 +609,11 @@ public class Examples
                         => mapperObjectA.GetNextId(mappersSession),
                     (mapperObjectA, mappersSession, cancellationToken)
                         => mapperObjectA.GetNextIdAsync(mappersSession, cancellationToken)),
-                methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count));
+                methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken));
 
         // Прогрев кэша генератора.
         using var mappersSession = mappers.OpenSession();
-        result.Initialize(mappersSession);
+        result.Initialize(mappersSession, CancellationToken.None);
         mappersSession.Commit();
 
         return result;

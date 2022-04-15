@@ -349,8 +349,9 @@ Key) FROM STDIN (FORMAT BINARY)
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="count">Количество следующийх значений идентити из последовательности.</param>
+        /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает коллекцию следующих значений идентити.</returns>
-        public virtual IList<long> GetNextIds(IMappersSession session, int count)
+        public virtual IList<long> GetNextIds(IMappersSession session, int count, CancellationToken cancellationToken)
         {
             if (session == null)
             {
@@ -364,6 +365,8 @@ Key) FROM STDIN (FORMAT BINARY)
             try
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
+
+                cancellationToken.ThrowIfCancellationRequested();
 
                 // ReSharper disable once ConvertToUsingDeclaration
                 using (var command = typedSession.CreateCommand())
@@ -379,6 +382,8 @@ Key) FROM STDIN (FORMAT BINARY)
                         var result = new List<long>(count);
                         while (reader.Read())
                         {
+                            cancellationToken.ThrowIfCancellationRequested();
+
                             var id = reader.GetInt64(indexId);
                             result.Add(id);
                         }

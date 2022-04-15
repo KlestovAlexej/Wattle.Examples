@@ -303,8 +303,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="count">Количество следующийх значений идентити из последовательности.</param>
+        /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает коллекцию следующих значений идентити.</returns>
-        IList<long> GetNextIds(IMappersSession session, int count);
+        IList<long> GetNextIds(IMappersSession session, int count, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение следующего значения идентити из последовательности "Sequence_Document".
@@ -535,8 +536,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="count">Количество следующийх значений идентити из последовательности.</param>
+        /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает коллекцию следующих значений идентити.</returns>
-        IList<long> GetNextIds(IMappersSession session, int count);
+        IList<long> GetNextIds(IMappersSession session, int count, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение следующего значения идентити из последовательности "Sequence_ChangeTracker".

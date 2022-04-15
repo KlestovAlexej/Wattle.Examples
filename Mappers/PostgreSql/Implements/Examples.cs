@@ -1201,6 +1201,7 @@ public class Examples
             .Begin(LoggerFactory.Create(builder => builder.AddConsole()))
             .SetTimeService(timeService)
             .SetExceptionPolicy(new ExceptionPolicy(timeService))
+            .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
             .SetMappers(mappers)
             .Build();
 
@@ -1233,6 +1234,7 @@ public class Examples
                 $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.Object_A)}'.",
                 ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                 ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
+                ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>(),
                 TimeSpan.FromMinutes(5),
                 mapper,
                 cacheSize,
@@ -1245,11 +1247,11 @@ public class Examples
                         => mapperObjectA.GetNextId(mappersSession),
                     (mapperObjectA, mappersSession, cancellationToken)
                         => mapperObjectA.GetNextIdAsync(mappersSession, cancellationToken)),
-                methodGetNextIdentityList: (m, session, count) => m.GetNextIds(session, count));
+                methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken));
 
         // Прогрев кэша генератора.
         using var mappersSession = mappers.OpenSession();
-        result.Initialize(mappersSession);
+        result.Initialize(mappersSession, CancellationToken.None);
         mappersSession.Commit();
 
         return result;

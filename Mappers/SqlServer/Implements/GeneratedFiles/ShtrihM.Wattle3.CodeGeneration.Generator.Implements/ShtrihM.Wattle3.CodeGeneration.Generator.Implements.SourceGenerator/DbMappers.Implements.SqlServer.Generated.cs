@@ -466,10 +466,12 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="count">Количество следующийх значений идентити из последовательности.</param>
+        /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает коллекцию следующих значений идентити.</returns>
         public virtual IList<long> GetNextIds(
             IMappersSession session,
-            int count)
+            int count,
+            CancellationToken cancellationToken)
         {
             if (session == null)
             {
@@ -483,6 +485,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
             try
             {
                 var typedSession = (ISqlServerMappersSession) session;
+                
+                cancellationToken.ThrowIfCancellationRequested();
                 
                 // ReSharper disable once ConvertToUsingDeclaration
                 using (var command = typedSession.CreateCommand())
@@ -498,6 +502,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
                         
                         while (reader.Read())
                         {
+                            cancellationToken.ThrowIfCancellationRequested();
+                            
                             var id = reader.GetInt64(indexId);
                             result.Add(id);
                         }

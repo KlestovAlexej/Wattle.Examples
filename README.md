@@ -41,7 +41,7 @@
 [Идемпотентность](https://ru.wikipedia.org/wiki/%D0%98%D0%B4%D0%B5%D0%BC%D0%BF%D0%BE%D1%82%D0%B5%D0%BD%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C) поддерживается готовыми компонентами - *реестры уникальных ключей* из nuget пакета [ShtrihM.Wattle3.UniqueRegisters](https://www.nuget.org/packages/ShtrihM.Wattle3.UniqueRegisters/).
 
 Реестры уникальных ключей реализуют:
-- Хранение ключей в оперативной памяти и персистентно в БД.
+- Хранение ключей в оперативной памяти и персистентон в БД.
 - Ключи могут быть ассоциированы с произвольными данными, тоже хранимыми в памяти.
 - Поиск ключа или данных по ключу происходит только в оперативной памяти и не задействует БД.
 - Параллельная регистрация одного и того же уникального ключа не приводит к задвоениям или рассинхронизациям с БД.
@@ -210,6 +210,28 @@ public interface IEntryPoint : IDisposable, IDrivenObject
     /// <returns>Созданный <see cref="IUnitOfWork"/>.</returns>
     /// <exception cref="InternalException">Если для вызывающего потока уже определён <see cref="IUnitOfWork"/>.</exception>
     ValueTask<IUnitOfWork> CreateUnitOfWorkAsync(object context = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Получить доменный сервис по типу сервиса.
+    /// </summary>
+    /// <param name="typeId">Тип доменного сервиса.</param>
+    /// <param name="service">Доменный сервис.</param>
+    /// <returns>Возвращается признак, что доменный сервис найден.
+    /// <see langword="true" /> - доменный сервис найден и определён аргумент <paramref name="service"/>.
+    /// <see langword="false" /> - доменный сервис не найден и аргумент <paramref name="service"/> установлен в <see langword="null" />.</returns>
+    bool TryGetDomainService(Guid typeId, out IDomainService service);
+
+    /// <summary>
+    /// Исполнить системный метод.
+    /// Если метод не найден генерируется исключение <exception cref="WorkflowException"><seealso cref="CommonWorkflowException.SystemMethodNotFound"/></exception>.
+    /// </summary>
+    /// <param name="methodParameters">Параметры метода.</param>
+    /// <param name="methodResult">Результат исполнения метода.</param>
+    /// <returns>Возвращается признак, что метод имеет результат. 
+    /// <see langword="true" /> - исполнение метода имеет результат сохраненный в аргументе <paramref name="methodResult"/>.
+    /// <see langword="false" /> - исполнение метода не имеет результата, аргументе <paramref name="methodResult"/> установлен в <see langword="null" />.</returns>
+    // ReSharper disable once UnusedMember.Global
+    bool CallMethod(ISystemMethodParameters methodParameters, out ISystemMethodResult methodResult);
 }
 ```
 
@@ -258,6 +280,11 @@ public interface IUnitOfWork : IHostMappersSession, IDisposable, IAsyncDisposabl
     /// Стратегия проверки успешности завершения <see cref="IUnitOfWork"/>.
     /// </summary>
     IUnitOfWorkCommitVerifying CommitVerifying { get; set; }
+
+    /// <summary>
+    /// Стратегия проверки успешности завершения <see cref="IUnitOfWork"/> определена.
+    /// </summary>
+    bool IsDefinedCommitVerifying { get; }
 
     /// <summary>
     /// Добавить доменное поведение в <see cref="IUnitOfWork"/>.
