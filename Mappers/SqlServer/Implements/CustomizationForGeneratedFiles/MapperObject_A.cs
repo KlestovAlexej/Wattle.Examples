@@ -5,7 +5,9 @@ using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.SqlServer;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
+using ShtrihM.Wattle3.Primitives;
 
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
@@ -58,7 +60,8 @@ public partial class MapperObject_A
                     "Пул лок-объектов.",
                     "Пул лок-объектов.",
                     timeService),
-                new BinarySerializerAsMessagePack<Object_ADtoActual>());
+                new BinarySerializerAsMessagePack<Object_ADtoActual>(),
+                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>());
         var result =
             new MapperObject_A(
                 mappers.ExceptionPolicy,

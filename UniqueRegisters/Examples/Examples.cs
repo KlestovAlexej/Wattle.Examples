@@ -23,6 +23,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
 using ShtrihM.Wattle3.Primitives;
@@ -141,7 +142,12 @@ public class Examples
 
         stopwatch = Stopwatch.StartNew();
 
-        var registerTransactionKeys_2 = new ExampleRegisterTransactionKeys(m_identityCache, m_directory.BasePath);
+        var registerTransactionKeys_2 = 
+            new ExampleRegisterTransactionKeys(
+                m_identityCache, 
+                m_directory.BasePath,
+                ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>(),
+                ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>());
 
         // Запуск реестра и ожидание его полной инициализации.
         registerTransactionKeys_2.Start();
@@ -473,13 +479,14 @@ public class Examples
         // Настройка окружения.
         var configurator =
             DomainEnviromentConfigurator
-                .Begin(LoggerFactory.Create(builder => builder.AddConsole()));
+                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory)
+                .SetUnitOfWorkProvider(out var unitOfWorkProvider);
 
         m_timeService = new ManagedTimeService();
         m_mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
         var workflowExceptionPolicy = new WorkflowExceptionPolicy();
-        var exceptionPolicy = new ExceptionPolicy(m_timeService);
-        m_entryPoint = new ExampleEntryPoint(m_timeService, workflowExceptionPolicy, m_mappers, exceptionPolicy);
+        var exceptionPolicy = new ExceptionPolicy(m_timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider);
+        m_entryPoint = new ExampleEntryPoint(m_timeService, workflowExceptionPolicy, m_mappers, exceptionPolicy, unitOfWorkProvider, loggerFactory);
         m_mapper = m_mappers.GetMapper<IMapperTransactionKey>();
 
         configurator
@@ -487,7 +494,6 @@ public class Examples
             .SetExceptionPolicy(exceptionPolicy)
             .SetMappers(m_mappers)
             .SetWorkflowExceptionPolicy(workflowExceptionPolicy)
-            .SetUnitOfWorkProvider()
             .SetEntryPoint(m_entryPoint)
             .Build();
 
@@ -509,14 +515,12 @@ public class Examples
     {
         public ExampleUnitOfWork(
             UnitOfWorkContext unitOfWorkContext,
-            ProxyDomainObjectRegisters registers,
-            IUnitOfWorkVisitor visitor,
-            bool addStackTrace)
+            Func<ProxyDomainObjectRegisters> registersFactory,
+            IUnitOfWorkVisitor visitor)
             : base(
                 unitOfWorkContext,
-                registers,
-                visitor,
-                addStackTrace)
+                registersFactory,
+                visitor)
         {
         }
     }
@@ -530,8 +534,10 @@ public class Examples
             ITimeService timeService,
             IWorkflowExceptionPolicy workflowExceptionPolicy,
             IMappers mappers,
-            IExceptionPolicy exceptionPolicy)
-            : base(timeService)
+            IExceptionPolicy exceptionPolicy,
+            IUnitOfWorkProvider unitOfWorkProvider,
+            ILoggerFactory loggerFactory)
+            : base(timeService, unitOfWorkProvider)
         {
             // ReSharper disable once VirtualMemberCallInConstructor
             Initialize(
@@ -540,7 +546,7 @@ public class Examples
                 new DomainObjectRegisters(timeService),
                 new InfrastructureMonitorEntryPoint(this, TimeSpan.FromMinutes(15), timeService));
 
-            m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory();
+            m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory(loggerFactory.CreateLogger<ProxyDomainObjectRegisterFactory>());
             m_proxyDomainObjectRegisterFactories.AddFactories(GetType().Assembly);
 
             m_unitOfWorkContext =
@@ -549,13 +555,15 @@ public class Examples
                     m_dataMappers,
                     mappers,
                     exceptionPolicy,
-                    workflowExceptionPolicy);
+                    workflowExceptionPolicy,
+                    loggerFactory.CreateLogger<UnitOfWorkContext>(),
+                    true,
+                    unitOfWorkProvider);
         }
 
         protected override IUnitOfWork DoCreateUnitOfWork(IUnitOfWorkVisitor visitor, object context)
         {
-            var registers = new ProxyDomainObjectRegisters(m_registers, m_proxyDomainObjectRegisterFactories);
-            var result = new ExampleUnitOfWork(m_unitOfWorkContext, registers, visitor, true);
+            var result = new ExampleUnitOfWork(m_unitOfWorkContext, () => new ProxyDomainObjectRegisters(m_registers, m_proxyDomainObjectRegisterFactories), visitor);
 
             return result;
         }
@@ -566,7 +574,11 @@ public class Examples
 
     private ExampleRegisterTransactionKeys CreateRegisterTransactionKeys()
     {
-        var result = new ExampleRegisterTransactionKeys(m_identityCache, m_directory.BasePath);
+        var result = new ExampleRegisterTransactionKeys(
+            m_identityCache, 
+            m_directory.BasePath,
+            ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>(),
+            ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>());
 
         // Создать партицию БД для хранения ключей за текущий день.
         using (var mappersSession = m_mappers.OpenSession())
@@ -609,7 +621,8 @@ public class Examples
                         => mapperObjectA.GetNextId(mappersSession),
                     (mapperObjectA, mappersSession, cancellationToken)
                         => mapperObjectA.GetNextIdAsync(mappersSession, cancellationToken)),
-                methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken));
+                methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken),
+                logger: ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger<IdentityCache<IMapperTransactionKey>>());
 
         // Прогрев кэша генератора.
         using var mappersSession = mappers.OpenSession();

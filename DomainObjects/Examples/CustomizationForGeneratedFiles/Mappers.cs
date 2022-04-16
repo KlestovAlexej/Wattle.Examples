@@ -15,8 +15,9 @@ public partial class Mappers
     {
         var intergratorContext = (IUnityContainer)context;
         var timeService = intergratorContext.Resolve<ITimeService>();
+        var exceptionPolicy = intergratorContext.Resolve<IExceptionPolicy>();
 
-        var mapper = MapperDocument.NewWithCache(this, timeService);
+        var mapper = MapperDocument.NewWithCache(this, timeService, exceptionPolicy);
         RemoveMapper(mapper.MapperId).SilentDispose();
         AddMapper(mapper);
     }

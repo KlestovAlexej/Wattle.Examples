@@ -26,7 +26,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitio
         private readonly ExampleEntryPoint m_entryPoint;
         private readonly List<IPartitionsManager> m_managers;
 
-        public PartitionsSponsor(ExampleEntryPoint entryPoint)
+        public PartitionsSponsor(
+            ExampleEntryPoint entryPoint,
+            ILoggerFactory loggerFactory)
             : base(
                 entryPoint.ExceptionPolicy,
                 TimeSpan.FromSeconds(1),
@@ -43,9 +45,10 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitio
                     entryPoint.ExceptionPolicy,
                     entryPoint.TimeService,
                     WellknownCommonInfrastructureMonitors.GetDisplayName(WellknownCommonInfrastructureMonitors.ActivatePartitionsSponsor),
-                    WellknownCommonInfrastructureMonitors.ActivatePartitionsSponsor)
+                    WellknownCommonInfrastructureMonitors.ActivatePartitionsSponsor,
+                    loggerFactory.CreateLogger<ScheduledService>())
                     .GetSmartDisposableReference<ITrigger>(true),
-                ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger(MethodBase.GetCurrentMethod()!.DeclaringType!))
+                loggerFactory.CreateLogger<PartitionsSponsor>())
         {
             m_entryPoint = entryPoint;
             m_managers = new List<IPartitionsManager>();

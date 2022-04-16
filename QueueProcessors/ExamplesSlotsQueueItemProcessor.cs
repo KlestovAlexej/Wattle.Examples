@@ -116,10 +116,11 @@ public class ExamplesSlotsQueueItemProcessor
         var timeService = new TimeService();
 
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()))
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory)
+            .SetUnitOfWorkProvider(out var unitOfWorkProvider)
             .SetTimeService(timeService)
             .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
-            .SetExceptionPolicy(new ExceptionPolicy(timeService))
+            .SetExceptionPolicy(new ExceptionPolicy(timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider))
             .Build();
     }
 
@@ -295,7 +296,8 @@ public class ExamplesSlotsQueueItemProcessor
                 ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
                 ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                 Guid.NewGuid(),
-                SlotsSize);
+                SlotsSize,
+                ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger<QueueItemProcessor>());
 
         return result;
     }

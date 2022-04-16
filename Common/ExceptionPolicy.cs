@@ -4,14 +4,18 @@ using ShtrihM.Wattle3.DomainObjects.EntryPoints;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using System;
+using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.Common;
 
 public class ExceptionPolicy : BaseExceptionPolicy
 {
-    public ExceptionPolicy(ITimeService timeService)
-        : base(timeService)
+    public ExceptionPolicy(
+        ITimeService timeService, 
+        ILogger logger,
+        IUnitOfWorkProvider unitOfWorkProvider)
+        : base(timeService, logger, unitOfWorkProvider)
     {
     }
 

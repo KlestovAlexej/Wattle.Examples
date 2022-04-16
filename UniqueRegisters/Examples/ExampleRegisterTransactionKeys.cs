@@ -61,7 +61,9 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 
         public ExampleRegisterTransactionKeys(
             IIdentityCache identityCache,
-            string dataPath)
+            string dataPath,
+            IUnitOfWorkProvider unitOfWorkProvider,
+            ILoggerFactory loggerFactory)
             : base(
                 ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
                 ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
@@ -74,7 +76,8 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                         "Очередь восстановления реестра уникальных ключей транзакций.",
                         ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
                         ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
-                        new Guid("CBD01E52-4216-407C-9992-7EFBF3B76AE3"))
+                        new Guid("CBD01E52-4216-407C-9992-7EFBF3B76AE3"),
+                        loggerFactory.CreateLogger<QueueItemProcessor>())
                     .GetSmartDisposableReference<IQueueItemProcessor>(true),
                 new CommandQueueProcessor(
                         KeysDeleteGroupThreads,
@@ -82,7 +85,8 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                         "Очередь удаления групп ключей в реестре уникальных ключей транзакций.",
                         ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
                         ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
-                        new Guid("DC36249F-38D0-4022-BE3E-AF95862C5696"))
+                        new Guid("DC36249F-38D0-4022-BE3E-AF95862C5696"),
+                        loggerFactory.CreateLogger<CommandQueueProcessor>())
                     .GetSmartDisposableReference<ICommandQueueProcessor>(true),
                 "Реестр уникальных ключей транзакций.",
                 new Guid("74230A27-D918-4655-81CA-BF866427CDD2"),
@@ -92,9 +96,12 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                         ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
                         ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
                         "Расписание очистки реестре уникальных ключей транзакций.",
-                        new Guid("F1D06D78-F8F7-47F2-9442-522026203599"))
+                        new Guid("F1D06D78-F8F7-47F2-9442-522026203599"),
+                        loggerFactory.CreateLogger<ScheduledService>())
                     .GetSmartDisposableReference<ITrigger>(true),
                 new SlimBytesUniqueRegisterDictionaryFactoryOfConcurrentDictionary(),
+                unitOfWorkProvider,
+                loggerFactory.CreateLogger<ExampleRegisterTransactionKeys>(),
                 DomainBehaviourWithСonfirmation.DefaultMaxCountTryAndSkipVerify,
                 CreateKeysPersistentStorage(dataPath))
         {

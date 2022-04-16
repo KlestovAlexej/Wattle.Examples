@@ -1049,9 +1049,10 @@ public class Examples
         var mappers = new Generated.SqlServer.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
 
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()))
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory)
+            .SetUnitOfWorkProvider(out var unitOfWorkProvider)
             .SetTimeService(timeService)
-            .SetExceptionPolicy(new ExceptionPolicy(timeService))
+            .SetExceptionPolicy(new ExceptionPolicy(timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider))
             .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
             .SetMappers(mappers)
             .Build();
@@ -1077,6 +1078,7 @@ public class Examples
     {
         var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var mapper = mappers.GetMapper<IMapperObject_A>();
+        var loggerFactory = ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>();
 
         var result =
             new IdentityCache<IMapperObject_A>(
@@ -1098,7 +1100,8 @@ public class Examples
                         => mapperObjectA.GetNextId(mappersSession),
                     (mapperObjectA, mappersSession, cancellationToken)
                         => mapperObjectA.GetNextIdAsync(mappersSession, cancellationToken)),
-                methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken));
+                methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken),
+                logger: loggerFactory.CreateLogger<IdentityCache<IMapperObject_A>>());
 
         // Прогрев кэша генератора.
         using var mappersSession = mappers.OpenSession();

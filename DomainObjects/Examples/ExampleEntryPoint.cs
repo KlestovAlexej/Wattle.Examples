@@ -46,15 +46,18 @@ public class ExampleEntryPoint : BaseEntryPoint
     private InfrastructureMonitorRegisters m_infrastructureMonitorRegisters;
     private IQueueItemProcessor m_queueEmergencyDomainBehaviour;
 
-    private ExampleEntryPoint(ITimeService timeService)
-        : base(timeService)
+    private ExampleEntryPoint(
+        ITimeService timeService, 
+        IUnitOfWorkProvider unitOfWorkProvider,
+        ILogger logger)
+        : base(timeService, unitOfWorkProvider)
     {
         if (timeService == null)
         {
             throw new ArgumentNullException(nameof(timeService));
         }
 
-        m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory();
+        m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory(logger);
         m_proxyDomainObjectRegisterFactories.AddFactories(GetType().Assembly);
         m_stopping = true;
 
@@ -171,8 +174,7 @@ public class ExampleEntryPoint : BaseEntryPoint
 
     protected override IUnitOfWork DoCreateUnitOfWork(IUnitOfWorkVisitor visitor, object context)
     {
-        var registers = new ProxyDomainObjectRegisters(m_registers, m_proxyDomainObjectRegisterFactories);
-        var result = new ExampleUnitOfWork(m_unitOfWorkContext, registers, visitor, false);
+        var result = new ExampleUnitOfWork(m_unitOfWorkContext, () => new ProxyDomainObjectRegisters(m_registers, m_proxyDomainObjectRegisterFactories), visitor);
 
         return result;
     }
@@ -258,12 +260,17 @@ public class ExampleEntryPoint : BaseEntryPoint
     public static ExampleEntryPoint New(IUnityContainer container)
     {
         var timeService = container.ResolveWithDefault<ITimeService>(() => new TimeService());
+        var unitOfWorkProvider = container.Resolve<IUnitOfWorkProvider>();
+        var loggerFactory = container.Resolve<ILoggerFactory>();
 
-        var result = new ExampleEntryPoint(timeService);
+        var result = new ExampleEntryPoint(timeService, unitOfWorkProvider, loggerFactory.CreateLogger<ExampleEntryPoint>());
 
         container.RegisterInstance(result, InstanceLifetime.External);
 
-        result.m_exceptionPolicy = new ExceptionPolicy(result.TimeService);
+        result.m_exceptionPolicy = new ExceptionPolicy(result.TimeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider);
+
+        container.RegisterInstance(result.m_exceptionPolicy, InstanceLifetime.External);
+
         result.m_partitionsDay = new PartitionsDay(timeService);
         result.m_infrastructureMonitorRegisters = new InfrastructureMonitorRegisters();
 
@@ -278,7 +285,7 @@ public class ExampleEntryPoint : BaseEntryPoint
                 0,
                 container);
 
-        result.m_prtitionsSponsor = new PartitionsSponsor(result);
+        result.m_prtitionsSponsor = new PartitionsSponsor(result, loggerFactory);
         result.m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
 
         var dataMappers = new DomainObjectDataMappers();
@@ -292,11 +299,15 @@ public class ExampleEntryPoint : BaseEntryPoint
             registers,
             infrastructureMonitor);
 
-        result.m_unitOfWorkContext = new UnitOfWorkContext(result,
+        result.m_unitOfWorkContext = 
+            new UnitOfWorkContext(result,
                 result.m_dataMappers,
                 result.m_mappers,
                 result.m_exceptionPolicy,
-                result.m_workflowExceptionPolicy);
+                result.m_workflowExceptionPolicy,
+                loggerFactory.CreateLogger<UnitOfWorkContext>(),
+                true,
+                unitOfWorkProvider);
 
         result.m_queueEmergencyDomainBehaviour =
             new QueueItemProcessor(
@@ -306,6 +317,7 @@ public class ExampleEntryPoint : BaseEntryPoint
                 result.ExceptionPolicy,
                 result.TimeService,
                 WellknownCommonInfrastructureMonitors.QueueEmergencyDomainBehaviour,
+                loggerFactory.CreateLogger<QueueItemProcessor>(),
                 TimeSpan.FromMinutes(30));
 
         var logger = ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger(result.GetType());

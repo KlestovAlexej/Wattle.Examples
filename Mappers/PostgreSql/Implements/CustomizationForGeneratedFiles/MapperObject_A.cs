@@ -5,14 +5,19 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
+using ShtrihM.Wattle3.Primitives;
 
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
 
 public partial class MapperObject_A
 {
-    public static MapperObject_A NewWithCache(Mappers mappers, ITimeService timeService)
+    public static MapperObject_A NewWithCache(
+        Mappers mappers, 
+        ITimeService timeService,
+        IExceptionPolicy exceptionPolicy)
     {
         var actualDtoMemoryCache =
             new MemoryCacheMapperActualStateDto<Object_ADtoActual>(
@@ -58,7 +63,8 @@ public partial class MapperObject_A
                     "Пул лок-объектов.",
                     "Пул лок-объектов.",
                     timeService),
-                new BinarySerializerAsMessagePack<Object_ADtoActual>());
+                new BinarySerializerAsMessagePack<Object_ADtoActual>(),
+                exceptionPolicy);
         var result =
             new MapperObject_A(
                 mappers.ExceptionPolicy,

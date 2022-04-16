@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
@@ -17,14 +18,12 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples
     {
         public ExampleUnitOfWork(
             UnitOfWorkContext unitOfWorkContext,
-            ProxyDomainObjectRegisters registers,
-            IUnitOfWorkVisitor visitor,
-            bool addStackTrace)
+            Func<ProxyDomainObjectRegisters> registersFactory,
+            IUnitOfWorkVisitor visitor)
             : base(
                 unitOfWorkContext,
-                registers,
-                visitor,
-                addStackTrace)
+                registersFactory,
+                visitor)
         {
         }
 

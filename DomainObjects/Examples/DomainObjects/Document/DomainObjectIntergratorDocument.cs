@@ -12,6 +12,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using Unity;
 
@@ -166,7 +167,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                 IMappers mappers,
                 ITimeService timeService,
                 IWorkflowExceptionPolicy workflowExceptionPolicy,
-                IExceptionPolicy exceptionPolicy)
+                IExceptionPolicy exceptionPolicy,
+                IUnitOfWorkProvider unitOfWorkProvider,
+                ILogger logger)
                 : base(
                     WellknownDomainObjects.Document,
                     WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.Document),
@@ -178,7 +181,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                     mappers,
                     timeService,
                     workflowExceptionPolicy,
-                    exceptionPolicy)
+                    exceptionPolicy,
+                    unitOfWorkProvider,
+                    logger)
             {
             }
 
@@ -325,6 +330,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         {
             var entryPoint = container.Resolve<ExampleEntryPoint>();
             var mapper = entryPoint.Mappers.GetMapper<IMapperDocument>();
+            var loggerFactory = container.Resolve<ILoggerFactory>();
 
             var dataMapper =
                 new DomainObjectDataMapperDocument(
@@ -346,7 +352,8 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                         new PairMethods<Func<IMapperDocument, IMappersSession, long>, Func<IMapperDocument, IMappersSession, CancellationToken, ValueTask<long>>>(
                             (m, session) => m.GetNextId(session),
                             (m, session, cancellationToken) => m.GetNextIdAsync(session, cancellationToken)),
-                        methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken)));
+                        methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken),
+                        logger: loggerFactory.CreateLogger<IdentityCache<IMapperDocument>>()));
             entryPoint.DataMappers.AddMapper(dataMapper);
 
             entryPoint.ObjectRegisters.AddRegister(
@@ -357,7 +364,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                     entryPoint.Mappers,
                     entryPoint.TimeService,
                     entryPoint.WorkflowExceptionPolicy,
-                    entryPoint.ExceptionPolicy));
+                    entryPoint.ExceptionPolicy,
+                    entryPoint.UnitOfWorkProvider,
+                    loggerFactory.CreateLogger<DomainObjectRegisterStatelessDocument>()));
         }
     }
 }

@@ -5,6 +5,8 @@ using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
 using System;
+using Microsoft.Extensions.Logging;
+using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Utils;
 using Unity;
 
@@ -26,6 +28,14 @@ public abstract partial class BaseAutoTestsMapper
 
         var container = new UnityContainer();
         container.RegisterInstance(m_timeService, InstanceLifetime.External);
+
+        var exceptionPolicy =
+            new ExceptionPolicy(
+                m_timeService,
+                LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger(GetType()),
+                new UnitOfWorkProviderCallContext());
+        container.RegisterInstance<IExceptionPolicy>(exceptionPolicy, InstanceLifetime.External);
+
         m_contextMappers = container;
     }
 

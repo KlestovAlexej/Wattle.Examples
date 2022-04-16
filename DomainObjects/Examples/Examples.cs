@@ -12,6 +12,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
 using ShtrihM.Wattle3.Primitives;
 using Unity;
@@ -1062,13 +1063,17 @@ public class Examples
         // Настройка окружения.
         var configurator =
             DomainEnviromentConfigurator
-                .Begin(LoggerFactory.Create(builder => builder.AddConsole()));
+                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory);
 
         using var container = new UnityContainer();
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString, InstanceLifetime.External);
 
         m_timeService = new ManagedTimeService();
         container.RegisterInstance<ITimeService>(m_timeService, InstanceLifetime.External);
+        container.RegisterInstance(loggerFactory, InstanceLifetime.External);
+
+        var unitOfWorkProvider = new UnitOfWorkProviderCallContext();
+        container.RegisterInstance<IUnitOfWorkProvider>(unitOfWorkProvider, InstanceLifetime.External);
 
         var entryPoint = ExampleEntryPoint.New(container);
 
@@ -1077,7 +1082,7 @@ public class Examples
             .SetExceptionPolicy(entryPoint.ExceptionPolicy)
             .SetMappers(entryPoint.Mappers)
             .SetWorkflowExceptionPolicy(entryPoint.WorkflowExceptionPolicy)
-            .SetUnitOfWorkProvider()
+            .SetUnitOfWorkProvider(unitOfWorkProvider)
             .SetInfrastructureMonitorRegisters(entryPoint.InfrastructureMonitorRegisters)
             .SetEntryPoint(m_entryPoint = entryPoint)
             .Build();

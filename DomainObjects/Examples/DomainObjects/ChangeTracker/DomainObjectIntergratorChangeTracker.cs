@@ -12,6 +12,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 using Unity;
 
@@ -150,6 +151,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
         {
             var entryPoint = container.Resolve<ExampleEntryPoint>();
             var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
+            var loggerFactory = container.Resolve<ILoggerFactory>();
 
             var dataMapper =
                 new DomainObjectDataMapperChangeTracker(
@@ -171,7 +173,8 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                         new PairMethods<Func<IMapperChangeTracker, IMappersSession, long>, Func<IMapperChangeTracker, IMappersSession, CancellationToken, ValueTask<long>>>(
                             (m, session) => m.GetNextId(session),
                             (m, session, cancellationToken) => m.GetNextIdAsync(session, cancellationToken)),
-                        methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken)));
+                        methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken),
+                        logger: loggerFactory.CreateLogger<IdentityCache<IMapperChangeTracker>>()));
             entryPoint.DataMappers.AddMapper(dataMapper);
 
             entryPoint.ObjectRegisters.AddRegister(
@@ -186,7 +189,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                     entryPoint.Mappers,
                     entryPoint.TimeService,
                     entryPoint.WorkflowExceptionPolicy,
-                    entryPoint.ExceptionPolicy));
+                    entryPoint.ExceptionPolicy,
+                    entryPoint.UnitOfWorkProvider,
+                    loggerFactory.CreateLogger<DomainObjectRegisterStateless>()));
         }
     }
 }
