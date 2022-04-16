@@ -5,9 +5,7 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
-using ShtrihM.Wattle3.Primitives;
 
 // ReSharper disable once CheckNamespace
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;

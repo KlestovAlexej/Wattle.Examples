@@ -23,7 +23,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
 using ShtrihM.Wattle3.Primitives;
