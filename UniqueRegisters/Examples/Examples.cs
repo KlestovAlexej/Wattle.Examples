@@ -478,7 +478,7 @@ public class Examples
         // Настройка окружения.
         var configurator =
             DomainEnviromentConfigurator
-                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory)
+                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
                 .SetUnitOfWorkProvider(out var unitOfWorkProvider);
 
         m_timeService = new ManagedTimeService();

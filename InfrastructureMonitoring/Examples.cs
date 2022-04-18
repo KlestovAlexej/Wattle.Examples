@@ -109,7 +109,7 @@ public class Examples
         var infrastructureMonitorRegisters = new InfrastructureMonitorRegisters();
 
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out _)
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out _, out _)
             .SetInfrastructureMonitorRegisters(infrastructureMonitorRegisters)
             .Build();
 

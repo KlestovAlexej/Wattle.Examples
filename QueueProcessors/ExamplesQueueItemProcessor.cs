@@ -116,7 +116,7 @@ public class ExamplesQueueItemProcessor
         var timeService = new TimeService();
 
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory)
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
             .SetUnitOfWorkProvider(out var unitOfWorkProvider)
             .SetTimeService(timeService)
             .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())

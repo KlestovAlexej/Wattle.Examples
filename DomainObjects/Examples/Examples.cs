@@ -1063,7 +1063,7 @@ public class Examples
         // Настройка окружения.
         var configurator =
             DomainEnviromentConfigurator
-                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory);
+                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _);
 
         using var container = new UnityContainer();
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString, InstanceLifetime.External);

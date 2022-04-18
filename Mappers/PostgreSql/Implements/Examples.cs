@@ -1198,7 +1198,7 @@ public class Examples
         var mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
 
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory)
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
             .SetUnitOfWorkProvider(out var unitOfWorkProvider)
             .SetTimeService(timeService)
             .SetExceptionPolicy(new ExceptionPolicy(timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider))
