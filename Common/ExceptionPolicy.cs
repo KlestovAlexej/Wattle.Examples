@@ -1,22 +1,23 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ShtrihM.Wattle3.Common.Exceptions;
+﻿using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.DomainObjects.EntryPoints;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Mappers;
 using System;
 using Microsoft.Extensions.Logging;
-using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.Common;
 
 public class ExceptionPolicy : BaseExceptionPolicy
 {
+    private readonly IWorkflowExceptionPolicy m_workflowExceptionPolicy;
+
     public ExceptionPolicy(
         ITimeService timeService, 
         ILogger logger,
-        IUnitOfWorkProvider unitOfWorkProvider)
-        : base(timeService, logger, unitOfWorkProvider)
+        IWorkflowExceptionPolicy workflowExceptionPolicy)
+        : base(timeService, logger)
     {
+        m_workflowExceptionPolicy = workflowExceptionPolicy ?? throw new ArgumentNullException(nameof(workflowExceptionPolicy));
     }
 
     protected override WorkflowException DoApplyWorkflowException(WorkflowException exception)
@@ -50,9 +51,8 @@ public class ExceptionPolicy : BaseExceptionPolicy
     {
         Console.WriteLine($"ExceptionPolicy.DoApplyMappersException [{exception.Message}]");
 
-        var workflowExceptionPolicy = ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>();
         var result =
-            workflowExceptionPolicy.Create(
+            m_workflowExceptionPolicy.Create(
                 CommonWorkflowException.ServiceTemporarilyUnavailable,
                 exception.Message,
                 exception.ToString());
@@ -64,9 +64,8 @@ public class ExceptionPolicy : BaseExceptionPolicy
     {
         Console.WriteLine($"ExceptionPolicy.DoApplyInternalException [{exception.Message}]");
 
-        var workflowExceptionPolicy = ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>();
         var result =
-            workflowExceptionPolicy.Create(
+            m_workflowExceptionPolicy.Create(
                 CommonWorkflowException.ServiceTemporarilyUnavailable,
                 exception.Message,
                 exception.ToString());
@@ -78,9 +77,8 @@ public class ExceptionPolicy : BaseExceptionPolicy
     {
         Console.WriteLine($"ExceptionPolicy.DoApplyUnexpectedException [{exception.Message}]");
 
-        var workflowExceptionPolicy = ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>();
         var result =
-            workflowExceptionPolicy.Create(
+            m_workflowExceptionPolicy.Create(
                 CommonWorkflowException.ServiceTemporarilyUnavailable,
                 exception.Message,
                 exception.ToString());

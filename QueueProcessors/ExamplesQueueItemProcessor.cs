@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
@@ -9,7 +8,6 @@ using ShtrihM.Wattle3.QueueProcessors;
 using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Testing;
 using System;
-using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.QueueProcessors;
 
@@ -110,18 +108,23 @@ public class ExamplesQueueItemProcessor
 
     #region Enviroment
 
+    private ITimeService m_timeService;
+    private ILoggerFactory m_loggerFactory;
+    private IExceptionPolicy m_exceptionPolicy;
+
     [SetUp]
     public void SetUp()
     {
-        var timeService = new TimeService();
-
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
-            .SetUnitOfWorkProvider(out var unitOfWorkProvider)
-            .SetTimeService(timeService)
-            .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
-            .SetExceptionPolicy(new ExceptionPolicy(timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider))
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out m_loggerFactory, out _)
             .Build();
+
+        m_timeService = new TimeService();
+        m_exceptionPolicy =
+            new ExceptionPolicy(
+                m_timeService,
+                m_loggerFactory.CreateLogger<ExceptionPolicy>(),
+                new WorkflowExceptionPolicy());
     }
 
     [TearDown]
@@ -227,10 +230,10 @@ public class ExamplesQueueItemProcessor
                 10,
                 TimeSpan.FromSeconds(4),
                 "Queue",
-                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
+                m_exceptionPolicy,
+                m_timeService,
                 Guid.NewGuid(),
-                ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger<QueueItemProcessor>());
+                m_loggerFactory.CreateLogger<QueueItemProcessor>());
 
         return result;
     }

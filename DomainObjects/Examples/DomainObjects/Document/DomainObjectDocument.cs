@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ShtrihM.Wattle3.DomainObjects.DomainObjects;
+﻿using ShtrihM.Wattle3.DomainObjects.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using ShtrihM.Wattle3.Mappers.Primitives.MutableFields;
@@ -98,7 +97,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// </summary>
         public void Delete()
         {
-            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+            var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
 
             unitOfWork.AddDelete(this);
         }
@@ -108,7 +107,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// </summary>
         public void Version()
         {
-            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+            var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
 
             unitOfWork.AddVersion(this);
         }
@@ -118,8 +117,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// </summary>
         private void DoUpdated()
         {
-            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+            var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
             var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
+
             ModificationDate = entryPoint.TimeService.NowDateTime;
 
             unitOfWork.AddUpdate(this);
@@ -136,13 +136,18 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DtoFiledName = nameof(WellknownDomainObjectFields.Document.Value_Int))]
         private MutableFieldNullable<int> m_value_Int;
 
+        private readonly IEntryPoint m_entryPoint;
+
         /// <summary>
         /// Восстановить экземпляр из данных БД.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DomainObjectDocument(DocumentDtoActual data)
+        public DomainObjectDocument(
+            IEntryPoint entryPoint,
+            DocumentDtoActual data)
             : base(data.Id)
         {
+            m_entryPoint = entryPoint;
             Revision = data.Revision;
             CreateDate = data.CreateDate.SpecifyKindLocal();
             ModificationDate = data.ModificationDate.SpecifyKindLocal();
@@ -156,11 +161,13 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectDocument(
+            IEntryPoint entryPoint,
             long identity,
             DateTime createDate,
             DomainObjectTemplateDocument template)
             : base(identity)
         {
+            m_entryPoint = entryPoint;
             CreateDate = createDate;
             ModificationDate = createDate;
             m_value_DateTime = template.Value_DateTime;

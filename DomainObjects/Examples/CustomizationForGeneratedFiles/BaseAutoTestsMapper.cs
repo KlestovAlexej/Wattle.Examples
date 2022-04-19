@@ -33,7 +33,7 @@ public abstract partial class BaseAutoTestsMapper
             new ExceptionPolicy(
                 m_timeService,
                 LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger(GetType()),
-                new UnitOfWorkProviderCallContext());
+                new WorkflowExceptionPolicy());
         container.RegisterInstance<IExceptionPolicy>(exceptionPolicy, InstanceLifetime.External);
 
         m_contextMappers = container;

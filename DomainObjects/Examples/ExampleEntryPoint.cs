@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
@@ -20,7 +19,6 @@ using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Utils;
 using System;
 using System.Text;
-using ShtrihM.Wattle3.Primitives;
 using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
@@ -48,9 +46,8 @@ public class ExampleEntryPoint : BaseEntryPoint
 
     private ExampleEntryPoint(
         ITimeService timeService, 
-        IUnitOfWorkProvider unitOfWorkProvider,
         ILogger logger)
-        : base(timeService, unitOfWorkProvider)
+        : base(timeService, new UnitOfWorkProviderCallContext())
     {
         if (timeService == null)
         {
@@ -76,7 +73,7 @@ public class ExampleEntryPoint : BaseEntryPoint
     /// </summary>
     public DomainBehaviourWithСonfirmation CreateDomainBehaviourWithСonfirmation()
     {
-        var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+        var unitOfWork = m_unitOfWorkProvider.Instance;
         var result =
             new DomainBehaviourWithСonfirmation(
                 ExceptionPolicy,
@@ -260,14 +257,14 @@ public class ExampleEntryPoint : BaseEntryPoint
     public static ExampleEntryPoint New(IUnityContainer container)
     {
         var timeService = container.ResolveWithDefault<ITimeService>(() => new TimeService());
-        var unitOfWorkProvider = container.Resolve<IUnitOfWorkProvider>();
         var loggerFactory = container.Resolve<ILoggerFactory>();
 
-        var result = new ExampleEntryPoint(timeService, unitOfWorkProvider, loggerFactory.CreateLogger<ExampleEntryPoint>());
+        var result = new ExampleEntryPoint(timeService, loggerFactory.CreateLogger<ExampleEntryPoint>());
 
         container.RegisterInstance(result, InstanceLifetime.External);
 
-        result.m_exceptionPolicy = new ExceptionPolicy(result.TimeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider);
+        result.m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
+        result.m_exceptionPolicy = new ExceptionPolicy(result.TimeService, loggerFactory.CreateLogger<ExceptionPolicy>(), result.m_workflowExceptionPolicy);
 
         container.RegisterInstance(result.m_exceptionPolicy, InstanceLifetime.External);
 
@@ -286,7 +283,6 @@ public class ExampleEntryPoint : BaseEntryPoint
                 container);
 
         result.m_prtitionsSponsor = new PartitionsSponsor(result, loggerFactory);
-        result.m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
 
         var dataMappers = new DomainObjectDataMappers();
         var registers = new DomainObjectRegisters(result.TimeService);
@@ -297,7 +293,8 @@ public class ExampleEntryPoint : BaseEntryPoint
             result.m_workflowExceptionPolicy,
             dataMappers,
             registers,
-            infrastructureMonitor);
+            infrastructureMonitor,
+            loggerFactory);
 
         result.m_unitOfWorkContext = 
             new UnitOfWorkContext(result,
@@ -307,7 +304,7 @@ public class ExampleEntryPoint : BaseEntryPoint
                 result.m_workflowExceptionPolicy,
                 loggerFactory.CreateLogger<UnitOfWorkContext>(),
                 true,
-                unitOfWorkProvider);
+                result.m_unitOfWorkProvider);
 
         result.m_queueEmergencyDomainBehaviour =
             new QueueItemProcessor(
@@ -320,8 +317,9 @@ public class ExampleEntryPoint : BaseEntryPoint
                 loggerFactory.CreateLogger<QueueItemProcessor>(),
                 TimeSpan.FromMinutes(30));
 
-        var logger = ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger(result.GetType());
-        var domainObjectIntergrators = new DefaultDomainObjectIntergrators<IUnityContainer>(logger).Add(result.GetType().Assembly);
+        var domainObjectIntergrators =
+            new DefaultDomainObjectIntergrators<IUnityContainer>(loggerFactory.CreateLogger<DefaultDomainObjectIntergrators<IUnityContainer>>())
+                .Add(result.GetType().Assembly);
         foreach (var domainObjectIntergrator in domainObjectIntergrators)
         {
             domainObjectIntergrator.Run(container);

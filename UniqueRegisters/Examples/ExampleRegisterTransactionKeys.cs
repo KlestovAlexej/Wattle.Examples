@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.Common.Queries;
 using ShtrihM.Wattle3.Containers;
@@ -63,19 +62,23 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
             IIdentityCache identityCache,
             string dataPath,
             IUnitOfWorkProvider unitOfWorkProvider,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IExceptionPolicy exceptionPolicy,
+            ITimeService timeService,
+            IMappers mappers,
+            IWorkflowExceptionPolicy workflowExceptionPolicy)
             : base(
-                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
-                ServiceProviderHolder.Instance.GetRequiredService<IMappers>(),
-                ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>(),
+                exceptionPolicy,
+                timeService,
+                mappers,
+                workflowExceptionPolicy,
                 InitializeThreadEmergencyTimeout,
                 new QueueItemProcessor(
                         KeysRepairThreads,
                         KeysEmergencyTimeout,
                         "Очередь восстановления реестра уникальных ключей транзакций.",
-                        ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                        ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
+                        exceptionPolicy,
+                        timeService,
                         new Guid("CBD01E52-4216-407C-9992-7EFBF3B76AE3"),
                         loggerFactory.CreateLogger<QueueItemProcessor>())
                     .GetSmartDisposableReference<IQueueItemProcessor>(true),
@@ -83,8 +86,8 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                         KeysDeleteGroupThreads,
                         KeysEmergencyTimeout,
                         "Очередь удаления групп ключей в реестре уникальных ключей транзакций.",
-                        ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                        ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
+                        exceptionPolicy,
+                        timeService,
                         new Guid("DC36249F-38D0-4022-BE3E-AF95862C5696"),
                         loggerFactory.CreateLogger<CommandQueueProcessor>())
                     .GetSmartDisposableReference<ICommandQueueProcessor>(true),
@@ -93,8 +96,8 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                 new ScheduledService(
                         CleanupTimeoutKeys,
                         "Расписание очистки реестре уникальных ключей транзакций.",
-                        ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                        ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
+                        exceptionPolicy,
+                        timeService,
                         "Расписание очистки реестре уникальных ключей транзакций.",
                         new Guid("F1D06D78-F8F7-47F2-9442-522026203599"),
                         loggerFactory.CreateLogger<ScheduledService>())
@@ -105,9 +108,9 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
                 DomainBehaviourWithСonfirmation.DefaultMaxCountTryAndSkipVerify,
                 CreateKeysPersistentStorage(dataPath))
         {
-            m_timeService = ServiceProviderHolder.Instance.GetRequiredService<ITimeService>();
-            m_mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-            m_workflowExceptionPolicy = ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>();
+            m_timeService = timeService;
+            m_mappers = mappers;
+            m_workflowExceptionPolicy = workflowExceptionPolicy;
             m_activeDays = ActiveDays;
             m_mapper = m_mappers.GetMapper<IMapperTransactionKey>();
             m_startDay = StartDay;
@@ -255,7 +258,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
 
         protected override KeyIdentityInfo<long, long> NewKey(Guid key, long tag, object context)
         {
-            var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+            var unitOfWork = m_unitOfWorkProvider.Instance;
             var mappersSession = unitOfWork.GetMappersSession();
             var identity = m_identityCache.GetNextIdentity(mappersSession);
             var dayIndex = GetDayIndex(m_timeService.NowDateTime);

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.DomainObjects;
@@ -12,9 +11,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
-using ShtrihM.Wattle3.Primitives;
 using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
@@ -1033,7 +1030,7 @@ public class Examples
 
     private void ChangeDocument(long id, DateTime value_DateTime, long value_Long, int? value_Int)
     {
-        var oldUnitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().SetCurrentUnitOfWork(null); // Отключение для потока Unit of Work
+        var oldUnitOfWork = m_entryPoint.UnitOfWorkProvider.SetCurrentUnitOfWork(null); // Отключение для потока Unit of Work
         using (var unitOfWork = m_entryPoint.CreateUnitOfWork())
         {
             var register = unitOfWork.Registers.GetRegister<IDomainObjectRegisterDocument>();
@@ -1044,7 +1041,7 @@ public class Examples
 
             unitOfWork.Commit();
         }
-        ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().SetCurrentUnitOfWork(oldUnitOfWork); // Вернуть для потока Unit of Work
+        m_entryPoint.UnitOfWorkProvider.SetCurrentUnitOfWork(oldUnitOfWork); // Вернуть для потока Unit of Work
     }
 
     #endregion
@@ -1061,9 +1058,9 @@ public class Examples
         BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
         // Настройка окружения.
-        var configurator =
-            DomainEnviromentConfigurator
-                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _);
+        DomainEnviromentConfigurator
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
+            .Build();
 
         using var container = new UnityContainer();
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString, InstanceLifetime.External);
@@ -1072,20 +1069,7 @@ public class Examples
         container.RegisterInstance<ITimeService>(m_timeService, InstanceLifetime.External);
         container.RegisterInstance(loggerFactory, InstanceLifetime.External);
 
-        var unitOfWorkProvider = new UnitOfWorkProviderCallContext();
-        container.RegisterInstance<IUnitOfWorkProvider>(unitOfWorkProvider, InstanceLifetime.External);
-
-        var entryPoint = ExampleEntryPoint.New(container);
-
-        configurator
-            .SetTimeService(entryPoint.TimeService)
-            .SetExceptionPolicy(entryPoint.ExceptionPolicy)
-            .SetMappers(entryPoint.Mappers)
-            .SetWorkflowExceptionPolicy(entryPoint.WorkflowExceptionPolicy)
-            .SetUnitOfWorkProvider(unitOfWorkProvider)
-            .SetInfrastructureMonitorRegisters(entryPoint.InfrastructureMonitorRegisters)
-            .SetEntryPoint(m_entryPoint = entryPoint)
-            .Build();
+        m_entryPoint = ExampleEntryPoint.New(container);
 
         // Запуск точки входа в доменную область.
         m_entryPoint.Start();

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.DomainObjects;
@@ -23,9 +22,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
-using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
@@ -145,8 +144,12 @@ public class Examples
             new ExampleRegisterTransactionKeys(
                 m_identityCache, 
                 m_directory.BasePath,
-                ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>(),
-                ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>());
+                m_entryPoint.UnitOfWorkProvider,
+                m_loggerFactory,
+                m_exceptionPolicy,
+                m_timeService,
+                m_mappers,
+                m_workflowExceptionPolicy);
 
         // Запуск реестра и ожидание его полной инициализации.
         registerTransactionKeys_2.Start();
@@ -469,6 +472,9 @@ public class Examples
     private IMappers m_mappers;
     private ManagedTimeService m_timeService;
     private IMapperTransactionKey m_mapper;
+    private ILoggerFactory m_loggerFactory;
+    private IExceptionPolicy m_exceptionPolicy;
+    private IWorkflowExceptionPolicy m_workflowExceptionPolicy;
 
     [SetUp]
     public void SetUp()
@@ -476,26 +482,16 @@ public class Examples
         BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
         // Настройка окружения.
-        var configurator =
-            DomainEnviromentConfigurator
-                .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
-                .SetUnitOfWorkProvider(out var unitOfWorkProvider);
+        DomainEnviromentConfigurator
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out m_loggerFactory, out _)
+            .Build();
 
         m_timeService = new ManagedTimeService();
         m_mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
-        var workflowExceptionPolicy = new WorkflowExceptionPolicy();
-        var exceptionPolicy = new ExceptionPolicy(m_timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider);
-        m_entryPoint = new ExampleEntryPoint(m_timeService, workflowExceptionPolicy, m_mappers, exceptionPolicy, unitOfWorkProvider, loggerFactory);
+        m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
+        m_exceptionPolicy = new ExceptionPolicy(m_timeService, m_loggerFactory.CreateLogger<ExceptionPolicy>(), m_workflowExceptionPolicy);
+        m_entryPoint = new ExampleEntryPoint(m_timeService, m_workflowExceptionPolicy, m_mappers, m_exceptionPolicy, m_loggerFactory);
         m_mapper = m_mappers.GetMapper<IMapperTransactionKey>();
-
-        configurator
-            .SetTimeService(m_timeService)
-            .SetExceptionPolicy(exceptionPolicy)
-            .SetMappers(m_mappers)
-            .SetWorkflowExceptionPolicy(workflowExceptionPolicy)
-            .SetEntryPoint(m_entryPoint)
-            .Build();
-
         m_directory = new TestDirectory("Data");
         m_identityCache = CreateIdentityCache();
     }
@@ -534,16 +530,16 @@ public class Examples
             IWorkflowExceptionPolicy workflowExceptionPolicy,
             IMappers mappers,
             IExceptionPolicy exceptionPolicy,
-            IUnitOfWorkProvider unitOfWorkProvider,
             ILoggerFactory loggerFactory)
-            : base(timeService, unitOfWorkProvider)
+            : base(timeService, new UnitOfWorkProviderCallContext())
         {
             // ReSharper disable once VirtualMemberCallInConstructor
             Initialize(
                 workflowExceptionPolicy,
                 new DomainObjectDataMappers(),
                 new DomainObjectRegisters(timeService),
-                new InfrastructureMonitorEntryPoint(this, TimeSpan.FromMinutes(15), timeService));
+                new InfrastructureMonitorEntryPoint(this, TimeSpan.FromMinutes(15), timeService),
+                loggerFactory);
 
             m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory(loggerFactory.CreateLogger<ProxyDomainObjectRegisterFactory>());
             m_proxyDomainObjectRegisterFactories.AddFactories(GetType().Assembly);
@@ -557,7 +553,7 @@ public class Examples
                     workflowExceptionPolicy,
                     loggerFactory.CreateLogger<UnitOfWorkContext>(),
                     true,
-                    unitOfWorkProvider);
+                    m_unitOfWorkProvider);
         }
 
         protected override IUnitOfWork DoCreateUnitOfWork(IUnitOfWorkVisitor visitor, object context)
@@ -576,8 +572,12 @@ public class Examples
         var result = new ExampleRegisterTransactionKeys(
             m_identityCache, 
             m_directory.BasePath,
-            ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>(),
-            ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>());
+            m_entryPoint.UnitOfWorkProvider,
+            m_loggerFactory,
+            m_exceptionPolicy,
+            m_timeService,
+            m_mappers,
+            m_workflowExceptionPolicy);
 
         // Создать партицию БД для хранения ключей за текущий день.
         using (var mappersSession = m_mappers.OpenSession())
@@ -597,17 +597,16 @@ public class Examples
 
     private IIdentityCache CreateIdentityCache()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = mappers.GetMapper<IMapperTransactionKey>();
+        var mapper = m_mappers.GetMapper<IMapperTransactionKey>();
 
         var result =
             new IdentityCache<IMapperTransactionKey>(
                 Guid.NewGuid(),
                 $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.TransactionKey)}'.",
                 $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.TransactionKey)}'.",
-                ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
-                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>(),
+                m_timeService,
+                m_exceptionPolicy,
+                m_workflowExceptionPolicy,
                 TimeSpan.FromMinutes(5),
                 mapper,
                 100_000,
@@ -621,10 +620,10 @@ public class Examples
                     (mapperObjectA, mappersSession, cancellationToken)
                         => mapperObjectA.GetNextIdAsync(mappersSession, cancellationToken)),
                 methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken),
-                logger: ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>().CreateLogger<IdentityCache<IMapperTransactionKey>>());
+                logger: m_loggerFactory.CreateLogger<IdentityCache<IMapperTransactionKey>>());
 
         // Прогрев кэша генератора.
-        using var mappersSession = mappers.OpenSession();
+        using var mappersSession = m_mappers.OpenSession();
         result.Initialize(mappersSession, CancellationToken.None);
         mappersSession.Commit();
 

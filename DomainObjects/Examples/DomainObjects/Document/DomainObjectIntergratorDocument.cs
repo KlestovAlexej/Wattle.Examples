@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
+﻿using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
@@ -34,14 +33,17 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         {
             private readonly ComplexIdentity.Level m_complexIdentityLevel;
             private readonly PartitionsDay m_partitionsDay;
+            private readonly IEntryPoint m_entryPoint;
 
             public DomainObjectActivatorDocument(
                 ComplexIdentity.Level complexIdentityLevel,
-                PartitionsDay partitionsDay)
+                PartitionsDay partitionsDay,
+                IEntryPoint entryPoint)
                 : base(WellknownDomainObjects.Document)
             {
                 m_complexIdentityLevel = complexIdentityLevel;
                 m_partitionsDay = partitionsDay ?? throw new ArgumentNullException(nameof(partitionsDay));
+                m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
             }
 
             /// <summary>
@@ -52,7 +54,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                 DomainObjectTemplateDocument template)
             {
                 // Получить текущий Unit Of Work для данного потока.
-                var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+                var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
 
                 // Получить точку входа в доменную область.
                 var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
@@ -63,7 +65,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                 identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
 
                 // Создание экземпляра доменного объккта.
-                var result = new DomainObjectDocument(identity, entryPoint.TimeService.NowDateTime, template);
+                var result = new DomainObjectDocument(m_entryPoint, identity, entryPoint.TimeService.NowDateTime, template);
 
                 // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
                 unitOfWork.AddNew(result);
@@ -80,7 +82,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                 CancellationToken cancellationToken = default)
             {
                 // Получить текущий Unit Of Work для данного потока.
-                var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+                var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
 
                 // Получить точку входа в доменную область.
                 var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
@@ -92,7 +94,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                 identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
 
                 // Создание экземпляра доменного объккта.
-                var result = new DomainObjectDocument(identity, entryPoint.TimeService.NowDateTime, template);
+                var result = new DomainObjectDocument(m_entryPoint, identity, entryPoint.TimeService.NowDateTime, template);
 
                 // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
                 unitOfWork.AddNew(result);
@@ -110,14 +112,17 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         /// </summary>
         private class DomainObjectDataActivatorDocument : BaseDomainObjectDataActivatorForActualStateDto<DocumentDtoActual>
         {
-            public DomainObjectDataActivatorDocument()
+            private readonly IEntryPoint m_entryPoint;
+
+            public DomainObjectDataActivatorDocument(IEntryPoint entryPoint)
                 : base(WellknownDomainObjects.Document)
             {
+                m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
             }
 
             protected override IDomainObject DoLoadObject(DocumentDtoActual dataDto)
             {
-                var result = new DomainObjectDocument(dataDto);
+                var result = new DomainObjectDocument(m_entryPoint, dataDto);
 
                 return (result);
             }
@@ -359,8 +364,8 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             entryPoint.ObjectRegisters.AddRegister(
                 new DomainObjectRegisterStatelessDocument(
                     dataMapper,
-                    new DomainObjectDataActivatorDocument(),
-                    new DomainObjectActivatorDocument(mapper.Partitions.Level, entryPoint.PartitionsDay),
+                    new DomainObjectDataActivatorDocument(entryPoint),
+                    new DomainObjectActivatorDocument(mapper.Partitions.Level, entryPoint.PartitionsDay, entryPoint),
                     entryPoint.Mappers,
                     entryPoint.TimeService,
                     entryPoint.WorkflowExceptionPolicy,

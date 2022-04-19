@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
+﻿using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
@@ -34,14 +33,17 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
         {
             private readonly ComplexIdentity.Level m_complexIdentityLevel;
             private readonly PartitionsDay m_partitionsDay;
+            private readonly IEntryPoint m_entryPoint;
 
             public DomainObjectActivatorChangeTracker(
                 ComplexIdentity.Level complexIdentityLevel,
-                PartitionsDay partitionsDay)
+                PartitionsDay partitionsDay,
+                IEntryPoint entryPoint)
                 : base(WellknownDomainObjects.ChangeTracker)
             {
                 m_complexIdentityLevel = complexIdentityLevel;
                 m_partitionsDay = partitionsDay ?? throw new ArgumentNullException(nameof(partitionsDay));
+                m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
             }
 
             /// <summary>
@@ -52,7 +54,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                 DomainObjectTemplateChangeTracker template)
             {
                 // Получить текущий Unit Of Work для данного потока.
-                var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+                var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
 
                 // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
                 var nowDayIndex = m_partitionsDay.NowDayIndex;
@@ -77,7 +79,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                 CancellationToken cancellationToken = default)
             {
                 // Получить текущий Unit Of Work для данного потока.
-                var unitOfWork = ServiceProviderHolder.Instance.GetRequiredService<IUnitOfWorkProvider>().Instance;
+                var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
 
                 // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
                 var nowDayIndex = m_partitionsDay.NowDayIndex;
@@ -183,7 +185,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                     WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.ChangeTracker),
                     dataMapper,
                     new DomainObjectDataActivatorChangeTracker(),
-                    new DomainObjectActivatorChangeTracker(mapper.Partitions.Level, entryPoint.PartitionsDay),
+                    new DomainObjectActivatorChangeTracker(mapper.Partitions.Level, entryPoint.PartitionsDay, entryPoint),
                     TimeSpan.FromSeconds(1),
                     null,
                     entryPoint.Mappers,

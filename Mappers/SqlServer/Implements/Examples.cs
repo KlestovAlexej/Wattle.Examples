@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
@@ -24,7 +23,6 @@ using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
-using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
 
@@ -38,13 +36,12 @@ public class Examples
     [Test]
     public void Example_Hide()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = mappers.GetMapper<IMapperObject_B>();
+        var mapper = m_mappers.GetMapper<IMapperObject_B>();
 
         var id_1 = 1;
 
         // Создать запись.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             var dbDto =
                 mapper.New(
@@ -61,7 +58,7 @@ public class Examples
         }
 
         // Скрыть запись.
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = mapper.Get(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
@@ -82,7 +79,7 @@ public class Examples
         }
 
         // Проверить сокрытие записи.
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = mapper.Get(hostMappersSession, id_1);
             Assert.IsNull(dbDto);
@@ -105,13 +102,12 @@ public class Examples
     [Test]
     public async ValueTask Example_Hide_Async()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = mappers.GetMapper<IMapperObject_B>();
+        var mapper = m_mappers.GetMapper<IMapperObject_B>();
 
         var id_1 = 1;
 
         // Создать запись.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var mappersSession = await m_mappers.OpenSessionAsync())
         {
             var dbDto =
                 await mapper.NewAsync(
@@ -128,7 +124,7 @@ public class Examples
         }
 
         // Скрыть запись.
-        await using (var hostMappersSession = mappers.CreateHostMappersSession())
+        await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
@@ -149,7 +145,7 @@ public class Examples
         }
 
         // Проверить сокрытие записи.
-        await using (var hostMappersSession = mappers.CreateHostMappersSession())
+        await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNull(dbDto);
@@ -172,13 +168,12 @@ public class Examples
     [Test]
     public void Example_Delete_With_Optimistic_Concurrency()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id_1 = 1;
 
         // Создать запись.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             var dbDto =
                 mapper.New(
@@ -199,7 +194,7 @@ public class Examples
         }
 
         // Удалить запись.
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = mapper.Get(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
@@ -226,7 +221,7 @@ public class Examples
         }
 
         // Проверить удаление записи.
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД без изменений :");
@@ -240,13 +235,12 @@ public class Examples
     [Test]
     public void Example_Delete()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id_1 = 1;
 
         // Создать запись.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             mapper.New(
                 mappersSession,
@@ -264,7 +258,7 @@ public class Examples
         }
 
         // Удалить запись.
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = mapper.Get(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
@@ -284,7 +278,7 @@ public class Examples
         }
 
         // Проверить удаление записи.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             Assert.IsFalse(mapper.Exists(mappersSession, id_1));
         }
@@ -296,13 +290,12 @@ public class Examples
     [Test]
     public async ValueTask Example_Delete_Async()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id_1 = 1;
 
         // Создать запись.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var mappersSession = await m_mappers.OpenSessionAsync())
         {
             await mapper.NewAsync(
                 mappersSession,
@@ -320,7 +313,7 @@ public class Examples
         }
 
         // Удалить запись.
-        await using (var hostMappersSession = mappers.CreateHostMappersSession())
+        await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
@@ -340,7 +333,7 @@ public class Examples
         }
 
         // Проверить удаление записи.
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var mappersSession = await m_mappers.OpenSessionAsync())
         {
             Assert.IsFalse(await mapper.ExistsAsync(mappersSession, id_1));
         }
@@ -352,12 +345,11 @@ public class Examples
     [Test]
     public void Example_Update_With_Optimistic_Concurrency()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id_1 = 1;
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             var dbDto =
                 mapper.New(
@@ -377,7 +369,7 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = mapper.Get(hostMappersSession, id_1);
 
@@ -408,7 +400,7 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД без изменений :");
@@ -422,12 +414,11 @@ public class Examples
     [Test]
     public void Example_Update()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id_1 = 1;
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             var dbDto =
                 mapper.New(
@@ -447,7 +438,7 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = mapper.Get(hostMappersSession, id_1);
 
@@ -469,7 +460,7 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД после изменения :");
@@ -483,12 +474,11 @@ public class Examples
     [Test]
     public async ValueTask Example_Update_Async()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id_1 = 1;
 
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var mappersSession = await m_mappers.OpenSessionAsync())
         {
             var dbDto =
                 await mapper.NewAsync(
@@ -508,7 +498,7 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
-        await using (var hostMappersSession = mappers.CreateHostMappersSession())
+        await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
 
@@ -530,7 +520,7 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
-        await using (var hostMappersSession = mappers.CreateHostMappersSession())
+        await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = await mapper.GetAsync(hostMappersSession, id_1);
             Console.WriteLine("Запись в БД после изменения :");
@@ -544,14 +534,13 @@ public class Examples
     [Test]
     public void Example_Select_With_MemoryCache()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id_1 = 1;
         var id_2 = 2;
 
         // Заполнение таблицы.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             mapper.New(
                 mappersSession,
@@ -584,13 +573,13 @@ public class Examples
         // Выборка записей по первичному ключу.
         for (var index = 0; index < 1_000_000; index++)
         {
-            var hostMappersSession = mappers.CreateHostMappersSession();
+            var hostMappersSession = m_mappers.CreateHostMappersSession();
 
             mapper.Get(hostMappersSession, id_1);
             mapper.Get(hostMappersSession, id_2);
         }
 
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto_1 = mapper.Get(hostMappersSession, id_1);
             Console.WriteLine(dbDto_1.ToJsonText(true));
@@ -604,7 +593,7 @@ public class Examples
         Console.WriteLine($"Время выборки : {stopwatch.Elapsed}");
 
         {
-            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
         }
@@ -623,8 +612,7 @@ public class Examples
     [Test]
     public void Example_Select_With_MemoryCache_Parallel()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = mappers.GetMapper<IMapperObject_A>();
+        var mapper = m_mappers.GetMapper<IMapperObject_A>();
 
         var ids = new List<long>();
         for (var index = 0; index < 1_000; index++)
@@ -633,7 +621,7 @@ public class Examples
         }
 
         // Заполнение таблицы.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             foreach (var id in ids)
             {
@@ -659,7 +647,7 @@ public class Examples
         Parallel.For(0, 10_000_000,
             _ =>
             {
-                using var hostMappersSession = mappers.CreateHostMappersSession();
+                using var hostMappersSession = m_mappers.CreateHostMappersSession();
 
                 var id = ProviderRandomValues.GetItem(ids);
                 var dto = mapper.Get(hostMappersSession, id);
@@ -671,7 +659,7 @@ public class Examples
         Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
 
         {
-            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
         }
@@ -690,12 +678,11 @@ public class Examples
     [Test]
     public void Example_Insert()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id = 1;
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             mapper.New(
                 mappersSession,
@@ -712,7 +699,7 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var hostMappersSession = mappers.CreateHostMappersSession())
+        using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = mapper.Get(hostMappersSession, id);
             Console.WriteLine(dbDto.ToJsonText(true));
@@ -725,12 +712,11 @@ public class Examples
     [Test]
     public async ValueTask Example_Insert_Async()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         var id = 1;
 
-        await using (var mappersSession = await mappers.OpenSessionAsync())
+        await using (var mappersSession = await m_mappers.OpenSessionAsync())
         {
             await mapper.NewAsync(
                 mappersSession,
@@ -747,7 +733,7 @@ public class Examples
             await mappersSession.CommitAsync();
         }
 
-        await using (var hostMappersSession = mappers.CreateHostMappersSession())
+        await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
             var dbDto = await mapper.GetAsync(hostMappersSession, id);
             Console.WriteLine(dbDto.ToJsonText(true));
@@ -760,11 +746,10 @@ public class Examples
     [Test]
     public void Example_Select()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = (MapperObject_A)mappers.GetMapper<IMapperObject_A>();
+        var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
         // Заполнение таблицы.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             mapper.New(
                 mappersSession,
@@ -792,7 +777,7 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             var queryText =
                 SchemaQueriesProvider
@@ -809,7 +794,7 @@ public class Examples
 
         Console.WriteLine("Все записи отсортированные по убыванию по колонке Value_Long :");
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             var queryText =
                 SchemaQueriesProvider
@@ -831,11 +816,10 @@ public class Examples
     [Test]
     public void Example_Select_Paged()
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = mappers.GetMapper<IMapperObject_A>();
+        var mapper = m_mappers.GetMapper<IMapperObject_A>();
 
         // Заполнение таблицы.
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             mapper.New(
                 mappersSession,
@@ -874,7 +858,7 @@ public class Examples
             mappersSession.Commit();
         }
 
-        using (var mappersSession = mappers.OpenSession())
+        using (var mappersSession = m_mappers.OpenSession())
         {
             var queryText =
                 SchemaQueriesProvider
@@ -909,12 +893,10 @@ public class Examples
 
         var stopwatch = Stopwatch.StartNew();
 
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-
         var identites = new HashSet<long>();
         for (var count = 0; count < 5 * cacheSize; ++count)
         {
-            using var mappersSession = mappers.OpenSession();
+            using var mappersSession = m_mappers.OpenSession();
 
             // Получить идентити из генератора.
             var identity = identityCache.GetNextIdentity(mappersSession);
@@ -937,7 +919,7 @@ public class Examples
         }
 
         {
-            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
         }
@@ -954,12 +936,11 @@ public class Examples
 
         var stopwatch = Stopwatch.StartNew();
 
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
         var identites = new HashSet<long>();
         Parallel.For(0, 50 * CacheSize,
             _ =>
             {
-                using var mappersSession = mappers.OpenSession();
+                using var mappersSession = m_mappers.OpenSession();
 
                 var identity = identityCache.GetNextIdentity(mappersSession);
 
@@ -984,7 +965,7 @@ public class Examples
         }
 
         {
-            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
         }
@@ -1001,12 +982,10 @@ public class Examples
 
         var stopwatch = Stopwatch.StartNew();
 
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-
         var identites = new HashSet<long>();
         for (var count = 0; count < 5 * cacheSize; ++count)
         {
-            await using var mappersSession = await mappers.OpenSessionAsync();
+            await using var mappersSession = await m_mappers.OpenSessionAsync();
 
             // Получить идентити из генератора.
             var identity = await identityCache.GetNextIdentityAsync(mappersSession);
@@ -1029,7 +1008,7 @@ public class Examples
         }
 
         {
-            var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
+            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
             Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
         }
@@ -1038,6 +1017,11 @@ public class Examples
     #region Enviroment
 
     private string m_dbName;
+    private IMappers m_mappers;
+    private ILoggerFactory m_loggerFactory;
+    private ITimeService m_timeService;
+    private IExceptionPolicy m_exceptionPolicy;
+    private IWorkflowExceptionPolicy m_workflowExceptionPolicy;
 
     [SetUp]
     public void SetUp()
@@ -1045,20 +1029,24 @@ public class Examples
         BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
         // Настройка окружения.
-        var timeService = new TimeService();
-        var mappers = new Generated.SqlServer.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, timeService);
-
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
-            .SetUnitOfWorkProvider(out var unitOfWorkProvider)
-            .SetTimeService(timeService)
-            .SetExceptionPolicy(new ExceptionPolicy(timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), unitOfWorkProvider))
-            .SetWorkflowExceptionPolicy(new WorkflowExceptionPolicy())
-            .SetMappers(mappers)
+            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out m_loggerFactory, out _)
             .Build();
 
+        m_timeService = new TimeService();
+
+        var mappers = new Generated.SqlServer.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
+        m_mappers = mappers;
+
+        m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
+        m_exceptionPolicy =
+            new ExceptionPolicy(
+                m_timeService,
+                m_loggerFactory.CreateLogger<ExceptionPolicy>(),
+                m_workflowExceptionPolicy);
+
         // Object_A - Определение кэша записей БД в памяти на уровне маппера.
-        var mapper = MapperObject_A.NewWithCache(mappers, timeService);
+        var mapper = MapperObject_A.NewWithCache(mappers, m_timeService, m_exceptionPolicy);
         mappers.ReplaceMapper(mapper);
     }
 
@@ -1076,18 +1064,15 @@ public class Examples
 
     private IIdentityCache CreateIdentityCache(int cacheSize)
     {
-        var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-        var mapper = mappers.GetMapper<IMapperObject_A>();
-        var loggerFactory = ServiceProviderHolder.Instance.GetRequiredService<ILoggerFactory>();
-
+        var mapper = m_mappers.GetMapper<IMapperObject_A>();
         var result =
             new IdentityCache<IMapperObject_A>(
                 Guid.NewGuid(),
                 $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.Object_A)}'.",
                 $"Кэширующий провайдер идентити доменных объектов '{nameof(WellknownDomainObjects.Object_A)}'.",
-                ServiceProviderHolder.Instance.GetRequiredService<ITimeService>(),
-                ServiceProviderHolder.Instance.GetRequiredService<IExceptionPolicy>(),
-                ServiceProviderHolder.Instance.GetRequiredService<IWorkflowExceptionPolicy>(),
+                m_timeService,
+                m_exceptionPolicy,
+                m_workflowExceptionPolicy,
                 TimeSpan.FromMinutes(5),
                 mapper,
                 cacheSize,
@@ -1101,10 +1086,10 @@ public class Examples
                     (mapperObjectA, mappersSession, cancellationToken)
                         => mapperObjectA.GetNextIdAsync(mappersSession, cancellationToken)),
                 methodGetNextIdentityList: (m, session, count, cancellationToken) => m.GetNextIds(session, count, cancellationToken),
-                logger: loggerFactory.CreateLogger<IdentityCache<IMapperObject_A>>());
+                logger: m_loggerFactory.CreateLogger<IdentityCache<IMapperObject_A>>());
 
         // Прогрев кэша генератора.
-        using var mappersSession = mappers.OpenSession();
+        using var mappersSession = m_mappers.OpenSession();
         result.Initialize(mappersSession, CancellationToken.None);
         mappersSession.Commit();
 

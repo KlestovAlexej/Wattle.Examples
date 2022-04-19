@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
@@ -10,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
-using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples
 {
@@ -53,7 +51,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples
                 new UnitOfWorkCommitVerifyingDelegate(
                     mappersSessionProvider =>
                     {
-                        var entryPoint = (ExampleEntryPoint)ServiceProviderHolder.Instance.GetRequiredService<IEntryPoint>();
+                        var entryPoint = (ExampleEntryPoint)EntryPoint;
                         var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
                         var mappersSession = mappersSessionProvider.GetMappersSession();
                         var existsRaw = mapper.ExistsRaw(mappersSession, identity);
@@ -62,7 +60,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples
                     },
                     async mappersSessionProvider =>
                     {
-                        var entryPoint = (ExampleEntryPoint)ServiceProviderHolder.Instance.GetRequiredService<IEntryPoint>();
+                        var entryPoint = (ExampleEntryPoint)EntryPoint;
                         var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
                         var mappersSession = await mappersSessionProvider.GetMappersSessionAsync().ConfigureAwait(false);
                         var existsRaw = await mapper.ExistsRawAsync(mappersSession, identity).ConfigureAwait(false);
