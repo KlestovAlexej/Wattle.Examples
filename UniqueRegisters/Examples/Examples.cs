@@ -520,45 +520,32 @@ public class Examples
         }
     }
 
-    private class ExampleEntryPoint : BaseEntryPoint
+    private class ExampleEntryPoint : BaseEntryPointEx
     {
-        private readonly ProxyDomainObjectRegisterFactory m_proxyDomainObjectRegisterFactories;
-        private readonly UnitOfWorkContext m_unitOfWorkContext;
-
         public ExampleEntryPoint(
             ITimeService timeService,
             IWorkflowExceptionPolicy workflowExceptionPolicy,
             IMappers mappers,
             IExceptionPolicy exceptionPolicy,
             ILoggerFactory loggerFactory)
-            : base(timeService, new UnitOfWorkProviderCallContext())
-        {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Initialize(
-                workflowExceptionPolicy,
-                new DomainObjectDataMappers(),
+            : base(
+                new UnitOfWorkProviderCallContext(),
+                new InfrastructureMonitorEntryPoint(TimeSpan.FromMinutes(15), timeService),
+                new DomainObjectDataMappers(timeService),
                 new DomainObjectRegisters(timeService),
-                new InfrastructureMonitorEntryPoint(this, TimeSpan.FromMinutes(15), timeService),
-                loggerFactory);
-
-            m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory(loggerFactory.CreateLogger<ProxyDomainObjectRegisterFactory>());
+                mappers,
+                exceptionPolicy,
+                workflowExceptionPolicy,
+                timeService,
+                true,
+                loggerFactory)
+        {
             m_proxyDomainObjectRegisterFactories.AddFactories(GetType().Assembly);
-
-            m_unitOfWorkContext =
-                new UnitOfWorkContext(
-                    this,
-                    m_dataMappers,
-                    mappers,
-                    exceptionPolicy,
-                    workflowExceptionPolicy,
-                    loggerFactory.CreateLogger<UnitOfWorkContext>(),
-                    true,
-                    m_unitOfWorkProvider);
         }
 
         protected override IUnitOfWork DoCreateUnitOfWork(IUnitOfWorkVisitor visitor, object context)
         {
-            var result = new ExampleUnitOfWork(m_unitOfWorkContext, () => new ProxyDomainObjectRegisters(m_registers, m_proxyDomainObjectRegisterFactories), visitor);
+            var result = new ExampleUnitOfWork(m_unitOfWorkContext, m_registersFactory, visitor);
 
             return result;
         }

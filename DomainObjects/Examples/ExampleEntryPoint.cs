@@ -23,8 +23,12 @@ using Unity;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 
-public class ExampleEntryPoint : BaseEntryPoint
+public class ExampleEntryPoint : BaseEntryPointEx
 {
+    private PartitionsSponsor m_prtitionsSponsor;
+    private IQueueItemProcessor m_queueEmergencyDomainBehaviour;
+    private InfrastructureMonitorRegisters m_infrastructureMonitorRegisters;
+
     #region Public Static Class
 
     public static class WellknownDomainObjectIntergratorContextObjectNames
@@ -34,37 +38,49 @@ public class ExampleEntryPoint : BaseEntryPoint
 
     #endregion
 
-    private volatile bool m_stopping;
-    private ProxyDomainObjectRegisterFactory m_proxyDomainObjectRegisterFactories;
-    private UnitOfWorkContext m_unitOfWorkContext;
-    private PartitionsSponsor m_prtitionsSponsor;
-    private IMappers m_mappers;
-    private IExceptionPolicy m_exceptionPolicy;
-    private PartitionsDay m_partitionsDay;
-    private InfrastructureMonitorRegisters m_infrastructureMonitorRegisters;
-    private IQueueItemProcessor m_queueEmergencyDomainBehaviour;
-
     private ExampleEntryPoint(
-        ITimeService timeService, 
-        ILogger logger)
-        : base(timeService, new UnitOfWorkProviderCallContext())
+        IDomainObjectDataMappers dataMappers,
+        IDomainObjectRegisters registers,
+        IMappers mappers,
+        IExceptionPolicy exceptionPolicy,
+        IWorkflowExceptionPolicy workflowExceptionPolicy,
+        ITimeService timeService,
+        ILoggerFactory loggerFactory)
+        : base(
+            new UnitOfWorkProviderCallContext(),
+            new InfrastructureMonitorEntryPoint(TimeSpan.FromMinutes(15), timeService),
+            dataMappers,
+            registers,
+            mappers,
+            exceptionPolicy,
+            workflowExceptionPolicy,
+            timeService,
+            true,
+            loggerFactory)
     {
-        if (timeService == null)
-        {
-            throw new ArgumentNullException(nameof(timeService));
-        }
+        ((InfrastructureMonitorEntryPoint)InfrastructureMonitor).Owner = this;
 
-        m_proxyDomainObjectRegisterFactories = new ProxyDomainObjectRegisterFactory(logger);
+        m_prtitionsSponsor = new PartitionsSponsor(this, loggerFactory);
+        m_queueEmergencyDomainBehaviour =
+            new QueueItemProcessor(
+                2,
+                TimeSpan.FromSeconds(2),
+                WellknownCommonInfrastructureMonitors.GetDisplayName(WellknownCommonInfrastructureMonitors.QueueEmergencyDomainBehaviour),
+                m_exceptionPolicy,
+                m_timeService,
+                WellknownCommonInfrastructureMonitors.QueueEmergencyDomainBehaviour,
+                loggerFactory.CreateLogger<QueueItemProcessor>(),
+                TimeSpan.FromMinutes(30));
+        PartitionsDay = new PartitionsDay(m_timeService);
+        m_infrastructureMonitorRegisters = new InfrastructureMonitorRegisters();
         m_proxyDomainObjectRegisterFactories.AddFactories(GetType().Assembly);
-        m_stopping = true;
-
     }
 
+    public ITimeService TimeService => m_timeService;
     public IMappers Mappers => m_mappers;
     public IExceptionPolicy ExceptionPolicy => m_exceptionPolicy;
-    public PartitionsDay PartitionsDay => m_partitionsDay;
-    public new WorkflowExceptionPolicy WorkflowExceptionPolicy => (WorkflowExceptionPolicy)m_workflowExceptionPolicy;
-    public InfrastructureMonitorRegisters InfrastructureMonitorRegisters => m_infrastructureMonitorRegisters;
+    public PartitionsDay PartitionsDay { get; }
+    public WorkflowExceptionPolicy WorkflowExceptionPolicy => (WorkflowExceptionPolicy)m_workflowExceptionPolicy;
     public DomainObjectDataMappers DataMappers => (DomainObjectDataMappers)m_dataMappers;
     public DomainObjectRegisters ObjectRegisters => (DomainObjectRegisters)m_registers;
 
@@ -86,32 +102,10 @@ public class ExampleEntryPoint : BaseEntryPoint
 
     public override void Start()
     {
-        m_stopping = false;
-
         base.Start();
 
         m_prtitionsSponsor.Start();
         m_queueEmergencyDomainBehaviour.Start();
-    }
-
-    public override void Stop()
-    {
-        m_stopping = true;
-
-        m_queueEmergencyDomainBehaviour.Stop();
-        m_prtitionsSponsor.Stop();
-
-        base.Stop();
-    }
-
-    public override void BeginStop()
-    {
-        m_stopping = true;
-
-        m_queueEmergencyDomainBehaviour.BeginStop();
-        m_prtitionsSponsor.BeginStop();
-
-        base.BeginStop();
     }
 
     public override void WaitStop()
@@ -135,28 +129,8 @@ public class ExampleEntryPoint : BaseEntryPoint
         }
     }
 
-    public override bool IsReady
-    {
-        get
-        {
-            var result =
-                (base.IsReady
-                 && m_prtitionsSponsor.IsReady
-                 && m_queueEmergencyDomainBehaviour.IsReady);
-
-            return (result);
-        }
-    }
-
     public override IUnitOfWork CreateUnitOfWork(object context = null)
     {
-        if (m_stopping)
-        {
-            var exception = WorkflowExceptionPolicy.Create(CommonWorkflowException.ServiceTemporarilyUnavailable, "Сервер в режиме остановки.");
-
-            throw exception;
-        }
-
         if (IsReady)
         {
             return base.CreateUnitOfWork(context);
@@ -166,6 +140,32 @@ public class ExampleEntryPoint : BaseEntryPoint
             var exception = WorkflowExceptionPolicy.Create(CommonWorkflowException.ServiceTemporarilyUnavailable, "Сервер в режиме инициализации.");
 
             throw exception;
+        }
+    }
+
+    protected override bool GetIsReady()
+    {
+        var result =
+            (base.GetIsReady()
+             && m_prtitionsSponsor.IsReady
+             && m_queueEmergencyDomainBehaviour.IsReady);
+
+        return (result);
+    }
+
+    protected override void DoStop(bool isBackgroundStopping)
+    {
+        base.DoStop(isBackgroundStopping);
+
+        if (isBackgroundStopping)
+        {
+            m_queueEmergencyDomainBehaviour.BeginStop();
+            m_prtitionsSponsor.BeginStop();
+        }
+        else
+        {
+            m_queueEmergencyDomainBehaviour.Stop();
+            m_prtitionsSponsor.Stop();
         }
     }
 
@@ -179,30 +179,6 @@ public class ExampleEntryPoint : BaseEntryPoint
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
-
-        {
-            var temp = m_mappers;
-            m_mappers = null;
-            temp.SilentDispose();
-        }
-
-        {
-            var temp = m_workflowExceptionPolicy;
-            m_workflowExceptionPolicy = null;
-            temp.SilentDispose();
-        }
-
-        {
-            var temp = m_exceptionPolicy;
-            m_exceptionPolicy = null;
-            temp.SilentDispose();
-        }
-
-        {
-            var temp = m_proxyDomainObjectRegisterFactories;
-            m_proxyDomainObjectRegisterFactories = null;
-            temp.SilentDispose();
-        }
 
         {
             var temp = m_prtitionsSponsor;
@@ -258,64 +234,29 @@ public class ExampleEntryPoint : BaseEntryPoint
     {
         var timeService = container.ResolveWithDefault<ITimeService>(() => new TimeService());
         var loggerFactory = container.Resolve<ILoggerFactory>();
-
-        var result = new ExampleEntryPoint(timeService, loggerFactory.CreateLogger<ExampleEntryPoint>());
-
-        container.RegisterInstance(result, InstanceLifetime.External);
-
-        result.m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
-        result.m_exceptionPolicy = new ExceptionPolicy(result.TimeService, loggerFactory.CreateLogger<ExceptionPolicy>(), result.m_workflowExceptionPolicy);
-
-        container.RegisterInstance(result.m_exceptionPolicy, InstanceLifetime.External);
-
-        result.m_partitionsDay = new PartitionsDay(timeService);
-        result.m_infrastructureMonitorRegisters = new InfrastructureMonitorRegisters();
-
         var connectionString = container.Resolve<string>(WellknownDomainObjectIntergratorContextObjectNames.ConnectionString);
+        var workflowExceptionPolicy = new WorkflowExceptionPolicy();
+        var exceptionPolicy = new ExceptionPolicy(timeService, loggerFactory.CreateLogger<ExceptionPolicy>(), workflowExceptionPolicy);
 
-        result.m_mappers =
+        container.RegisterInstance(timeService, InstanceLifetime.External);
+        container.RegisterInstance<IExceptionPolicy>(exceptionPolicy, InstanceLifetime.External);
+
+        var result = new ExampleEntryPoint(
+            new DomainObjectDataMappers(timeService),
+            new DomainObjectRegisters(timeService),
             new Generated.PostgreSql.Implements.Mappers(
                 new MappersExceptionPolicy(),
                 connectionString,
                 timeService,
                 TimeSpan.FromMinutes(30),
                 0,
-                container);
-
-        result.m_prtitionsSponsor = new PartitionsSponsor(result, loggerFactory);
-
-        var dataMappers = new DomainObjectDataMappers();
-        var registers = new DomainObjectRegisters(result.TimeService);
-
-        var infrastructureMonitor = new InfrastructureMonitorEntryPoint(result, TimeSpan.FromMinutes(30), result.TimeService);
-
-        result.Initialize(
-            result.m_workflowExceptionPolicy,
-            dataMappers,
-            registers,
-            infrastructureMonitor,
+                container),
+            exceptionPolicy,
+            workflowExceptionPolicy,
+            timeService,
             loggerFactory);
 
-        result.m_unitOfWorkContext = 
-            new UnitOfWorkContext(result,
-                result.m_dataMappers,
-                result.m_mappers,
-                result.m_exceptionPolicy,
-                result.m_workflowExceptionPolicy,
-                loggerFactory.CreateLogger<UnitOfWorkContext>(),
-                true,
-                result.m_unitOfWorkProvider);
-
-        result.m_queueEmergencyDomainBehaviour =
-            new QueueItemProcessor(
-                2,
-                TimeSpan.FromSeconds(2),
-                WellknownCommonInfrastructureMonitors.GetDisplayName(WellknownCommonInfrastructureMonitors.QueueEmergencyDomainBehaviour),
-                result.ExceptionPolicy,
-                result.TimeService,
-                WellknownCommonInfrastructureMonitors.QueueEmergencyDomainBehaviour,
-                loggerFactory.CreateLogger<QueueItemProcessor>(),
-                TimeSpan.FromMinutes(30));
+        container.RegisterInstance(result, InstanceLifetime.External);
 
         var domainObjectIntergrators =
             new DefaultDomainObjectIntergrators<IUnityContainer>(loggerFactory.CreateLogger<DefaultDomainObjectIntergrators<IUnityContainer>>())
@@ -325,11 +266,12 @@ public class ExampleEntryPoint : BaseEntryPoint
             domainObjectIntergrator.Run(container);
         }
 
+        var infrastructureMonitor = (InfrastructureMonitorEntryPoint)result.InfrastructureMonitor;
         infrastructureMonitor.AddSubMonitor(result.m_queueEmergencyDomainBehaviour.InfrastructureMonitor);
         infrastructureMonitor.AddSubMonitor(result.m_prtitionsSponsor.InfrastructureMonitor);
 
-        result.InfrastructureMonitorRegisters.AddMonitor(infrastructureMonitor);
-        result.InfrastructureMonitorRegisters.AddFavorit(infrastructureMonitor.Id);
+        result.m_infrastructureMonitorRegisters.AddMonitor(infrastructureMonitor);
+        result.m_infrastructureMonitorRegisters.AddFavorit(infrastructureMonitor.Id);
 
         result.m_prtitionsSponsor.Create();
 
