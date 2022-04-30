@@ -6,7 +6,6 @@ using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.EntryPoints;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.DomainObjects.UnitOfWorks;
 using ShtrihM.Wattle3.Examples.Common;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
