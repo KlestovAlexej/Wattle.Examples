@@ -127,7 +127,7 @@ public class Examples
         // Скрыть запись.
         await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
+            var dbDtoActual = (Object_BDtoActual)await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
 
             var mappersSession = await hostMappersSession.GetMappersSessionAsync();
@@ -340,7 +340,7 @@ public class Examples
         // Удалить запись.
         await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
+            var dbDtoActual = (Object_ADtoActual)await mapper.GetAsync(hostMappersSession, id_1);
             Assert.IsNotNull(dbDtoActual);
 
             var mappersSession = await hostMappersSession.GetMappersSessionAsync();
@@ -549,7 +549,7 @@ public class Examples
 
         await using (var hostMappersSession = m_mappers.CreateHostMappersSession())
         {
-            var dbDtoActual = await mapper.GetAsync(hostMappersSession, id_1);
+            var dbDtoActual = (Object_ADtoActual)await mapper.GetAsync(hostMappersSession, id_1);
 
             var mappersSession = await hostMappersSession.GetMappersSessionAsync();
 

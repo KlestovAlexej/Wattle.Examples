@@ -1105,7 +1105,7 @@ FROM [Object_A] WHERE
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<Object_ADtoActual> GetAsync(
+        public virtual async ValueTask<IMapperDto> GetAsync(
             IHostMappersSession hostMappersSession,
             long id,
             CancellationToken cancellationToken = default)
@@ -1185,11 +1185,11 @@ FROM [Object_A] WHERE
 
                             AddActualState(typedSession, result);
                             
-                            return (result);
+                            return ((IMapperDto)result);
                         }
                     }
                     
-                    return (null);
+                    return ((IMapperDto)null);
                 }
             }
             catch (Exception exception)
@@ -1557,7 +1557,7 @@ FROM [Object_A] WHERE ([Id] = @Id)";
         /// <param name="data">Измененная запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        public virtual async ValueTask<Object_ADtoActual> UpdateAsync(
+        public virtual async ValueTask<IMapperDto> UpdateAsync(
             IMappersSession session,
             Object_ADtoChanged data,
             CancellationToken cancellationToken = default)
@@ -1642,7 +1642,7 @@ FROM [Object_A] WHERE ([Id] = @Id)";
 
                 AddActualState(typedSession, result);
 
-                return (result);
+                return ((IMapperDto)result);
             }
             catch (Exception exception)
             {
@@ -1927,7 +1927,7 @@ VALUES
         /// <returns>Возвращает актуальное состояние записи.</returns>
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<Object_ADtoActual> NewAsync(
+        public virtual async ValueTask<IMapperDto> NewAsync(
             IMappersSession session,
             Object_ADtoNew data,
             CancellationToken cancellationToken = default)
@@ -2006,7 +2006,7 @@ VALUES
 
                 AddActualState(typedSession, result);
 
-                return (result);
+                return ((IMapperDto)result);
             }
             catch (Exception exception)
             {
@@ -3390,7 +3390,7 @@ FROM [Object_B] WHERE
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<Object_BDtoActual> GetAsync(
+        public virtual async ValueTask<IMapperDto> GetAsync(
             IHostMappersSession hostMappersSession,
             long id,
             CancellationToken cancellationToken = default)
@@ -3440,11 +3440,11 @@ FROM [Object_B] WHERE
 
                             SeedRevision(result.Revision);
                             
-                            return (result);
+                            return ((IMapperDto)result);
                         }
                     }
                     
-                    return (null);
+                    return ((IMapperDto)null);
                 }
             }
             catch (Exception exception)
@@ -3720,7 +3720,7 @@ WHERE
         /// <param name="data">Измененная запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        public virtual async ValueTask<Object_BDtoActual> UpdateAsync(
+        public virtual async ValueTask<IMapperDto> UpdateAsync(
             IMappersSession session,
             Object_BDtoChanged data,
             CancellationToken cancellationToken = default)
@@ -3769,7 +3769,7 @@ WHERE
                     }
                 }
 
-                return (result);
+                return ((IMapperDto)result);
             }
             catch (Exception exception)
             {
@@ -4020,7 +4020,7 @@ VALUES
         /// <returns>Возвращает актуальное состояние записи.</returns>
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<Object_BDtoActual> NewAsync(
+        public virtual async ValueTask<IMapperDto> NewAsync(
             IMappersSession session,
             Object_BDtoNew data,
             CancellationToken cancellationToken = default)
@@ -4071,7 +4071,7 @@ VALUES
                     await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
                 }
 
-                return (result);
+                return ((IMapperDto)result);
             }
             catch (Exception exception)
             {

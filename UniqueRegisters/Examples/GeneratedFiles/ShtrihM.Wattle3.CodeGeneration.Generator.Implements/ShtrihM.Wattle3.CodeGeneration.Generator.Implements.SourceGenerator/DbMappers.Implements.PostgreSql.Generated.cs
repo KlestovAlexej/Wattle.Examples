@@ -863,7 +863,7 @@ FROM TransactionKey WHERE
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<TransactionKeyDtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default)
         {
             if (hostMappersSession == null)
             {
@@ -909,11 +909,11 @@ FROM TransactionKey WHERE
                                 indexTag,
                                 indexKey);
 
-                            return (result);
+                            return ((IMapperDto)result);
                         }
                     }
 
-                    return (null);
+                    return ((IMapperDto)null);
                 }
             }
             catch (Exception exception)
@@ -1273,7 +1273,7 @@ VALUES
         /// <returns>Возвращает актуальное состояние записи.</returns>
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<TransactionKeyDtoActual> NewAsync(IMappersSession session, TransactionKeyDtoNew data, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<IMapperDto> NewAsync(IMappersSession session, TransactionKeyDtoNew data, CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
@@ -1328,7 +1328,7 @@ VALUES
                     await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
                 }
 
-                return (result);
+                return ((IMapperDto)result);
             }
             catch (Exception exception)
             {

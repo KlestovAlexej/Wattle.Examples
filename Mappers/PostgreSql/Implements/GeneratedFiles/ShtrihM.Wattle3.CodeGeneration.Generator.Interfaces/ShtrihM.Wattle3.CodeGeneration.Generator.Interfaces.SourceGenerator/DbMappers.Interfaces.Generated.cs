@@ -455,7 +455,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<Object_ADtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -489,7 +489,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="data">Измененная запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        ValueTask<Object_ADtoActual> UpdateAsync(IMappersSession session, Object_ADtoChanged data, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> UpdateAsync(IMappersSession session, Object_ADtoChanged data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Массовое создание записей.
@@ -521,7 +521,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="data">Новая запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        ValueTask<Object_ADtoActual> NewAsync(IMappersSession session, Object_ADtoNew data, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> NewAsync(IMappersSession session, Object_ADtoNew data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Удаление записи.
@@ -656,7 +656,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает <see langword="true" /> если записи существует иначе если запись не существует или скрыта возвращает <see langword="null" />.</returns>
-        ValueTask<Object_BDtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -692,7 +692,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="data">Измененная запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        ValueTask<Object_BDtoActual> UpdateAsync(IMappersSession session, Object_BDtoChanged data, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> UpdateAsync(IMappersSession session, Object_BDtoChanged data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Массовое создание записей.
@@ -724,7 +724,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="data">Новая запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        ValueTask<Object_BDtoActual> NewAsync(IMappersSession session, Object_BDtoNew data, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> NewAsync(IMappersSession session, Object_BDtoNew data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Сокрытие записи.

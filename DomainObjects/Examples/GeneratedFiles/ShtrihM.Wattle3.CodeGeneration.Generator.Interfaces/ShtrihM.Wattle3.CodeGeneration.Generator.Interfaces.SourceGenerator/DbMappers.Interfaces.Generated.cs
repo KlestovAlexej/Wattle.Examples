@@ -383,7 +383,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<DocumentDtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -417,7 +417,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="data">Измененная запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        ValueTask<DocumentDtoActual> UpdateAsync(IMappersSession session, DocumentDtoChanged data, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> UpdateAsync(IMappersSession session, DocumentDtoChanged data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Массовое создание записей.
@@ -449,7 +449,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="data">Новая запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        ValueTask<DocumentDtoActual> NewAsync(IMappersSession session, DocumentDtoNew data, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> NewAsync(IMappersSession session, DocumentDtoNew data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Удаление записи.
@@ -597,7 +597,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<ChangeTrackerDtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -646,7 +646,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="data">Новая запись.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает актуальное состояние записи.</returns>
-        ValueTask<ChangeTrackerDtoActual> NewAsync(IMappersSession session, ChangeTrackerDtoNew data, CancellationToken cancellationToken = default);
+        ValueTask<IMapperDto> NewAsync(IMappersSession session, ChangeTrackerDtoNew data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
