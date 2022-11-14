@@ -276,6 +276,26 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
             return result;
         }
 
+        protected override async ValueTask<KeyIdentityInfo<long, long>> NewKeyAsync(Guid key, long tag, object context, CancellationToken token = default)
+        {
+            var unitOfWork = m_unitOfWorkProvider.Instance;
+            var mappersSession = await unitOfWork.GetMappersSessionAsync(token).ConfigureAwait(false);
+            var identity = await m_identityCache.GetNextIdentityAsync(mappersSession, token).ConfigureAwait(false);
+            var dayIndex = GetDayIndex(m_timeService.NowDateTime);
+            var instance =
+                m_mapper.New(
+                    mappersSession,
+                    new TransactionKeyDtoNew
+                    {
+                        Id = ComplexIdentity.Build(m_mapper.Partitions.Level, dayIndex, identity),
+                        Key = key,
+                        Tag = tag,
+                    });
+            var result = new KeyIdentityInfo<long, long>(dayIndex, instance.Id);
+
+            return result;
+        }
+
         protected override UniqueRegisterExistsKeyResult ExistsKey(
             IHostMappersSession mappersSessionProvider,
             Guid key,
