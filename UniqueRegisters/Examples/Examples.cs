@@ -48,7 +48,6 @@ public class Examples
     [Explicit]
     [TestCase(1_000)]
     [TestCase(1_000_000)]
-    [TestCase(5_000_000)]
     [TestCase(10_000_000)]
     [TestCase(50_000_000)]
     [TestCase(100_000_000)]
