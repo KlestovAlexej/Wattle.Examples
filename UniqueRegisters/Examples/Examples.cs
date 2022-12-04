@@ -17,6 +17,7 @@ using ShtrihM.Wattle3.Testing.DomainObjects;
 using ShtrihM.Wattle3.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -26,6 +27,8 @@ using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
+using System.Runtime;
+using ShtrihM.Wattle3.Mappers.PostgreSql;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
@@ -35,6 +38,11 @@ public class Examples
 {
     /// <summary>
     /// Создание миллионов ключей в БД и почти мгновенный холодный старт рееста с 100% ключами в памяти.
+    ///
+    /// Для стабильной работы.
+    /// 
+    /// В файле : postgresql.conf
+    /// Установить параметр : max_connections = 300
     /// </summary>
     [Test]
     [Explicit]
@@ -496,6 +504,15 @@ public class Examples
         m_mapper = m_mappers.GetMapper<IMapperTransactionKey>();
         m_directory = new TestDirectory("Data");
         m_identityCache = CreateIdentityCache();
+
+        using var mappersSession = (IPostgreSqlMappersSession)m_mappers.OpenSession();
+        using var command = mappersSession.CreateCommand(false);
+        command.CommandText = @"SELECT setting FROM pg_settings WHERE (name = 'max_connections')";
+        command.CommandType = CommandType.Text;
+        var setting = command.ExecuteScalar()!.ToString();
+        Console.WriteLine("Настройки сервера PostgreSQL.");
+        Console.WriteLine($"max_connections = {setting}");
+        Console.WriteLine();
     }
 
     [TearDown]

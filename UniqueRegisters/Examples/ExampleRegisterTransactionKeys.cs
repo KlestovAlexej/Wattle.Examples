@@ -39,7 +39,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples
         /// День с которого идёт нумерация дней.
         /// День с индексом ноль.
         /// </summary>
-        private static readonly DateTime StartDay = new DateTime(2022, 2, 5);
+        private static readonly DateTime StartDay = new(2022, 2, 5);
 
         private static readonly int VariableGroupDays = 1;
         private static readonly int KeysRepairThreads = 2;
