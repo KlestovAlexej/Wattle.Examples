@@ -38,7 +38,7 @@ public class Examples
     /// </summary>
     [Test]
     [Explicit]
-    [TestCase(1_00)]
+    [TestCase(1_000)]
     [TestCase(1_000_000)]
     [TestCase(5_000_000)]
     [TestCase(10_000_000)]
