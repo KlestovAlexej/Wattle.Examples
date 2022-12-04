@@ -75,7 +75,7 @@ public class Examples
         var daysOffeset = TimeSpan.Zero;
         for (var dayIndex = 0; dayIndex < days; dayIndex++)
         {
-            // Создать партицию БД для хранения ключей за текущий день и следующий день.
+            // Создать партицию БД для хранения ключей за текущий день.
             using (var mappersSession = m_mappers.OpenSession())
             {
                 var nowDayIndex = registerTransactionKeys.GetDayIndex(m_timeService.NowDateTime.Date);
