@@ -889,7 +889,7 @@ public class Examples
     public void Example_IdentityCache()
     {
         var cacheSize = 100_000;
-        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+        using var identityCache = CreateIdentityCache(cacheSize);
 
         var stopwatch = Stopwatch.StartNew();
 
@@ -978,7 +978,7 @@ public class Examples
     public async ValueTask Example_IdentityCache_Async()
     {
         var cacheSize = 100_000;
-        using IIdentityCache identityCache = CreateIdentityCache(cacheSize);
+        using var identityCache = CreateIdentityCache(cacheSize);
 
         var stopwatch = Stopwatch.StartNew();
 
