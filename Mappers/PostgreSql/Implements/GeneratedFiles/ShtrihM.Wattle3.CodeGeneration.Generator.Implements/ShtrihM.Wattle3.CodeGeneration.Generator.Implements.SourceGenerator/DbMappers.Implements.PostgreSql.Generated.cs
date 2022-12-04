@@ -439,7 +439,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT NEXTVAL('Sequence_Object_A');";
@@ -500,7 +500,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
                 cancellationToken.ThrowIfCancellationRequested();
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT NEXTVAL('Sequence_Object_A') AS Id FROM GENERATE_SERIES(1, @count);";
@@ -558,7 +558,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
                 await using (command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
@@ -614,7 +614,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand()) 
+                using (var command = typedSession.CreateCommand(false)) 
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT 1 FROM Object_A WHERE (Id = @Id) LIMIT 1";
@@ -673,7 +673,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -743,7 +743,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand()) 
+                using (var command = typedSession.CreateCommand(false)) 
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT 1 FROM Object_A WHERE (Id = @Id) LIMIT 1";
@@ -802,7 +802,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -873,7 +873,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand()) 
+                using (var command = typedSession.CreateCommand(false)) 
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT 1 FROM Object_A WHERE (Id = @Id) AND (Revision = @Revision) LIMIT 1";
@@ -954,7 +954,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -1226,7 +1226,7 @@ Value_String) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession)tempSession;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
@@ -1325,7 +1325,7 @@ FROM Object_A WHERE
                 var typedSession = (IPostgreSqlMappersSession)tempSession;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 await using (command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
@@ -1427,7 +1427,7 @@ FROM Object_A WHERE
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
@@ -1523,7 +1523,7 @@ FROM Object_A WHERE (Id = @Id)";
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 await using (command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
@@ -1641,7 +1641,7 @@ FROM Object_A WHERE (Id = @Id)";
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     var commandText = new StringBuilder();
@@ -1759,7 +1759,7 @@ FROM Object_A WHERE (Id = @Id)";
                     Value_String = data.Value_String.Value,
                 };
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -1978,7 +1978,7 @@ FROM Object_A WHERE (Id = @Id)";
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"INSERT INTO Object_A
@@ -2098,7 +2098,7 @@ VALUES
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
                 await using(command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
@@ -2213,7 +2213,7 @@ VALUES
                 RemoveActualState(typedSession, data.Id);
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"DELETE FROM Object_A WHERE (Id = @Id) AND (Revision = @Revision)";
@@ -2274,7 +2274,7 @@ VALUES
 
                 RemoveActualState(typedSession, data.Id);
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -2346,7 +2346,7 @@ VALUES
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
 Id,
@@ -2502,7 +2502,7 @@ FROM Object_A";
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
 Id,
@@ -2671,7 +2671,7 @@ FROM Object_A";
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
 Id,
@@ -2848,7 +2848,7 @@ FROM Object_A";
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT Id FROM Object_A";
                     {
@@ -2972,7 +2972,7 @@ FROM Object_A";
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT COUNT(*) FROM Object_A";
@@ -3146,7 +3146,7 @@ CreateDate) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT MAX(Id) AS Id FROM Object_B";
@@ -3208,7 +3208,7 @@ CreateDate) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand()) 
+                using (var command = typedSession.CreateCommand(false)) 
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT 1 FROM Object_B WHERE (Id = @Id) AND (Available = @Available) LIMIT 1";
@@ -3265,7 +3265,7 @@ CreateDate) FROM STDIN (FORMAT BINARY)
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -3332,7 +3332,7 @@ CreateDate) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand()) 
+                using (var command = typedSession.CreateCommand(false)) 
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT 1 FROM Object_B WHERE (Id = @Id) LIMIT 1";
@@ -3383,7 +3383,7 @@ CreateDate) FROM STDIN (FORMAT BINARY)
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -3549,7 +3549,7 @@ CreateDate) FROM STDIN (FORMAT BINARY)
                 var typedSession = (IPostgreSqlMappersSession)tempSession;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
@@ -3634,7 +3634,7 @@ AND (Available = @Old_Available)";
                 var typedSession = (IPostgreSqlMappersSession)tempSession;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 await using (command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
@@ -3726,7 +3726,7 @@ AND (Available = @Old_Available)";
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
@@ -3805,7 +3805,7 @@ FROM Object_B WHERE (Id = @Id)";
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
                 await using (command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
@@ -3904,7 +3904,7 @@ FROM Object_B WHERE (Id = @Id)";
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"UPDATE Object_B SET
@@ -3981,7 +3981,7 @@ AND (Available = @Old_Available)";
                     CreateDate = data.CreateDate,
                 };
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -4158,7 +4158,7 @@ AND (Available = @Old_Available)";
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"INSERT INTO Object_B
@@ -4245,7 +4245,7 @@ VALUES
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
                 await using(command.ConfigureAwait(false))
                 {
                     command.CommandType = CommandType.Text;
@@ -4328,7 +4328,7 @@ VALUES
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(true))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"UPDATE Object_B SET
@@ -4398,7 +4398,7 @@ AND (Available = @Old_Available)";
             {
                 var typedSession = (IPostgreSqlMappersSession) session;
 
-                var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
                 // ReSharper disable once ConvertToUsingDeclaration
                 await using (command.ConfigureAwait(false))
                 {
@@ -4482,7 +4482,7 @@ AND (Available = @Old_Available)";
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
 Id,
@@ -4624,7 +4624,7 @@ FROM Object_B";
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
 Id,
@@ -4780,7 +4780,7 @@ FROM Object_B";
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT
 Id,
@@ -4940,7 +4940,7 @@ FROM Object_B";
                     var typedSession = (IPostgreSqlMappersSession) session;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    command = typedSession.CreateCommand();
+                    command = typedSession.CreateCommand(false);
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT Id FROM Object_B";
                     {
@@ -5067,7 +5067,7 @@ FROM Object_B";
                 var typedSession = (IPostgreSqlMappersSession) session;
 
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var command = typedSession.CreateCommand())
+                using (var command = typedSession.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"SELECT COUNT(*) FROM Object_B";

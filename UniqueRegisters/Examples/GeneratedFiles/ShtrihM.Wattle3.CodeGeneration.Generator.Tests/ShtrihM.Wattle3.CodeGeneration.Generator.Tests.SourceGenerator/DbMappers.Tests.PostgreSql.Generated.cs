@@ -340,7 +340,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests
             // ReSharper disable once ConvertToUsingDeclaration
             using (var session = (IPostgreSqlMappersSession) m_mappers.OpenSession())
             {
-                using (var command = session.CreateCommand())
+                using (var command = session.CreateCommand(false))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = $@"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{m_tableName}'";

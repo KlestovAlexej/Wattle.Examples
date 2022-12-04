@@ -2,6 +2,8 @@
 using System.IO;
 using ShtrihM.Wattle3.Testing;
 
+#pragma warning disable CS1591
+
 namespace ShtrihM.Wattle3.Examples.Common
 {
     [ProjectBasePath.ProviderProjectBasePath]

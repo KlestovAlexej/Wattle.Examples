@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net7.0-windows</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AssemblyName>ShtrihM.Wattle3.Examples.DomainObjects.Examples</AssemblyName>
 		<RootNamespace>ShtrihM.Wattle3.Examples.DomainObjects.Examples</RootNamespace>
@@ -24,32 +24,32 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
 		<PackageReference Include="Npgsql" Version="7.0.0" />
 		<PackageReference Include="NUnit" Version="3.13.3" />
-		<PackageReference Include="NUnit3TestAdapter" Version="4.3.0" />
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.0.0.36891">
+		<PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.0.0.36957">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.0.0.36891">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.0.0.36957">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.0.0.36891">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.0.0.36957">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.0.0.36891">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.0.0.36957">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers.PostgreSql" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.PostgreSql" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.DomainObjects" Version="3.0.0.36891" />
-		<PackageReference Include="ShtrihM.Wattle3.UniqueRegisters" Version="3.0.0.36891" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers.PostgreSql" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.PostgreSql" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing.DomainObjects" Version="3.0.0.36957" />
+		<PackageReference Include="ShtrihM.Wattle3.UniqueRegisters" Version="3.0.0.36957" />
 		<PackageReference Include="Unity" Version="5.11.10" />
 	</ItemGroup>
 
