@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
+using ShtrihM.Wattle3.Infrastructures.Monitors;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
@@ -37,6 +38,7 @@ public class Examples
     /// </summary>
     [Test]
     [Explicit]
+    [TestCase(1_00)]
     [TestCase(1_000_000)]
     [TestCase(5_000_000)]
     [TestCase(10_000_000)]
@@ -540,6 +542,7 @@ public class Examples
                 true,
                 loggerFactory)
         {
+            ((InfrastructureMonitorDrivenObject)InfrastructureMonitor).Owner = this;
             m_proxyDomainObjectRegisterFactories.AddFactories(GetType().Assembly);
         }
 
