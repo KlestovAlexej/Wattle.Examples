@@ -155,7 +155,7 @@ public class Examples
 
         // Запуск реестра и ожидание его полной инициализации.
         registerTransactionKeys_2.Start();
-        WaitHelpers.TimeOut(() => registerTransactionKeys_2.IsReady, TimeSpan.FromMinutes(1));
+        WaitHelpers.TimeOut(() => registerTransactionKeys_2.IsReady, TimeSpan.FromMinutes(5));
 
         stopwatch.Stop();
 
@@ -532,7 +532,7 @@ public class Examples
             ILoggerFactory loggerFactory)
             : base(
                 new UnitOfWorkProviderCallContext(),
-                new InfrastructureMonitorEntryPoint(TimeSpan.FromMinutes(15), timeService),
+                new InfrastructureMonitorEntryPoint(null, TimeSpan.FromMinutes(15), timeService),
                 new DomainObjectDataMappers(timeService),
                 new DomainObjectRegisters(timeService),
                 mappers,
