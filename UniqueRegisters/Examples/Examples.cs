@@ -49,11 +49,9 @@ public class Examples
     /// <param name="days">Количество дней.</param>
     [Test]
     [Explicit]
-    [TestCase(1_000, 10)]
-    [TestCase(100_000, 10)]
-    [TestCase(1_000_000, 10)]
-    [TestCase(5_000_000, 10)]
-    [TestCase(10_000_000, 10)]
+    [TestCase(1_000, 10, Description = "Создать 10.000 ключей")]
+    [TestCase(100_000, 10, Description = "Создать 1 000 000 ключей")]
+    [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей")]
     public void Example_Start(int сountKeysPerDay, int days)
     {
         var keys = new List<(Guid Key, long Tag)>();
