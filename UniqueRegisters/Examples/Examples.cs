@@ -192,14 +192,11 @@ public class Examples
 
         stopwatch.Stop();
 
-        BaseTests.GcCollectMemory();
-        var step3Memory = GC.GetTotalMemory(true);
-
         Console.WriteLine($"Время создания и 100% инициализации реестра : {stopwatch.Elapsed}");
-        Console.WriteLine($"Занято памяти : {(step3Memory - startMemory):##,###} байт");
 
         stopwatch = Stopwatch.StartNew();
 
+        // Поиск всех ключей.
         Parallel.ForEach(keys,
             key =>
             {
@@ -212,8 +209,11 @@ public class Examples
             });
 
         stopwatch.Stop();
-
         Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
+
+        BaseTests.GcCollectMemory();
+        var step3Memory = GC.GetTotalMemory(true);
+        Console.WriteLine($"Занято памяти : {(step3Memory - startMemory):##,###} байт");
 
         {
             var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
