@@ -145,7 +145,8 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections}");
+            Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
+            Console.WriteLine($"Количество реальных транзакций БД : {(snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions):##,###}");
             Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
             startMappersSnapShot = snapShot;
         }
@@ -224,6 +225,7 @@ public class Examples
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
             Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections}");
+            Console.WriteLine($"Количество реальных транзакций БД : {snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions}");
             Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
         }
 
