@@ -35,6 +35,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
 [TestFixture]
 [SuppressMessage("ReSharper", "AccessToDisposedClosure")]
+[SuppressMessage("ReSharper", "AccessToModifiedClosure")]
 public class Examples
 {
     /// <summary>
@@ -44,16 +45,21 @@ public class Examples
     /// 
     /// В файле : postgresql.conf
     /// Установить параметр : max_connections = 300
+    ///
+    /// Параметры ПК для приблизительного определения времени теста :
+    ///    OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1
     /// </summary>
     /// <param name="сountKeysPerDay">Количество ключей за один день.</param>
     /// <param name="days">Количество дней.</param>
     [Test]
     [Explicit]
-    [TestCase(1_000, 10, Description = "Создать 10.000 ключей")]
-    [TestCase(100_000, 10, Description = "Создать 1 000 000 ключей")]
-    [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей")]
+    [TestCase(1_000, 10, Description = "Создать 10.000 ключей - время теста примерно менее 15 секунд")]
+    [TestCase(100_000, 10, Description = "Создать 1 000 000 ключей - время теста примерно 3 минуты")]
+    [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей - время теста примерно 3 часа")]
+    [TestCase(10_000_000, 30, Description = "Создать 300 000 000 ключей - время теста примерно 9 часов")]
     public void Example_Start(int сountKeysPerDay, int days)
     {
+        var totalStopwatch = Stopwatch.StartNew();
         var keys = new List<(Guid Key, long Tag)>();
 
         #region Создание миллионов ключей в БД.
@@ -65,7 +71,7 @@ public class Examples
 
         var stopwatch = Stopwatch.StartNew();
 
-        using var registerTransactionKeys = CreateRegisterTransactionKeys();
+        var registerTransactionKeys = CreateRegisterTransactionKeys();
 
         BaseTests.GcCollectMemory();
         var startMemory = GC.GetTotalMemory(true);
@@ -164,14 +170,16 @@ public class Examples
             Console.WriteLine(Path.GetFileName(fileName));
         }
 
+        CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
+
         #endregion
+
+        BaseTests.GcCollectMemory();
+        startMemory = GC.GetTotalMemory(true);
 
         Console.WriteLine("");
         Console.WriteLine($"Старт рееста на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
         Console.WriteLine("");
-
-        BaseTests.GcCollectMemory();
-        startMemory = GC.GetTotalMemory(true);
 
         stopwatch = Stopwatch.StartNew();
 
@@ -222,7 +230,7 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections}");
+            Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
             Console.WriteLine($"Количество реальных транзакций БД : {snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions}");
             Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
         }
@@ -234,6 +242,12 @@ public class Examples
             Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
             Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
         }
+
+        CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys2);
+
+        totalStopwatch.Stop();
+        Console.WriteLine();
+        Console.WriteLine($"Полное время теста : {totalStopwatch.Elapsed}");
     }
 
     /// <summary>
@@ -524,8 +538,8 @@ public class Examples
 
         m_timeService = new ManagedTimeService();
         
-        // Время тестов всегда 12.00 дня.
-        m_timeService.SetStart(DateTime.Now.Date.AddHours(12));
+        // Время тестов всегда 1-н час ночи.
+        m_timeService.SetStart(DateTime.Now.Date.AddHours(1));
 
         m_mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
         m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
@@ -553,8 +567,8 @@ public class Examples
         DomainEnviromentConfigurator.DisposeAll();
 
         PostgreSqlDbHelper.DropDb(m_dbName);
-        m_directory.SilentDispose();
         m_identityCache.SilentDispose();
+        m_directory.SilentDispose();
     }
 
     private class ExampleUnitOfWork : BaseUnitOfWork

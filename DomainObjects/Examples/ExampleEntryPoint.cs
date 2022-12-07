@@ -247,7 +247,6 @@ public class ExampleEntryPoint : BaseEntryPointEx
                 new MappersExceptionPolicy(),
                 connectionString,
                 timeService,
-                TimeSpan.FromMinutes(30),
                 0,
                 container),
             exceptionPolicy,
