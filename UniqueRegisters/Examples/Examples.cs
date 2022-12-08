@@ -66,184 +66,189 @@ public class Examples
 
         var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
 
-        Console.WriteLine("Создание миллионов ключей в БД.");
-        Console.WriteLine("");
-
-        var stopwatch = Stopwatch.StartNew();
-
-        var registerTransactionKeys = CreateRegisterTransactionKeys();
-
-        BaseTests.GcCollectMemory();
-        var startMemory = GC.GetTotalMemory(true);
-
-        var daysOffeset = TimeSpan.Zero;
-        for (var dayIndex = 0; dayIndex < days; dayIndex++)
         {
-            // Создать партицию БД для хранения ключей за текущий день.
-            using (var mappersSession = m_mappers.OpenSession())
+
+            Console.WriteLine("Создание миллионов ключей в БД.");
+            Console.WriteLine("");
+
+            var stopwatch = Stopwatch.StartNew();
+
+            var registerTransactionKeys = CreateRegisterTransactionKeys();
+
+            BaseTests.GcCollectMemory();
+            var startMemory = GC.GetTotalMemory(true);
+
+            var daysOffeset = TimeSpan.Zero;
+            for (var dayIndex = 0; dayIndex < days; dayIndex++)
             {
-                var nowDayIndex = registerTransactionKeys.GetDayIndex(m_timeService.NowDateTime.Date);
-                if (false == m_mapper.Partitions.GetExistsPartitions(mappersSession).Any(p => p.MinGroupId == nowDayIndex))
+                // Создать партицию БД для хранения ключей за текущий день.
+                using (var mappersSession = m_mappers.OpenSession())
                 {
-                    m_mapper.Partitions.CreatePartition(mappersSession, nowDayIndex, nowDayIndex + 1);
+                    var nowDayIndex = registerTransactionKeys.GetDayIndex(m_timeService.NowDateTime.Date);
+                    if (false == m_mapper.Partitions.GetExistsPartitions(mappersSession).Any(p => p.MinGroupId == nowDayIndex))
+                    {
+                        m_mapper.Partitions.CreatePartition(mappersSession, nowDayIndex, nowDayIndex + 1);
+                    }
+
+                    mappersSession.Commit();
                 }
 
-                mappersSession.Commit();
+                var dayKeys = new List<(Guid Key, long Tag)>();
+                for (var keyIndex = 0; keyIndex < сountKeysPerDay; keyIndex++)
+                {
+                    var key = (Guid.NewGuid(), ProviderRandomValues.GetInt64());
+                    dayKeys.Add(key);
+                }
+                keys.AddRange(dayKeys);
+
+                Parallel.ForEach(dayKeys,
+                    key =>
+                    {
+                        using var unitOfWork = m_entryPoint.CreateUnitOfWork();
+
+                        Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key.Key, key.Tag));
+
+                        unitOfWork.Commit();
+                    });
+
+                // Смещение времени на 1 день вперёд.
+                daysOffeset += TimeSpan.FromDays(1);
+                m_timeService.SetOffeset(daysOffeset);
             }
 
-            var dayKeys = new List<(Guid Key, long Tag)>();
-            for (var keyIndex = 0; keyIndex < сountKeysPerDay; keyIndex++)
-            {
-                var key = (Guid.NewGuid(), ProviderRandomValues.GetInt64());
-                dayKeys.Add(key);
-            }
-            keys.AddRange(dayKeys);
+            BaseTests.GcCollectMemory();
+            var step1Memory = GC.GetTotalMemory(true);
 
-            Parallel.ForEach(dayKeys,
+            // Смещение времени на 2 дня вперёд.
+            daysOffeset += TimeSpan.FromDays(2);
+            m_timeService.SetOffeset(daysOffeset);
+
+            // Ожидание пока реестр оптимизирует свою память и сохранить оптимизированные ключи в файловый кэш.
+            WaitHelpers.TimeOut(
+                () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().CountPersistentStorageGroupSaves == days,
+                TimeSpan.FromHours(1),
+                () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().ToJsonText(true));
+
+            BaseTests.GcCollectMemory();
+            var step2Memory = GC.GetTotalMemory(true);
+
+            stopwatch.Stop();
+
+            Console.WriteLine($"Время заполнения реестра : {stopwatch.Elapsed}");
+            Console.WriteLine($"Занято памяти (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
+            Console.WriteLine($"Занято памяти (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
+
+            Parallel.ForEach(keys,
                 key =>
                 {
                     using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    Assert.AreEqual(UniqueRegisterRegisterKeyResult.Registered, registerTransactionKeys.TryRegisterKey(key.Key, key.Tag));
+                    Assert.IsTrue(registerTransactionKeys.TryGetTag(key.Key, out var tag));
+                    Assert.AreEqual(key.Tag, tag);
 
                     unitOfWork.Commit();
                 });
 
-            // Смещение времени на 1 день вперёд.
-            daysOffeset += TimeSpan.FromDays(1);
-            m_timeService.SetOffeset(daysOffeset);
-        }
-
-        BaseTests.GcCollectMemory();
-        var step1Memory = GC.GetTotalMemory(true);
-
-        // Смещение времени на 2 дня вперёд.
-        daysOffeset += TimeSpan.FromDays(2);
-        m_timeService.SetOffeset(daysOffeset);
-
-        // Ожидание пока реестр оптимизирует свою память и сохранить оптимизированные ключи в файловый кэш.
-        WaitHelpers.TimeOut(
-            () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().CountPersistentStorageGroupSaves == days,
-            TimeSpan.FromHours(1),
-            () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().ToJsonText(true));
-
-        BaseTests.GcCollectMemory();
-        var step2Memory = GC.GetTotalMemory(true);
-
-        stopwatch.Stop();
-
-        Console.WriteLine($"Время заполнения реестра : {stopwatch.Elapsed}");
-        Console.WriteLine($"Занято памяти (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
-        Console.WriteLine($"Занято памяти (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
-
-        Parallel.ForEach(keys,
-            key =>
             {
-                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
+                var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
+                Console.WriteLine($"Количество реальных транзакций БД : {(snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions):##,###}");
+                Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
+                startMappersSnapShot = snapShot;
+            }
 
-                Assert.IsTrue(registerTransactionKeys.TryGetTag(key.Key, out var tag));
-                Assert.AreEqual(key.Tag, tag);
+            {
+                var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
+                Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey:##,###}");
+                Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
+                Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
+            }
 
-                unitOfWork.Commit();
-            });
+            Console.WriteLine("");
+            Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' :");
+            foreach (var fileName in Directory.GetFiles(registerTransactionKeys.DataPath))
+            {
+                Console.WriteLine(Path.GetFileName(fileName));
+            }
 
-        {
-            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
-            Console.WriteLine($"Количество реальных транзакций БД : {(snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions):##,###}");
-            Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
-            startMappersSnapShot = snapShot;
+            CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
         }
-
-        {
-            var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
-            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey:##,###}");
-            Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
-            Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
-        }
-
-        Console.WriteLine("");
-        Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' :");
-        foreach (var fileName in Directory.GetFiles(registerTransactionKeys.DataPath))
-        {
-            Console.WriteLine(Path.GetFileName(fileName));
-        }
-
-        CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
 
         #endregion
 
-        BaseTests.GcCollectMemory();
-        startMemory = GC.GetTotalMemory(true);
+        {
+            BaseTests.GcCollectMemory();
+            var startMemory = GC.GetTotalMemory(true);
 
-        Console.WriteLine("");
-        Console.WriteLine($"Старт рееста на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
-        Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine($"Старт рееста на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
+            Console.WriteLine("");
 
-        stopwatch = Stopwatch.StartNew();
+            var stopwatch = Stopwatch.StartNew();
 
-        var registerTransactionKeys2 = 
-            new ExampleRegisterTransactionKeys(
-                m_identityCache, 
-                m_directory.BasePath,
-                m_entryPoint.UnitOfWorkProvider,
-                m_loggerFactory,
-                m_exceptionPolicy,
-                m_timeService,
-                m_mappers,
-                m_workflowExceptionPolicy);
+            var registerTransactionKeys2 =
+                new ExampleRegisterTransactionKeys(
+                    m_identityCache,
+                    m_directory.BasePath,
+                    m_entryPoint.UnitOfWorkProvider,
+                    m_loggerFactory,
+                    m_exceptionPolicy,
+                    m_timeService,
+                    m_mappers,
+                    m_workflowExceptionPolicy);
 
-        // Запуск реестра и ожидание его полной инициализации.
-        registerTransactionKeys2.Start();
-        WaitHelpers.TimeOut(() => registerTransactionKeys2.IsReady, TimeSpan.FromMinutes(5));
+            // Запуск реестра и ожидание его полной инициализации.
+            registerTransactionKeys2.Start();
+            WaitHelpers.TimeOut(() => registerTransactionKeys2.IsReady, TimeSpan.FromMinutes(5));
 
-        stopwatch.Stop();
+            stopwatch.Stop();
 
-        Console.WriteLine($"Время создания и 100% инициализации реестра : {stopwatch.Elapsed}");
+            Console.WriteLine($"Время создания и 100% инициализации реестра : {stopwatch.Elapsed}");
 
-        stopwatch = Stopwatch.StartNew();
+            stopwatch = Stopwatch.StartNew();
 
-        // Поиск всех ключей.
-        Parallel.ForEach(keys,
-            key =>
+            // Поиск всех ключей.
+            Parallel.ForEach(keys,
+                key =>
+                {
+                    using var unitOfWork = m_entryPoint.CreateUnitOfWork();
+
+                    Assert.IsTrue(registerTransactionKeys2.TryGetTag(key.Key, out var tag));
+                    Assert.AreEqual(key.Tag, tag);
+
+                    unitOfWork.Commit();
+                });
+
+            stopwatch.Stop();
+            Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
+
+            BaseTests.GcCollectMemory();
+            var step2Memory = GC.GetTotalMemory(true);
+            Console.WriteLine($"Занято памяти : {(step2Memory - startMemory):##,###} байт");
+
             {
-                using var unitOfWork = m_entryPoint.CreateUnitOfWork();
+                var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+            }
 
-                Assert.IsTrue(registerTransactionKeys2.TryGetTag(key.Key, out var tag));
-                Assert.AreEqual(key.Tag, tag);
+            {
+                var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
+                Console.WriteLine($"Количество реальных транзакций БД : {snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions}");
+                Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
+            }
 
-                unitOfWork.Commit();
-            });
+            {
+                var snapShot = registerTransactionKeys2.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
+                Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+                Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
+                Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
+            }
 
-        stopwatch.Stop();
-        Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
-
-        BaseTests.GcCollectMemory();
-        var step3Memory = GC.GetTotalMemory(true);
-        Console.WriteLine($"Занято памяти : {(step3Memory - startMemory):##,###} байт");
-
-        {
-            var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+            CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys2);
         }
-
-        {
-            var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
-            Console.WriteLine($"Количество реальных транзакций БД : {snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions}");
-            Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
-        }
-
-        {
-            var snapShot = registerTransactionKeys2.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
-            Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
-            Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
-            Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
-        }
-
-        CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys2);
 
         totalStopwatch.Stop();
         Console.WriteLine();
