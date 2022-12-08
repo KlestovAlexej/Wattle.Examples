@@ -57,8 +57,8 @@ public class Examples
     [TestCase(1_000, 10, false, Description = "Создать 10.000 ключей - время теста примерно менее 15 секунд")]
     [TestCase(100_000, 10, false, Description = "Создать 1 000 000 ключей - время теста примерно 3 минуты")]
     [TestCase(100_000, 10, true, Description = "Создать 1 000 000 ключей (без файлового кэша) - время теста примерно 3 минуты")]
-    [TestCase(1_000_000, 10, false, Description = "Создать 10 000 000 ключей - время теста примерно 3 минуты")]
-    [TestCase(1_000_000, 10, true, Description = "Создать 10 000 000 ключей (без файлового кэша) - время теста примерно 3 минуты")]
+    [TestCase(1_000_000, 10, false, Description = "Создать 10 000 000 ключей - время теста примерно 20 минут")]
+    [TestCase(1_000_000, 10, true, Description = "Создать 10 000 000 ключей (без файлового кэша) - время теста примерно 30 минут")]
     [TestCase(10_000_000, 10, false, Description = "Создать 100 000 000 ключей - время теста примерно 3 часа")]
     [TestCase(10_000_000, 30, false, Description = "Создать 300 000 000 ключей - время теста примерно 14 часов")]
     public void Example_Start(int сountKeysPerDay, int days, bool startWithoutFilesCache)
