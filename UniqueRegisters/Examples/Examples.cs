@@ -196,6 +196,8 @@ public class Examples
 
         #endregion
 
+        #region Чтение миллионов ключей
+
         {
             var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
 
@@ -273,6 +275,10 @@ public class Examples
 
             CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
         }
+
+        #endregion
+
+        #region Чтение миллионов ключей без файлового кэша
 
         if (startWithoutFilesCache)
         {
@@ -365,6 +371,8 @@ public class Examples
 
             CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
         }
+
+        #endregion
 
         totalStopwatch.Stop();
         Console.WriteLine();
