@@ -1089,7 +1089,7 @@ public class Examples
         var stopwatch = Stopwatch.StartNew();
 
         var identites = new HashSet<long>();
-        Parallel.For(0, 50 * CacheSize,
+        Parallel.For(0, 500 * CacheSize,
             _ =>
             {
                 using var mappersSession = m_mappers.OpenSession();

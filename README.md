@@ -19,7 +19,7 @@
     - [Кодогенерация мапперов](#кодогенерация-мапперов)
     - [Основные возможности кодогенерированных мапперов](#основные-возможности-кодогенерированных-мапперов)
         - [**Генерация уникального** персистентного в БД значения **первичного ключа** с минимальным обращением к БД](#генерация-уникального-персистентного-в-бд-значения-первичного-ключа-с-минимальным-обращением-к-бд)
-            - [Результат последовательного создания *50.000.000* уникальных первичных ключей *(31,2 секунда)*](#результат-последовательного-создания-50000000-уникальных-первичных-ключей-312-секунда)
+            - [Результат параллельного создания *50.000.000* уникальных первичных ключей *(33,7 секунда)*](#результат-параллельного-создания-50000000-уникальных-первичных-ключей-337-секунда)
         - [**Кэширование записей** по первичну ключу](#кэширование-записей-по-первичну-ключу)
             - [Результат параллельного чтения *10.000.000* записей БД по первичному ключу *(9,3 секунд)*](#результат-параллельного-чтения-10000000-записей-бд-по-первичному-ключу-93-секунд)
         - [**Поддержка партиционирования PostgreSQL** из коробки](#поддержка-партиционирования-postgresql-из-коробки)
@@ -730,54 +730,41 @@ public partial interface IMapperObject_A : IMapper
 
 Генератор позволяет получать уникальные значения без необходимости реального обращения к БД в момент генерации.
 
-Пример последовательного создания **50.000.000** уникальных первичных ключей :
+Пример параллельного создания **50.000.000** уникальных первичных ключей :
+
+Весь код примеров в файле [Examples.cs](Mappers/PostgreSql/Implements/Examples.cs) в тесте **Example_IdentityCache_Parallel**.
 
 ```csharp
-using IIdentityCache identityCache = CreateIdentityCache(100_000);
+const int CacheSize = 100_000;
+using var identityCache = CreateIdentityCache(CacheSize);
 
-var stopwatch = Stopwatch.StartNew();
-
-var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
 var identites = new HashSet<long>();
-for (var count = 0; count < 50_000_000; ++count)
-{
-    using var mappersSession = mappers.OpenSession();
+Parallel.For(0, 500 * CacheSize,
+    _ =>
+    {
+        using var mappersSession = m_mappers.OpenSession();
 
-    var identity = identityCache.GetNextIdentity(mappersSession);
+        var identity = identityCache.GetNextIdentity(mappersSession);
 
-    Assert.IsFalse(identites.Contains(identity));
-    identites.Add(identity);
+        lock (identites)
+        {
+            Assert.IsFalse(identites.Contains(identity));
+            identites.Add(identity);
+        }
 
-    mappersSession.Commit();
-}
-
-stopwatch.Stop();
-
-Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
-Console.WriteLine($"Количество идентити : {identites.Count}");
-
-{
-    var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
-    Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
-    Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
-}
-
-{
-    var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
-    Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-    Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
-}
+        mappersSession.Commit();
+    });
 ```
 
-##### Результат последовательного создания **50.000.000** уникальных первичных ключей *(31,2 секунда)*
+##### Результат параллельного создания **50.000.000** уникальных первичных ключей *(37 секунда)*
 
 ```
-Время работы : 00:00:30.1632266
-Количество идентити : 50000000
-Количество идентити полученных из кэша в памяти (без обращения к БД) : 49999522
-Количество идентити полученных из БД : 478
-Количество реальных подключений к БД : 1311
-Количество сессий мапперов : 50000834
+Время работы : 00:00:33.7722060
+Количество идентити : 50 000 000
+Количество идентити полученных из кэша в памяти (без обращения к БД) : 49 990 310
+Количество идентити полученных из БД : 9 690
+Количество реальных подключений к БД : 10 454
+Количество сессий мапперов : 50 000 764
 ```
 Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1_
 
