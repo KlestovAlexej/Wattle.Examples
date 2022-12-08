@@ -148,7 +148,8 @@ public class Examples
 
             stopwatch.Stop();
 
-            Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
+            Console.WriteLine($"Время поиска всех ключей                 : {stopwatch.Elapsed}");
+            Console.WriteLine($"Среднее время поиска ключа (микросекунд) : {stopwatch.Elapsed.TotalMicroseconds / keys.Count}");
 
             BaseTests.GcCollectMemory();
             var step2Memory = GC.GetTotalMemory(true);
@@ -234,7 +235,9 @@ public class Examples
                 });
 
             stopwatch.Stop();
-            Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
+
+            Console.WriteLine($"Время поиска всех ключей                 : {stopwatch.Elapsed}");
+            Console.WriteLine($"Среднее время поиска ключа (микросекунд) : {stopwatch.Elapsed.TotalMicroseconds / keys.Count}");
 
             BaseTests.GcCollectMemory();
             var step2Memory = GC.GetTotalMemory(true);
