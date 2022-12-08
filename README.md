@@ -21,7 +21,7 @@
         - [**Генерация уникального** персистентного в БД значения **первичного ключа** с минимальным обращением к БД](#генерация-уникального-персистентного-в-бд-значения-первичного-ключа-с-минимальным-обращением-к-бд)
             - [Результат последовательного создания *50.000.000* уникальных первичных ключей *(31,2 секунда)*](#результат-последовательного-создания-50000000-уникальных-первичных-ключей-312-секунда)
         - [**Кэширование записей** по первичну ключу](#кэширование-записей-по-первичну-ключу)
-            - [Результат параллельного чтения *10.000.000* записей БД по первичному ключу *(19,6 секунд)*](#результат-параллельного-чтения-10000000-записей-бд-по-первичному-ключу-196-секунд)
+            - [Результат параллельного чтения *10.000.000* записей БД по первичному ключу *(9,3 секунд)*](#результат-параллельного-чтения-10000000-записей-бд-по-первичному-ключу-93-секунд)
         - [**Поддержка партиционирования PostgreSQL** из коробки](#поддержка-партиционирования-postgresql-из-коробки)
 
 ---
@@ -792,18 +792,15 @@ Console.WriteLine($"Количество идентити : {identites.Count}");
 
 Пример параллельного чтения **10.000.000** записей БД по первичному ключу :
 
-```csharp
-var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
-var mapper = mappers.GetMapper<IMapperObject_A>();
+Весь код примеров в файле [Examples.cs](Mappers/PostgreSql/Implements/Examples.cs) в тесте **Example_Select_With_MemoryCache_Parallel**.
 
+```csharp
 var ids = new List<long>();
-for (var index = 0; index < 1_000; index++)
-{
-    ids.Add(index);
-}
+
+...
 
 // Заполнение таблицы.
-using (var mappersSession = mappers.OpenSession())
+using (var mappersSession = m_mappers.OpenSession())
 {
     foreach (var id in ids)
     {
@@ -823,46 +820,27 @@ using (var mappersSession = mappers.OpenSession())
     mappersSession.Commit();
 }
 
-var stopwatch = Stopwatch.StartNew();
-
 // Выборка записей по первичному ключу.
 Parallel.For(0, 10_000_000,
     _ =>
     {
-        var mappersSession = mappers.OpenSession();
+        using var hostMappersSession = m_mappers.CreateHostMappersSession();
 
         var id = ProviderRandomValues.GetItem(ids);
-        var dto = mapper.Get(mappersSession, id);
+        var dto = mapper.Get(hostMappersSession, id);
         Assert.IsNotNull(dto);
     });
-
-stopwatch.Stop();
-
-Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
-
-{
-    var snapShot = mappers.InfrastructureMonitor.GetSnapShot();
-    Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-    Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
-}
-
-{
-    var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
-    Console.WriteLine($"Количество объектов в памяти : {snapShot.Count}");
-    Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind}");
-    Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
-}
 ```
 
-##### Результат параллельного чтения **10.000.000** записей БД по первичному ключу *(19,6 секунд)*
+##### Результат параллельного чтения **10.000.000** записей БД по первичному ключу *(9,3 секунд)*
 
 ```
-Время работы : 00:00:19.5278083
+Время работы : 00:00:09.3343538
 Количество реальных подключений к БД : 2
-Количество сессий мапперов : 10000003
-Количество объектов в памяти : 1000
-Количество поисков объектов в памяти : 10000000
-Количество найденных объектов в памяти : 10000000
+Количество сессий мапперов : 2
+Количество объектов в памяти : 1 000
+Количество поисков объектов в памяти : 10 000 000
+Количество найденных объектов в памяти : 10 000 000
 ```
 Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1_
 

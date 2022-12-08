@@ -24,6 +24,7 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
+using static ShtrihM.Wattle3.Common.Interfaces.WellknownSnapShotInfrastructureMonitorValues;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 
@@ -1249,4 +1250,3 @@ public class Examples
 
     #endregion
 }
-
