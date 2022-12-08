@@ -651,15 +651,15 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
         }
 
         {
             var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
-            Console.WriteLine($"Количество объектов в памяти : {snapShot.Count}");
-            Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind}");
-            Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
+            Console.WriteLine($"Количество объектов в памяти : {snapShot.Count:##,###}");
+            Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind:##,###}");
+            Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound:##,###}");
         }
     }
 
@@ -726,15 +726,15 @@ public class Examples
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
         }
 
         {
             var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
-            Console.WriteLine($"Количество объектов в памяти : {snapShot.Count}");
-            Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind}");
-            Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound}");
+            Console.WriteLine($"Количество объектов в памяти : {snapShot.Count:##,###}");
+            Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind:##,###}");
+            Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound:##,###}");
         }
     }
 
@@ -1061,18 +1061,18 @@ public class Examples
         stopwatch.Stop();
 
         Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
-        Console.WriteLine($"Количество идентити : {identites.Count}");
+        Console.WriteLine($"Количество идентити : {identites.Count:##,###}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
-            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
+            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache:##,###}");
+            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage:##,###}");
         }
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
         }
     }
 
@@ -1107,18 +1107,18 @@ public class Examples
         stopwatch.Stop();
 
         Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
-        Console.WriteLine($"Количество идентити : {identites.Count}");
+        Console.WriteLine($"Количество идентити : {identites.Count:##,###}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
-            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
+            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache:##,###}");
+            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage:##,###}");
         }
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
         }
     }
 
@@ -1150,18 +1150,18 @@ public class Examples
         stopwatch.Stop();
 
         Console.WriteLine($"Время работы : {stopwatch.Elapsed}");
-        Console.WriteLine($"Количество идентити : {identites.Count}");
+        Console.WriteLine($"Количество идентити : {identites.Count:##,###}");
 
         {
             var snapShot = identityCache.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache}");
-            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage}");
+            Console.WriteLine($"Количество идентити полученных из кэша в памяти (без обращения к БД) : {snapShot.CountIdentityFromCache:##,###}");
+            Console.WriteLine($"Количество идентити полученных из БД : {snapShot.CountIdentityFromStorage:##,###}");
         }
 
         {
             var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections}");
-            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions}");
+            Console.WriteLine($"Количество реальных подключений к БД : {snapShot.CountDbConnections:##,###}");
+            Console.WriteLine($"Количество сессий мапперов : {snapShot.CountSessions:##,###}");
         }
     }
 
