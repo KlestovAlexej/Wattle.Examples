@@ -131,7 +131,7 @@ public class Examples
 
             stopwatch.Stop();
 
-            Console.WriteLine($"Время заполнения реестра : {stopwatch.Elapsed}");
+            Console.WriteLine($"Время заполнения и оптимизации реестра : {stopwatch.Elapsed}");
 
             stopwatch = Stopwatch.StartNew();
 
@@ -218,7 +218,7 @@ public class Examples
 
             stopwatch.Stop();
 
-            Console.WriteLine($"Время создания и 100% инициализации реестра : {stopwatch.Elapsed}");
+            Console.WriteLine($"Время создания и инициализации реестра : {stopwatch.Elapsed}");
 
             stopwatch = Stopwatch.StartNew();
 
