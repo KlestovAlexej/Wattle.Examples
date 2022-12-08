@@ -183,7 +183,8 @@ public class Examples
             Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' :");
             foreach (var fileName in Directory.GetFiles(registerTransactionKeys.DataPath))
             {
-                Console.WriteLine(Path.GetFileName(fileName));
+                var fileInfo = new FileInfo(fileName);
+                Console.WriteLine($"{fileInfo.Name} - размер {fileInfo.Length:##,###}");
             }
 
             CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
