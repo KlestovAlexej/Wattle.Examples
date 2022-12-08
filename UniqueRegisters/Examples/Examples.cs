@@ -56,7 +56,7 @@ public class Examples
     [TestCase(1_000, 10, Description = "Создать 10.000 ключей - время теста примерно менее 15 секунд")]
     [TestCase(100_000, 10, Description = "Создать 1 000 000 ключей - время теста примерно 3 минуты")]
     [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей - время теста примерно 3 часа")]
-    [TestCase(10_000_000, 30, Description = "Создать 300 000 000 ключей - время теста примерно 9 часов")]
+    [TestCase(10_000_000, 30, Description = "Создать 300 000 000 ключей - время теста примерно 14 часов")]
     public void Example_Start(int сountKeysPerDay, int days)
     {
         var totalStopwatch = Stopwatch.StartNew();
