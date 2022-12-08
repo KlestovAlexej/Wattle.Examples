@@ -129,14 +129,11 @@ public class Examples
                 TimeSpan.FromHours(1),
                 () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().ToJsonText(true));
 
-            BaseTests.GcCollectMemory();
-            var step2Memory = GC.GetTotalMemory(true);
-
             stopwatch.Stop();
 
             Console.WriteLine($"Время заполнения реестра : {stopwatch.Elapsed}");
-            Console.WriteLine($"Занято памяти (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
-            Console.WriteLine($"Занято памяти (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
+
+            stopwatch = Stopwatch.StartNew();
 
             Parallel.ForEach(keys,
                 key =>
@@ -149,18 +146,34 @@ public class Examples
                     unitOfWork.Commit();
                 });
 
+            stopwatch.Stop();
+
+            Console.WriteLine($"Время поиска всех ключей : {stopwatch.Elapsed}");
+
+            BaseTests.GcCollectMemory();
+            var step2Memory = GC.GetTotalMemory(true);
+
+            Console.WriteLine($"Всего занято памяти тестом        : {step2Memory:##,###} байт");
+            Console.WriteLine($"Занято памяти (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
+            Console.WriteLine($"Занято памяти (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
+
+            {
+                var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+            }
+
             {
                 var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
                 Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
-                Console.WriteLine($"Количество реальных транзакций БД : {(snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions):##,###}");
-                Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
+                Console.WriteLine($"Количество реальных транзакций БД    : {(snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions):##,###}");
+                Console.WriteLine($"Количество сессий мапперов           : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
                 startMappersSnapShot = snapShot;
             }
 
             {
                 var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
                 Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
-                Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey:##,###}");
+                Console.WriteLine($"Число регистраций ключей        : {snapShot.CountRegisterKey:##,###}");
                 Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
                 Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
             }
@@ -225,7 +238,8 @@ public class Examples
 
             BaseTests.GcCollectMemory();
             var step2Memory = GC.GetTotalMemory(true);
-            Console.WriteLine($"Занято памяти : {(step2Memory - startMemory):##,###} байт");
+            Console.WriteLine($"Всего занято памяти тестом : {step2Memory:##,###} байт");
+            Console.WriteLine($"Занято памяти реестром     : {(step2Memory - startMemory):##,###} байт");
 
             {
                 var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
@@ -235,14 +249,14 @@ public class Examples
             {
                 var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
                 Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
-                Console.WriteLine($"Количество реальных транзакций БД : {snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions}");
-                Console.WriteLine($"Количество сессий мапперов : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
+                Console.WriteLine($"Количество реальных транзакций БД    : {snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions}");
+                Console.WriteLine($"Количество сессий мапперов           : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
             }
 
             {
                 var snapShot = registerTransactionKeys2.InfrastructureMonitor.GetSnapShot();
                 Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
-                Console.WriteLine($"Число регистраций ключей : {snapShot.CountRegisterKey}");
+                Console.WriteLine($"Число регистраций ключей        : {snapShot.CountRegisterKey}");
                 Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
                 Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
             }
