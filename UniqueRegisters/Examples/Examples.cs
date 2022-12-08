@@ -51,22 +51,25 @@ public class Examples
     /// </summary>
     /// <param name="сountKeysPerDay">Количество ключей за один день.</param>
     /// <param name="days">Количество дней.</param>
+    /// <param name="startWithoutFilesCache">Тестировать запуск реестра без файлового кэша.</param>
     [Test]
     [Explicit]
-    [TestCase(1_000, 10, Description = "Создать 10.000 ключей - время теста примерно менее 15 секунд")]
-    [TestCase(100_000, 10, Description = "Создать 1 000 000 ключей - время теста примерно 3 минуты")]
-    [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей - время теста примерно 3 часа")]
-    [TestCase(10_000_000, 30, Description = "Создать 300 000 000 ключей - время теста примерно 14 часов")]
-    public void Example_Start(int сountKeysPerDay, int days)
+    [TestCase(1_000, 10, false, Description = "Создать 10.000 ключей - время теста примерно менее 15 секунд")]
+    [TestCase(100_000, 10, false, Description = "Создать 1 000 000 ключей - время теста примерно 3 минуты")]
+    [TestCase(100_000, 10, true, Description = "Создать 1 000 000 ключей (без файлового кэша) - время теста примерно 3 минуты")]
+    [TestCase(1_000_000, 10, false, Description = "Создать 10 000 000 ключей - время теста примерно 3 минуты")]
+    [TestCase(1_000_000, 10, true, Description = "Создать 10 000 000 ключей (без файлового кэша) - время теста примерно 3 минуты")]
+    [TestCase(10_000_000, 10, false, Description = "Создать 100 000 000 ключей - время теста примерно 3 часа")]
+    [TestCase(10_000_000, 30, false, Description = "Создать 300 000 000 ключей - время теста примерно 14 часов")]
+    public void Example_Start(int сountKeysPerDay, int days, bool startWithoutFilesCache)
     {
         var totalStopwatch = Stopwatch.StartNew();
         var keys = new List<(Guid Key, long Tag)>();
 
         #region Создание миллионов ключей в БД.
 
-        var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
-
         {
+            var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
 
             Console.WriteLine("Создание миллионов ключей в БД.");
             Console.WriteLine("");
@@ -180,8 +183,9 @@ public class Examples
             }
 
             Console.WriteLine("");
-            Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' :");
-            foreach (var fileName in Directory.GetFiles(registerTransactionKeys.DataPath))
+            var fileNames = Directory.GetFiles(registerTransactionKeys.DataPath);
+            Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' (файлов {fileNames.Length}) :");
+            foreach (var fileName in fileNames)
             {
                 var fileInfo = new FileInfo(fileName);
                 Console.WriteLine($"{fileInfo.Name} - размер {fileInfo.Length:##,###}");
@@ -193,6 +197,8 @@ public class Examples
         #endregion
 
         {
+            var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+
             BaseTests.GcCollectMemory();
             var startMemory = GC.GetTotalMemory(true);
 
@@ -202,7 +208,7 @@ public class Examples
 
             var stopwatch = Stopwatch.StartNew();
 
-            var registerTransactionKeys2 =
+            var registerTransactionKeys =
                 new ExampleRegisterTransactionKeys(
                     m_identityCache,
                     m_directory.BasePath,
@@ -214,8 +220,8 @@ public class Examples
                     m_workflowExceptionPolicy);
 
             // Запуск реестра и ожидание его полной инициализации.
-            registerTransactionKeys2.Start();
-            WaitHelpers.TimeOut(() => registerTransactionKeys2.IsReady, TimeSpan.FromMinutes(5));
+            registerTransactionKeys.Start();
+            WaitHelpers.TimeOut(() => registerTransactionKeys.IsReady, TimeSpan.FromMinutes(5));
 
             stopwatch.Stop();
 
@@ -229,7 +235,7 @@ public class Examples
                 {
                     using var unitOfWork = m_entryPoint.CreateUnitOfWork();
 
-                    Assert.IsTrue(registerTransactionKeys2.TryGetTag(key.Key, out var tag));
+                    Assert.IsTrue(registerTransactionKeys.TryGetTag(key.Key, out var tag));
                     Assert.AreEqual(key.Tag, tag);
 
                     unitOfWork.Commit();
@@ -258,14 +264,106 @@ public class Examples
             }
 
             {
-                var snapShot = registerTransactionKeys2.InfrastructureMonitor.GetSnapShot();
+                var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
                 Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
                 Console.WriteLine($"Число регистраций ключей        : {snapShot.CountRegisterKey}");
                 Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
                 Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
             }
 
-            CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys2);
+            CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
+        }
+
+        if (startWithoutFilesCache)
+        {
+            var startMappersSnapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+
+            BaseTests.GcCollectMemory();
+            var startMemory = GC.GetTotalMemory(true);
+
+            Console.WriteLine("");
+            Console.WriteLine($"Старт рееста на '{keys.Count:##,###}' ключах в БД без файлового кэша.");
+
+            var stopwatch = Stopwatch.StartNew();
+
+            var registerTransactionKeys =
+                new ExampleRegisterTransactionKeys(
+                    m_identityCache,
+                    m_directory.BasePath,
+                    m_entryPoint.UnitOfWorkProvider,
+                    m_loggerFactory,
+                    m_exceptionPolicy,
+                    m_timeService,
+                    m_mappers,
+                    m_workflowExceptionPolicy);
+
+            foreach (var fileName in Directory.GetFiles(registerTransactionKeys.DataPath))
+            {
+                File.Delete(fileName);
+            }
+
+            Console.WriteLine("");
+            var fileNames = Directory.GetFiles(registerTransactionKeys.DataPath);
+            Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' (файлов {fileNames.Length}) :");
+            foreach (var fileName in fileNames)
+            {
+                var fileInfo = new FileInfo(fileName);
+                Console.WriteLine($"{fileInfo.Name} - размер {fileInfo.Length:##,###}");
+            }
+
+            // Запуск реестра и ожидание его полной инициализации.
+            registerTransactionKeys.Start();
+            WaitHelpers.TimeOut(() => registerTransactionKeys.IsReady, TimeSpan.FromMinutes(5));
+
+            stopwatch.Stop();
+
+            Console.WriteLine($"Время создания и инициализации реестра : {stopwatch.Elapsed}");
+
+            stopwatch = Stopwatch.StartNew();
+
+            // Поиск всех ключей.
+            Parallel.ForEach(keys,
+                key =>
+                {
+                    using var unitOfWork = m_entryPoint.CreateUnitOfWork();
+
+                    Assert.IsTrue(registerTransactionKeys.TryGetTag(key.Key, out var tag));
+                    Assert.AreEqual(key.Tag, tag);
+
+                    unitOfWork.Commit();
+                });
+
+            stopwatch.Stop();
+
+            Console.WriteLine($"Время поиска всех ключей                 : {stopwatch.Elapsed}");
+            Console.WriteLine($"Среднее время поиска ключа (микросекунд) : {stopwatch.Elapsed.TotalMicroseconds / keys.Count}");
+
+            BaseTests.GcCollectMemory();
+            var step2Memory = GC.GetTotalMemory(true);
+            Console.WriteLine($"Всего занято памяти тестом : {step2Memory:##,###} байт");
+            Console.WriteLine($"Занято памяти реестром     : {(step2Memory - startMemory):##,###} байт");
+
+            {
+                var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks:##,###}");
+            }
+
+            {
+                var snapShot = m_mappers.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
+                Console.WriteLine($"Количество реальных транзакций БД    : {snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions}");
+                Console.WriteLine($"Количество сессий мапперов           : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
+            }
+
+            {
+                var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+                Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
+                Console.WriteLine($"Число регистраций ключей        : {snapShot.CountRegisterKey}");
+                Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
+                Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
+            }
+
+            CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
         }
 
         totalStopwatch.Stop();
@@ -574,13 +672,22 @@ public class Examples
 
         Console.WriteLine($"Текущее время тестов : {m_timeService.NowDateTime}");
 
+        Console.WriteLine("Настройки сервера PostgreSQL (файл 'postgresql.conf').");
         using var mappersSession = (IPostgreSqlMappersSession)m_mappers.OpenSession();
-        using var command = mappersSession.CreateCommand(false);
-        command.CommandText = @"SELECT setting FROM pg_settings WHERE (name = 'max_connections')";
-        command.CommandType = CommandType.Text;
-        var setting = command.ExecuteScalar()!.ToString();
-        Console.WriteLine("Настройки сервера PostgreSQL.");
-        Console.WriteLine($"max_connections = {setting}");
+        {
+            using var command = mappersSession.CreateCommand(false);
+            command.CommandText = @"SELECT setting FROM pg_settings WHERE (name = 'max_connections')";
+            command.CommandType = CommandType.Text;
+            var setting = command.ExecuteScalar()!.ToString();
+            Console.WriteLine($"max_connections = {setting} # должно быть от '300'");
+        }
+        {
+            using var command = mappersSession.CreateCommand(false);
+            command.CommandText = @"SELECT setting FROM pg_settings WHERE (name = 'enable_partition_pruning')";
+            command.CommandType = CommandType.Text;
+            var setting = command.ExecuteScalar()!.ToString();
+            Console.WriteLine($"enable_partition_pruning = {setting} # должно быть 'on'");
+        }
         Console.WriteLine();
     }
 
