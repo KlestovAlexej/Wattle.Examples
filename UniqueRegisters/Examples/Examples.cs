@@ -153,9 +153,9 @@ public class Examples
             BaseTests.GcCollectMemory();
             var step2Memory = GC.GetTotalMemory(true);
 
-            Console.WriteLine($"Всего занято памяти тестом        : {step2Memory:##,###} байт");
-            Console.WriteLine($"Занято памяти (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
-            Console.WriteLine($"Занято памяти (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
+            Console.WriteLine($"Всего занято памяти тестом                 : {step2Memory:##,###} байт");
+            Console.WriteLine($"Занято памяти реестром (до оптимизации)    : {(step1Memory - startMemory):##,###} байт");
+            Console.WriteLine($"Занято памяти реестром (после оптимизации) : {(step2Memory - startMemory):##,###} байт");
 
             {
                 var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
