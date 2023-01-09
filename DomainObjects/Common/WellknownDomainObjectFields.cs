@@ -13,11 +13,12 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Common
     /// Поля доменных объектов.
     /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
     /// </summary>
-    [SuppressMessage("ReSharper", "UnusedType.Global")]
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [Description("Примеры мапперов")]
     [SchemaMappers(SchemaMapperStorage.PostgreSql, Namespace = "ShtrihM.Wattle3.Examples.DomainObjects.Examples")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "<Pending>")]
     public static class WellknownDomainObjectFields
     {
         /// <summary>

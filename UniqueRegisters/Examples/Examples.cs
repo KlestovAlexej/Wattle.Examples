@@ -171,7 +171,6 @@ public class Examples
                 Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
                 Console.WriteLine($"Количество реальных транзакций БД    : {(snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions):##,###}");
                 Console.WriteLine($"Количество сессий мапперов           : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
-                startMappersSnapShot = snapShot;
             }
 
             {
