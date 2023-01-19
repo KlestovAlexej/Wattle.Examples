@@ -58,7 +58,7 @@
 <br>Данные : 8 байт [Long](https://docs.microsoft.com/ru-ru/dotnet/api/system.int64?view=net-6.0)
 <br>Весь код примера в файле [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs) метод **Example_Start**.
 ```
-Старт рееста на '300 000 000' ключах в БД и файловом кэше.
+Старт реестра на '300 000 000' ключах в БД и файловом кэше.
 
 Время создания и 100% инициализации реестра : 00:00:05.9418612
 Время поиска всех ключей : 01:51:46.7701034

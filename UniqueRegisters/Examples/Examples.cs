@@ -39,7 +39,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 public class Examples
 {
     /// <summary>
-    /// Создание миллионов ключей в БД и почти мгновенный холодный старт рееста с 100% ключами в памяти.
+    /// Создание миллионов ключей в БД и почти мгновенный холодный старт реестра с 100% ключами в памяти.
     ///
     /// Для стабильной работы.
     /// 
@@ -204,7 +204,7 @@ public class Examples
             var startMemory = GC.GetTotalMemory(true);
 
             Console.WriteLine("");
-            Console.WriteLine($"Старт рееста на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
+            Console.WriteLine($"Старт реестра на '{keys.Count:##,###}' ключах в БД и файловом кэше.");
             Console.WriteLine("");
 
             var stopwatch = Stopwatch.StartNew();
@@ -287,7 +287,7 @@ public class Examples
             var startMemory = GC.GetTotalMemory(true);
 
             Console.WriteLine("");
-            Console.WriteLine($"Старт рееста на '{keys.Count:##,###}' ключах в БД без файлового кэша.");
+            Console.WriteLine($"Старт реестра на '{keys.Count:##,###}' ключах в БД без файлового кэша.");
 
             var stopwatch = Stopwatch.StartNew();
 
