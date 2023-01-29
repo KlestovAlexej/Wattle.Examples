@@ -30,6 +30,7 @@ using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
 using ShtrihM.Wattle3.Infrastructures.Monitors;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
+using ShtrihM.Wattle3.Common.Interfaces;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
@@ -669,7 +670,14 @@ public class Examples
         // Время тестов всегда 1-н час ночи.
         m_timeService.SetStart(DateTime.Now.Date.AddHours(1));
 
-        m_mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
+        m_mappers = 
+            new Generated.PostgreSql.Implements.Mappers(
+                new MappersExceptionPolicy(), 
+                dbConnectionString, 
+                m_timeService,
+                WellknownInfrastructureMonitors.Mappers,
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers),
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers));
         m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
         m_exceptionPolicy = new ExceptionPolicy(m_timeService, m_loggerFactory.CreateLogger<ExceptionPolicy>(), m_workflowExceptionPolicy);
         m_entryPoint = new ExampleEntryPoint(m_timeService, m_workflowExceptionPolicy, m_mappers, m_exceptionPolicy, m_loggerFactory);

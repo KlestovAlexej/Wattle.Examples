@@ -210,8 +210,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
         [SuppressMessage("ReSharper", "RedundantCast")]
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         [SuppressMessage("ReSharper", "InvocationIsSkipped")]
-        public Mappers(IMappersExceptionPolicy exceptionPolicy, string connectionString, ITimeService timeService, int commandTimeout = CommandTimeoutInfinity, object context = null)
-            : base(exceptionPolicy, connectionString, timeService, commandTimeout)
+        public Mappers(IMappersExceptionPolicy exceptionPolicy, string connectionString, ITimeService timeService, Guid id, string name, string description, int commandTimeout = CommandTimeoutInfinity, object context = null)
+            : base(exceptionPolicy, connectionString, timeService, id, name, description, commandTimeout)
         {
             m_getMapperDisplayName = null;
 

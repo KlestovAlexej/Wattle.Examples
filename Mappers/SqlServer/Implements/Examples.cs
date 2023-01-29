@@ -23,6 +23,7 @@ using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
+using ShtrihM.Wattle3.Common.Interfaces;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
 
@@ -1035,7 +1036,14 @@ public class Examples
 
         m_timeService = new TimeService();
 
-        var mappers = new Generated.SqlServer.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
+        var mappers = 
+            new Generated.SqlServer.Implements.Mappers(
+                new MappersExceptionPolicy(), 
+                dbConnectionString, 
+                m_timeService,
+                WellknownInfrastructureMonitors.Mappers,
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers),
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers));
         m_mappers = mappers;
 
         m_workflowExceptionPolicy = new WorkflowExceptionPolicy();

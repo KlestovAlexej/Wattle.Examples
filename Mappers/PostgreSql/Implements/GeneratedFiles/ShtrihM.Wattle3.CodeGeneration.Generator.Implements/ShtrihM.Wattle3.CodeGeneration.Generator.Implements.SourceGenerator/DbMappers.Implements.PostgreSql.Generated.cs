@@ -212,8 +212,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Postg
         [SuppressMessage("ReSharper", "RedundantCast")]
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         [SuppressMessage("ReSharper", "InvocationIsSkipped")]
-        public Mappers(IMappersExceptionPolicy exceptionPolicy, string connectionString, ITimeService timeService, int commandTimeout = CommandTimeoutInfinity, object context = null)
-            : base(exceptionPolicy, connectionString, timeService, commandTimeout)
+        public Mappers(IMappersExceptionPolicy exceptionPolicy, string connectionString, ITimeService timeService, Guid id, string name, string description, int commandTimeout = CommandTimeoutInfinity, object context = null)
+            : base(exceptionPolicy, connectionString, timeService, id, name, description, commandTimeout)
         {
             m_getMapperDisplayName = null;
 

@@ -19,6 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ShtrihM.Wattle3.Common.Interfaces;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
@@ -1186,7 +1187,14 @@ public class Examples
 
         m_timeService = new TimeService();
 
-        var mappers = new Generated.PostgreSql.Implements.Mappers(new MappersExceptionPolicy(), dbConnectionString, m_timeService);
+        var mappers = 
+            new Generated.PostgreSql.Implements.Mappers(
+                new MappersExceptionPolicy(), 
+                dbConnectionString, 
+                m_timeService, 
+                WellknownInfrastructureMonitors.Mappers, 
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers), 
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers));
         m_mappers = mappers;
 
         m_workflowExceptionPolicy = new WorkflowExceptionPolicy();

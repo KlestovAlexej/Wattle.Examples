@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using ShtrihM.Wattle3.Common.Interfaces;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
@@ -247,6 +248,9 @@ public class ExampleEntryPoint : BaseEntryPointEx
                 new MappersExceptionPolicy(),
                 connectionString,
                 timeService,
+                WellknownInfrastructureMonitors.Mappers,
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers),
+                WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers),
                 0,
                 container),
             exceptionPolicy,

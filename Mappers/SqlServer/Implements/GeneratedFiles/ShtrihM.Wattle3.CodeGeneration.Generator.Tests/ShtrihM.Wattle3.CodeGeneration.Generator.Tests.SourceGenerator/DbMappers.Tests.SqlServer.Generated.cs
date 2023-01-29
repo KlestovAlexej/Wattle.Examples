@@ -22,6 +22,7 @@ using ShtrihM.Wattle3.Mappers.SqlServer;
 using ShtrihM.Wattle3.Testing;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.CodeGeneration.Generators;
+using ShtrihM.Wattle3.Common.Interfaces;
 using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 using __Mappers = ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements.Mappers;
 
@@ -211,7 +212,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests
             }
             if (m_mappers == null)
             {
-                m_mappers = new __Mappers(m_mappersExceptionPolicy, m_dbConnectionString, m_timeService, context: m_contextMappers);
+                m_mappers = new __Mappers(m_mappersExceptionPolicy, m_dbConnectionString, m_timeService, WellknownInfrastructureMonitors.Mappers, WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers), WellknownInfrastructureMonitors.GetDisplayName(WellknownInfrastructureMonitors.Mappers), context: m_contextMappers);
             }
             (m_mappers as IMappersInitializer)?.Initialize();
             if (m_context == null)
