@@ -25,6 +25,7 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
+using ShtrihM.Wattle3.Mappers.PostgreSql;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 
@@ -740,14 +741,15 @@ public class Examples
     }
 
     /// <summary>
-    /// Создание записей в таблице БД.
+    /// Создание записей в партиционированной таблице БД по дням.
     /// </summary>
     [Test]
     public void Example_Insert()
     {
         var mapper = (MapperObject_A)m_mappers.GetMapper<IMapperObject_A>();
 
-        var partitionId = 67;
+        var partitionsDay = new PartitionsDay(m_timeService, m_timeService.NowDateTime.Date.AddDays(-1));
+        var partitionId = partitionsDay.NowDayIndex;
 
         // Создание партиции таблицы.
         using (var mappersSession = m_mappers.OpenSession())
