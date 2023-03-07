@@ -16,10 +16,9 @@ public class CustomClassC
         public SnapShotInfrastructureMonitor(
             IInfrastructureMonitor monitor,
             DateTimeOffset snapShotTime,
-            string stackTrace,
             long count,
             CustomValue value)
-            : base(monitor, snapShotTime, stackTrace)
+            : base(monitor, snapShotTime)
         {
             Count = count;
             Value = value;
@@ -51,7 +50,6 @@ public class CustomClassC
                 new SnapShotInfrastructureMonitor(
                     this,
                     DateTimeOffset.Now,
-                    StackTrace,
                     m_onwer.Count,
                     m_onwer.Value);
 

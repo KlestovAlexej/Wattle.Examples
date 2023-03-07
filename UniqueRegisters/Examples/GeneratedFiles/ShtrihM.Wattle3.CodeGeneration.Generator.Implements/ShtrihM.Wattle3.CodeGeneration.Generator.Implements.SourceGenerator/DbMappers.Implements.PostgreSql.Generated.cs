@@ -28,6 +28,8 @@ using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Caching.Interfaces;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives;
+using ShtrihM.Wattle3.Json.Extensions;
+using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
 
 #pragma warning disable 1591

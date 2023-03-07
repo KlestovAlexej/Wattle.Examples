@@ -28,6 +28,8 @@ using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Caching.Interfaces;
 using ShtrihM.Wattle3.Primitives;
 using ShtrihM.Wattle3.Mappers.Primitives;
+using ShtrihM.Wattle3.Json.Extensions;
+using ShtrihM.Wattle3.Common.Exceptions;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
 
 #pragma warning disable 1591
@@ -1673,6 +1675,27 @@ FROM Document WHERE (Id = @Id)";
 
                 AddActualState(typedSession, result);
 
+                if (MappersFeatures.ValidateUpdateResults)
+                {
+                    var realDto = GetRaw(session, result.Id);
+                    var realDtoText = realDto.ToJsonText(true);
+                    var resultText = result.ToJsonText(true);
+                    if (MappersFeatures.ValidateUpdateAction != null)
+                    {
+                        if (false == MappersFeatures.ValidateUpdateAction(realDto, result))
+                        {
+                            throw new InternalException($"Маппер '{GetType().FullName}' : Данные в БД{Environment.NewLine}'{realDtoText}'{Environment.NewLine}не совпадают с данными в памяти{Environment.NewLine}'{resultText}'.");
+                        }
+                    }
+                    else
+                    {
+                        if (realDtoText != resultText)
+                        {
+                            throw new InternalException($"Маппер '{GetType().FullName}' : Данные в БД{Environment.NewLine}'{realDtoText}'{Environment.NewLine}не совпадают с данными в памяти{Environment.NewLine}'{resultText}'.");
+                        }
+                    }
+                }
+
                 return (result);
             }
             catch (Exception exception)
@@ -1789,6 +1812,27 @@ FROM Document WHERE (Id = @Id)";
                 }
 
                 AddActualState(typedSession, result);
+
+                if (MappersFeatures.ValidateUpdateResults)
+                {
+                    var realDto = GetRaw(session, result.Id);
+                    var realDtoText = realDto.ToJsonText(true);
+                    var resultText = result.ToJsonText(true);
+                    if (MappersFeatures.ValidateUpdateAction != null)
+                    {
+                        if (false == MappersFeatures.ValidateUpdateAction(realDto, result))
+                        {
+                            throw new InternalException($"Маппер '{GetType().FullName}' : Данные в БД{Environment.NewLine}'{realDtoText}'{Environment.NewLine}не совпадают с данными в памяти{Environment.NewLine}'{resultText}'.");
+                        }
+                    }
+                    else
+                    {
+                        if (realDtoText != resultText)
+                        {
+                            throw new InternalException($"Маппер '{GetType().FullName}' : Данные в БД{Environment.NewLine}'{realDtoText}'{Environment.NewLine}не совпадают с данными в памяти{Environment.NewLine}'{resultText}'.");
+                        }
+                    }
+                }
 
                 return ((IMapperDto)result);
             }

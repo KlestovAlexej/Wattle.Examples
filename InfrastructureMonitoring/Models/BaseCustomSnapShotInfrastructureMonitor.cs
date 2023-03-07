@@ -11,9 +11,8 @@ public abstract class BaseCustomSnapShotInfrastructureMonitor : BaseSnapShotInfr
 {
     protected BaseCustomSnapShotInfrastructureMonitor(
         IInfrastructureMonitor monitor,
-        DateTimeOffset snapShotTime,
-        string stackTrace)
-        : base(monitor, snapShotTime, stackTrace)
+        DateTimeOffset snapShotTime)
+        : base(monitor, snapShotTime)
     {
     }
 
