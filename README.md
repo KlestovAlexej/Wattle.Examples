@@ -73,7 +73,9 @@
 
 ---
 ## Телеметрия приложения
+
 Простая публикация и доступ по REST-интерфейсу к произвольной телеметрии приложения.
+Это не замена и конкурент [OpenTelemetry](https://opentelemetry.io/).
 
 В проекте [InfrastructureMonitoring](/InfrastructureMonitoring) весь код примера.
 
