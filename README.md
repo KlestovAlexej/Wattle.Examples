@@ -140,7 +140,18 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 
 Массивы бесконечной длины позволяют создавать массивы (любых элементов) неограниченной длинный, на **всю доступную** оперативную память.
 
-Примеры [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs) тест **Example_Guid_Expand**.
+Тест **Example_Guid_Expand** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs) создаёт массив из 3-х миллиарда Guid-ов.
+<details><summary>Полный лог теста :</summary>
+
+```
+Элементов массива типа Guid : 3 221 225 472
+Выделено памяти (байт)      : 51 552 131 776
+Время                       : 00:00:04.0771574
+```
+
+</details>
+
+Тест **Example_Guid_Expand** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs) создаёт массив из 3-х миллиарда Guid-ов.
 <details><summary>Полный лог теста :</summary>
 
 ```
