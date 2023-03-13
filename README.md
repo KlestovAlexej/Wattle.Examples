@@ -136,10 +136,12 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 
 В проекте [Containers](/Containers) весь код примеров.
 
+---
 ### Массивы бесконечной длины
 
 Массивы бесконечной длины позволяют создавать массивы (любых элементов) неограниченной длинны, на **всю доступную** оперативную память.
 
+---
 Тест **Example_Byte_Compare** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
 <br>Сравнивает работу **массива бесконечной длины** с **[byte](https://learn.microsoft.com/ru-ru/dotnet/api/system.byte?view=net-7.0)[]**.
 <details><summary>Полный лог теста :</summary>
@@ -172,6 +174,7 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 
 </details>
 
+---
 Тест **Example_Byte_Expand** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
 <br>Cоздание массив из **30.000.000.000** элементов типа [byte](https://learn.microsoft.com/ru-ru/dotnet/api/system.byte?view=net-7.0).
 <details><summary>Полный лог теста :</summary>
