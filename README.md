@@ -139,7 +139,7 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 <br>
 <br> Лок-объекты позволяют получать монопольную блокировку используя для блокировки любой объект примпенимый в каченстве ключа [Dictionary](https://learn.microsoft.com/ru-ru/dotnet/api/system.collections.generic.dictionary-2?view=net-7.0).
 <br>
-<br> К примеру, на C# так блокировку получить нельзя :
+<br> К примеру, на C# так блокировку получить нельзя ([описание проблемы](https://stackoverflow.com/questions/1329919/why-lockinteger-var-is-not-allowed-but-monitor-enterinteger-var-allowed)):
 
 ```csharp
 lock(123)
