@@ -149,8 +149,7 @@ lock(123)
 <br>
 <br> Лок-объекты позволяют это делать:
 ```csharp
-
-using var lockObject = locks.GetLock(123);
+var lockObject = locks.GetLock(123);
 if (lockObject.TryEnter())
 {
     // Code
