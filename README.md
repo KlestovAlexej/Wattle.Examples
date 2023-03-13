@@ -149,7 +149,10 @@ lock(123)
 <br>
 <br> Лок-объекты позволяют это делать:
 ```csharp
-var lockObject = locks.GetLock(123);
+lock(123)
+{
+    ...
+}
 ```
 <br>
 <br> Лок-объекты позволяют получать монопольную блокировку используя конструкцию [await](https://learn.microsoft.com/ru-ru/dotnet/csharp/language-reference/operators/await).
