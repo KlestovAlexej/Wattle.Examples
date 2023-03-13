@@ -130,6 +130,23 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1_
 
 ---
+## Массивы бесконечной длины
+
+Массивы бесконечной длины позволяют создавать массивы (любых элементов) неограниченной длинный, на **всю доступную** оперативную память.
+
+В проекте [Containers](/Containers) весь код примеров.
+
+<details><summary>Полный лог теста **Example_Guid_Expand** из приметов [ExamplesFlexIncrementArrayElements.cs](/ExamplesFlexIncrementArrayElements.cs):</summary>
+
+```
+Элементов массива типа Guid : 3 221 225 472
+Выделено памяти (байт)      : 51 552 131 776
+Время                       : 00:00:04.0771574
+```
+
+</details>
+
+---
 ## Телеметрия приложения
 
 Простая публикация и доступ по REST-интерфейсу к произвольной телеметрии приложения.
