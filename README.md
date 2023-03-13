@@ -153,7 +153,7 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 </details>
 
 Тест **Example_Guid_Expand** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
-<br>Cоздание массив из 3-х миллиарда Guid.
+<br>Cоздание массив из 3.221.225.472 Guid.
 <details><summary>Полный лог теста :</summary>
 
 ```
