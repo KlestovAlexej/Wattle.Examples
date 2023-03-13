@@ -187,6 +187,8 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 
 </details>
 
+Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb_
+
 ---
 ## Телеметрия приложения
 
