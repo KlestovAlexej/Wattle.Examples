@@ -149,6 +149,7 @@ lock(123)
 <br>
 <br> Лок-объекты позволяют это делать:
 ```csharp
+
 using var lockObject = locks.GetLock(123);
 if (lockObject.TryEnter())
 {
@@ -158,6 +159,7 @@ if (lockObject.TryEnter())
 <br>
 <br> Лок-объекты позволяют получать монопольную блокировку используя конструкцию [await](https://learn.microsoft.com/ru-ru/dotnet/csharp/language-reference/operators/await).
 ```csharp
+
 using var lockObject = locks.GetLock(123);
 if (await lockObject.TryEnterAsync(cancellationToken))
 {
