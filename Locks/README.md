@@ -1,9 +1,9 @@
 Примеры использования lock-объектов.
 
-# ExamplesFlexIncrementArrayElements.cs
+# ExamplesLocksPoolAsync.cs 
 
-Массив элементов неограниченного размера
+Примеры асинхронного пула лок-объектов ассоциированных с идентификаторами
 
-# ExamplesFlexIncrementArrayOrderedElements.cs
+# ExamplesLocksPoolEx.cs
 
-Примеры массива элементов неограниченного размера с возможностью сортировки и поиска
+ Примеры пула лок-объектов ассоциированных с идентификаторами.
