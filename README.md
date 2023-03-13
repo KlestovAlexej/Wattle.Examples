@@ -10,6 +10,7 @@
 - [**Как запускать примеры**](#как-запускать-примеры)
 - [**Идемпотентность**](#идемпотентность)
     - [Пример старта реестра на *500.000.000* уникальных ключей *(13.5 секунд)*](#пример-старта-реестра-на-500000000-уникальных-ключей-135-секунд)
+- [**Массивы бесконечной длины](#массивы-бесконечной-длины)
 - [**Телеметрия** приложения](#телеметрия-приложения)
 - [**Доменные объекты**](#доменные-объекты)
     - [Паттерн **Unit of Work**](#паттерн-unit-of-work)
@@ -136,7 +137,8 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 
 В проекте [Containers](/Containers) весь код примеров.
 
-<details><summary>Полный лог теста **Example_Guid_Expand** из приметов [ExamplesFlexIncrementArrayElements.cs](/ExamplesFlexIncrementArrayElements.cs):</summary>
+Примеры [ExamplesFlexIncrementArrayElements.cs](/ExamplesFlexIncrementArrayElements.cs) теста **Example_Guid_Expand**.
+<details><summary>Полный лог теста :</summary>
 
 ```
 Элементов массива типа Guid : 3 221 225 472
