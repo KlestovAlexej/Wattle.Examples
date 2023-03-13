@@ -78,6 +78,9 @@ public class ExamplesFlexIncrementArrayElements
 
     /// <summary>
     /// Заполнение памяти и сравнение с byte[].
+    /// 
+    /// Параметры ПК для приблизительного определения времени теста :
+    ///    OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb
     /// </summary>
     [Test]
     [TestCase(100_000_000, Description = "Выделяем 100 МБ памяти - время теста примерно 4 минуты.")]

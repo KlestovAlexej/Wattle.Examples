@@ -140,8 +140,40 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 
 Массивы бесконечной длины позволяют создавать массивы (любых элементов) неограниченной длинны, на **всю доступную** оперативную память.
 
+Тест **Example_Byte_Compare** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
+<br>Сравнивает работу **массива бесконечной длины** с **[byte](https://learn.microsoft.com/ru-ru/dotnet/api/system.byte?view=net-7.0)[]**.
+<details><summary>Полный лог теста :</summary>
+
+```
+Тест FlexIncrementArrayElements
+
+Элементов массива      : 100 000 000
+Выделено памяти (байт) : 100 000 000
+Время                  : 00:00:00.0042149
+
+Время заполнения памяти : 00:00:00.2242565
+
+Время проверки памяти : 00:00:20.1773304
+Время проверки памяти : 00:01:28.1654554
+
+----------------------------------------------------------------------
+
+Эталонный тест byte[]
+
+Элементов массива      : 100 000 000
+Выделено памяти (байт) : 100 000 000
+Время                  : 00:00:00.0001068
+
+Время заполнения памяти : 00:00:00.0519848
+
+Время проверки памяти : 00:00:22.0954823
+Время проверки памяти : 00:01:27.0711296
+```
+
+</details>
+
 Тест **Example_Byte_Expand** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
-<br>Cоздание массив из **30.000.000.000** элементов тира [byte](https://learn.microsoft.com/ru-ru/dotnet/api/system.byte?view=net-7.0).
+<br>Cоздание массив из **30.000.000.000** элементов типа [byte](https://learn.microsoft.com/ru-ru/dotnet/api/system.byte?view=net-7.0).
 <details><summary>Полный лог теста :</summary>
 
 ```
