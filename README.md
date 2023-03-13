@@ -152,7 +152,7 @@ lock(123)
 using var lockObject = locks.GetLock(123);
 if (lockObject.TryEnter())
 {
-    ...
+    // Code
 }
 ```
 <br>
@@ -161,7 +161,7 @@ if (lockObject.TryEnter())
 using var lockObject = locks.GetLock(123);
 if (await lockObject.TryEnterAsync(cancellationToken))
 {
-    ...
+    // Code
 }
 ```
 
