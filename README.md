@@ -134,11 +134,11 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 ---
 ## Контейнеры
 
+В проекте [Containers](/Containers) весь код примеров.
+
 ### Массивы бесконечной длины
 
 Массивы бесконечной длины позволяют создавать массивы (любых элементов) неограниченной длинный, на **всю доступную** оперативную память.
-
-В проекте [Containers](/Containers) весь код примеров.
 
 Примеры [ExamplesFlexIncrementArrayElements.cs](/ExamplesFlexIncrementArrayElements.cs) теста **Example_Guid_Expand**.
 <details><summary>Полный лог теста :</summary>
