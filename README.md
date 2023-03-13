@@ -59,7 +59,7 @@
 <br>
 Ключ : 16 байт [Guid](https://docs.microsoft.com/ru-ru/dotnet/api/system.guid?view=net-6.0)
 <br>Данные : 8 байт [Long](https://docs.microsoft.com/ru-ru/dotnet/api/system.int64?view=net-6.0)
-<br>Весь код примера в файле [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs) метод **Example_Start**.
+<br>Тест [Example_Start](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs#L67) из примеров [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs).
 <br>
 <br>**Среднее время поиска данных по ключу : 14,93 микросекунды**
 <br>**Занято памяти : 12.000.534.024 байт**
@@ -142,7 +142,7 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 Массивы бесконечной длины позволяют создавать массивы (любых элементов) неограниченной длинны, на **всю доступную** оперативную память.
 
 ---
-Тест **Example_Byte_Compare** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
+Тест [Example_Byte_Compare](/Containers/ExamplesFlexIncrementArrayElements.cs#L87) из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
 <br>Сравнивает работу **массива бесконечной длины** с **[byte](https://learn.microsoft.com/ru-ru/dotnet/api/system.byte?view=net-7.0)[]**.
 <details><summary>Полный лог теста :</summary>
 
@@ -175,7 +175,7 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 </details>
 
 ---
-Тест **Example_Byte_Expand** из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
+Тест [Example_Byte_Expand](/Containers/ExamplesFlexIncrementArrayElements.cs#L31) из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
 <br>Cоздание массив из **30.000.000.000** элементов типа [byte](https://learn.microsoft.com/ru-ru/dotnet/api/system.byte?view=net-7.0).
 <details><summary>Полный лог теста :</summary>
 
