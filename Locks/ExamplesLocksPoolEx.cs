@@ -46,7 +46,7 @@ public class ExamplesLocksPoolEx
             }
         }
 
-        // Проверяем число учпешных блокировок.
+        // Проверяем число успешных блокировок.
         var snapShot = infrastructureMonitor.GetSnapShot();
         Assert.AreEqual(1, snapShot.CountEnter);
         Assert.AreEqual(0, snapShot.CountNotEnter);
@@ -91,7 +91,7 @@ public class ExamplesLocksPoolEx
 
         task.Wait();
 
-        // Проверяем число учпешных блокировок.
+        // Проверяем число успешных блокировок.
         snapShot = infrastructureMonitor.GetSnapShot();
         Assert.AreEqual(2, snapShot.CountEnter);
         Assert.AreEqual(1, snapShot.CountNotEnter);
