@@ -59,7 +59,7 @@
 <br>
 Ключ : 16 байт [Guid](https://docs.microsoft.com/ru-ru/dotnet/api/system.guid?view=net-6.0)
 <br>Данные : 8 байт [Long](https://docs.microsoft.com/ru-ru/dotnet/api/system.int64?view=net-6.0)
-<br>Весь код примера в файле [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs#L67).
+<br>Тест [Example_Start](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs#L67) из примеров [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs).
 <br>
 <br>**Среднее время поиска данных по ключу : 14,93 микросекунды**
 <br>**Занято памяти : 12.000.534.024 байт**
