@@ -26,8 +26,8 @@ public class ExamplesFlexIncrementArrayElements
     /// Выделение памяти для элементов - byte.
     /// </summary>
     [Test]
-    [TestCase(4L * 1024 * 1024 * 1024, Description = "Выделяем 4 ГБ памяти")]
-    [TestCase(30L * 1024 * 1024 * 1024, Description = "Выделяем 30 ГБ памяти")]
+    [TestCase(4_000_000_000, Description = "Выделяем 4 ГБ памяти")]
+    [TestCase(30_000_000_000, Description = "Выделяем 30 ГБ памяти")]
     public void Example_Byte_Expand(long size)
     {
         BaseTests.GcCollectMemory();
@@ -53,8 +53,8 @@ public class ExamplesFlexIncrementArrayElements
     /// Выделение памяти для элементов - Guid.
     /// </summary>
     [Test]
-    [TestCase(1L * 1024 * 1024 * 1024, Description = "Выделяем 17 ГБ памяти")]
-    [TestCase(3L * 1024 * 1024 * 1024, Description = "Выделяем 51 ГБ памяти")]
+    [TestCase(1_000_000_000, Description = "Выделяем 17 ГБ памяти")]
+    [TestCase(3_000_000_000, Description = "Выделяем 51 ГБ памяти")]
     public void Example_Guid_Expand(long size)
     {
         BaseTests.GcCollectMemory();
@@ -80,7 +80,7 @@ public class ExamplesFlexIncrementArrayElements
     /// Заполнение памяти и сравнение с byte[].
     /// </summary>
     [Test]
-    [TestCase(100L * 1024 * 1024, Description = "Выделяем 100 МБ памяти - время теста примерно 4 минуты.")]
+    [TestCase(100_000_000, Description = "Выделяем 100 МБ памяти - время теста примерно 4 минуты.")]
     public void Example_Byte_Compare(long size)
     {
         // Тест FlexIncrementArrayElements
