@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0-windows</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-		<AssemblyName>ShtrihM.Wattle3.Examples.Containers</AssemblyName>
-		<RootNamespace>ShtrihM.Wattle3.Examples.Containers</RootNamespace>
+		<AssemblyName>ShtrihM.Wattle3.Examples.Locks</AssemblyName>
+		<RootNamespace>ShtrihM.Wattle3.Examples.Locks</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,8 +13,6 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
 		<PackageReference Include="NUnit" Version="3.13.3" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
-		<PackageReference Include="ShtrihM.Wattle3.Containers" Version="3.0.0.37073" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.37073" />
 	</ItemGroup>
 
 	<ItemGroup>

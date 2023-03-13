@@ -12,6 +12,7 @@
     - [Пример старта реестра на *500.000.000* уникальных ключей *(13.5 секунд)*](#пример-старта-реестра-на-500000000-уникальных-ключей-135-секунд)
 - [**Контейнеры**](#контейнеры)
     - [**Массивы бесконечной длины**](#массивы-бесконечной-длины)
+- [**Лок-объекты**](#лок-объекты)
 - [**Телеметрия** приложения](#телеметрия-приложения)
 - [**Доменные объекты**](#доменные-объекты)
     - [Паттерн **Unit of Work**](#паттерн-unit-of-work)
@@ -130,6 +131,39 @@ gkeys_TransactionKeys_111.gkeys - размер 1 200 001 958
 </details>
 
 Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1_
+
+---
+## Лок-объекты
+
+В проекте [Locks](/Locks) весь код примеров.
+<br>
+<br> Лок-объекты позволяют получать монопольную блокировку используя для блокировки любой объект примпенимый в каченстве ключа [Dictionary](https://learn.microsoft.com/ru-ru/dotnet/api/system.collections.generic.dictionary-2?view=net-7.0).
+<br>
+<br> К примеру, на C# так блокировку получить нельзя:
+```csharp
+lock(123)
+{
+    ...
+}
+```
+<br>
+<br> Лок-объекты позволяют это делать:
+```csharp
+using var lockObject = locks.GetLock(123);
+if (lockObject.TryEnter())
+{
+    ...
+}
+```
+<br>
+<br> Лок-объекты позволяют получать монопольную блокировку используя конструкцию [await](https://learn.microsoft.com/ru-ru/dotnet/csharp/language-reference/operators/await).
+```csharp
+using var lockObject = locks.GetLock(123);
+if (await lockObject.TryEnterAsync(cancellationToken))
+{
+    ...
+}
+```
 
 ---
 ## Контейнеры
