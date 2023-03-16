@@ -948,7 +948,7 @@ public partial interface IMapperObject_A : IMapper
 
 Генератор позволяет получать уникальные значения без необходимости реального обращения к БД в момент генерации.
 
-Весь код примеров в файле [Examples.cs](Mappers/PostgreSql/Implements/Examples.cs) в тесте **Example_IdentityCache_Parallel**.
+Весь код примеров в тесте [Example_IdentityCache_Parallel](Mappers/PostgreSql/Implements/Examples.cs#L1086).
 
 <details><summary>Пример параллельного создания 50.000.000 уникальных первичных ключей :</summary>
 
@@ -999,7 +999,7 @@ Parallel.For(0, 500 * CacheSize,
 
 Кэш обновляется и очищается автоматически при создании, чтении, обновлении или удалении записи.
 
-Весь код примеров в файле [Examples.cs](Mappers/PostgreSql/Implements/Examples.cs) в тесте **Example_Select_With_MemoryCache_Parallel**.
+Весь код примеров в тесте [Example_Select_With_MemoryCache_Parallel](Mappers/PostgreSql/Implements/Examples.cs#L672).
 
 <details><summary>Пример параллельного чтения 10.000.000 записей БД по первичному ключу :</summary>
 
