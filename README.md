@@ -63,9 +63,9 @@
 <br>Тест [Example_Start](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs#L67) из примеров [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs).
 | Действие    | Результат  |
 | --- | --- |
-| Время создания и инициализации реестра | 24,8810478 секунды |
+| Время создания и инициализации реестра | 24,88 секунды |
 | Занято памяти | 24.006.891.592 байт |
-| Среднее время поиска данных по ключу | 18,9134742265 микросекунды  |
+| Среднее время поиска данных по ключу | 18,91 микросекунды  |
 <details><summary>Полный лог примера:</summary>
 
 ```
