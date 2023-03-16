@@ -404,7 +404,7 @@ public interface IEntryPoint : IDisposable, IDrivenObject
 /// <summary>
 /// Сессия доменной области.
 /// </summary>
-public interface IUnitOfWork : IHostMappersSession, IDisposable, IAsyncDisposable
+public interface IUnitOfWork : IHostMappersSession
 {
     /// <summary>
     /// Признак уничтожения <see cref="IUnitOfWork"/>.
