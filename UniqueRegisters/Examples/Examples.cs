@@ -64,6 +64,7 @@ public class Examples
     [TestCase(1_000_000, 10, Description = "Создать 10 000 000 ключей - время теста примерно 3 минуты")]
     [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей - время теста примерно 30 минут")]
     [TestCase(50_000_000, 10, Description = "Создать 500 000 000 ключей - время теста примерно 4 часа")]
+    [TestCase(50_000_000, 20, Description = "Создать 1 000 000 000 ключей - время теста примерно 9 часов")]
     public void Example_Start(int сountKeysPerDay, int days)
     {
         var totalStopwatch = Stopwatch.StartNew();
@@ -83,23 +84,29 @@ public class Examples
 
             BaseTests.GcCollectMemory();
             var start1Memory = GC.GetTotalMemory(true);
-
-            var registerTransactionKeys =
-                new ExampleRegisterTransactionKeys(
-                    m_identityCache,
-                    m_directory.BasePath,
-                    m_entryPoint.UnitOfWorkProvider,
-                    m_loggerFactory,
-                    m_exceptionPolicy,
-                    m_timeService,
-                    m_mappers,
-                    m_workflowExceptionPolicy);
+            ExampleRegisterTransactionKeys registerTransactionKeys = null;
 
             {
                 var mapper = m_mappers.GetMapper<IMapperTransactionKey>();
                 var daysOffeset = TimeSpan.Zero;
                 for (var dayIndex = 0; dayIndex < days; dayIndex++)
                 {
+                    if (registerTransactionKeys != null)
+                    {
+                        registerTransactionKeys.Stop();
+                        CommonWattleExtensions.SilentDisposeAndFree(ref registerTransactionKeys);
+                    }
+
+                    registerTransactionKeys = new ExampleRegisterTransactionKeys(
+                        m_identityCache,
+                        m_directory.BasePath,
+                        m_entryPoint.UnitOfWorkProvider,
+                        m_loggerFactory,
+                        m_exceptionPolicy,
+                        m_timeService,
+                        m_mappers,
+                        m_workflowExceptionPolicy);
+
                     var nowDayIndex = registerTransactionKeys.GetDayIndex(m_timeService.NowDateTime.Date);
 
                     // Создать партицию БД для хранения ключей за текущий день.
@@ -134,50 +141,38 @@ public class Examples
                         mappersSession.Commit();
                     }
 
-                    // Смещение времени на 1 день вперёд.
-                    daysOffeset += TimeSpan.FromDays(1);
+                    // Смещение времени на 3 дня вперёд для возможности реестру начать оптимизацию своей памяти.
+                    daysOffeset += TimeSpan.FromDays(3);
                     m_timeService.SetOffeset(daysOffeset);
+
+                    registerTransactionKeys.Start();
+                    WaitHelpers.TimeOut(() => registerTransactionKeys.IsReady, TimeSpan.FromDays(1));
+
+                    // Ожидание пока реестр оптимизирует свою память и сохранить оптимизированные ключи в файловый кэш.
+                    WaitHelpers.TimeOut(
+                        () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().CountPersistentStorageGroupSaves == 1,
+                        TimeSpan.FromDays(1),
+                        () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().ToJsonText(true));
                 }
 
                 stopwatch.Stop();
 
                 Console.WriteLine($"Время создания ключей : {stopwatch.Elapsed}");
-                Console.WriteLine($"Всего ключей : {key:##,###}");
-
-                // Смещение времени на 2 дня вперёд для возможности реестру начать оптимизацию своей памяти.
-                daysOffeset += TimeSpan.FromDays(2);
-                m_timeService.SetOffeset(daysOffeset);
+                Console.WriteLine($"Всего ключей          : {key:##,###}");
+                Console.WriteLine();
             }
-
-            Console.WriteLine("");
-            Console.WriteLine("----------------------------------------------------------------------");
-            Console.WriteLine($"Старт реестра на '{key:##,###}' ключах в БД без файлового кэша.");
-
-            stopwatch = Stopwatch.StartNew();
-
-            registerTransactionKeys.Start();
-            WaitHelpers.TimeOut(() => registerTransactionKeys.IsReady, TimeSpan.FromHours(15));
-
-            stopwatch.Stop();
-
-            Console.WriteLine($"Время старта и инициализации реестра : {stopwatch.Elapsed}");
-            Console.WriteLine("");
-
-            // Ожидание пока реестр оптимизирует свою память и сохранить оптимизированные ключи в файловый кэш.
-            WaitHelpers.TimeOut(
-                () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().CountPersistentStorageGroupSaves == days,
-                TimeSpan.FromHours(10),
-                () => registerTransactionKeys.InfrastructureMonitor.GetSnapShot().ToJsonText(true));
 
             BaseTests.GcCollectMemory();
             var step2Memory = GC.GetTotalMemory(true);
 
-            Console.WriteLine($"Всего занято памяти тестом   : {step2Memory:##,###} байт");
-            Console.WriteLine($"Занято памяти реестром       : {(step2Memory - start1Memory):##,###} байт");
+            Console.WriteLine($"Всего занято памяти тестом : {step2Memory:##,###} байт");
+            Console.WriteLine($"Занято памяти реестром     : {(step2Memory - start1Memory):##,###} байт");
+            Console.WriteLine();
 
             {
                 var snapShot = m_entryPoint.InfrastructureMonitor.GetSnapShot();
                 Console.WriteLine($"Количество созданных Unit of Works : {snapShot.CountUnitOfWorks}");
+                Console.WriteLine();
             }
 
             {
@@ -185,17 +180,18 @@ public class Examples
                 Console.WriteLine($"Количество реальных подключений к БД : {(snapShot.CountDbConnections - startMappersSnapShot.CountDbConnections):##,###}");
                 Console.WriteLine($"Количество реальных транзакций БД    : {(snapShot.CountDbTransactions - startMappersSnapShot.CountDbTransactions):##,###}");
                 Console.WriteLine($"Количество сессий мапперов           : {(snapShot.CountSessions - startMappersSnapShot.CountSessions):##,###}");
+                Console.WriteLine();
             }
 
             {
-                var snapShot = registerTransactionKeys.InfrastructureMonitor.GetSnapShot();
+                var snapShot = registerTransactionKeys!.InfrastructureMonitor.GetSnapShot();
                 Console.WriteLine($"Число зарегестрированных ключей : {snapShot.CountKeys:##,###}");
                 Console.WriteLine($"Число регистраций ключей        : {snapShot.CountRegisterKey:##,###}");
                 Console.WriteLine($"Количество загрузок групп ключей из персистентного хранилища : {snapShot.CountPersistentStorageGroupLoads}");
                 Console.WriteLine($"Количество сохранений групп ключей в персистентное хранилище : {snapShot.CountPersistentStorageGroupSaves}");
+                Console.WriteLine();
             }
 
-            Console.WriteLine("");
             var fileNames = Directory.GetFiles(registerTransactionKeys.DataPath);
             Console.WriteLine($"Содержимого файлового кэша для быстрого старта '{registerTransactionKeys.DataPath}' (файлов {fileNames.Length}) :");
             foreach (var fileName in fileNames)
