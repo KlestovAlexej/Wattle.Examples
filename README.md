@@ -241,9 +241,9 @@ if (await lockObject.TryEnterAsync(cancellationToken))
 <br/><br/>В проекте [BatchingTasks](/BatchingTasks) весь код примеров.
 <br/><br/>**Пример проблемы и её решение :**
 <br/>Есть сервер, который принимает множество подключений.
-<br/>Каждое принятое подключение исполняет задачу на сервера, к примеру делает однотипный INSERT в БД.
+<br/>Каждое принятое подключение исполняет задачу на сервера, к примеру делает однотипный [INSERT](https://postgrespro.ru/docs/postgresql/9.6/sql-insert) в БД.
 <br/>Логично делать [INSERT](https://postgrespro.ru/docs/postgresql/9.6/sql-insert) в БД не штучно, а использовать [BULK INSERT](https://www.postgresql.org/docs/current/sql-copy.html) для большей производительности вставки.
-<br/>Возникает проблема общения задач всех подключений в единый BULK INSERT.
+<br/>Возникает проблема общения задач всех подключений в единый [BULK INSERT](https://www.postgresql.org/docs/current/sql-copy.html).
 <br/>Помимо этого, каждое подключение должно получить уведомление что задача выполнена.
 <br/><br/>Решением проблемы занимается класс **BaseBatchingTasksProcessor**, он позволяет :
 - Принимать для обработки объекты-задачи и автоматически объединять их в пакеты для обработки.
