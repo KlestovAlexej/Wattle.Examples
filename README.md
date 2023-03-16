@@ -683,9 +683,11 @@ File.WriteAllText(fileName, xml);
 
 ```csharp
 /// <summary>
-/// Объект Object_A
+/// Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера
 /// </summary>
 [MapperInterface(WellknownMappersAsText.Object_A)]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+// ReSharper disable once PartialTypeWithSinglePart
 public partial interface IMapperObject_A : IMapper
 {
     /// <summary>
@@ -705,8 +707,9 @@ public partial interface IMapperObject_A : IMapper
     /// </summary>
     /// <param name="session">Сессия БД.</param>
     /// <param name="count">Количество следующийх значений идентити из последовательности.</param>
+    /// <param name="cancellationToken">Кокен отмены.</param>
     /// <returns>Возвращает коллекцию следующих значений идентити.</returns>
-    IList<long> GetNextIds(IMappersSession session, int count);
+    IList<long> GetNextIds(IMappersSession session, int count, CancellationToken cancellationToken);
 
     /// <summary>
     /// Получение следующего значения идентити из последовательности "Sequence_Object_A".
@@ -784,7 +787,7 @@ public partial interface IMapperObject_A : IMapper
     /// <param name="id">Идентити записи.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-    ValueTask<Object_ADtoActual> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
+    ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Получить запись с указаным идентити.
@@ -818,7 +821,7 @@ public partial interface IMapperObject_A : IMapper
     /// <param name="data">Измененная запись.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Возвращает актуальное состояние записи.</returns>
-    ValueTask<Object_ADtoActual> UpdateAsync(IMappersSession session, Object_ADtoChanged data, CancellationToken cancellationToken = default);
+    ValueTask<IMapperDto> UpdateAsync(IMappersSession session, Object_ADtoChanged data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Массовое создание записей.
@@ -850,7 +853,7 @@ public partial interface IMapperObject_A : IMapper
     /// <param name="data">Новая запись.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Возвращает актуальное состояние записи.</returns>
-    ValueTask<Object_ADtoActual> NewAsync(IMappersSession session, Object_ADtoNew data, CancellationToken cancellationToken = default);
+    ValueTask<IMapperDto> NewAsync(IMappersSession session, Object_ADtoNew data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Удаление записи.
