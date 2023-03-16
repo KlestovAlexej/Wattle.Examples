@@ -21,7 +21,7 @@
     - [Кодогенерация мапперов](#кодогенерация-мапперов)
     - [Основные возможности](#основные-возможности)
         - [**Генерация уникального** персистентного в БД значения **первичного ключа** с минимальным обращением к БД](#генерация-уникального-персистентного-в-бд-значения-первичного-ключа-с-минимальным-обращением-к-бд)
-            - [Результат параллельного создания *50.000.000* уникальных первичных ключей *(33,7 секунд)*](#результат-параллельного-создания-50000000-уникальных-первичных-ключей-337-секунд)
+            - [Результат параллельного создания *50.000.000* уникальных первичных ключей *(33,7 секунды)*](#результат-параллельного-создания-50000000-уникальных-первичных-ключей-337-секунды)
         - [**Кэширование записей** по первичну ключу](#кэширование-записей-по-первичну-ключу)
             - [Результат параллельного чтения *10.000.000* записей БД по первичному ключу *(9,3 секунд)*](#результат-параллельного-чтения-10000000-записей-бд-по-первичному-ключу-93-секунд)
         - [**Поддержка партиционирования PostgreSQL** из коробки](#поддержка-партиционирования-postgresql-из-коробки)
@@ -357,8 +357,7 @@ Write-Host ($Result)
 
 Весь код примеров в файле [Examples.cs](DomainObjects/Examples/Examples.cs).
 
-<details>
-<summary>Контракт IEntryPoint :</summary>
+<details><summary>Контракт IEntryPoint :</summary>
 
 ```csharp
 /// <summary>
@@ -397,8 +396,7 @@ public interface IEntryPoint : IDisposable, IDrivenObject
 
 </details>
 
-<details>
-<summary>Контракт IUnitOfWork :</summary>
+<details><summary>Контракт IUnitOfWork :</summary>
 
 ```csharp
 /// <summary>
@@ -532,7 +530,9 @@ using (IUnitOfWork unitOfWork = entryPoint.CreateUnitOfWork())
 ---
 ### Определение для кодогенератора мапперов
 
-Пример определения структуры записи БД и параметров маппера (весь код примера [WellknownDomainObjectFields.cs](/Mappers/PostgreSql/Common/WellknownDomainObjectFields.cs)):
+Весь код примера [WellknownDomainObjectFields.cs](/Mappers/PostgreSql/Common/WellknownDomainObjectFields.cs).
+
+<details><summary>Пример определения структуры записи БД и параметров маппера :</summary>
 
 ```csharp
 [Description("Объект Object_A")]
@@ -564,7 +564,11 @@ public static class Object_A
 }
 ```
 
-SQL-скрипт создания таблицы и последовательности PostgreSQL для объекта Object_A (весь скрипт [SqlScript.sql](/Mappers/PostgreSql/Common/SqlScripts/SqlScript.sql)):
+</details>
+
+Весь скрипт [SqlScript.sql](/Mappers/PostgreSql/Common/SqlScripts/SqlScript.sql).
+
+<details><summary>SQL-скрипт создания таблицы и последовательности PostgreSQL :</summary>
 
 ```sql
 CREATE SEQUENCE Sequence_Object_A START WITH 1 INCREMENT BY 1;
@@ -581,10 +585,14 @@ CREATE TABLE object_a(
 ) PARTITION BY RANGE (id);
 ```
 
+</details>
+
 ---
 ### Создание XML-схемы мапперов по определению
 
-Пример создания  XML-схемы маппера (весь код примера [DbMappersSchemaXmlBuilder.cs](/Mappers/PostgreSql/Common/DbMappersSchemaXmlBuilder.cs)):
+Весь код примера [DbMappersSchemaXmlBuilder.cs](/Mappers/PostgreSql/Common/DbMappersSchemaXmlBuilder.cs).
+
+<details><summary>Пример создания XML-схемы маппераPostgreSQL :</summary>
 
 ```csharp
 var mappers =
@@ -625,10 +633,14 @@ var fileName = Path.Combine(ProviderProjectBasePath.ProjectPath, @"Mappers\Postg
 File.WriteAllText(fileName, xml);
 ```
 
+</details>
+
 ---
 ### Кодогенерация мапперов
 
-Пример проектного файла (весь примера в файле [Mappers.PostgreSql.Implements.csproj](/Mappers/PostgreSql/Implements/Mappers.PostgreSql.Implements.csproj)):
+Весь примера в файле [Mappers.PostgreSql.Implements.csproj](/Mappers/PostgreSql/Implements/Mappers.PostgreSql.Implements.csproj).
+
+<details><summary>Пример проектного файла :</summary>
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -679,7 +691,11 @@ File.WriteAllText(fileName, xml);
 </Project>
 ```
 
-Пример сгенерированного интерфейса маппера (весь примера в файле [DbMappers.Interfaces.Generated.cs](/Mappers/PostgreSql/Implements/GeneratedFiles/ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces/ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces.SourceGenerator/DbMappers.Interfaces.Generated.cs)):
+</details>
+
+Весь примера в файле [DbMappers.Interfaces.Generated.cs](/Mappers/PostgreSql/Implements/GeneratedFiles/ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces/ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces.SourceGenerator/DbMappers.Interfaces.Generated.cs).
+
+<details><summary>Пример сгенерированного интерфейса маппера :</summary>
 
 ```csharp
 /// <summary>
@@ -916,6 +932,8 @@ public partial interface IMapperObject_A : IMapper
 }
 ```
 
+</details>
+
 ---
 ### Основные возможности
 
@@ -930,9 +948,9 @@ public partial interface IMapperObject_A : IMapper
 
 Генератор позволяет получать уникальные значения без необходимости реального обращения к БД в момент генерации.
 
-Пример параллельного создания **50.000.000** уникальных первичных ключей :
-
 Весь код примеров в файле [Examples.cs](Mappers/PostgreSql/Implements/Examples.cs) в тесте **Example_IdentityCache_Parallel**.
+
+<details><summary>Пример параллельного создания 50.000.000 уникальных первичных ключей :</summary>
 
 ```csharp
 const int CacheSize = 100_000;
@@ -956,16 +974,20 @@ Parallel.For(0, 500 * CacheSize,
     });
 ```
 
-##### Результат параллельного создания **50.000.000** уникальных первичных ключей *(33,7 секунд)*
+</details>
 
-```
-Время работы : 00:00:33.7722060
-Количество идентити : 50 000 000
-Количество идентити полученных из кэша в памяти (без обращения к БД) : 49 990 310
-Количество идентити полученных из БД : 9 690
-Количество реальных подключений к БД : 10 454
-Количество сессий мапперов : 50 000 764
-```
+##### Результат параллельного создания **50.000.000** уникальных первичных ключей *(33,7 секунды)*
+
+| Действие    | Результат  |
+| --- | --- |
+| Время работы | 33.7 секунды |
+| Количество реальных подключений к БД | 2 |
+| Количество идентити |  50.000.000 | 
+| Количество идентити полученных из кэша в памяти (без обращения к БД) |  49.990.310 | 
+| Количество идентити полученных из БД |  9.690 | 
+| Количество реальных подключений к БД |  10.454 | 
+| Количество сессий мапперов |  50.000.764 | 
+
 Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1_
 
 ---
@@ -977,9 +999,9 @@ Parallel.For(0, 500 * CacheSize,
 
 Кэш обновляется и очищается автоматически при создании, чтении, обновлении или удалении записи.
 
-Пример параллельного чтения **10.000.000** записей БД по первичному ключу :
-
 Весь код примеров в файле [Examples.cs](Mappers/PostgreSql/Implements/Examples.cs) в тесте **Example_Select_With_MemoryCache_Parallel**.
+
+<details><summary>Пример параллельного чтения 10.000.000 записей БД по первичному ключу :</summary>
 
 ```csharp
 var ids = new List<long>();
@@ -1019,16 +1041,19 @@ Parallel.For(0, 10_000_000,
     });
 ```
 
+</details>
+
 ##### Результат параллельного чтения **10.000.000** записей БД по первичному ключу *(9,3 секунд)*
 
-```
-Время работы : 00:00:09.3343538
-Количество реальных подключений к БД : 2
-Количество сессий мапперов : 2
-Количество объектов в памяти : 1 000
-Количество поисков объектов в памяти : 10 000 000
-Количество найденных объектов в памяти : 10 000 000
-```
+| Действие    | Результат  |
+| --- | --- |
+| Время работы | 9,3 секунды |
+| Количество реальных подключений к БД | 2 |
+| Количество сессий мапперов | 2 |
+| Количество объектов в памяти |  1.000 | 
+| Количество поисков объектов в памяти |  10.000.000 | 
+| Количество найденных объектов в памяти |  10.000.000 | 
+
 Параметры ПК :<br>_OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1_
 
 ---
@@ -1036,7 +1061,7 @@ Parallel.For(0, 10_000_000,
 
 Мапперы для PostgreSQL имеют готовый компонент управлениями партициями (если это настроено для маппера) таблицы которую они обслуживают.
 
-Пример создания партиции и записи в неё :
+<details><summary>Пример создания партиции и записи в неё :</summary>
 
 ```csharp
 var mappers = ServiceProviderHolder.Instance.GetRequiredService<IMappers>();
@@ -1070,3 +1095,5 @@ using (var mappersSession = mappers.OpenSession())
     mappersSession.Commit();
 }
 ```
+
+</details>
