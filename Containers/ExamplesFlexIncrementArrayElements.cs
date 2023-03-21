@@ -18,7 +18,7 @@ public class ExamplesFlexIncrementArrayElements
     /// </summary>
     [Test]
     [TestCase(4_000_000_000, Description = "Выделяем 4 ГБ памяти")]
-    [TestCase(30_000_000_000, Description = "Выделяем 30 ГБ памяти")]
+    [TestCase(30_000_000_000, Description = "Выделяем 30 ГБ памяти", Explicit = true)]
     public void Example_Byte_Expand(long size)
     {
         BaseTests.GcCollectMemory();
@@ -46,6 +46,7 @@ public class ExamplesFlexIncrementArrayElements
     [Test]
     [TestCase(1_000_000_000, Description = "Выделяем 17 ГБ памяти")]
     [TestCase(3_000_000_000, Description = "Выделяем 51 ГБ памяти")]
+    [Explicit]
     public void Example_Guid_Expand(long size)
     {
         BaseTests.GcCollectMemory();

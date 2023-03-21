@@ -58,13 +58,12 @@ public class Examples
     /// <param name="сountKeysPerDay">Количество ключей за один день.</param>
     /// <param name="days">Количество дней.</param>
     [Test]
-    [Explicit]
     [TestCase(1_000, 10, Description = "Создать 10 000 ключей - время теста примерно менее 5 секунд")]
     [TestCase(100_000, 10, Description = "Создать 1 000 000 ключей - время теста менее 20 секунд")]
     [TestCase(1_000_000, 10, Description = "Создать 10 000 000 ключей - время теста примерно 3 минуты")]
-    [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей - время теста примерно 30 минут")]
-    [TestCase(50_000_000, 10, Description = "Создать 500 000 000 ключей - время теста примерно 4 часа")]
-    [TestCase(50_000_000, 20, Description = "Создать 1 000 000 000 ключей - время теста примерно 9 часов")]
+    [TestCase(10_000_000, 10, Description = "Создать 100 000 000 ключей - время теста примерно 30 минут", Explicit = true)]
+    [TestCase(50_000_000, 10, Description = "Создать 500 000 000 ключей - время теста примерно 4 часа", Explicit = true)]
+    [TestCase(50_000_000, 20, Description = "Создать 1 000 000 000 ключей - время теста примерно 9 часов", Explicit = true)]
     public void Example_Start(int сountKeysPerDay, int days)
     {
         var totalStopwatch = Stopwatch.StartNew();
