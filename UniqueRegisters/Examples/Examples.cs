@@ -608,13 +608,6 @@ public class Examples
         using var mappersSession = (IPostgreSqlMappersSession)m_mappers.OpenSession();
         {
             using var command = mappersSession.CreateCommand(false);
-            command.CommandText = @"SELECT setting FROM pg_settings WHERE (name = 'max_connections')";
-            command.CommandType = CommandType.Text;
-            var setting = command.ExecuteScalar()!.ToString();
-            Console.WriteLine($"max_connections = {setting} # должно быть от '300'");
-        }
-        {
-            using var command = mappersSession.CreateCommand(false);
             command.CommandText = @"SELECT setting FROM pg_settings WHERE (name = 'enable_partition_pruning')";
             command.CommandType = CommandType.Text;
             var setting = command.ExecuteScalar()!.ToString();
