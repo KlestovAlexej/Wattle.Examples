@@ -145,7 +145,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
         public DomainObjectDocument(
             IEntryPoint entryPoint,
             DocumentDtoActual data)
-            : base(data.Id)
+            : base(data.Id, false)
         {
             m_entryPoint = entryPoint;
             Revision = data.Revision;
@@ -165,7 +165,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             long identity,
             DateTime createDate,
             DomainObjectTemplateDocument template)
-            : base(identity)
+            : base(identity, true)
         {
             m_entryPoint = entryPoint;
             CreateDate = createDate;

@@ -12,14 +12,14 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectChangeTracker(ChangeTrackerDtoActual data)
-            : base(data.Id)
+            : base(data.Id, false)
         {
             /* NONE */
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DomainObjectChangeTracker(long identity)
-            : base(identity)
+            : base(identity, true)
         {
             /* NONE */
         }
