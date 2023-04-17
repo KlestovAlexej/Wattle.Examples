@@ -32,10 +32,7 @@ using ShtrihM.Wattle3.Infrastructures.Monitors;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using ShtrihM.Wattle3.Common.Interfaces;
-using Azure;
 using ShtrihM.Wattle3.Primitives;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using NUnit.Framework.Constraints;
 
 namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
 
