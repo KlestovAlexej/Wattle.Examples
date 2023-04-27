@@ -185,7 +185,9 @@ if (await lockObject.TryEnterAsync(cancellationToken))
 ---
 ### Массивы бесконечной длины
 
-Массивы бесконечной длины позволяют создавать массивы (любых элементов) неограниченной длинны, на **всю доступную** оперативную память.
+Массивы бесконечной длины позволяют:
+- Cоздавать массивы (любых элементов) неограниченной длинны, на **всю доступную** оперативную память.
+- Добавлять дополнительную память массиву без копирования памяти.
 
 ---
 Тест [Example_Byte_Compare](/Containers/ExamplesFlexIncrementArrayElements.cs#L87) из примеров [ExamplesFlexIncrementArrayElements.cs](/Containers/ExamplesFlexIncrementArrayElements.cs).
