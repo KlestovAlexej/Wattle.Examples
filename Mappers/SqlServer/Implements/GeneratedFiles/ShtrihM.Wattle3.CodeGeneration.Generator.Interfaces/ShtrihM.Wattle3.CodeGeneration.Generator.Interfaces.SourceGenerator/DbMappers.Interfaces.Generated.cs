@@ -550,6 +550,15 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        IAsyncEnumerable<Object_ADtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
         IEnumerable<Object_ADtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null);
 
@@ -748,6 +757,16 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
         IEnumerable<Object_BDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// ВАЖНО : Выбор не учитывает скрытые записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
+        IAsyncEnumerable<Object_BDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.

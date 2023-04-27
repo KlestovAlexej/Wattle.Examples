@@ -2469,6 +2469,155 @@ FROM Document";
         }
 
         /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
+        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
+        [SuppressMessage("ReSharper", "RedundantCast")]
+        public virtual async IAsyncEnumerable<DocumentDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            NpgsqlCommand command = null;
+            try
+            {
+                try
+                {
+                    var typedSession = (IPostgreSqlMappersSession) session;
+
+                    // ReSharper disable once PossibleNullReferenceException
+                    command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT
+Id,
+Revision,
+CreateDate,
+ModificationDate,
+Value_DateTime,
+Value_Long,
+Value_Int
+FROM Document";
+
+                    ExpandCommand(
+                        command,
+                        null,
+                        null,
+                        null,
+                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                }
+                catch (Exception exception)
+                {
+                    CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                    CatchException(session, exception);
+
+                    var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                    if (ReferenceEquals(targetException, exception))
+                    {
+                        ExceptionDispatchInfo.Capture(exception).Throw();
+                    }
+
+                    throw targetException;
+                }
+
+                NpgsqlDataReader reader = null;
+                try
+                {
+                    int indexId;
+                    int indexRevision;
+                    int indexCreateDate;
+                    int indexModificationDate;
+                    int indexValue_DateTime;
+                    int indexValue_Long;
+                    int indexValue_Int;
+                    try
+                    {
+                        command.Prepare();
+
+                        reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult, cancellationToken).ConfigureAwait(false);
+
+                        GetColumnIndexes(
+                            reader,
+                            out indexId,
+                            out indexRevision,
+                            out indexCreateDate,
+                            out indexModificationDate,
+                            out indexValue_DateTime,
+                            out indexValue_Long,
+                            out indexValue_Int);
+                    }
+                    catch (Exception exception)
+                    {
+                        CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                        CatchException(session, exception);
+
+                        var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                        if (ReferenceEquals(targetException, exception))
+                        {
+                            ExceptionDispatchInfo.Capture(exception).Throw();
+                        }
+
+                        throw targetException;
+                    }
+
+                    while (true)
+                    {
+                        DocumentDtoActual result;
+                        try
+                        {
+                            var hasRecord = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
+                            if (hasRecord == false)
+                            {
+                                break;
+                            }
+
+                            result = Read(
+                                reader,
+                                indexId,
+                                indexRevision,
+                                indexCreateDate,
+                                indexModificationDate,
+                                indexValue_DateTime,
+                                indexValue_Long,
+                                indexValue_Int);
+
+                            SeedRevision(result.Revision);
+                        }
+                        catch (Exception exception)
+                        {
+                            CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                            CatchException(session, exception);
+
+                            var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                            if (ReferenceEquals(targetException, exception))
+                            {
+                                ExceptionDispatchInfo.Capture(exception).Throw();
+                            }
+
+                            throw targetException;
+                        }
+
+                        yield return (result);
+                    }
+                }
+                finally
+                {
+                    await reader.SilentDisposeAsync().ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                await command.SilentDisposeAsync().ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         /// Обработка исключения мапппера в методе <see cref="GetEnumeratorRaw"/>.
         /// </summary>
         /// <param name="session">Сессия БД.</param>
@@ -4258,6 +4407,129 @@ FROM ChangeTracker";
             finally
             {
                 command.SilentDispose();
+            }
+        }
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
+        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
+        [SuppressMessage("ReSharper", "RedundantCast")]
+        public virtual async IAsyncEnumerable<ChangeTrackerDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            NpgsqlCommand command = null;
+            try
+            {
+                try
+                {
+                    var typedSession = (IPostgreSqlMappersSession) session;
+
+                    // ReSharper disable once PossibleNullReferenceException
+                    command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT
+Id
+FROM ChangeTracker";
+
+                    ExpandCommand(
+                        command,
+                        null,
+                        null,
+                        null,
+                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                }
+                catch (Exception exception)
+                {
+                    CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                    CatchException(session, exception);
+
+                    var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                    if (ReferenceEquals(targetException, exception))
+                    {
+                        ExceptionDispatchInfo.Capture(exception).Throw();
+                    }
+
+                    throw targetException;
+                }
+
+                NpgsqlDataReader reader = null;
+                try
+                {
+                    int indexId;
+                    try
+                    {
+                        command.Prepare();
+
+                        reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult, cancellationToken).ConfigureAwait(false);
+
+                        GetColumnIndexes(
+                            reader,
+                            out indexId);
+                    }
+                    catch (Exception exception)
+                    {
+                        CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                        CatchException(session, exception);
+
+                        var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                        if (ReferenceEquals(targetException, exception))
+                        {
+                            ExceptionDispatchInfo.Capture(exception).Throw();
+                        }
+
+                        throw targetException;
+                    }
+
+                    while (true)
+                    {
+                        ChangeTrackerDtoActual result;
+                        try
+                        {
+                            var hasRecord = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
+                            if (hasRecord == false)
+                            {
+                                break;
+                            }
+
+                            result = Read(
+                                reader,
+                                indexId);
+                        }
+                        catch (Exception exception)
+                        {
+                            CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                            CatchException(session, exception);
+
+                            var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                            if (ReferenceEquals(targetException, exception))
+                            {
+                                ExceptionDispatchInfo.Capture(exception).Throw();
+                            }
+
+                            throw targetException;
+                        }
+
+                        yield return (result);
+                    }
+                }
+                finally
+                {
+                    await reader.SilentDisposeAsync().ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                await command.SilentDisposeAsync().ConfigureAwait(false);
             }
         }
 

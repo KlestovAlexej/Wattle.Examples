@@ -479,6 +479,15 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        IAsyncEnumerable<DocumentDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
         IEnumerable<DocumentDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null);
 
@@ -655,6 +664,15 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
         IEnumerable<ChangeTrackerDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        IAsyncEnumerable<ChangeTrackerDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.

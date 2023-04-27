@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.ExceptionServices;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Data.SqlClient;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Mappers;
@@ -2322,6 +2323,167 @@ FROM [Object_A]";
         }
 
         /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
+        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
+        [SuppressMessage("ReSharper", "RedundantCast")]
+        public virtual async IAsyncEnumerable<Object_ADtoActual> GetEnumeratorAsync(
+            IMappersSession session,
+            IMapperSelectFilter selectFilter = null,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+            
+            SqlCommand command = null;
+            try
+            {
+                try
+                {
+                    var typedSession = (ISqlServerMappersSession) session;
+                    
+                    // ReSharper disable once PossibleNullReferenceException
+                    command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT
+[Id],
+[Revision],
+[Value_DateTime],
+[Value_DateTime_NotUpdate],
+[Value_Long],
+[Value_Int],
+[Value_String]
+FROM [Object_A]";
+                    
+                    ExpandCommand(
+                        command,
+                        null,
+                        null,
+                        null,
+                        (ISqlServerMapperSelectFilter) selectFilter);
+                }
+                catch (Exception exception)
+                {
+                    CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                    CatchException(session, exception);
+
+                    var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                    if (ReferenceEquals(targetException, exception))
+                    {
+                        ExceptionDispatchInfo.Capture(exception).Throw();
+                    }
+
+                    throw targetException;
+                }
+                
+                SqlDataReader reader = null;
+                try
+                {
+                    int indexId;
+                    int indexRevision;
+                    int indexValue_DateTime;
+                    int indexValue_DateTime_NotUpdate;
+                    int indexValue_Long;
+                    int indexValue_Int;
+                    int indexValue_String;
+                    try
+                    {
+                        reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult, cancellationToken).ConfigureAwait(false);
+                        indexId = reader.GetOrdinal("Id");
+                        indexRevision = reader.GetOrdinal("Revision");
+                        indexValue_DateTime = reader.GetOrdinal("Value_DateTime");
+                        indexValue_DateTime_NotUpdate = reader.GetOrdinal("Value_DateTime_NotUpdate");
+                        indexValue_Long = reader.GetOrdinal("Value_Long");
+                        indexValue_Int = reader.GetOrdinal("Value_Int");
+                        indexValue_String = reader.GetOrdinal("Value_String");
+                    }
+                    catch (Exception exception)
+                    {
+                        CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                        CatchException(session, exception);
+
+                        var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                        if (ReferenceEquals(targetException, exception))
+                        {
+                            ExceptionDispatchInfo.Capture(exception).Throw();
+                        }
+
+                        throw targetException;
+                    }
+                    
+                    while (true)
+                    {
+                        Object_ADtoActual result;
+                        try
+                        {
+                            var hasRecord = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
+                            if (hasRecord == false)
+                            {
+                                break;
+                            }
+#pragma warning disable IDE0017 // Simplify object initialization
+                            result = new Object_ADtoActual();
+#pragma warning restore IDE0017 // Simplify object initialization
+                            
+                            result.Id = reader.GetInt64(indexId);
+                            result.Revision = reader.GetInt64(indexRevision);
+                            SeedRevision(result.Revision);
+                            result.Value_DateTime = reader.GetDateTime(indexValue_DateTime);
+                            result.Value_DateTime_NotUpdate = reader.GetDateTime(indexValue_DateTime_NotUpdate);
+                            result.Value_Long = reader.GetInt64(indexValue_Long);
+                            if (reader.IsDBNull(indexValue_Int))
+                            {
+                                result.Value_Int = default;
+                            }
+                            else
+                            {
+                                result.Value_Int = reader.GetInt32(indexValue_Int);
+                            }
+                            if (reader.IsDBNull(indexValue_String))
+                            {
+                                result.Value_String = default;
+                            }
+                            else
+                            {
+                                result.Value_String = reader.GetString(indexValue_String);
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                            CatchException(session, exception);
+
+                            var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                            if (ReferenceEquals(targetException, exception))
+                            {
+                                ExceptionDispatchInfo.Capture(exception).Throw();
+                            }
+
+                            throw targetException;
+                        }
+
+                        yield return (result);
+                    }
+                }
+                finally
+                {
+                    await reader.SilentDisposeAsync().ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                await command.SilentDisposeAsync().ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         /// Обработка исключения мапппера в методе <see cref="GetEnumeratorRaw"/>.
         /// </summary>
         /// <param name="session">Сессия БД.</param>
@@ -4366,6 +4528,140 @@ FROM [Object_B]";
             finally
             {
                 command.SilentDispose();
+            }
+        }
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// ВАЖНО : Выбор не учитывает скрытые записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
+        [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
+        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
+        [SuppressMessage("ReSharper", "RedundantCast")]
+        public virtual async IAsyncEnumerable<Object_BDtoActual> GetEnumeratorAsync(
+            IMappersSession session,
+            IMapperSelectFilter selectFilter = null,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+            
+            SqlCommand command = null;
+            try
+            {
+                try
+                {
+                    var typedSession = (ISqlServerMappersSession) session;
+                    
+                    // ReSharper disable once PossibleNullReferenceException
+                    command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false);
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT
+[Id],
+[Revision],
+[CreateDate]
+FROM [Object_B]";
+                    command.Parameters.Add("@Old_Available", SqlDbType.Bit).Value = true;
+                    
+                    ExpandCommand(
+                        command,
+                        @"([Available] = @Old_Available)",
+                        null,
+                        null,
+                        (ISqlServerMapperSelectFilter) selectFilter);
+                }
+                catch (Exception exception)
+                {
+                    CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                    CatchException(session, exception);
+
+                    var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                    if (ReferenceEquals(targetException, exception))
+                    {
+                        ExceptionDispatchInfo.Capture(exception).Throw();
+                    }
+
+                    throw targetException;
+                }
+                
+                SqlDataReader reader = null;
+                try
+                {
+                    int indexId;
+                    int indexRevision;
+                    int indexCreateDate;
+                    try
+                    {
+                        reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult, cancellationToken).ConfigureAwait(false);
+                        indexId = reader.GetOrdinal("Id");
+                        indexRevision = reader.GetOrdinal("Revision");
+                        indexCreateDate = reader.GetOrdinal("CreateDate");
+                    }
+                    catch (Exception exception)
+                    {
+                        CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                        CatchException(session, exception);
+
+                        var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                        if (ReferenceEquals(targetException, exception))
+                        {
+                            ExceptionDispatchInfo.Capture(exception).Throw();
+                        }
+
+                        throw targetException;
+                    }
+                    
+                    while (true)
+                    {
+                        Object_BDtoActual result;
+                        try
+                        {
+                            var hasRecord = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
+                            if (hasRecord == false)
+                            {
+                                break;
+                            }
+#pragma warning disable IDE0017 // Simplify object initialization
+                            result = new Object_BDtoActual();
+#pragma warning restore IDE0017 // Simplify object initialization
+                            
+                            result.Id = reader.GetInt64(indexId);
+                            result.Available = true;
+                            result.Revision = reader.GetInt64(indexRevision);
+                            SeedRevision(result.Revision);
+                            result.CreateDate = reader.GetDateTime(indexCreateDate);
+                        }
+                        catch (Exception exception)
+                        {
+                            CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                            CatchException(session, exception);
+
+                            var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                            if (ReferenceEquals(targetException, exception))
+                            {
+                                ExceptionDispatchInfo.Capture(exception).Throw();
+                            }
+
+                            throw targetException;
+                        }
+
+                        yield return (result);
+                    }
+                }
+                finally
+                {
+                    await reader.SilentDisposeAsync().ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                await command.SilentDisposeAsync().ConfigureAwait(false);
             }
         }
 

@@ -110,7 +110,7 @@ public class ExamplesLocksPoolAsync
                 "Тест",
                 "Тест",
                 new TimeService(),
-                null); // Ожидание монопольной блокировки бесконечно.
+                null /* Ожидание монопольной блокировки бесконечно. */); 
 
         // Монитор инфраструктуры лок-объектов.
         var infrastructureMonitor = ((ILocksPoolAsync<int>)locks).InfrastructureMonitor;

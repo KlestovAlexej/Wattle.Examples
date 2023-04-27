@@ -274,6 +274,15 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        IAsyncEnumerable<TransactionKeyDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
         IEnumerable<TransactionKeyDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null);
 

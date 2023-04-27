@@ -146,7 +146,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
                     nameMethodMappperExists: new PairMethodsNames(nameof(IMapperDocument.Exists)),
                     nameMethodMappperFind: new PairMethodsNames(nameof(IMapperDocument.Get)),
                     nameMethodMappperGetObjectCollectionPage: nameof(IMapperDocument.GetEnumeratorPage),
-                    nameMethodMappperGetObjectEnumerator: nameof(IMapperDocument.GetEnumerator),
+                    nameMethodMappperGetObjectEnumerator: new PairMethodsNames(nameof(IMapperDocument.GetEnumerator)),
                     nameMethodMappperGetObjectsCount: nameof(IMapperDocument.GetCount),
                     nameMethodMappperGetObjectIdentitiesCollectionPage: nameof(IMapperDocument.GetEnumeratorIdentitiesPage),
                     nameMethodMappperUpdate: new PairMethodsNames(nameof(IMapperDocument.Update)),

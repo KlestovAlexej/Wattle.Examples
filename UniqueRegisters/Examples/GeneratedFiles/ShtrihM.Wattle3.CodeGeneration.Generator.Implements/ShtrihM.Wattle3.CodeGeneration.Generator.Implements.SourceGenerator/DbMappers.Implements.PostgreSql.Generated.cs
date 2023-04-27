@@ -1484,6 +1484,135 @@ FROM TransactionKey";
         }
 
         /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
+        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
+        [SuppressMessage("ReSharper", "RedundantCast")]
+        public virtual async IAsyncEnumerable<TransactionKeyDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            NpgsqlCommand command = null;
+            try
+            {
+                try
+                {
+                    var typedSession = (IPostgreSqlMappersSession) session;
+
+                    // ReSharper disable once PossibleNullReferenceException
+                    command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT
+Id,
+Tag,
+Key
+FROM TransactionKey";
+
+                    ExpandCommand(
+                        command,
+                        null,
+                        null,
+                        null,
+                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                }
+                catch (Exception exception)
+                {
+                    CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                    CatchException(session, exception);
+
+                    var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                    if (ReferenceEquals(targetException, exception))
+                    {
+                        ExceptionDispatchInfo.Capture(exception).Throw();
+                    }
+
+                    throw targetException;
+                }
+
+                NpgsqlDataReader reader = null;
+                try
+                {
+                    int indexId;
+                    int indexTag;
+                    int indexKey;
+                    try
+                    {
+                        reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess | CommandBehavior.SingleResult, cancellationToken).ConfigureAwait(false);
+
+                        GetColumnIndexes(
+                            reader,
+                            out indexId,
+                            out indexTag,
+                            out indexKey);
+                    }
+                    catch (Exception exception)
+                    {
+                        CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                        CatchException(session, exception);
+
+                        var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                        if (ReferenceEquals(targetException, exception))
+                        {
+                            ExceptionDispatchInfo.Capture(exception).Throw();
+                        }
+
+                        throw targetException;
+                    }
+
+                    while (true)
+                    {
+                        TransactionKeyDtoActual result;
+                        try
+                        {
+                            var hasRecord = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
+                            if (hasRecord == false)
+                            {
+                                break;
+                            }
+
+                            result = Read(
+                                reader,
+                                indexId,
+                                indexTag,
+                                indexKey);
+                        }
+                        catch (Exception exception)
+                        {
+                            CatchExceptionOnGetEnumerator(session, exception, selectFilter);
+                            CatchException(session, exception);
+
+                            var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                            if (ReferenceEquals(targetException, exception))
+                            {
+                                ExceptionDispatchInfo.Capture(exception).Throw();
+                            }
+
+                            throw targetException;
+                        }
+
+                        yield return (result);
+                    }
+                }
+                finally
+                {
+                    await reader.SilentDisposeAsync().ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                await command.SilentDisposeAsync().ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         /// Обработка исключения мапппера в методе <see cref="GetEnumeratorRaw"/>.
         /// </summary>
         /// <param name="session">Сессия БД.</param>

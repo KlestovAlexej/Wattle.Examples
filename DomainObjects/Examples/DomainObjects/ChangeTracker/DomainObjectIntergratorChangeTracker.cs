@@ -137,7 +137,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTr
                     nameMethodMappperExists: new PairMethodsNames(nameof(IMapperChangeTracker.Exists)),
                     nameMethodMappperFind: new PairMethodsNames(nameof(IMapperChangeTracker.Get)),
                     nameMethodMappperGetObjectCollectionPage: nameof(IMapperChangeTracker.GetEnumeratorPage),
-                    nameMethodMappperGetObjectEnumerator: nameof(IMapperChangeTracker.GetEnumerator),
+                    nameMethodMappperGetObjectEnumerator: new PairMethodsNames(nameof(IMapperChangeTracker.GetEnumerator)),
                     nameMethodMappperGetObjectsCount: nameof(IMapperChangeTracker.GetCount),
                     nameMethodMappperGetObjectIdentitiesCollectionPage: nameof(IMapperChangeTracker.GetEnumeratorIdentitiesPage),
                     identityCache: identityCache)
