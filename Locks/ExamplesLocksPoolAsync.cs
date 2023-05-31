@@ -14,6 +14,7 @@ namespace ShtrihM.Wattle3.Examples.Locks;
 /// </summary>
 [TestFixture]
 [SuppressMessage("ReSharper", "AccessToDisposedClosure")]
+[SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
 public class ExamplesLocksPoolAsync
 {
     /// <summary>
