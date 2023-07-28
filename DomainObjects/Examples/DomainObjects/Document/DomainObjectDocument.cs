@@ -151,9 +151,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             Revision = data.Revision;
             CreateDate = data.CreateDate.SpecifyKindLocal();
             ModificationDate = data.ModificationDate.SpecifyKindLocal();
-            m_value_DateTime = data.Value_DateTime;
-            m_value_Long = data.Value_Long;
-            m_value_Int = data.Value_Int;
+            m_value_DateTime = new MutableField<DateTime>(data.Value_DateTime);
+            m_value_Long = new MutableField<long>(data.Value_Long);
+            m_value_Int = new MutableFieldNullable<int>(data.Value_Int);
         }
 
         /// <summary>
@@ -170,9 +170,9 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
             m_entryPoint = entryPoint;
             CreateDate = createDate;
             ModificationDate = createDate;
-            m_value_DateTime = template.Value_DateTime;
-            m_value_Long = template.Value_Long;
-            m_value_Int = template.Value_Int;
+            m_value_DateTime = new MutableField<DateTime>(template.Value_DateTime);
+            m_value_Long = new MutableField<long>(template.Value_Long);
+            m_value_Int = new MutableFieldNullable<int>(template.Value_Int);
         }
 
         public override Guid TypeId => WellknownDomainObjects.Document;
