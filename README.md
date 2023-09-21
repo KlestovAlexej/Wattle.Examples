@@ -247,7 +247,7 @@ if (await lockObject.TryEnterAsync(cancellationToken))
 <br/>Логично делать [INSERT](https://postgrespro.ru/docs/postgresql/9.6/sql-insert) в БД не штучно, а использовать [BULK INSERT](https://www.postgresql.org/docs/current/sql-copy.html) для большей производительности вставки.
 <br/>Возникает проблема общения задач всех подключений в единый [BULK INSERT](https://www.postgresql.org/docs/current/sql-copy.html).
 <br/>Помимо этого, каждое подключение должно получить уведомление что задача выполнена.
-<br/><br/>Решением проблемы занимается класс **BaseBatchingTasksProcessor**, он позволяет :
+<br/><br/>Решением проблемы занимается класс **BaseBatchingTasksProcessor**, его возможности :
 - Алгоритм обработки пакета задач польностью определяет программист.
 - Принимать для обработки объекты-задачи и автоматически объединять их в пакеты для обработки.
 - Обработка задач в пакете идёт асинхронно.
