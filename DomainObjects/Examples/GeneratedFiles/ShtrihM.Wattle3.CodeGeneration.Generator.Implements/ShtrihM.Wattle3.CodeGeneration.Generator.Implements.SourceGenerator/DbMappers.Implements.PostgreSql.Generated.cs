@@ -587,7 +587,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         public virtual bool Exists(IMappersSession session, long id)
         {
             if (session == null)
@@ -647,7 +647,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         public virtual async ValueTask<bool> ExistsAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
         {
             if (session == null)
@@ -1174,7 +1174,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
         /// </summary>
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
@@ -1273,7 +1273,7 @@ FROM Document WHERE
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
@@ -3456,7 +3456,7 @@ FROM Document";
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         public virtual bool Exists(IMappersSession session, long id)
         {
             if (session == null)
@@ -3510,7 +3510,7 @@ FROM Document";
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         public virtual async ValueTask<bool> ExistsAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
         {
             if (session == null)
@@ -3758,7 +3758,7 @@ FROM Document";
         /// </summary>
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
@@ -3830,7 +3830,7 @@ FROM ChangeTracker WHERE
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]

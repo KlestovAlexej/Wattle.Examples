@@ -587,7 +587,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         public virtual bool Exists(
             IMappersSession session,
             long id)
@@ -643,7 +643,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         public virtual async ValueTask<bool> ExistsAsync(
             IMappersSession session,
             long id,
@@ -993,7 +993,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
         /// </summary>
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
@@ -1102,7 +1102,7 @@ FROM [Object_A] WHERE
         /// <param name="hostMappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
@@ -3244,7 +3244,7 @@ FROM [Object_A]";
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует или скрыта возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует или скрыта.</returns>
         public virtual bool Exists(
             IMappersSession session,
             long id)
@@ -3296,7 +3296,7 @@ FROM [Object_A]";
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует или скрыта возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует или скрыта.</returns>
         public virtual async ValueTask<bool> ExistsAsync(
             IMappersSession session,
             long id,
@@ -3468,7 +3468,7 @@ FROM [Object_A]";
         /// </summary>
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если записи существует иначе если запись не существует или скрыта возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если записи существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
@@ -3548,7 +3548,7 @@ FROM [Object_B] WHERE
         /// <param name="hostMappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если записи существует иначе если запись не существует или скрыта возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если записи существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]

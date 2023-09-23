@@ -19,9 +19,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.37200" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.37200" />
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Path" Version="3.0.0.37200">
+		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.37252" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.37252" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Path" Version="3.0.0.37252">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

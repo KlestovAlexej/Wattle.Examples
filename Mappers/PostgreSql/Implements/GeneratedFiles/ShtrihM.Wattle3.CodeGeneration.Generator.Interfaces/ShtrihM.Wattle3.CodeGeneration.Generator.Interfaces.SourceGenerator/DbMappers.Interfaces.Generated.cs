@@ -388,20 +388,20 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         ValueTask<long> GetNextIdAsync(IMappersSession session, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Проверка существования записис с указаным идентити.
+        /// Проверка существования записи с указаным идентити.
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         bool Exists(IMappersSession session, long id);
 
         /// <summary>
-        /// Проверка существования записис с указаным идентити.
+        /// Проверка существования записи с указаным идентити..
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует.</returns>
         ValueTask<bool> ExistsAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// </summary>
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         Object_ADtoActual Get(IHostMappersSession hostMappersSession, long id);
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -613,22 +613,22 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         long? GetMaxId(IMappersSession session);
 
         /// <summary>
-        /// Проверка существования записис с указаным идентити.
+        /// Проверка существования записи с указаным идентити.
         /// ВАЖНО : Проверка не учитывает скрытые записи.
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует или скрыта возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует или скрыта.</returns>
         bool Exists(IMappersSession session, long id);
 
         /// <summary>
-        /// Проверка существования записис с указаным идентити.
+        /// Проверка существования записи с указаным идентити..
         /// ВАЖНО : Проверка не учитывает скрытые записи.
         /// </summary>
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если запись существует иначе если запись не существует или скрыта возвращает <see langword="false" />.</returns>
+        /// <returns>Возвращает <see langword="true" /> если запись существует иначе возвращает <see langword="false" /> если запись не существует или скрыта.</returns>
         ValueTask<bool> ExistsAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -654,7 +654,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// </summary>
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
-        /// <returns>Возвращает <see langword="true" /> если записи существует иначе если запись не существует или скрыта возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
         Object_BDtoActual Get(IHostMappersSession hostMappersSession, long id);
 
         /// <summary>
@@ -664,7 +664,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="hostMappersSession">Хост сессии БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Возвращает <see langword="true" /> если записи существует иначе если запись не существует или скрыта возвращает <see langword="null" />.</returns>
+        /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
         ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
