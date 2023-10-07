@@ -331,6 +331,8 @@ Value_Int) FROM STDIN (FORMAT BINARY)
         public MapperDocument(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper infrastructureMonitor = null, IMemoryCache<DocumentDtoActual, long> actualDtoMemoryCache = null)
            : base("Маппер данных состояния доменного объекта '" + @"Документ" + "' в БД", WellknownMappers.Document, selectFilterFactory, exceptionPolicy, infrastructureMonitor, actualDtoMemoryCache)
         {
+            Options = Options | MapperOptions.OptimisticConcurrency;
+            
             Partitions = new PartitionsManager(exceptionPolicy, @"Document", ComplexIdentity.Level.L2, false);
         }
 
