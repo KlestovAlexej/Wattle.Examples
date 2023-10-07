@@ -1,18 +1,18 @@
 ﻿using ShtrihM.Wattle3.Testing;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ShtrihM.Wattle3.Examples.Common
+namespace ShtrihM.Wattle3.Examples.Common;
+
+/// <summary>
+/// Параметры учётных записей подключения к БД.
+/// </summary>
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+public static class DbCredentials
 {
     /// <summary>
-    /// Параметры учётных записей подключения к БД.
+    /// Пример реестра Windows.
     /// </summary>
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public static class DbCredentials
-    {
-        /// <summary>
-        /// Пример реестра Windows.
-        /// </summary>
-        public static readonly string RegistryFile = @"Windows Registry Editor Version 5.00
+    public static readonly string RegistryFile = @"Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Shtrih-M\Testing]
 ""PostgreSqlUserID""=""postgres""
@@ -30,76 +30,75 @@ namespace ShtrihM.Wattle3.Examples.Common
 ""SqlServerAdress""=""localhost""
 ""PostgreSqlAdress""=""localhost""";
 
-        /// <summary>
-        /// Адрес сервера с SQL Server.
-        /// По умолчанию адрес читается из реестра Windows;
-        /// Пример реестра Windows <see cref="RegistryFile"/>.
-        /// </summary>
-        public static bool TryGetServerAdressForSqlServer(out string serverAdress)
-        {
-            /*
-            serverAdress = "localhost";
+    /// <summary>
+    /// Адрес сервера с SQL Server.
+    /// По умолчанию адрес читается из реестра Windows;
+    /// Пример реестра Windows <see cref="RegistryFile"/>.
+    /// </summary>
+    public static bool TryGetServerAdressForSqlServer(out string serverAdress)
+    {
+        /*
+        serverAdress = "localhost";
 
-            return true;
-            */
+        return true;
+        */
 
-            var result = WindowsRegistryHelpers.SqlServerTryGetServerAdress(out serverAdress);
+        var result = WindowsRegistryHelpers.SqlServerTryGetServerAdress(out serverAdress);
 
-            return result;
-        }
+        return result;
+    }
 
-        /// <summary>
-        /// Адрес сервера с PostgreSQL.
-        /// По умолчанию адрес читается из реестра Windows;
-        /// Пример реестра Windows <see cref="RegistryFile"/>.
-        /// </summary>
-        public static bool TryGetServerAdressForPostgreSql(out string serverAdress)
-        {
-            /*
-            serverAdress = "localhost";
+    /// <summary>
+    /// Адрес сервера с PostgreSQL.
+    /// По умолчанию адрес читается из реестра Windows;
+    /// Пример реестра Windows <see cref="RegistryFile"/>.
+    /// </summary>
+    public static bool TryGetServerAdressForPostgreSql(out string serverAdress)
+    {
+        /*
+        serverAdress = "localhost";
 
-            return true;
-            */
+        return true;
+        */
 
-            var result = WindowsRegistryHelpers.PostgreSqlTryGetServerAdress(out serverAdress);
+        var result = WindowsRegistryHelpers.PostgreSqlTryGetServerAdress(out serverAdress);
 
-            return result;
-        }
+        return result;
+    }
 
-        /// <summary>
-        /// Параметры учётной записи подключения к SQL Server.
-        /// По умолчанию параметры читаются из реестра Windows;
-        /// Пример реестра Windows <see cref="RegistryFile"/>.
-        /// </summary>
-        public static bool TryGetCredentialsForSqlServer(out (string UserName, string UserPassword) credentials)
-        {
-            /*
-            credentials = ("sa", "password");
+    /// <summary>
+    /// Параметры учётной записи подключения к SQL Server.
+    /// По умолчанию параметры читаются из реестра Windows;
+    /// Пример реестра Windows <see cref="RegistryFile"/>.
+    /// </summary>
+    public static bool TryGetCredentialsForSqlServer(out (string UserName, string UserPassword) credentials)
+    {
+        /*
+        credentials = ("sa", "password");
 
-            return true;
-            */
+        return true;
+        */
 
-            var result = WindowsRegistryHelpers.SqlServerTryGetUserCredentials(out credentials);
+        var result = WindowsRegistryHelpers.SqlServerTryGetUserCredentials(out credentials);
 
-            return result;
-        }
+        return result;
+    }
 
-        /// <summary>
-        /// Параметры учётной записи подключения к PostgreSQL.
-        /// По умолчанию параметры читаются из реестра Windows;
-        /// Пример реестра Windows <see cref="RegistryFile"/>.
-        /// </summary>
-        public static bool TryGetCredentialsForPostgreSql(out (string UserName, string UserPassword) credentials)
-        {
-            /*
-            credentials = ("postgres", "password");
+    /// <summary>
+    /// Параметры учётной записи подключения к PostgreSQL.
+    /// По умолчанию параметры читаются из реестра Windows;
+    /// Пример реестра Windows <see cref="RegistryFile"/>.
+    /// </summary>
+    public static bool TryGetCredentialsForPostgreSql(out (string UserName, string UserPassword) credentials)
+    {
+        /*
+        credentials = ("postgres", "password");
 
-            return true;
-            */
+        return true;
+        */
 
-            var result = WindowsRegistryHelpers.PostgreSqlTryGetUserCredentials(out credentials);
+        var result = WindowsRegistryHelpers.PostgreSqlTryGetUserCredentials(out credentials);
 
-            return result;
-        }
+        return result;
     }
 }

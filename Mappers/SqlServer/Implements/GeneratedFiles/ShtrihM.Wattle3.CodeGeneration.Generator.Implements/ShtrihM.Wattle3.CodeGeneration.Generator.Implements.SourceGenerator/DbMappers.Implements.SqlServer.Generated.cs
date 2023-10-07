@@ -327,6 +327,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
                 selectFilterFactory,
                 exceptionPolicy)
         {
+            Options = Options | MapperOptions.OptimisticConcurrency;
+
         }
 
         public MapperObject_A(
