@@ -344,6 +344,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
                 infrastructureMonitor,
                 actualDtoMemoryCache)
         {
+            Options = Options | MapperOptions.OptimisticConcurrency;
+
         }
 
         /// <summary>
