@@ -2096,6 +2096,53 @@ FROM TransactionKey";
                 throw targetException;
             }
         }
+        /// <summary>
+        /// Получить количество записей удовлетворяющих фильтру выборки.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Кокен отмены.</param>
+        /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
+        public virtual async ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            try
+            {
+                var typedSession = (IPostgreSqlMappersSession) session;
+
+                // ReSharper disable once ConvertToUsingDeclaration
+                await using (var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT COUNT(*) FROM TransactionKey";
+
+                    ExpandCommand(command, (selectFilter as IPostgreSqlMapperSelectFilter), null);
+
+                    var temp = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+                    // ReSharper disable once PossibleNullReferenceException
+                    var result = (long)temp;
+
+                    return (result);
+                }
+            }
+            catch (Exception exception)
+            {
+                CatchExceptionOnGetCount(session, exception, selectFilter);
+                CatchException(session, exception);
+
+                var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                if (ReferenceEquals(targetException, exception))
+                {
+                    ExceptionDispatchInfo.Capture(exception).Throw();
+                }
+
+                throw targetException;
+            }
+        }
     }
 
 }

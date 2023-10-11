@@ -13,11 +13,11 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
 		<PackageReference Include="NUnit" Version="3.13.3" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
-		<PackageReference Include="ShtrihM.Wattle3.Caching" Version="3.0.0.37288" />
-		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.37288" />
-		<PackageReference Include="ShtrihM.Wattle3.Json" Version="3.0.0.37288" />
-		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.37288" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.37288" />
+		<PackageReference Include="ShtrihM.Wattle3.Caching" Version="3.0.0.37321" />
+		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.37321" />
+		<PackageReference Include="ShtrihM.Wattle3.Json" Version="3.0.0.37321" />
+		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.0.0.37321" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.37321" />
 	</ItemGroup>
 
 	<ItemGroup>

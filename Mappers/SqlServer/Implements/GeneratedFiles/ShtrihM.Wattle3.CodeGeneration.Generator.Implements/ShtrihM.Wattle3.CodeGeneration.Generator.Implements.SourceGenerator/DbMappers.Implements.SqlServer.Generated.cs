@@ -3032,6 +3032,55 @@ FROM [Object_A]";
             }
         }
 
+        /// <summary>
+        /// Получить количество записей удовлетворяющих фильтру выборки.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Кокен отмены.</param>
+        /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
+        public virtual async ValueTask<long> GetCountAsync(
+            IMappersSession session,
+            IMapperSelectFilter selectFilter = null,
+            CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            try
+            {
+                var typedSession = (ISqlServerMappersSession) session;
+                
+                // ReSharper disable once ConvertToUsingDeclaration
+                await using (var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT COUNT(*) FROM [Object_A] WITH(NOLOCK)";
+                    
+                    ExpandCommand(command, (selectFilter as ISqlServerMapperSelectFilter), null);
+                    
+                    var result = (int) await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+                    
+                    return (result);
+                }
+            }
+            catch (Exception exception)
+            {
+                CatchExceptionOnGetCount(session, exception, selectFilter);
+                CatchException(session, exception);
+
+                var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
+                if (ReferenceEquals(targetException, exception))
+                {
+                    ExceptionDispatchInfo.Capture(exception).Throw();
+                }
+
+                throw targetException;
+            }
+        }
+
     }
 
     /// <summary>
@@ -5152,6 +5201,57 @@ FROM [Object_B]";
                 CatchException(session, exception);
 
                 var targetException = m_exceptionPolicy.Apply(exception);
+                if (ReferenceEquals(targetException, exception))
+                {
+                    ExceptionDispatchInfo.Capture(exception).Throw();
+                }
+
+                throw targetException;
+            }
+        }
+
+        /// <summary>
+        /// Получить количество записей удовлетворяющих фильтру выборки.
+        /// ВАЖНО : Выбор не учитывает скрытые записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <param name="cancellationToken">Кокен отмены.</param>
+        /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки кроме скрытых записей.</returns>
+        public virtual async ValueTask<long> GetCountAsync(
+            IMappersSession session,
+            IMapperSelectFilter selectFilter = null,
+            CancellationToken cancellationToken = default)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+
+            try
+            {
+                var typedSession = (ISqlServerMappersSession) session;
+                
+                // ReSharper disable once ConvertToUsingDeclaration
+                await using (var command = await typedSession.CreateCommandAsync(cancellationToken).ConfigureAwait(false))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT COUNT(*) FROM [Object_B] WITH(NOLOCK)";
+                    
+                    ExpandCommand(command, (selectFilter as ISqlServerMapperSelectFilter), "([Available] = @Available)");
+                    command.Parameters.Add("@Available", SqlDbType.Bit).Value = true;
+                    
+                    var result = (int) await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+                    
+                    return (result);
+                }
+            }
+            catch (Exception exception)
+            {
+                CatchExceptionOnGetCount(session, exception, selectFilter);
+                CatchException(session, exception);
+
+                var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
                 if (ReferenceEquals(targetException, exception))
                 {
                     ExceptionDispatchInfo.Capture(exception).Throw();

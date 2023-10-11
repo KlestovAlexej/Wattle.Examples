@@ -277,6 +277,8 @@ public class ExampleEntryPoint : BaseEntryPointEx
 
         result.m_prtitionsSponsor.Create();
 
+        result.SetInitialized();
+
         return (result);
     }
 }
