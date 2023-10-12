@@ -334,11 +334,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests
             }
 
             // ReSharper disable once ConvertToUsingDeclaration
-            using (var hostMappersSession = m_mappers.CreateHostMappersSession())
+            using (var mappersSession = m_mappers.OpenSession())
             {
                 foreach (var template in templates)
                 {
-                    var data = m_mapper.Get(hostMappersSession, template.Id);
+                    var data = m_mapper.Get(mappersSession, template.Id);
                     AssertAreEqual(template, data, m_context);
                 }
             }
@@ -364,9 +364,9 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests
             }
 
             // ReSharper disable once ConvertToUsingDeclaration
-            using (var hostMappersSession = m_mappers.CreateHostMappersSession())
+            using (var mappersSession = m_mappers.OpenSession())
             {
-                var data = m_mapper.Get(hostMappersSession, template.Id);
+                var data = m_mapper.Get(mappersSession, template.Id);
                 AssertAreEqual(template, data, m_context);
                 AssertAreEqual(dataNew, data, m_context);
             }
@@ -663,11 +663,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests
             }
 
             // ReSharper disable once ConvertToUsingDeclaration
-            using (var hostMappersSession = m_mappers.CreateHostMappersSession())
+            using (var mappersSession = m_mappers.OpenSession())
             {
                 foreach (var template in templates)
                 {
-                    var data = m_mapper.Get(hostMappersSession, template.Id);
+                    var data = m_mapper.Get(mappersSession, template.Id);
                     AssertAreEqual(template, data, m_context);
                 }
             }
@@ -693,9 +693,9 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests
             }
 
             // ReSharper disable once ConvertToUsingDeclaration
-            using (var hostMappersSession = m_mappers.CreateHostMappersSession())
+            using (var mappersSession = m_mappers.OpenSession())
             {
-                var data = m_mapper.Get(hostMappersSession, template.Id);
+                var data = m_mapper.Get(mappersSession, template.Id);
                 AssertAreEqual(template, data, m_context);
                 AssertAreEqual(dataNew, data, m_context);
             }

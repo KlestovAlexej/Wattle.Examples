@@ -49,20 +49,18 @@ public class ExampleUnitOfWork : BaseUnitOfWork
     {
         var result =
             new UnitOfWorkCommitVerifyingDelegate(
-                mappersSessionProvider =>
+                mappersSession =>
                 {
                     var entryPoint = (ExampleEntryPoint)EntryPoint;
                     var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
-                    var mappersSession = mappersSessionProvider.GetMappersSession();
                     var existsRaw = mapper.ExistsRaw(mappersSession, identity);
 
                     return (existsRaw ? UnitOfWorkCommitVerifyingResult.Successfully : UnitOfWorkCommitVerifyingResult.Fail);
                 },
-                async mappersSessionProvider =>
+                async mappersSession =>
                 {
                     var entryPoint = (ExampleEntryPoint)EntryPoint;
                     var mapper = entryPoint.Mappers.GetMapper<IMapperChangeTracker>();
-                    var mappersSession = await mappersSessionProvider.GetMappersSessionAsync().ConfigureAwait(false);
                     var existsRaw = await mapper.ExistsRawAsync(mappersSession, identity).ConfigureAwait(false);
 
                     return (existsRaw ? UnitOfWorkCommitVerifyingResult.Successfully : UnitOfWorkCommitVerifyingResult.Fail);

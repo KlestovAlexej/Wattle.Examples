@@ -241,13 +241,6 @@ Key) FROM STDIN (FORMAT BINARY)
         partial void CatchException(IMappersSession session, Exception exception);
 
         /// <summary>
-        /// Обработка исключения мапппера.
-        /// </summary>
-        /// <param name="hostMappersSession">Хост сессии БД.</param>
-        /// <param name="exception">Исключение мапппера.</param>
-        partial void CatchException(IHostMappersSession hostMappersSession, Exception exception);
-
-        /// <summary>
         /// Обработка исключения мапппера в методе <see cref="Initialize"/>.
         /// </summary>
         /// <param name="mappers">Реестр мапперов которому принадлежит маппер.</param>
@@ -775,31 +768,30 @@ Key) FROM STDIN (FORMAT BINARY)
         /// <summary>
         /// Обработка исключения мапппера в методе <see cref="Get"/>.
         /// </summary>
-        /// <param name="hostMappersSession">Хост сессии БД.</param>
+        /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="exception">Исключение мапппера.</param>
         /// <param name="id">Идентити записи.</param>
-        partial void CatchExceptionOnGet(IHostMappersSession hostMappersSession, Exception exception, long id);
+        partial void CatchExceptionOnGet(IMappersSession mappersSession, Exception exception, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="hostMappersSession">Хост сессии БД.</param>
+        /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual TransactionKeyDtoActual Get(IHostMappersSession hostMappersSession, long id)
+        public virtual TransactionKeyDtoActual Get(IMappersSession mappersSession, long id)
         {
-            if (hostMappersSession == null)
+            if (mappersSession == null)
             {
-                throw new ArgumentNullException(nameof(hostMappersSession));
+                throw new ArgumentNullException(nameof(mappersSession));
             }
 
             try
             {
-                var tempSession = hostMappersSession.GetMappersSession();
-                var typedSession = (IPostgreSqlMappersSession)tempSession;
+                var typedSession = (IPostgreSqlMappersSession)mappersSession;
 
                 // ReSharper disable once ConvertToUsingDeclaration
                 using (var command = typedSession.CreateCommand(false))
@@ -842,8 +834,8 @@ FROM TransactionKey WHERE
             }
             catch (Exception exception)
             {
-                CatchExceptionOnGet(hostMappersSession, exception, id);
-                CatchException(hostMappersSession, exception);
+                CatchExceptionOnGet(mappersSession, exception, id);
+                CatchException(mappersSession, exception);
 
                 var targetException = m_exceptionPolicy.Apply(exception);
                 if (ReferenceEquals(targetException, exception))
@@ -858,24 +850,23 @@ FROM TransactionKey WHERE
         /// <summary>
         /// Получить запись с указаным идентити.
         /// </summary>
-        /// <param name="hostMappersSession">Хост сессии БД.</param>
+        /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default)
         {
-            if (hostMappersSession == null)
+            if (mappersSession == null)
             {
-                throw new ArgumentNullException(nameof(hostMappersSession));
+                throw new ArgumentNullException(nameof(mappersSession));
             }
 
             try
             {
-                var tempSession = await hostMappersSession.GetMappersSessionAsync(cancellationToken).ConfigureAwait(false);
-                var typedSession = (IPostgreSqlMappersSession)tempSession;
+                var typedSession = (IPostgreSqlMappersSession)mappersSession;
 
                 // ReSharper disable once ConvertToUsingDeclaration
                 var command = await typedSession.CreateCommandAsync(false, cancellationToken).ConfigureAwait(false);
@@ -920,8 +911,8 @@ FROM TransactionKey WHERE
             }
             catch (Exception exception)
             {
-                CatchExceptionOnGet(hostMappersSession, exception, id);
-                CatchException(hostMappersSession, exception);
+                CatchExceptionOnGet(mappersSession, exception, id);
+                CatchException(mappersSession, exception);
 
                 var targetException = await m_exceptionPolicy.ApplyAsync(exception, cancellationToken).ConfigureAwait(false);
                 if (ReferenceEquals(targetException, exception))

@@ -4,7 +4,6 @@ using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Primitives;
 using System;
@@ -31,18 +30,11 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
     /// </summary>
     private class DomainObjectActivatorChangeTracker : BaseDomainObjectActivator<DomainObjectTemplateChangeTracker>
     {
-        private readonly ComplexIdentity.Level m_complexIdentityLevel;
-        private readonly PartitionsDay m_partitionsDay;
         private readonly IEntryPoint m_entryPoint;
 
-        public DomainObjectActivatorChangeTracker(
-            ComplexIdentity.Level complexIdentityLevel,
-            PartitionsDay partitionsDay,
-            IEntryPoint entryPoint)
+        public DomainObjectActivatorChangeTracker(IEntryPoint entryPoint)
             : base(WellknownDomainObjects.ChangeTracker)
         {
-            m_complexIdentityLevel = complexIdentityLevel;
-            m_partitionsDay = partitionsDay ?? throw new ArgumentNullException(nameof(partitionsDay));
             m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
         }
 
@@ -53,19 +45,14 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
             IDomainObjectIdentityGenerator identityGenerator,
             DomainObjectTemplateChangeTracker template)
         {
-            // Получить текущий Unit Of Work для данного потока.
-            var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
-
-            // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
-            var nowDayIndex = m_partitionsDay.NowDayIndex;
-            var identity = identityGenerator.GetNextIdentity(unitOfWork.GetMappersSession());
-            identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
+            // Создание первичного ключа БД (идентити доменного объекта).
+            var identity = identityGenerator.GetNextIdentity();
 
             // Создание экземпляра доменного объккта.
             var result = new DomainObjectChangeTracker(identity);
 
             // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            unitOfWork.AddNew(result);
+            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
 
             return (result);
         }
@@ -78,20 +65,14 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
             DomainObjectTemplateChangeTracker template,
             CancellationToken cancellationToken = default)
         {
-            // Получить текущий Unit Of Work для данного потока.
-            var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
-
-            // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
-            var nowDayIndex = m_partitionsDay.NowDayIndex;
-            var mappersSession = await unitOfWork.GetMappersSessionAsync(cancellationToken).ConfigureAwait(false);
-            var identity = await identityGenerator.GetNextIdentityAsync(mappersSession, cancellationToken).ConfigureAwait(false);
-            identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
+            // Создание первичного ключа БД (идентити доменного объекта).
+            var identity = await identityGenerator.GetNextIdentityAsync(cancellationToken).ConfigureAwait(false);
 
             // Создание экземпляра доменного объккта.
             var result = new DomainObjectChangeTracker(identity);
 
             // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            unitOfWork.AddNew(result);
+            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
 
             return (result);
         }
@@ -151,11 +132,26 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
                 methodGetNextIdentityList: (m, session, count, cancellationToken) =>
                     m.GetNextIds(session, count, cancellationToken),
                 logger: loggerFactory.CreateLogger<IdentityCache<IMapperChangeTracker>>());
+
+        var partitionsLevel = mapper.Partitions.Level;
+        var partitionsDay = entryPoint.PartitionsDay;
         var dataMapper =
-            new DomainObjectDataMapperNoDeleteUpdateDefault<IMapperChangeTracker, ChangeTrackerDtoNew, ChangeTrackerDtoActual>(
-                entryPoint.TimeService,
-                mapper,
-                identityCache);
+            new DomainObjectDataMapperNoDeleteUpdateDefault
+                <IMapperChangeTracker, ChangeTrackerDtoNew, ChangeTrackerDtoActual>(
+                    entryPoint.UnitOfWorkProvider,
+                    entryPoint.TimeService,
+                    mapper,
+                    identityCache,
+                    identityPrepare:
+                    identity =>
+                    {
+                        // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
+                        var nowDayIndex = partitionsDay.NowDayIndex;
+                        identity = ComplexIdentity.Build(partitionsLevel, nowDayIndex, identity);
+
+                        return identity;
+                    });
+
         entryPoint.DataMappers.AddMapper(dataMapper);
 
         entryPoint.ObjectRegisters.AddRegister(
@@ -164,7 +160,7 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
                 WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.ChangeTracker),
                 dataMapper,
                 new DomainObjectDataActivatorChangeTracker(),
-                new DomainObjectActivatorChangeTracker(mapper.Partitions.Level, entryPoint.PartitionsDay, entryPoint),
+                new DomainObjectActivatorChangeTracker(entryPoint),
                 TimeSpan.FromSeconds(1),
                 null,
                 entryPoint.Mappers,

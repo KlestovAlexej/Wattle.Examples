@@ -4,7 +4,6 @@ using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Common;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 using ShtrihM.Wattle3.Mappers.Interfaces;
 using ShtrihM.Wattle3.Primitives;
 using System;
@@ -31,18 +30,11 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
     /// </summary>
     private class DomainObjectActivatorDocument : BaseDomainObjectActivator<DomainObjectTemplateDocument>
     {
-        private readonly ComplexIdentity.Level m_complexIdentityLevel;
-        private readonly PartitionsDay m_partitionsDay;
-        private readonly IEntryPoint m_entryPoint;
+        private readonly ExampleEntryPoint m_entryPoint;
 
-        public DomainObjectActivatorDocument(
-            ComplexIdentity.Level complexIdentityLevel,
-            PartitionsDay partitionsDay,
-            IEntryPoint entryPoint)
+        public DomainObjectActivatorDocument(ExampleEntryPoint entryPoint)
             : base(WellknownDomainObjects.Document)
         {
-            m_complexIdentityLevel = complexIdentityLevel;
-            m_partitionsDay = partitionsDay ?? throw new ArgumentNullException(nameof(partitionsDay));
             m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
         }
 
@@ -53,22 +45,14 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
             IDomainObjectIdentityGenerator identityGenerator,
             DomainObjectTemplateDocument template)
         {
-            // Получить текущий Unit Of Work для данного потока.
-            var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
-
-            // Получить точку входа в доменную область.
-            var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
-
-            // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
-            var nowDayIndex = m_partitionsDay.NowDayIndex;
-            var identity = identityGenerator.GetNextIdentity(unitOfWork.GetMappersSession());
-            identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
+            // Создание первичного ключа БД (идентити доменного объекта).
+            var identity = identityGenerator.GetNextIdentity();
 
             // Создание экземпляра доменного объккта.
-            var result = new DomainObjectDocument(m_entryPoint, identity, entryPoint.TimeService.NowDateTime, template);
+            var result = new DomainObjectDocument(m_entryPoint, identity, m_entryPoint.TimeService.NowDateTime, template);
 
             // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            unitOfWork.AddNew(result);
+            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
 
             return (result);
         }
@@ -81,23 +65,14 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
             DomainObjectTemplateDocument template,
             CancellationToken cancellationToken = default)
         {
-            // Получить текущий Unit Of Work для данного потока.
-            var unitOfWork = m_entryPoint.UnitOfWorkProvider.Instance;
-
-            // Получить точку входа в доменную область.
-            var entryPoint = (ExampleEntryPoint)unitOfWork.EntryPoint;
-
-            // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
-            var nowDayIndex = m_partitionsDay.NowDayIndex;
-            var mappersSession = await unitOfWork.GetMappersSessionAsync(cancellationToken).ConfigureAwait(false);
-            var identity = await identityGenerator.GetNextIdentityAsync(mappersSession, cancellationToken).ConfigureAwait(false);
-            identity = ComplexIdentity.Build(m_complexIdentityLevel, nowDayIndex, identity);
+            // Создание первичного ключа БД (идентити доменного объекта).
+            var identity = await identityGenerator.GetNextIdentityAsync(cancellationToken).ConfigureAwait(false);
 
             // Создание экземпляра доменного объккта.
-            var result = new DomainObjectDocument(m_entryPoint, identity, entryPoint.TimeService.NowDateTime, template);
+            var result = new DomainObjectDocument(m_entryPoint, identity, m_entryPoint.TimeService.NowDateTime, template);
 
             // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            unitOfWork.AddNew(result);
+            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
 
             return (result);
         }
@@ -330,18 +305,33 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
                 methodGetNextIdentityList: (m, session, count, cancellationToken) =>
                     m.GetNextIds(session, count, cancellationToken),
                 logger: loggerFactory.CreateLogger<IdentityCache<IMapperDocument>>());
+
+        var partitionsLevel = mapper.Partitions.Level;
+        var partitionsDay = entryPoint.PartitionsDay;
         var dataMapper =
-            new DomainObjectDataMapperFullDefault<IMapperDocument, DocumentDtoNew, DocumentDtoActual, DocumentDtoChanged, DocumentDtoDeleted>(
-                entryPoint.TimeService,
-                mapper,
-                identityCache);
+            new DomainObjectDataMapperFullDefault
+                <IMapperDocument, DocumentDtoNew, DocumentDtoActual, DocumentDtoChanged, DocumentDtoDeleted>(
+                    entryPoint.UnitOfWorkProvider,
+                    entryPoint.TimeService,
+                    mapper,
+                    identityCache,
+                    identityPrepare:
+                    identity =>
+                    {
+                        // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
+                        var nowDayIndex = partitionsDay.NowDayIndex;
+                        identity = ComplexIdentity.Build(partitionsLevel, nowDayIndex, identity);
+
+                        return identity;
+                    });
+
         entryPoint.DataMappers.AddMapper(dataMapper);
 
         entryPoint.ObjectRegisters.AddRegister(
             new DomainObjectRegisterStatelessDocument(
                 dataMapper,
                 new DomainObjectDataActivatorDocument(entryPoint),
-                new DomainObjectActivatorDocument(mapper.Partitions.Level, entryPoint.PartitionsDay, entryPoint),
+                new DomainObjectActivatorDocument(entryPoint),
                 entryPoint.Mappers,
                 entryPoint.TimeService,
                 entryPoint.WorkflowExceptionPolicy,

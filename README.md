@@ -794,19 +794,19 @@ public partial interface IMapperObject_A : IMapper
     /// <summary>
     /// Получить запись с указаным идентити.
     /// </summary>
-    /// <param name="hostMappersSession">Хост сессии БД.</param>
+    /// <param name="mappersSession">Хост сессии БД.</param>
     /// <param name="id">Идентити записи.</param>
     /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-    Object_ADtoActual Get(IHostMappersSession hostMappersSession, long id);
+    Object_ADtoActual Get(IHostMappersSession mappersSession, long id);
 
     /// <summary>
     /// Получить запись с указаным идентити.
     /// </summary>
-    /// <param name="hostMappersSession">Хост сессии БД.</param>
+    /// <param name="mappersSession">Хост сессии БД.</param>
     /// <param name="id">Идентити записи.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-    ValueTask<IMapperDto> GetAsync(IHostMappersSession hostMappersSession, long id, CancellationToken cancellationToken = default);
+    ValueTask<IMapperDto> GetAsync(IHostMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Получить запись с указаным идентити.
@@ -1036,10 +1036,10 @@ using (var mappersSession = m_mappers.OpenSession())
 Parallel.For(0, 10_000_000,
     _ =>
     {
-        using var hostMappersSession = m_mappers.CreateHostMappersSession();
+        using var mappersSession = m_mappers.CreateHostMappersSession();
 
         var id = ProviderRandomValues.GetItem(ids);
-        var dto = mapper.Get(hostMappersSession, id);
+        var dto = mapper.Get(mappersSession, id);
         Assert.IsNotNull(dto);
     });
 ```

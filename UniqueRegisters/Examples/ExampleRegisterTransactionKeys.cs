@@ -259,7 +259,7 @@ public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup
     protected override KeyIdentityInfo<long, long> NewKey(Guid key, long tag, object context)
     {
         var unitOfWork = m_unitOfWorkProvider.Instance;
-        var mappersSession = unitOfWork.GetMappersSession();
+        var mappersSession = unitOfWork.MappersSession;
         var identity = m_identityCache.GetNextIdentity(mappersSession);
         var dayIndex = GetDayIndex(m_timeService.NowDateTime);
         var instance =
@@ -279,7 +279,7 @@ public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup
     protected override async ValueTask<KeyIdentityInfo<long, long>> NewKeyAsync(Guid key, long tag, object context, CancellationToken token = default)
     {
         var unitOfWork = m_unitOfWorkProvider.Instance;
-        var mappersSession = await unitOfWork.GetMappersSessionAsync(token).ConfigureAwait(false);
+        var mappersSession = unitOfWork.MappersSession;
         var identity = await m_identityCache.GetNextIdentityAsync(mappersSession, token).ConfigureAwait(false);
         var dayIndex = GetDayIndex(m_timeService.NowDateTime);
         var instance =
@@ -297,13 +297,12 @@ public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup
     }
 
     protected override UniqueRegisterExistsKeyResult ExistsKey(
-        IHostMappersSession mappersSessionProvider,
+        IMappersSession mappersSession,
         Guid key,
         long tag,
         object context,
         KeyIdentityInfo<long, long> keyIdentityInfo)
     {
-        var mappersSession = mappersSessionProvider.GetMappersSession();
         var resultExists = m_mapper.ExistsRaw(mappersSession, keyIdentityInfo.KeyIdentity);
         if (resultExists)
         {
@@ -314,13 +313,12 @@ public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup
     }
 
     protected override async ValueTask<UniqueRegisterExistsKeyResult> ExistsKeyAsync(
-        IHostMappersSession mappersSessionProvider,
+        IMappersSession mappersSession,
         Guid key,
         long tag,
         object context,
         KeyIdentityInfo<long, long> keyIdentityInfo)
     {
-        var mappersSession = await mappersSessionProvider.GetMappersSessionAsync().ConfigureAwait(false);
         var resultExists = await m_mapper.ExistsRawAsync(mappersSession, keyIdentityInfo.KeyIdentity).ConfigureAwait(false);
         if (resultExists)
         {
