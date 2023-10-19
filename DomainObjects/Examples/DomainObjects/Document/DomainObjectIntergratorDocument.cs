@@ -39,7 +39,7 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
                 // Для автоматической регистрации созданного экземпляра доменного объекта в текущем Unit Of Work.
                 unitOfWorkProvider: entryPoint.UnitOfWorkProvider)
         {
-            m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
+            m_entryPoint = entryPoint;
         }
 
         /// <summary>
