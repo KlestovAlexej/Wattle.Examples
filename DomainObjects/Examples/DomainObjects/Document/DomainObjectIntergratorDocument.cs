@@ -33,7 +33,11 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
         private readonly ExampleEntryPoint m_entryPoint;
 
         public DomainObjectActivatorDocument(ExampleEntryPoint entryPoint)
-            : base(WellknownDomainObjects.Document)
+            : base(
+                WellknownDomainObjects.Document,
+
+                // Для автоматической регистрации созданного экземпляра доменного объекта в текущем Unit Of Work.
+                unitOfWorkProvider: entryPoint.UnitOfWorkProvider)
         {
             m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
         }
@@ -48,11 +52,7 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
             // Создание первичного ключа БД (идентити доменного объекта).
             var identity = identityGenerator.GetNextIdentity();
 
-            // Создание экземпляра доменного объккта.
-            var result = new DomainObjectDocument(m_entryPoint, identity, m_entryPoint.TimeService.NowDateTime, template);
-
-            // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
+            var result = DoCreate(identity, template);
 
             return (result);
         }
@@ -68,11 +68,17 @@ public class DomainObjectIntergratorDocument : BaseDomainObjectIntergrator<IUnit
             // Создание первичного ключа БД (идентити доменного объекта).
             var identity = await identityGenerator.GetNextIdentityAsync(cancellationToken).ConfigureAwait(false);
 
-            // Создание экземпляра доменного объккта.
-            var result = new DomainObjectDocument(m_entryPoint, identity, m_entryPoint.TimeService.NowDateTime, template);
+            var result = DoCreate(identity, template);
 
-            // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
+            return (result);
+        }
+
+        /// <summary>
+        /// Создание экземпляра доменного объекта.
+        /// </summary>
+        private IDomainObject DoCreate(long identity, DomainObjectTemplateDocument template)
+        {
+            var result = new DomainObjectDocument(m_entryPoint, identity, m_entryPoint.TimeService.NowDateTime, template);
 
             return (result);
         }

@@ -30,12 +30,13 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
     /// </summary>
     private class DomainObjectActivatorChangeTracker : BaseDomainObjectActivator<DomainObjectTemplateChangeTracker>
     {
-        private readonly IEntryPoint m_entryPoint;
+        public DomainObjectActivatorChangeTracker(IUnitOfWorkProvider unitOfWorkProvider)
+            : base(
+                WellknownDomainObjects.ChangeTracker,
 
-        public DomainObjectActivatorChangeTracker(IEntryPoint entryPoint)
-            : base(WellknownDomainObjects.ChangeTracker)
+                // Для автоматической регистрации созданного экземпляра доменного объекта в текущем Unit Of Work.
+                unitOfWorkProvider: unitOfWorkProvider)
         {
-            m_entryPoint = entryPoint ?? throw new ArgumentNullException(nameof(entryPoint));
         }
 
         /// <summary>
@@ -48,11 +49,8 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
             // Создание первичного ключа БД (идентити доменного объекта).
             var identity = identityGenerator.GetNextIdentity();
 
-            // Создание экземпляра доменного объккта.
+            // Создание экземпляра доменного объекта.
             var result = new DomainObjectChangeTracker(identity);
-
-            // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
 
             return (result);
         }
@@ -68,11 +66,8 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
             // Создание первичного ключа БД (идентити доменного объекта).
             var identity = await identityGenerator.GetNextIdentityAsync(cancellationToken).ConfigureAwait(false);
 
-            // Создание экземпляра доменного объккта.
+            // Создание экземпляра доменного объекта.
             var result = new DomainObjectChangeTracker(identity);
-
-            // Регистрация созданного экземпляра доменного объекта в текущем Unit Of Work.
-            m_entryPoint.UnitOfWorkProvider.Instance.AddNew(result);
 
             return (result);
         }
@@ -160,7 +155,7 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
                 WellknownDomainObjects.GetDisplayName(WellknownDomainObjects.ChangeTracker),
                 dataMapper,
                 new DomainObjectDataActivatorChangeTracker(),
-                new DomainObjectActivatorChangeTracker(entryPoint),
+                new DomainObjectActivatorChangeTracker(entryPoint.UnitOfWorkProvider),
                 TimeSpan.FromSeconds(1),
                 null,
                 entryPoint.Mappers,
