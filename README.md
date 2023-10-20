@@ -2,11 +2,11 @@
 
 Примеры использования фреймворка для создания высокопроизводительных серверов с доменными объектами.
 
-Полнофункциональный (демонстрационный сервер)[https://github.com/KlestovAlexej/Wattle3.DemoServer] на базе библиотеки.
-
 Фреймворк кроссплатформенный, написан 100% на [C#](https://ru.wikipedia.org/wiki/C_Sharp) под [.NET 7](https://devblogs.microsoft.com/dotnet/announcing-dotnet-7/).
 
 Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
+
+Полнофункциональный [демонстрационный сервер](https://github.com/KlestovAlexej/Wattle3.DemoServer) на базе библиотеки.
 
 # Содержание
 - [Как запускать примеры](#как-запускать-примеры)
