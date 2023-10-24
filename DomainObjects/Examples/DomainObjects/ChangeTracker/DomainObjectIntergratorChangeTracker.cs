@@ -138,7 +138,7 @@ public class DomainObjectIntergratorChangeTracker : BaseDomainObjectIntergrator<
                     mapper,
                     identityCache,
                     identityPrepare:
-                    identity =>
+                    (_, identity) =>
                     {
                         // Создание первичного ключа БД (идентити доменного объекта) для партиционированной таблицы.
                         var nowDayIndex = partitionsDay.NowDayIndex;
