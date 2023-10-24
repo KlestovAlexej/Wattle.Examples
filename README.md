@@ -6,6 +6,8 @@
 
 Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
 
+Полнофункциональный [демонстрационный сервер](https://github.com/KlestovAlexej/Wattle3.DemoServer) на базе библиотеки.
+
 # Содержание
 - [Как запускать примеры](#как-запускать-примеры)
 - [**Идемпотентность**](#идемпотентность)
