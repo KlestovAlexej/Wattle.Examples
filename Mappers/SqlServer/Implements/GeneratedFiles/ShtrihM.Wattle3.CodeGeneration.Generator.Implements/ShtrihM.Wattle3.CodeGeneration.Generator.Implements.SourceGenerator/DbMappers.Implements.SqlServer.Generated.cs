@@ -329,6 +329,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
         {
             Options = Options | MapperOptions.OptimisticConcurrency;
 
+            Options = Options | MapperOptions.Delete;
+
         }
 
         public MapperObject_A(
@@ -345,6 +347,8 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlSer
                 actualDtoMemoryCache)
         {
             Options = Options | MapperOptions.OptimisticConcurrency;
+
+            Options = Options | MapperOptions.Delete;
 
         }
 

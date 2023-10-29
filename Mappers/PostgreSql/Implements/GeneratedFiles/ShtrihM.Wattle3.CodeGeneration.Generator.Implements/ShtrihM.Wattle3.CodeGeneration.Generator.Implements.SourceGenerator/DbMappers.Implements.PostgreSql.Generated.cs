@@ -340,6 +340,8 @@ Value_String) FROM STDIN (FORMAT BINARY)
         {
             Options = Options | MapperOptions.OptimisticConcurrency;
             
+            Options = Options | MapperOptions.Delete;
+            
             Partitions = new PartitionsManager(exceptionPolicy, @"Object_A", ComplexIdentity.Level.L1, false);
         }
 
@@ -348,6 +350,8 @@ Value_String) FROM STDIN (FORMAT BINARY)
            : base("Маппер данных состояния доменного объекта '" + @"Объект с партиционированием таблицы БД, первичным ключём из последовательности БД, с оптимистической конкуренцией на уровне БД, с кешированием записей БД в памяти на уровне маппера" + "' в БД", WellknownMappers.Object_A, selectFilterFactory, exceptionPolicy, infrastructureMonitor, actualDtoMemoryCache)
         {
             Options = Options | MapperOptions.OptimisticConcurrency;
+            
+            Options = Options | MapperOptions.Delete;
             
             Partitions = new PartitionsManager(exceptionPolicy, @"Object_A", ComplexIdentity.Level.L1, false);
         }
