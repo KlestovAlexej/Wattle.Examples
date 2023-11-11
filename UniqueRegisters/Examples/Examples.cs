@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Exceptions;
-using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.EntryPoints;
@@ -574,10 +573,8 @@ public class Examples
     {
         BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
-        // Настройка окружения.
-        DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out m_loggerFactory, out _)
-            .Build();
+        // Создание фабрики логгеров к консольк NUnit в режиме не писать - true.
+        m_loggerFactory = LoggerFactory.Create(builder => new NUnitConsoleLoggerProvider(true).Add(builder));
 
         m_timeService = new ManagedTimeService();
         
@@ -616,11 +613,11 @@ public class Examples
     [TearDown]
     public void TearDown()
     {
-        DomainEnviromentConfigurator.DisposeAll();
-
         PostgreSqlDbHelper.DropDb(m_dbName);
+
         m_identityCache.SilentDispose();
         m_directory.SilentDispose();
+        m_loggerFactory.SilentDispose();
     }
 
     private class ExampleUnitOfWork : BaseUnitOfWork

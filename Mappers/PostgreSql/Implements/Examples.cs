@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
@@ -26,6 +25,8 @@ using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSq
 using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
 using ShtrihM.Wattle3.Json.Extensions;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
+using ShtrihM.Wattle3.Utils;
+using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
 
@@ -1162,10 +1163,8 @@ public class Examples
     {
         BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
-        // Настройка окружения.
-        DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out m_loggerFactory, out _)
-            .Build();
+        // Создание фабрики логгеров к консольк NUnit в режиме не писать - true.
+        m_loggerFactory = LoggerFactory.Create(builder => new NUnitConsoleLoggerProvider(true).Add(builder));
 
         m_timeService = new TimeService();
 
@@ -1194,9 +1193,9 @@ public class Examples
     [TearDown]
     public void TearDown()
     {
-        DomainEnviromentConfigurator.DisposeAll();
-
         PostgreSqlDbHelper.DropDb(m_dbName);
+
+        m_loggerFactory.SilentDispose();
     }
 
     #endregion

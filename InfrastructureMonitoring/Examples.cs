@@ -12,6 +12,7 @@ using ShtrihM.Wattle3.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ShtrihM.Wattle3.Examples.Common;
 
 namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring;
 
@@ -108,8 +109,11 @@ public class Examples
 
         var infrastructureMonitorRegisters = new InfrastructureMonitorRegisters();
 
+        // Создание фабрики логгеров к консольк NUnit в режиме не писать - true.
+        var loggerFactory = LoggerFactory.Create(builder => new NUnitConsoleLoggerProvider(true).Add(builder));
+
         DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out _, out _)
+            .Begin(loggerFactory, out _, out _)
             .SetInfrastructureMonitorRegisters(infrastructureMonitorRegisters)
             .Build();
 
@@ -138,10 +142,10 @@ public class Examples
     [TearDown]
     public void TearDown()
     {
-        DomainEnviromentConfigurator.DisposeAll();
-
         m_monitorsHostApplet?.Stop();
         m_monitorsHostApplet.SilentDispose();
+
+        DomainEnviromentConfigurator.DisposeAll();
     }
 
     #endregion

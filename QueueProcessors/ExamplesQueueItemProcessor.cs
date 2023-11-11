@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.Common;
@@ -8,6 +7,7 @@ using ShtrihM.Wattle3.QueueProcessors;
 using ShtrihM.Wattle3.QueueProcessors.Interfaces;
 using ShtrihM.Wattle3.Testing;
 using System;
+using ShtrihM.Wattle3.Utils;
 
 namespace ShtrihM.Wattle3.Examples.QueueProcessors;
 
@@ -115,9 +115,8 @@ public class ExamplesQueueItemProcessor
     [SetUp]
     public void SetUp()
     {
-        DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out m_loggerFactory, out _)
-            .Build();
+        // Создание фабрики логгеров к консольк NUnit в режиме не писать - true.
+        m_loggerFactory = LoggerFactory.Create(builder => new NUnitConsoleLoggerProvider(true).Add(builder));
 
         m_timeService = new TimeService();
         m_exceptionPolicy =
@@ -130,7 +129,7 @@ public class ExamplesQueueItemProcessor
     [TearDown]
     public void TearDown()
     {
-        DomainEnviromentConfigurator.DisposeAll();
+        m_loggerFactory.SilentDispose();
     }
 
     #endregion

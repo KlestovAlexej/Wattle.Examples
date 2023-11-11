@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Exceptions;
-using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
 using ShtrihM.Wattle3.Testing;
@@ -13,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
 using Unity;
+using ShtrihM.Wattle3.Utils;
+using ShtrihM.Wattle3.Examples.Common;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 
@@ -1049,6 +1050,7 @@ public class Examples
     #region Enviroment
 
     private string m_dbName;
+    private ILoggerFactory m_loggerFactory;
     private ExampleEntryPoint m_entryPoint;
     private ManagedTimeService m_timeService;
 
@@ -1057,17 +1059,15 @@ public class Examples
     {
         BaseAutoTestsMapper.CreateDb(out m_dbName, out var dbConnectionString);
 
-        // Настройка окружения.
-        DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out var loggerFactory, out _)
-            .Build();
+        // Создание фабрики логгеров к консольк NUnit в режиме не писать - true.
+        m_loggerFactory = LoggerFactory.Create(builder => new NUnitConsoleLoggerProvider(true).Add(builder));
 
         using var container = new UnityContainer();
         container.RegisterInstance(ExampleEntryPoint.WellknownDomainObjectIntergratorContextObjectNames.ConnectionString, dbConnectionString, InstanceLifetime.External);
 
         m_timeService = new ManagedTimeService();
         container.RegisterInstance<ITimeService>(m_timeService, InstanceLifetime.External);
-        container.RegisterInstance(loggerFactory, InstanceLifetime.External);
+        container.RegisterInstance(m_loggerFactory, InstanceLifetime.External);
 
         m_entryPoint = ExampleEntryPoint.New(container);
 
@@ -1083,9 +1083,14 @@ public class Examples
     [TearDown]
     public void TearDown()
     {
-        DomainEnviromentConfigurator.DisposeAll();
+        // Остановка точки входа в доменную область с ожиданием.
+        m_entryPoint.Stop();
+
+        m_entryPoint.SilentDispose();
 
         PostgreSqlDbHelper.DropDb(m_dbName);
+
+        m_loggerFactory.SilentDispose();
     }
 
     private DomainObjectTemplateDocument GetRandomDomainObjectTemplateDocument() =>

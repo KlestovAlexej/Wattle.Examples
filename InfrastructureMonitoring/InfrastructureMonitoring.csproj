@@ -23,4 +23,8 @@
 		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.37416" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Common\Common.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using ShtrihM.Wattle3.Common.Exceptions;
-using ShtrihM.Wattle3.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.BatchingTasks;
 using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
@@ -292,10 +291,8 @@ public class ExamplesBatchingTasks
     [SetUp]
     public void SetUp()
     {
-        // Настройка окружения.
-        DomainEnviromentConfigurator
-            .Begin(LoggerFactory.Create(builder => builder.AddConsole()), out m_loggerFactory, out _)
-            .Build();
+        // Создание фабрики логгеров к консольк NUnit в режиме не писать - true.
+        m_loggerFactory = LoggerFactory.Create(builder => new NUnitConsoleLoggerProvider(true).Add(builder));
 
         m_timeService = new ManagedTimeService();
         m_workflowExceptionPolicy = new WorkflowExceptionPolicy();
@@ -305,7 +302,7 @@ public class ExamplesBatchingTasks
     [TearDown]
     public void TearDown()
     {
-        DomainEnviromentConfigurator.DisposeAll();
+        m_loggerFactory.SilentDispose();
     }
 
     private BatchingTasksProcessor NewBatchingTasksProcessor(
