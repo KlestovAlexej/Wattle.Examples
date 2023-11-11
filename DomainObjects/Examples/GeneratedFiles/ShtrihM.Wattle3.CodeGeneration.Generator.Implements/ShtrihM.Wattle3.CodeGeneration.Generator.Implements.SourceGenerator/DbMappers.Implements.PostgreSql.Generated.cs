@@ -260,14 +260,13 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.PostgreSql.I
             await binaryImport.WriteAsync(instance.Value_DateTime, NpgsqlDbType.Timestamp, cancellationToken).ConfigureAwait(false);
             await binaryImport.WriteAsync(instance.Value_Long, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
             {
-                var value = instance.Value_Int;
-                if (value.HasValue == false)
+                if (instance.Value_Int.HasValue == false)
                 {
                     await binaryImport.WriteNullAsync(cancellationToken).ConfigureAwait(false);
                 }
                 else
                 {
-                    await binaryImport.WriteAsync(value.Value, NpgsqlDbType.Integer, cancellationToken).ConfigureAwait(false);
+                    await binaryImport.WriteAsync(instance.Value_Int.Value, NpgsqlDbType.Integer, cancellationToken).ConfigureAwait(false);
                 }
             }
         }
@@ -281,14 +280,13 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.PostgreSql.I
             binaryImport.Write(instance.Value_DateTime, NpgsqlDbType.Timestamp);
             binaryImport.Write(instance.Value_Long, NpgsqlDbType.Bigint);
             {
-                var value = instance.Value_Int;
-                if (value.HasValue == false)
+                if (instance.Value_Int.HasValue == false)
                 {
                     binaryImport.WriteNull();
                 }
                 else
                 {
-                    binaryImport.Write(value.Value, NpgsqlDbType.Integer);
+                    binaryImport.Write(instance.Value_Int.Value, NpgsqlDbType.Integer);
                 }
             }
         }
@@ -1643,7 +1641,7 @@ FROM Document WHERE (Id = @Id)";
                         }
                         else
                         {
-                            command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                            command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int.Value;
                         }
                     }
                     commandText.Append(@" WHERE (Id = @Id) AND (Revision = @Old_Revision)");
@@ -1781,7 +1779,7 @@ FROM Document WHERE (Id = @Id)";
                         }
                         else
                         {
-                            command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                            command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value =  result.Value_Int.Value;
                         }
                     }
                     commandText.Append(@" WHERE (Id = @Id) AND (Revision = @Old_Revision)");
@@ -2028,7 +2026,7 @@ VALUES
                     }
                     else
                     {
-                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int.Value;
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };
@@ -2145,7 +2143,7 @@ VALUES
                     }
                     else
                     {
-                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int.Value;
                     }
                     {
                         var parameter = new NpgsqlParameter<long>("@Id", NpgsqlDbType.Bigint) { TypedValue = data.Id };

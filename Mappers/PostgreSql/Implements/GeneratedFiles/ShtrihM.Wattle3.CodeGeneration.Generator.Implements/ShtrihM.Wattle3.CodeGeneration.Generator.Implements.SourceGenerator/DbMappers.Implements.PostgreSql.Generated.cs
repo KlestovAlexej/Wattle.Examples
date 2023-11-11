@@ -275,14 +275,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Postg
             await binaryImport.WriteAsync(instance.Value_DateTime_NotUpdate, NpgsqlDbType.Timestamp, cancellationToken).ConfigureAwait(false);
             await binaryImport.WriteAsync(instance.Value_Long, NpgsqlDbType.Bigint, cancellationToken).ConfigureAwait(false);
             {
-                var value = instance.Value_Int;
-                if (value.HasValue == false)
+                if (instance.Value_Int.HasValue == false)
                 {
                     await binaryImport.WriteNullAsync(cancellationToken).ConfigureAwait(false);
                 }
                 else
                 {
-                    await binaryImport.WriteAsync(value.Value, NpgsqlDbType.Integer, cancellationToken).ConfigureAwait(false);
+                    await binaryImport.WriteAsync(instance.Value_Int.Value, NpgsqlDbType.Integer, cancellationToken).ConfigureAwait(false);
                 }
             }
             await binaryImport.WriteAsync(instance.Value_String, NpgsqlDbType.Text, cancellationToken).ConfigureAwait(false);
@@ -296,14 +295,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Postg
             binaryImport.Write(instance.Value_DateTime_NotUpdate, NpgsqlDbType.Timestamp);
             binaryImport.Write(instance.Value_Long, NpgsqlDbType.Bigint);
             {
-                var value = instance.Value_Int;
-                if (value.HasValue == false)
+                if (instance.Value_Int.HasValue == false)
                 {
                     binaryImport.WriteNull();
                 }
                 else
                 {
-                    binaryImport.Write(value.Value, NpgsqlDbType.Integer);
+                    binaryImport.Write(instance.Value_Int.Value, NpgsqlDbType.Integer);
                 }
             }
             binaryImport.Write(instance.Value_String, NpgsqlDbType.Text);
@@ -1667,7 +1665,7 @@ FROM Object_A WHERE (Id = @Id)";
                     }
                     else
                     {
-                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int.Value;
                     }
                     if (data.Value_String.IsChanged)
                     {
@@ -1808,7 +1806,7 @@ FROM Object_A WHERE (Id = @Id)";
                     }
                     else
                     {
-                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                        command.Parameters.Add("@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int.Value;
                     }
                     if (data.Value_String.IsChanged)
                     {
@@ -1819,7 +1817,7 @@ FROM Object_A WHERE (Id = @Id)";
                         }
                         else
                         {
-                            command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value = result.Value_String;
+                            command.Parameters.Add("@Value_String", NpgsqlDbType.Text).Value =  result.Value_String;
                         }
                     }
                     commandText.Append(@" WHERE (Id = @Id) AND (Revision = @Old_Revision)");
@@ -2062,7 +2060,7 @@ VALUES
                     }
                     else
                     {
-                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int.Value;
                     }
                     if (result.Value_String == null)
                     {
@@ -2183,7 +2181,7 @@ VALUES
                     }
                     else
                     {
-                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int;
+                        command.Parameters.Add(@"@Value_Int", NpgsqlDbType.Integer).Value = result.Value_Int.Value;
                     }
                     if (result.Value_String == null)
                     {
