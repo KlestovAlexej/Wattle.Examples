@@ -2,7 +2,7 @@
 
 Примеры использования фреймворка для создания высокопроизводительных серверов с доменными объектами.
 
-Фреймворк кроссплатформенный, написан 100% на [C#](https://ru.wikipedia.org/wiki/C_Sharp) под [.NET 7](https://devblogs.microsoft.com/dotnet/announcing-dotnet-7/).
+Фреймворк кроссплатформенный, написан 100% на [C#](https://ru.wikipedia.org/wiki/C_Sharp) под [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
 
 Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
 
@@ -29,7 +29,7 @@
         - [Поддержка **партиционирования PostgreSQL** из коробки](#поддержка-партиционирования-postgresql-из-коробки)
 ---
 ## Как запускать примеры
-Все примеры оформлены как [NUnit](https://nunit.org/)-тесты для запуска в ОС Windows из-под [Visual Studio 2022](https://visualstudio.microsoft.com/ru/vs/) (версии не ниже 17.6.5).
+Все примеры оформлены как [NUnit](https://nunit.org/)-тесты для запуска в ОС Windows из-под [Visual Studio 2022](https://visualstudio.microsoft.com/ru/vs/) (проверено на версии 17.8).
 
 Все БД в примерах создаются и уничтожаются автоматически при запуске теста.
 
@@ -97,7 +97,7 @@ enable_partition_pruning = on # должно быть 'on'
 Количество загрузок групп ключей из персистентного хранилища : 19
 Количество сохранений групп ключей в персистентное хранилище : 1
 
-Содержимого файлового кэша для быстрого старта 'C:\Dev\Wattle3.Examples\UniqueRegisters\Examples\bin\Release\net7.0-windows\win-x64\Data\TransactionKeys' (файлов 20) :
+Содержимого файлового кэша для быстрого старта 'C:\Dev\Wattle3.Examples\UniqueRegisters\Examples\bin\Release\net8.0-windows\win-x64\Data\TransactionKeys' (файлов 20) :
 gkeys_TransactionKeys_104.gkeys - размер 1 200 001 958
 gkeys_TransactionKeys_107.gkeys - размер 1 200 001 958
 gkeys_TransactionKeys_110.gkeys - размер 1 200 001 958

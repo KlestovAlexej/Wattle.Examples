@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<AssemblyName>ShtrihM.Wattle3.Examples.Common</AssemblyName>
 		<RootNamespace>ShtrihM.Wattle3.Examples.Common</RootNamespace>
@@ -19,9 +19,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.0.0.37416" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.37416" />
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Path" Version="3.0.0.37416">
+		<PackageReference Include="ShtrihM.Wattle3.DomainObjects" Version="3.8.0.37422" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.8.0.37422" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Path" Version="3.8.0.37422">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
