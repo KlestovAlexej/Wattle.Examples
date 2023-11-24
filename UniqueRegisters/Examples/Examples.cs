@@ -49,7 +49,7 @@ public class Examples
     /// Установить параметр : max_connections = 300
     ///
     /// Параметры ПК для приблизительного определения времени теста :
-    ///    OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 15.1
+    ///    OS Windows 11 Pro x64, CPU Intel Core i9-9900KS, RAM 48GB, SSD Samsung 970 Evo Plus 2Tb, DB PostgreSQL 16.0
     /// </summary>
     /// <param name="сountKeysPerDay">Количество ключей за один день.</param>
     /// <param name="days">Количество дней.</param>
@@ -211,7 +211,7 @@ public class Examples
 
             Console.WriteLine("");
             Console.WriteLine("----------------------------------------------------------------------");
-            Console.WriteLine($"Старт реестра на '{key:##,###}' ключах в БД и файловом кэше.");
+            Console.WriteLine($"Старт реестра на '{key:##,###}' ключах в БД и файловым кэше.");
 
             var stopwatch = Stopwatch.StartNew();
 
