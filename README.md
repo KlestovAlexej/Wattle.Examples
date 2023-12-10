@@ -658,7 +658,6 @@ File.WriteAllText(fileName, xml);
 	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
 		<PackageReference Include="Npgsql" Version="6.0.3" />
-		<PackageReference Include="NUnit" Version="3.13.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
 		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.0.0.35768" />
 		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.0.0.35768" />
