@@ -19,6 +19,7 @@ using ShtrihM.Wattle3.Mappers;
 using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 
 #pragma warning disable 1591
 
@@ -36,7 +37,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
@@ -76,7 +77,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата создания
@@ -98,13 +99,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// Идентити.
         /// </summary>
         [DataMember(Order = 1)]
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
         [DataMember(Order = 2)]
-        public long Revision { get; set; }
+        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
@@ -153,13 +154,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// Идентити.
         /// </summary>
         [DataMember(Order = 1)]
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
         [DataMember(Order = 2)]
-        public long Revision { get; set; }
+        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Доступность.
@@ -188,13 +189,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// Идентити.
         /// </summary>
         [DataMember(Order = 1)]
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
         [DataMember(Order = 2)]
-        public long Revision { get; set; }
+        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
@@ -235,13 +236,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// Идентити.
         /// </summary>
         [DataMember(Order = 1)]
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
         [DataMember(Order = 2)]
-        public long Revision { get; set; }
+        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата создания
@@ -262,13 +263,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// Идентити.
         /// </summary>
         [DataMember(Order = 1)]
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
         [DataMember(Order = 2)]
-        public long Revision { get; set; }
+        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
 
@@ -284,13 +285,13 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// Идентити.
         /// </summary>
         [DataMember(Order = 1)]
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
         [DataMember(Order = 2)]
-        public long Revision { get; set; }
+        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
 
@@ -360,7 +361,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// <summary>
         /// Имя таблицы БД.
         /// </summary>
-        string TableName { get; }
+        string TableName { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
         /// <summary>
         /// Получение следующего значения идентити из последовательности "Sequence_Object_A".
@@ -610,7 +611,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interf
         /// <summary>
         /// Имя таблицы БД.
         /// </summary>
-        string TableName { get; }
+        string TableName { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
         /// <summary>
         /// Получение максимального значение существующего идентити.

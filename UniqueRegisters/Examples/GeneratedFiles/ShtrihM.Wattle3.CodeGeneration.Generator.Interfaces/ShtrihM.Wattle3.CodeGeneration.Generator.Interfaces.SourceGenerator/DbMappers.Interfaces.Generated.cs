@@ -20,6 +20,7 @@ using ShtrihM.Wattle3.Mappers.Primitives;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
 using ShtrihM.Wattle3.Mappers.PostgreSql;
 using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 
 #pragma warning disable 1591
 
@@ -37,7 +38,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Произвольные данные транзакции
@@ -64,7 +65,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
         /// Идентити.
         /// </summary>
         [DataMember(Order = 1)]
-        public long Id { get; set; }
+        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Произвольные данные транзакции
@@ -135,7 +136,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
         /// <summary>
         /// Имя таблицы БД.
         /// </summary>
-        string TableName { get; }
+        string TableName { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
         /// <summary>
         /// Получение следующего значения идентити из последовательности "Sequence_TransactionKey".
