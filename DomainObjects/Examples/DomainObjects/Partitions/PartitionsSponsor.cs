@@ -11,7 +11,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
-using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 
@@ -92,7 +91,7 @@ public class PartitionsSponsor : BaseServiceScheduled
                     nowDayPartitionInfo.MinGroupId,
                     nowDayPartitionInfo.MaxNotIncludeGroupId);
 
-                m_logger.LogDebug($"Создана партиция БД '{partitionInfo}'.");
+                m_logger?.LogDebug($"Создана партиция БД '{partitionInfo}'.");
             }
 
             if (false == existsPartitions.Any(pi =>
@@ -104,7 +103,7 @@ public class PartitionsSponsor : BaseServiceScheduled
                     nextDayPartitionInfo.MinGroupId,
                     nextDayPartitionInfo.MaxNotIncludeGroupId);
 
-                m_logger.LogDebug($"Создана партиция БД '{partitionInfo}'.");
+                m_logger?.LogDebug($"Создана партиция БД '{partitionInfo}'.");
             }
 
             session.Commit();
@@ -126,10 +125,7 @@ public class PartitionsSponsor : BaseServiceScheduled
         }
         catch (Exception exception)
         {
-            if (m_logger.IsErrorEnabled())
-            {
-                m_logger.LogError(exception, "Ошибка создания партиций БД.");
-            }
+            m_logger?.LogError(exception, "Ошибка создания партиций БД.");
 
             ExceptionDispatchInfo.Capture(exception).Throw();
         }

@@ -273,6 +273,16 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests
             m_mapper = (IMapperObject_A) m_mappers.GetMapper(WellknownMappers.Object_A);
             m_tableName = "object_a";
             DoSetUp();
+
+            {
+                var partitions = ((IPartitionsMapper)m_mapper).Partitions;
+                using var session = m_mappers.OpenSession();
+                if (false == partitions.GetHasDefaultPartition(session))
+                {
+                    partitions.CreatedDefaultPartition(session);
+                    session.Commit();
+                }
+            }
         }
 
         [TearDown]

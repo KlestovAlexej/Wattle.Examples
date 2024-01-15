@@ -357,7 +357,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     [MapperInterface(WellknownMappersAsText.Object_A)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     // ReSharper disable once PartialTypeWithSinglePart
-    public partial interface IMapperObject_A : IMapper, IPartitionsMapper
+    public partial interface IMapperObject_A : IMapper, IAbstractMapper, IPartitionsMapper
     {
         /// <summary>
         /// Имя таблицы БД.
@@ -447,7 +447,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        Object_ADtoActual Get(IMappersSession mappersSession, long id);
+         Object_ADtoActual Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -456,7 +456,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -545,7 +545,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<Object_ADtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<Object_ADtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -607,7 +607,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
     [MapperInterface(WellknownMappersAsText.Object_B)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     // ReSharper disable once PartialTypeWithSinglePart
-    public partial interface IMapperObject_B : IMapper
+    public partial interface IMapperObject_B : IMapper, IAbstractMapper
     {
         /// <summary>
         /// Имя таблицы БД.
@@ -664,7 +664,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
-        Object_BDtoActual Get(IMappersSession mappersSession, long id);
+         Object_BDtoActual Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -674,7 +674,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
-        ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -766,7 +766,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
-        IEnumerable<Object_BDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<Object_BDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.

@@ -10,6 +10,7 @@
 using System;
 using ShtrihM.Wattle3.Common.Queries;
 using ShtrihM.Wattle3.Common.Queries.Schema;
+using ShtrihM.Wattle3.Mappers.Primitives;
 using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable 1591
@@ -224,6 +225,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Common
         /// Создание конструктора текста запроса доменных объектов Document.
         /// </summary>
         /// <param name="query">Запрос.</param>
+        [MapperQueryBuilder("d70d5118-2c04-4a66-a5a1-4573b7f91631")]
         public static QueryBuilder QueryForDocument(string query)
         {
             if (query == null)
@@ -238,6 +240,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Common
         /// Создание конструктора текста запроса доменных объектов ChangeTracker.
         /// </summary>
         /// <param name="query">Запрос.</param>
+        [MapperQueryBuilder("67bf3734-17bb-4e9a-b0f1-b8f85382e690")]
         public static QueryBuilder QueryForChangeTracker(string query)
         {
             if (query == null)

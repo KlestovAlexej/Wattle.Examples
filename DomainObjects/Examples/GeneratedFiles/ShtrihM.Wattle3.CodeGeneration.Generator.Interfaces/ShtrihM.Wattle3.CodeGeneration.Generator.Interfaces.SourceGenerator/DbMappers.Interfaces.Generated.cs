@@ -285,7 +285,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     [MapperInterface(WellknownMappersAsText.Document)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     // ReSharper disable once PartialTypeWithSinglePart
-    public partial interface IMapperDocument : IMapper, IPartitionsMapper
+    public partial interface IMapperDocument : IMapper, IAbstractMapper, IPartitionsMapper
     {
         /// <summary>
         /// Имя таблицы БД.
@@ -375,7 +375,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        DocumentDtoActual Get(IMappersSession mappersSession, long id);
+         DocumentDtoActual Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -384,7 +384,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -473,7 +473,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<DocumentDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<DocumentDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -535,7 +535,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
     [MapperInterface(WellknownMappersAsText.ChangeTracker)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     // ReSharper disable once PartialTypeWithSinglePart
-    public partial interface IMapperChangeTracker : IMapper, IPartitionsMapper
+    public partial interface IMapperChangeTracker : IMapper, IAbstractMapper, IPartitionsMapper
     {
         /// <summary>
         /// Имя таблицы БД.
@@ -606,7 +606,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        ChangeTrackerDtoActual Get(IMappersSession mappersSession, long id);
+         ChangeTrackerDtoActual Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -615,7 +615,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -672,7 +672,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<ChangeTrackerDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<ChangeTrackerDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.

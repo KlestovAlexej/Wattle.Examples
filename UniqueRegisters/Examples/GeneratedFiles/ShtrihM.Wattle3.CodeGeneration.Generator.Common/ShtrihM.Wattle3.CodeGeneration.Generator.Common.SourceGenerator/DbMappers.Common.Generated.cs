@@ -10,6 +10,7 @@
 using System;
 using ShtrihM.Wattle3.Common.Queries;
 using ShtrihM.Wattle3.Common.Queries.Schema;
+using ShtrihM.Wattle3.Mappers.Primitives;
 using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable 1591
@@ -123,6 +124,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common
         /// Создание конструктора текста запроса доменных объектов TransactionKey.
         /// </summary>
         /// <param name="query">Запрос.</param>
+        [MapperQueryBuilder("52af162d-5f87-4c74-965f-eefc9850c088")]
         public static QueryBuilder QueryForTransactionKey(string query)
         {
             if (query == null)

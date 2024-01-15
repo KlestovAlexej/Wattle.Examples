@@ -12,6 +12,7 @@ using System.Data;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -2151,6 +2152,28 @@ VALUES
 
                 throw targetException;
             }
+        }
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        IEnumerable<IMapperDto> IAbstractMapper.GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter)
+        {
+            return GetEnumerator(session, selectFilter);
+        }
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <returns>Возвращает итератор всех выбраных записей.</returns>
+        IEnumerable<TMapperDto> IAbstractMapper.GetEnumerator<TMapperDto>(IMappersSession session, IMapperSelectFilter selectFilter)
+        {
+            return GetEnumerator(session, selectFilter).Cast<TMapperDto>();
         }
 
         /// <summary>
@@ -4427,6 +4450,30 @@ AND ([Available] = @Old_Available)";
 
                 throw targetException;
             }
+        }
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// ВАЖНО : Выбор не учитывает скрытые записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
+        IEnumerable<IMapperDto> IAbstractMapper.GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter)
+        {
+            return GetEnumerator(session, selectFilter);
+        }
+
+        /// <summary>
+        /// Получить итератор всех записей выбранных с учётом фильтра.
+        /// ВАЖНО : Выбор не учитывает скрытые записи.
+        /// </summary>
+        /// <param name="session">Сессия БД.</param>
+        /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
+        /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
+        IEnumerable<TMapperDto> IAbstractMapper.GetEnumerator<TMapperDto>(IMappersSession session, IMapperSelectFilter selectFilter)
+        {
+            return GetEnumerator(session, selectFilter).Cast<TMapperDto>();
         }
 
         /// <summary>

@@ -202,6 +202,16 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests
             m_mapper = (IMapperTransactionKey) m_mappers.GetMapper(WellknownMappers.TransactionKey);
             m_tableName = "transactionkey";
             DoSetUp();
+
+            {
+                var partitions = ((IPartitionsMapper)m_mapper).Partitions;
+                using var session = m_mappers.OpenSession();
+                if (false == partitions.GetHasDefaultPartition(session))
+                {
+                    partitions.CreatedDefaultPartition(session);
+                    session.Commit();
+                }
+            }
         }
 
         [TearDown]

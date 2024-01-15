@@ -10,6 +10,7 @@
 using System;
 using ShtrihM.Wattle3.Common.Queries;
 using ShtrihM.Wattle3.Common.Queries.Schema;
+using ShtrihM.Wattle3.Mappers.Primitives;
 using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable 1591
@@ -242,6 +243,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common
         /// Создание конструктора текста запроса доменных объектов Object_A.
         /// </summary>
         /// <param name="query">Запрос.</param>
+        [MapperQueryBuilder("266032e5-19c6-434c-a521-d1d1c652edd1")]
         public static QueryBuilder QueryForObject_A(string query)
         {
             if (query == null)
@@ -256,6 +258,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common
         /// Создание конструктора текста запроса доменных объектов Object_B.
         /// </summary>
         /// <param name="query">Запрос.</param>
+        [MapperQueryBuilder("cb9a1909-a7b6-48a6-8fe5-7d714e0225ea")]
         public static QueryBuilder QueryForObject_B(string query)
         {
             if (query == null)

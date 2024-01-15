@@ -273,6 +273,16 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests
             m_mapper = (IMapperDocument) m_mappers.GetMapper(WellknownMappers.Document);
             m_tableName = "document";
             DoSetUp();
+
+            {
+                var partitions = ((IPartitionsMapper)m_mapper).Partitions;
+                using var session = m_mappers.OpenSession();
+                if (false == partitions.GetHasDefaultPartition(session))
+                {
+                    partitions.CreatedDefaultPartition(session);
+                    session.Commit();
+                }
+            }
         }
 
         [TearDown]
@@ -601,6 +611,16 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests
             m_mapper = (IMapperChangeTracker) m_mappers.GetMapper(WellknownMappers.ChangeTracker);
             m_tableName = "changetracker";
             DoSetUp();
+
+            {
+                var partitions = ((IPartitionsMapper)m_mapper).Partitions;
+                using var session = m_mappers.OpenSession();
+                if (false == partitions.GetHasDefaultPartition(session))
+                {
+                    partitions.CreatedDefaultPartition(session);
+                    session.Commit();
+                }
+            }
         }
 
         [TearDown]

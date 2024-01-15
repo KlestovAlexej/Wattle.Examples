@@ -244,7 +244,7 @@ public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup
 
             if (VerifyNeedDeleteGroup(partition.MinGroupId))
             {
-                m_logger.LogDebug($"Реестр уникальных ключей транзакуий. Партиция БД '{partition}' может быть удалена.");
+                m_logger?.LogDebug($"Реестр уникальных ключей транзакуий. Партиция БД '{partition}' может быть удалена.");
 
                 continue;
             }
@@ -355,7 +355,7 @@ public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup
         {
             if (partition.MinGroupId == goupId)
             {
-                m_logger.LogDebug($"Реестр уникальных ключей операций. Удаление устаревшей партиции БД '{partition}'.");
+                m_logger?.LogDebug($"Реестр уникальных ключей операций. Удаление устаревшей партиции БД '{partition}'.");
 
                 break;
             }

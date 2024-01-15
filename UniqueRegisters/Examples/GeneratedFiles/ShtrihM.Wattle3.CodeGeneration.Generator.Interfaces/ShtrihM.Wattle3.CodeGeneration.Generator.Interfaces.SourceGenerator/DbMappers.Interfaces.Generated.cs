@@ -131,7 +131,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
     [MapperInterface(WellknownMappersAsText.TransactionKey)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     // ReSharper disable once PartialTypeWithSinglePart
-    public partial interface IMapperTransactionKey : IMapper, IPartitionsMapper
+    public partial interface IMapperTransactionKey : IMapper, IAbstractMapper, IPartitionsMapper
     {
         /// <summary>
         /// Имя таблицы БД.
@@ -202,7 +202,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        TransactionKeyDtoActual Get(IMappersSession mappersSession, long id);
+         TransactionKeyDtoActual Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -211,7 +211,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-        ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -268,7 +268,7 @@ namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<TransactionKeyDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<TransactionKeyDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
