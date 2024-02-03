@@ -24,28 +24,28 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
 		<PackageReference Include="Npgsql" Version="8.0.1" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.9.0.3334">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.9.0.3585">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.9.0.3334">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.9.0.3585">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.9.0.3334">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.9.0.3585">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.9.0.3334">
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.9.0.3585">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.9.0.3334" />
-		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.9.0.3334" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.9.0.3334" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers.SqlServer" Version="3.9.0.3334" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.9.0.3334" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.SqlServer" Version="3.9.0.3334" />
+		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.9.0.3585" />
+		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.9.0.3585" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.9.0.3585" />
+		<PackageReference Include="ShtrihM.Wattle3.Mappers.SqlServer" Version="3.9.0.3585" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.9.0.3585" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.SqlServer" Version="3.9.0.3585" />
 	</ItemGroup>
 
 	<ItemGroup>

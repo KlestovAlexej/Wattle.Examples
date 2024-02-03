@@ -12,9 +12,9 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
-		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.9.0.3334" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.9.0.3334" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.DomainObjects" Version="3.9.0.3334" />
+		<PackageReference Include="ShtrihM.Wattle3.QueueProcessors" Version="3.9.0.3585" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.9.0.3585" />
+		<PackageReference Include="ShtrihM.Wattle3.Testing.DomainObjects" Version="3.9.0.3585" />
 	</ItemGroup>
 
 	<ItemGroup>

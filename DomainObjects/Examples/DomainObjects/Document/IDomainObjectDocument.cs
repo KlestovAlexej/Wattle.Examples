@@ -1,4 +1,5 @@
 ﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
+using ShtrihM.Wattle3.Examples.DomainObjects.Common;
 using System;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
@@ -6,6 +7,7 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document
 /// <summary>
 /// Документ.
 /// </summary>
+[DomainObjectInterface(WellknownDomainObjects.Text.Document)]
 public interface IDomainObjectDocument : IDomainObject
 {
     /// <summary>

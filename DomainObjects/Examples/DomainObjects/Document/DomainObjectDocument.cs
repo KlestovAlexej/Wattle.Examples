@@ -9,25 +9,25 @@ using ShtrihM.Wattle3.Primitives;
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
 
-[DomainObjectDataMapper(WellknownMappersAsText.Document, DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DomainObjectDataTarget.Delete, DomainObjectDataTarget.Version)]
+[DomainObjectDataMapper]
 public class DomainObjectDocument : BaseDomainObject<DomainObjectDocument>, IDomainObjectDocument
 {
     /// <summary>
     /// Версия данных в БД.
     /// </summary>
-    [DomainObjectFieldValue(DomainObjectDataTarget.Update, DomainObjectDataTarget.Delete, DomainObjectDataTarget.Version)]
+    [DomainObjectFieldValue]
     public long Revision { get; }
 
     /// <summary>
     /// Дата-время создания.
     /// </summary>
-    [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update)]
+    [DomainObjectFieldValue]
     public DateTime CreateDate { get; }
 
     /// <summary>
     /// Дата-время модификации.
     /// </summary>
-    [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update)]
+    [DomainObjectFieldValue]
     public DateTime ModificationDate { get; private set; }
 
     /// <summary>
@@ -127,13 +127,13 @@ public class DomainObjectDocument : BaseDomainObject<DomainObjectDocument>, IDom
 
     #region Ритуальный код
 
-    [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DtoFiledName = nameof(WellknownDomainObjectFields.Document.Value_DateTime))]
+    [DomainObjectFieldValue]
     private MutableField<DateTime> m_value_DateTime;
 
-    [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DtoFiledName = nameof(WellknownDomainObjectFields.Document.Value_Long))]
+    [DomainObjectFieldValue]
     private MutableField<long> m_value_Long;
 
-    [DomainObjectFieldValue(DomainObjectDataTarget.Create, DomainObjectDataTarget.Update, DtoFiledName = nameof(WellknownDomainObjectFields.Document.Value_Int))]
+    [DomainObjectFieldValue]
     private MutableFieldNullable<int> m_value_Int;
 
     private readonly IEntryPoint m_entryPoint;

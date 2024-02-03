@@ -189,13 +189,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <summary>
         /// Идентити.
         /// </summary>
-        [DataMember(Order = 1)]
         public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        [DataMember(Order = 2)]
         public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
@@ -236,13 +234,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <summary>
         /// Идентити.
         /// </summary>
-        [DataMember(Order = 1)]
         public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        [DataMember(Order = 2)]
         public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
@@ -263,13 +259,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <summary>
         /// Идентити.
         /// </summary>
-        [DataMember(Order = 1)]
         public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        [DataMember(Order = 2)]
         public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
@@ -285,13 +279,11 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Inter
         /// <summary>
         /// Идентити.
         /// </summary>
-        [DataMember(Order = 1)]
         public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        [DataMember(Order = 2)]
         public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }

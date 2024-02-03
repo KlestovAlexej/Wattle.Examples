@@ -4,6 +4,7 @@ using ShtrihM.Wattle3.DomainObjects.Common;
 using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
+using ShtrihM.Wattle3.DomainObjects.DomainObjects;
 using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
 using ShtrihM.Wattle3.DomainObjects.EntryPoints;
 using ShtrihM.Wattle3.DomainObjects.Interfaces;
@@ -20,6 +21,8 @@ using ShtrihM.Wattle3.Utils;
 using System;
 using System.Text;
 using Unity;
+
+[assembly: SchemaModelResource("DbMappers.Schema.xml")]
 
 namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
 

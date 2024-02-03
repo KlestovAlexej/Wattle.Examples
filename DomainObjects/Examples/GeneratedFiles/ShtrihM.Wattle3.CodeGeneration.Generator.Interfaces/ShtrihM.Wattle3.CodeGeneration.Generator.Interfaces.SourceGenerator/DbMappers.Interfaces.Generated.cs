@@ -166,13 +166,11 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        [DataMember(Order = 1)]
         public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        [DataMember(Order = 2)]
         public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
@@ -213,13 +211,11 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        [DataMember(Order = 1)]
         public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        [DataMember(Order = 2)]
         public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
