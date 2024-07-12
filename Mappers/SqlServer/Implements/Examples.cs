@@ -580,7 +580,7 @@ public class Examples
         }
 
         {
-            var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
+            var snapShot = mapper.InfrastructureMonitor!.InfrastructureMonitorActualDtoCache.GetSnapShot();
             Console.WriteLine($"Количество объектов в памяти : {snapShot.Count:##,###}");
             Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind:##,###}");
             Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound:##,###}");
@@ -646,7 +646,7 @@ public class Examples
         }
 
         {
-            var snapShot = mapper.InfrastructureMonitor.InfrastructureMonitorActualDtoCache.GetSnapShot();
+            var snapShot = mapper.InfrastructureMonitor!.InfrastructureMonitorActualDtoCache.GetSnapShot();
             Console.WriteLine($"Количество объектов в памяти : {snapShot.Count:##,###}");
             Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind:##,###}");
             Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound:##,###}");
