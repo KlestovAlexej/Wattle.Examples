@@ -12,11 +12,11 @@
             <Query Id="4f414fbb-4b25-4691-80c3-9897fc5be61b" Order="true" Where="true" />
           </Identity>
           <Fields>
-            <Field Name="Tag" Type="long" Description="Произвольные данные транзакции" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+            <Field Name="Tag" Type="long" Description="Произвольные данные транзакции" UseHide="false" UpdateKey="false" UpdateMode="NotUpdate" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Bigint" IsQuotedName="false" />
               <Query Id="9d0ff6d9-4059-4db8-9b58-883707710026" Order="true" Where="true" />
             </Field>
-            <Field Name="Key" Type="Guid" Description="Ключ транзакции" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+            <Field Name="Key" Type="Guid" Description="Ключ транзакции" UseHide="false" UpdateKey="false" UpdateMode="NotUpdate" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Uuid" IsQuotedName="false" />
               <Query Id="7e371548-201d-463f-85ff-95e1741ac449" Order="true" Where="true" />
             </Field>

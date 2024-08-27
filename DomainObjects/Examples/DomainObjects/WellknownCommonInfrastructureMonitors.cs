@@ -1,7 +1,10 @@
-﻿using ShtrihM.Wattle3.Primitives;
+﻿#nullable enable
+
+using ShtrihM.Wattle3.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -12,11 +15,11 @@ namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects;
 /// </summary>
 public static class WellknownCommonInfrastructureMonitors
 {
-    private static readonly IReadOnlyDictionary<Guid, string> DisplayNames;
+    private static readonly IReadOnlyDictionary<Guid, string>? DisplayNames;
 
     static WellknownCommonInfrastructureMonitors()
     {
-        WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod()!.DeclaringType);
+        WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod()!.DeclaringType!);
     }
 
     /// <summary>
@@ -40,6 +43,8 @@ public static class WellknownCommonInfrastructureMonitors
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string GetDisplayName(Guid id)
     {
+        Debug.Assert(DisplayNames != null, nameof(DisplayNames) + " != null");
+
         return DisplayNames.TryGetValue(id, out var result) ? result : id.ToString();
     }
 }

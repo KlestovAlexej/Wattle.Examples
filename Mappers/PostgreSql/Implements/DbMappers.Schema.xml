@@ -15,23 +15,23 @@
             <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" />
           </Revision>
           <Fields>
-            <Field Name="Value_DateTime" Type="DateTime" Description="Дата-время (DateTime). Обновляемое поле." UseHide="false" UpdateMode="UpdateDirect" NotUseNew="false">
+            <Field Name="Value_DateTime" Type="DateTime" Description="Дата-время (DateTime). Обновляемое поле." UseHide="false" UpdateKey="false" UpdateMode="UpdateDirect" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Timestamp" IsQuotedName="false" />
               <Query Id="dce071bb-796e-4397-91b8-eaf116747880" Order="true" Where="true" />
             </Field>
-            <Field Name="Value_DateTime_NotUpdate" Type="DateTime" Description="Дата-время (DateTime). Не обновляемое поле." UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+            <Field Name="Value_DateTime_NotUpdate" Type="DateTime" Description="Дата-время (DateTime). Не обновляемое поле." UseHide="false" UpdateKey="false" UpdateMode="NotUpdate" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Timestamp" IsQuotedName="false" />
               <Query Id="273a65e2-7647-42db-a15d-58b69a64c69d" Order="true" Where="true" />
             </Field>
-            <Field Name="Value_Long" Type="long" Description="Число (long). Поле обновляется только при изменении значения." UseHide="false" UpdateMode="Update" NotUseNew="false">
+            <Field Name="Value_Long" Type="long" Description="Число (long). Поле обновляется только при изменении значения." UseHide="false" UpdateKey="false" UpdateMode="Update" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Bigint" IsQuotedName="false" />
               <Query Id="87a005ed-ca51-4c60-83ec-6540ac0823d6" Order="true" Where="true" />
             </Field>
-            <Field Name="Value_Int" Type="int?" Description="Число с поддержкой null (int?). Обновляемое поле." UseHide="false" UpdateMode="UpdateDirect" NotUseNew="false">
+            <Field Name="Value_Int" Type="int?" Description="Число с поддержкой null (int?). Обновляемое поле." UseHide="false" UpdateKey="false" UpdateMode="UpdateDirect" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="true" Type="Integer" IsQuotedName="false" />
               <Query Id="198251ef-8183-4a09-a760-e5baafbbb6ff" Order="true" Where="true" />
             </Field>
-            <Field Name="Value_String" Type="string" Description="Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения." UseHide="false" UpdateMode="Update" NotUseNew="false">
+            <Field Name="Value_String" Type="string" Description="Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения." UseHide="false" UpdateKey="false" UpdateMode="Update" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="true" Type="Text" IsQuotedName="false" />
               <Query Id="100e6573-b387-4cb5-b3d6-45df4cb2cc9c" Order="false" Where="false" />
             </Field>
@@ -50,7 +50,7 @@
             <Storage Name="%FieldName%" Type="Boolean" IsQuotedName="false" />
           </Available>
           <Fields>
-            <Field Name="CreateDate" Type="DateTime" Description="Дата создания" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+            <Field Name="CreateDate" Type="DateTime" Description="Дата создания" UseHide="false" UpdateKey="false" UpdateMode="NotUpdate" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Timestamp" IsQuotedName="false" />
               <Query Id="92847c2c-e7b4-4ee1-a628-042b75aa9225" Order="true" Where="true" />
             </Field>

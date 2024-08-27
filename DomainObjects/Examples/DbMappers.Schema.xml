@@ -15,23 +15,23 @@
             <Storage Name="%FieldName%" Type="Bigint" IsQuotedName="false" />
           </Revision>
           <Fields>
-            <Field Name="CreateDate" Type="DateTime" Description="Дата-время создания" UseHide="false" UpdateMode="NotUpdate" NotUseNew="false">
+            <Field Name="CreateDate" Type="DateTime" Description="Дата-время создания" UseHide="false" UpdateKey="false" UpdateMode="NotUpdate" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Timestamp" IsQuotedName="false" />
               <Query Id="7ef5bc59-73ae-485f-a1d5-7a7cec7b691c" Order="true" Where="true" />
             </Field>
-            <Field Name="ModificationDate" Type="DateTime" Description="Дата-время модификации" UseHide="false" UpdateMode="UpdateDirect" NotUseNew="false">
+            <Field Name="ModificationDate" Type="DateTime" Description="Дата-время модификации" UseHide="false" UpdateKey="false" UpdateMode="UpdateDirect" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Timestamp" IsQuotedName="false" />
               <Query Id="f1a9d132-e6b2-4c4c-96e7-bdfcb1e0a330" Order="true" Where="true" />
             </Field>
-            <Field Name="Value_DateTime" Type="DateTime" Description="Доле документа - дата-время" UseHide="false" UpdateMode="Update" NotUseNew="false">
+            <Field Name="Value_DateTime" Type="DateTime" Description="Доле документа - дата-время" UseHide="false" UpdateKey="false" UpdateMode="Update" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Timestamp" IsQuotedName="false" />
               <Query Id="31becbf5-304f-4e0b-9540-25efd7191f19" Order="true" Where="true" />
             </Field>
-            <Field Name="Value_Long" Type="long" Description="Доле документа - число" UseHide="false" UpdateMode="Update" NotUseNew="false">
+            <Field Name="Value_Long" Type="long" Description="Доле документа - число" UseHide="false" UpdateKey="false" UpdateMode="Update" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="false" Type="Bigint" IsQuotedName="false" />
               <Query Id="15713b81-57c2-4a29-a978-2f2ea00d4554" Order="true" Where="true" />
             </Field>
-            <Field Name="Value_Int" Type="int?" Description="Доле документа - число с поддержкой null" UseHide="false" UpdateMode="Update" NotUseNew="false">
+            <Field Name="Value_Int" Type="int?" Description="Доле документа - число с поддержкой null" UseHide="false" UpdateKey="false" UpdateMode="Update" NotUseNew="false">
               <Storage Name="%FieldName%" IsNull="true" Type="Integer" IsQuotedName="false" />
               <Query Id="c238f1b0-c802-41f3-a6f0-ae2b52a1598f" Order="true" Where="true" />
             </Field>

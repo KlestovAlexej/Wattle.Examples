@@ -1,7 +1,10 @@
-﻿using ShtrihM.Wattle3.Primitives;
+﻿#nullable enable
+
+using ShtrihM.Wattle3.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -33,11 +36,11 @@ public static class WellknownDomainObjects
     /// <summary>
     /// Все идентификаторы объектов и их описание.
     /// </summary>
-    public static readonly IReadOnlyDictionary<Guid, string> DisplayNames;
+    public static readonly IReadOnlyDictionary<Guid, string>? DisplayNames;
 
     static WellknownDomainObjects()
     {
-        WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod()!.DeclaringType);
+        WellknowConstantsHelper.CollectDisplayNames(out DisplayNames, MethodBase.GetCurrentMethod()!.DeclaringType!);
     }
 
     /// <summary>
@@ -54,6 +57,8 @@ public static class WellknownDomainObjects
 
     public static string GetDisplayName(Guid id)
     {
+        Debug.Assert(DisplayNames != null, nameof(DisplayNames) + " != null");
+
         return DisplayNames.TryGetValue(id, out var result) ? result : id.ToString();
     }
 }
