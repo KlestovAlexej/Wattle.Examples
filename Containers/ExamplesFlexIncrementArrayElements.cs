@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ShtrihM.Wattle3.Containers;
-using ShtrihM.Wattle3.Testing;
+using Acme.Wattle.Containers;
+using Acme.Wattle.Testing;
 
-namespace ShtrihM.Wattle3.Examples.Containers;
+namespace Acme.Wattle.Examples.Containers;
 
 /// <summary>
 /// Примеры массива элементов неограниченного размера.

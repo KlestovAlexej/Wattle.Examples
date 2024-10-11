@@ -1,13 +1,13 @@
-﻿using ShtrihM.Wattle3.DomainObjects.DomainObjects;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.DomainObjects.Common;
-using ShtrihM.Wattle3.Mappers.Primitives.MutableFields;
+﻿using Acme.Wattle.DomainObjects.DomainObjects;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.DomainObjects.Common;
+using Acme.Wattle.Mappers.Primitives.MutableFields;
 using System;
 using System.Runtime.CompilerServices;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
-using ShtrihM.Wattle3.Primitives;
+using Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface;
+using Acme.Wattle.Primitives;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Document;
 
 [DomainObjectDataMapper]
 public class DomainObjectDocument : BaseDomainObject<DomainObjectDocument>, IDomainObjectDocument

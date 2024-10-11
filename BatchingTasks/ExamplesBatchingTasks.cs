@@ -9,18 +9,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.Common.Exceptions;
-using ShtrihM.Wattle3.DomainObjects.BatchingTasks;
-using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.QueueProcessors;
-using ShtrihM.Wattle3.QueueProcessors.Interfaces;
-using ShtrihM.Wattle3.Testing;
-using ShtrihM.Wattle3.Testing.DomainObjects;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.Common.Exceptions;
+using Acme.Wattle.DomainObjects.BatchingTasks;
+using Acme.Wattle.DomainObjects.Common;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.Common;
+using Acme.Wattle.QueueProcessors;
+using Acme.Wattle.QueueProcessors.Interfaces;
+using Acme.Wattle.Testing;
+using Acme.Wattle.Testing.DomainObjects;
+using Acme.Wattle.Utils;
 
-namespace ShtrihM.Wattle3.Examples.BatchingTasks;
+namespace Acme.Wattle.Examples.BatchingTasks;
 
 /// <summary>
 /// Примеры использования процессора пакетных задача.

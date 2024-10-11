@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
-using ShtrihM.Wattle3.Mappers;
-using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Mappers.Primitives;
-using ShtrihM.Wattle3.Testing;
-using ShtrihM.Wattle3.Testing.Databases.SqlServer;
+using Acme.Wattle.DomainObjects.Common;
+using Acme.Wattle.DomainObjects.DomainObjectDataMappers;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.Common;
+using Acme.Wattle.Examples.Mappers.SqlServer.Common;
+using Acme.Wattle.Mappers;
+using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.Mappers.Primitives;
+using Acme.Wattle.Testing;
+using Acme.Wattle.Testing.Databases.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,15 +17,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests;
-using ShtrihM.Wattle3.Json.Extensions;
-using ShtrihM.Wattle3.Common.Interfaces;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Common;
+using Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface;
+using Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
+using Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Tests;
+using Acme.Wattle.Json.Extensions;
+using Acme.Wattle.Common.Interfaces;
+using Acme.Wattle.Utils;
 
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements;
+namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements;
 
 [TestFixture]
 [SuppressMessage("ReSharper", "AccessToDisposedClosure")]

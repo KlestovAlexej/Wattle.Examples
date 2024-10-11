@@ -1,7 +1,7 @@
-﻿using ShtrihM.Wattle3.Json.Extensions;
-using ShtrihM.Wattle3.Json.ValueData;
+﻿using Acme.Wattle.Json.Extensions;
+using Acme.Wattle.Json.ValueData;
 
-namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
+namespace Acme.Wattle.Examples.InfrastructureMonitoring.Models;
 
 /// <summary>
 /// Произвольное значение в снимке.

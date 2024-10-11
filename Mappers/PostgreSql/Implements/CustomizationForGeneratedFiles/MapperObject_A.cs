@@ -1,14 +1,14 @@
-﻿using ShtrihM.Wattle3.Caching;
-using ShtrihM.Wattle3.DomainObjects;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
-using ShtrihM.Wattle3.Mappers;
-using ShtrihM.Wattle3.Mappers.PostgreSql;
+﻿using Acme.Wattle.Caching;
+using Acme.Wattle.DomainObjects;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.Mappers.PostgreSql.Common;
+using Acme.Wattle.Mappers;
+using Acme.Wattle.Mappers.PostgreSql;
 using System;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
+using Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
+namespace Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
 
 public partial class MapperObject_A
 {

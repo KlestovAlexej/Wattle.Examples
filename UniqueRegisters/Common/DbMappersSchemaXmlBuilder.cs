@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
-using ShtrihM.Wattle3.CodeGeneration.Generators.Schem;
-using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.Testing;
+using Acme.Wattle.CodeGeneration.Generators.Schem;
+using Acme.Wattle.Examples.Common;
+using Acme.Wattle.Testing;
 using System;
 using System.IO;
 
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Common;
+namespace Acme.Wattle.Examples.UniqueRegisters.Common;
 
 /// <summary>
 /// Создание XML-схемы мапперов по которой будет идти кодогенерация.

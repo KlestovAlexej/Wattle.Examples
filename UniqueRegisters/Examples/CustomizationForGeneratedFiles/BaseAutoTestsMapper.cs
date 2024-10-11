@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
-using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Common;
-using ShtrihM.Wattle3.Primitives;
-using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
+using Acme.Wattle.Examples.Common;
+using Acme.Wattle.Examples.UniqueRegisters.Common;
+using Acme.Wattle.Primitives;
+using Acme.Wattle.Testing.Databases.PostgreSql;
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests;
+namespace Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Tests;
 
 public abstract partial class BaseAutoTestsMapper
 {
@@ -33,7 +33,7 @@ public abstract partial class BaseAutoTestsMapper
         Assert.IsTrue(DbCredentials.TryGetServerAdressForPostgreSql(out var serverAdress), "Определите адрес сервера с PostgreSQL.");
         Assert.IsTrue(DbCredentials.TryGetCredentialsForPostgreSql(out var credentials), "Определите параметры учётной записи подключения к PostgreSQL.");
 
-        dbName = "examples_wattle3_" + DateTime.Now.ToString("yyyMMddhhmmss") + "_" + Guid.NewGuid().ToString("N");
+        dbName = "examples_wattle_" + DateTime.Now.ToString("yyyMMddhhmmss") + "_" + Guid.NewGuid().ToString("N");
         dbConnectionString = PostgreSqlDbHelper.GetDatabaseConnectionString(dbName, serverAdress: serverAdress, userCredentials: credentials);
 
         var sqlScript = typeof(WellknownDomainObjects).Assembly.GetResourceAsString("SqlScript.sql");

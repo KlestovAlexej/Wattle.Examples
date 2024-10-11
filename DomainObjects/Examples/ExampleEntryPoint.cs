@@ -1,30 +1,30 @@
 ﻿using Microsoft.Extensions.Logging;
-using ShtrihM.Wattle3.Common.Interfaces;
-using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
-using ShtrihM.Wattle3.DomainObjects.DomainObjects;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
-using ShtrihM.Wattle3.DomainObjects.EntryPoints;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
-using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
-using ShtrihM.Wattle3.Infrastructures.Monitors;
-using ShtrihM.Wattle3.Mappers;
-using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.QueueProcessors;
-using ShtrihM.Wattle3.QueueProcessors.Interfaces;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.Common.Interfaces;
+using Acme.Wattle.DomainObjects.Common;
+using Acme.Wattle.DomainObjects.DomainBehaviours;
+using Acme.Wattle.DomainObjects.DomainObjectDataMappers;
+using Acme.Wattle.DomainObjects.DomainObjectIntergrators;
+using Acme.Wattle.DomainObjects.DomainObjects;
+using Acme.Wattle.DomainObjects.DomainObjectsRegisters;
+using Acme.Wattle.DomainObjects.EntryPoints;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.Common;
+using Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects;
+using Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Partitions;
+using Acme.Wattle.Infrastructures.Interfaces.Monitors;
+using Acme.Wattle.Infrastructures.Monitors;
+using Acme.Wattle.Mappers;
+using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.QueueProcessors;
+using Acme.Wattle.QueueProcessors.Interfaces;
+using Acme.Wattle.Utils;
 using System;
 using System.Text;
 using Unity;
 
 [assembly: SchemaModelResource("DbMappers.Schema.xml")]
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
+namespace Acme.Wattle.Examples.DomainObjects.Examples;
 
 public class ExampleEntryPoint : BaseEntryPointEx
 {

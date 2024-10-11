@@ -1,9 +1,9 @@
-﻿using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Mappers.SqlServer;
-using ShtrihM.Wattle3.Utils;
+﻿using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.Mappers.SqlServer;
+using Acme.Wattle.Utils;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
+namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
 
 public partial class Mappers
 {

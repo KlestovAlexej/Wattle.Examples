@@ -1,12 +1,12 @@
-# Wattle3.Examples
+# Wattle.Examples
 
 Примеры использования фреймворка для создания высокопроизводительных серверов с доменными объектами.
 
 Фреймворк кроссплатформенный, написан 100% на [C#](https://ru.wikipedia.org/wiki/C_Sharp) под [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
 
-Пакеты **nuget** начинаются с префикса [ShtrihM.Wattle3](https://www.nuget.org/packages?q=ShtrihM.Wattle3)
+Пакеты **nuget** начинаются с префикса [Acme.Wattle](https://www.nuget.org/packages?q=Acme.Wattle)
 
-Полнофункциональный [демонстрационный сервер](https://github.com/KlestovAlexej/Wattle3.DemoServer) на базе библиотеки.
+Полнофункциональный [демонстрационный сервер](https://github.com/KlestovAlexej/Wattle.DemoServer) на базе библиотеки.
 
 # Содержание
 - [Как запускать примеры](#как-запускать-примеры)
@@ -40,7 +40,7 @@
 ---
 ## Идемпотентность
 
-[Идемпотентность](https://ru.wikipedia.org/wiki/%D0%98%D0%B4%D0%B5%D0%BC%D0%BF%D0%BE%D1%82%D0%B5%D0%BD%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C) поддерживается готовыми компонентами - *реестры уникальных ключей* из nuget пакета [ShtrihM.Wattle3.UniqueRegisters](https://www.nuget.org/packages/ShtrihM.Wattle3.UniqueRegisters/).
+[Идемпотентность](https://ru.wikipedia.org/wiki/%D0%98%D0%B4%D0%B5%D0%BC%D0%BF%D0%BE%D1%82%D0%B5%D0%BD%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C) поддерживается готовыми компонентами - *реестры уникальных ключей* из nuget пакета [Acme.Wattle.UniqueRegisters](https://www.nuget.org/packages/Acme.Wattle.UniqueRegisters/).
 
 Реестры уникальных ключей реализуют:
 - Хранение ключей в оперативной памяти и персистентно в БД.
@@ -54,7 +54,7 @@
 - Регистрация нового ключа задействует БД только в момент подтверждения [Unit of Work](https://martinfowler.com/eaaCatalog/unitOfWork.html).
 - Регистрация нового ключа отменяется автоматически в аварийных ситуациях работы Unit of Work.
  
-В проекте [UniqueRegisters.Examples](https://github.com/KlestovAlexej/Wattle3.Examples/tree/master/UniqueRegisters/Examples) весь код примеров.
+В проекте [UniqueRegisters.Examples](https://github.com/KlestovAlexej/Wattle.Examples/tree/master/UniqueRegisters/Examples) весь код примеров.
 
 ### Пример старта реестра на **1.000.000.000** уникальных ключей *(17,12 секунд)*
 
@@ -63,7 +63,7 @@
 <br>
 Ключ : 16 байт [Guid](https://docs.microsoft.com/ru-ru/dotnet/api/system.guid?view=net-6.0)
 <br>Данные : 8 байт [Long](https://docs.microsoft.com/ru-ru/dotnet/api/system.int64?view=net-6.0)
-<br>Тест [Example_Start](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs#L67) из примеров [Examples.cs](https://github.com/KlestovAlexej/Wattle3.Examples/blob/master/UniqueRegisters/Examples/Examples.cs).
+<br>Тест [Example_Start](https://github.com/KlestovAlexej/Wattle.Examples/blob/master/UniqueRegisters/Examples/Examples.cs#L67) из примеров [Examples.cs](https://github.com/KlestovAlexej/Wattle.Examples/blob/master/UniqueRegisters/Examples/Examples.cs).
 | Действие    | Результат  |
 | --- | --- |
 | Время создания и инициализации реестра | 17,12 секунды |
@@ -96,7 +96,7 @@ enable_partition_pruning = on # должно быть 'on'
 Количество загрузок групп ключей из персистентного хранилища : 19
 Количество сохранений групп ключей в персистентное хранилище : 1
 
-Содержимого файлового кэша для быстрого старта 'C:\Dev\Wattle3.Examples\UniqueRegisters\Examples\bin\Release\net8.0-windows\win-x64\Data\TransactionKeys' (файлов 20) :
+Содержимого файлового кэша для быстрого старта 'C:\Dev\Wattle.Examples\UniqueRegisters\Examples\bin\Release\net8.0-windows\win-x64\Data\TransactionKeys' (файлов 20) :
 gkeys_TransactionKeys_358.gkeys - размер 1 200 001 958
 gkeys_TransactionKeys_361.gkeys - размер 1 200 001 958
 gkeys_TransactionKeys_364.gkeys - размер 1 200 001 958
@@ -606,10 +606,10 @@ var mappers =
         CodeGeneration =
             new SchemaMappersCodeGeneration
             {
-                MappersCommonNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common",
-                MappersIntefacesNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface",
-                MappersImplementsNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Implements",
-                MappersTestsNamespaceName = "ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests",
+                MappersCommonNamespaceName = "Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Common",
+                MappersIntefacesNamespaceName = "Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Interface",
+                MappersImplementsNamespaceName = "Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Implements",
+                MappersTestsNamespaceName = "Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Tests",
                 UnitTestCategoryName = TestCategory.Unit,
                 UnitTestTimeout = TestTimeout.Unit,
             },
@@ -659,33 +659,33 @@ File.WriteAllText(fileName, xml);
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
 		<PackageReference Include="Npgsql" Version="6.0.3" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.0.0.35768" />
-		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.0.0.35768" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.0.0.35768" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers.PostgreSql" Version="3.0.0.35768" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.0.0.35768" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.PostgreSql" Version="3.0.0.35768" />
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generators" Version="3.0.0.35768" />
+		<PackageReference Include="Acme.Wattle.Common" Version="3.0.0.35768" />
+		<PackageReference Include="Acme.Wattle.Mappers" Version="3.0.0.35768" />
+		<PackageReference Include="Acme.Wattle.Mappers.PostgreSql" Version="3.0.0.35768" />
+		<PackageReference Include="Acme.Wattle.Testing" Version="3.0.0.35768" />
+		<PackageReference Include="Acme.Wattle.Testing.Databases.PostgreSql" Version="3.0.0.35768" />
 
 		<!-- Кодогенератор общих определений для мапперов -->
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.0.0.35768">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Common" Version="3.0.0.35768">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
 		<!-- Кодогенератор интерфейсов мапперов -->
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.0.0.35768">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Interfaces" Version="3.0.0.35768">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
 		<!-- Кодогенератор реализаций мапперов -->
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.0.0.35768">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Implements" Version="3.0.0.35768">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
 		<!-- Кодогенератор автоматических NUnit-тестов мапперов -->
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.0.0.35768">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Tests" Version="3.0.0.35768">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -696,7 +696,7 @@ File.WriteAllText(fileName, xml);
 
 </details>
 
-Весь примера в файле [DbMappers.Interfaces.Generated.cs](/Mappers/PostgreSql/Implements/GeneratedFiles/ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces/ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces.SourceGenerator/DbMappers.Interfaces.Generated.cs).
+Весь примера в файле [DbMappers.Interfaces.Generated.cs](/Mappers/PostgreSql/Implements/GeneratedFiles/Acme.Wattle.CodeGeneration.Generator.Interfaces/Acme.Wattle.CodeGeneration.Generator.Interfaces.SourceGenerator/DbMappers.Interfaces.Generated.cs).
 
 <details><summary>Пример сгенерированного интерфейса маппера :</summary>
 

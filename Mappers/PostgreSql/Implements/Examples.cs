@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
-using ShtrihM.Wattle3.Mappers;
-using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Mappers.Primitives;
-using ShtrihM.Wattle3.Primitives;
-using ShtrihM.Wattle3.Testing;
-using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
+using Acme.Wattle.DomainObjects.Common;
+using Acme.Wattle.DomainObjects.DomainObjectDataMappers;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.Common;
+using Acme.Wattle.Examples.Mappers.PostgreSql.Common;
+using Acme.Wattle.Mappers;
+using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.Mappers.Primitives;
+using Acme.Wattle.Primitives;
+using Acme.Wattle.Testing;
+using Acme.Wattle.Testing.Databases.PostgreSql;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,17 +18,17 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Common.Interfaces;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Common;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
-using ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
-using ShtrihM.Wattle3.Json.Extensions;
-using ShtrihM.Wattle3.Mappers.PostgreSql;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.Common.Interfaces;
+using Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Common;
+using Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Interface;
+using Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
+using Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Tests;
+using Acme.Wattle.Json.Extensions;
+using Acme.Wattle.Mappers.PostgreSql;
+using Acme.Wattle.Utils;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements;
+namespace Acme.Wattle.Examples.Mappers.PostgreSql.Implements;
 
 [TestFixture]
 [SuppressMessage("ReSharper", "AccessToDisposedClosure")]

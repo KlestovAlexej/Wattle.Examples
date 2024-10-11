@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-		<AssemblyName>ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements</AssemblyName>
-		<RootNamespace>ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements</RootNamespace>
+		<AssemblyName>Acme.Wattle.Examples.Mappers.SqlServer.Implements</AssemblyName>
+		<RootNamespace>Acme.Wattle.Examples.Mappers.SqlServer.Implements</RootNamespace>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 		<CompilerGeneratedFilesOutputPath>GeneratedFiles</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
@@ -19,33 +19,33 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
-		<PackageReference Include="Npgsql" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+		<PackageReference Include="Npgsql" Version="8.0.4" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Common" Version="3.9.0.4082">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Common" Version="1.0.0.4096">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Interfaces" Version="3.9.0.4082">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Interfaces" Version="1.0.0.4096">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Implements" Version="3.9.0.4082">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Implements" Version="1.0.0.4096">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generator.Tests" Version="3.9.0.4082">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Tests" Version="1.0.0.4096">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ShtrihM.Wattle3.CodeGeneration.Generators" Version="3.9.0.4082" />
-		<PackageReference Include="ShtrihM.Wattle3.Common" Version="3.9.0.4082" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers" Version="3.9.0.4082" />
-		<PackageReference Include="ShtrihM.Wattle3.Mappers.SqlServer" Version="3.9.0.4082" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing" Version="3.9.0.4082" />
-		<PackageReference Include="ShtrihM.Wattle3.Testing.Databases.SqlServer" Version="3.9.0.4082" />
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generators" Version="1.0.0.4096" />
+		<PackageReference Include="Acme.Wattle.Common" Version="1.0.0.4096" />
+		<PackageReference Include="Acme.Wattle.Mappers" Version="1.0.0.4096" />
+		<PackageReference Include="Acme.Wattle.Mappers.SqlServer" Version="1.0.0.4096" />
+		<PackageReference Include="Acme.Wattle.Testing" Version="1.0.0.4096" />
+		<PackageReference Include="Acme.Wattle.Testing.Databases.SqlServer" Version="1.0.0.4096" />
 	</ItemGroup>
 
 	<ItemGroup>

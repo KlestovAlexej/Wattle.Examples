@@ -1,8 +1,8 @@
-﻿using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
-using ShtrihM.Wattle3.Infrastructures.Monitors;
+﻿using Acme.Wattle.Infrastructures.Interfaces.Monitors;
+using Acme.Wattle.Infrastructures.Monitors;
 using System;
 
-namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
+namespace Acme.Wattle.Examples.InfrastructureMonitoring.Models;
 
 /// <summary>
 /// Базовый снимок.

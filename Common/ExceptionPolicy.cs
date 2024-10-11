@@ -1,11 +1,11 @@
-﻿using ShtrihM.Wattle3.Common.Exceptions;
-using ShtrihM.Wattle3.DomainObjects.EntryPoints;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Mappers;
+﻿using Acme.Wattle.Common.Exceptions;
+using Acme.Wattle.DomainObjects.EntryPoints;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Mappers;
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace ShtrihM.Wattle3.Examples.Common;
+namespace Acme.Wattle.Examples.Common;
 
 public class ExceptionPolicy : BaseExceptionPolicy
 {

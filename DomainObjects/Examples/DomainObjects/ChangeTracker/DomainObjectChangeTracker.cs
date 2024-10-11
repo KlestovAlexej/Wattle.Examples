@@ -1,10 +1,10 @@
-﻿using ShtrihM.Wattle3.DomainObjects.DomainObjects;
-using ShtrihM.Wattle3.Examples.DomainObjects.Common;
+﻿using Acme.Wattle.DomainObjects.DomainObjects;
+using Acme.Wattle.Examples.DomainObjects.Common;
 using System;
 using System.Runtime.CompilerServices;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
+using Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
 
 [DomainObjectDataMapper]
 public class DomainObjectChangeTracker : BaseDomainObject<DomainObjectChangeTracker>, IDomainObjectChangeTracker

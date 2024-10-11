@@ -1,9 +1,9 @@
-﻿using ShtrihM.Wattle3.Common.Interfaces;
+﻿using Acme.Wattle.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
+namespace Acme.Wattle.Examples.InfrastructureMonitoring.Models;
 
 /// <summary>
 /// Идентификаторы полей снимков интерфейсов мониторинга инфраструктуры.

@@ -1,9 +1,9 @@
-﻿using ShtrihM.Wattle3.Infrastructures.Interfaces.Monitors;
-using ShtrihM.Wattle3.Infrastructures.Monitors;
+﻿using Acme.Wattle.Infrastructures.Interfaces.Monitors;
+using Acme.Wattle.Infrastructures.Monitors;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
+namespace Acme.Wattle.Examples.InfrastructureMonitoring.Models;
 
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]

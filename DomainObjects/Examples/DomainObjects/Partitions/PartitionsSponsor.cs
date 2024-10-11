@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Infrastructures.Monitors;
-using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Services;
-using ShtrihM.Wattle3.Triggers;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Infrastructures.Monitors;
+using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.Services;
+using Acme.Wattle.Triggers;
+using Acme.Wattle.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 
 /// <summary>
 /// Автоматический создатель партиция таблиц БД.

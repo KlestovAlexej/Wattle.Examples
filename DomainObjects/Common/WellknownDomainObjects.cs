@@ -1,6 +1,6 @@
 ﻿#nullable enable
 
-using ShtrihM.Wattle3.Primitives;
+using Acme.Wattle.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Common;
+namespace Acme.Wattle.Examples.DomainObjects.Common;
 
 /// <summary>
 /// Идентификаторы объектов.

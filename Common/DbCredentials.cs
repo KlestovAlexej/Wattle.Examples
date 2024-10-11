@@ -1,7 +1,7 @@
-﻿using ShtrihM.Wattle3.Testing;
+﻿using Acme.Wattle.Testing;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ShtrihM.Wattle3.Examples.Common;
+namespace Acme.Wattle.Examples.Common;
 
 /// <summary>
 /// Параметры учётных записей подключения к БД.
@@ -14,7 +14,7 @@ public static class DbCredentials
     /// </summary>
     public static readonly string RegistryFile = @"Windows Registry Editor Version 5.00
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Shtrih-M\Testing]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Acme\Testing]
 ""PostgreSqlUserID""=""postgres""
 ""PostgreSqlPassword""=""PostgreSqlPassword""
 ""SqlServerUserID""=""sa""
@@ -22,7 +22,7 @@ public static class DbCredentials
 ""SqlServerAdress""=""localhost""
 ""PostgreSqlAdress""=""localhost""
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Shtrih-M\Testing]
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Acme\Testing]
 ""PostgreSqlUserID""=""postgres""
 ""PostgreSqlPassword""=""PostgreSqlPassword""
 ""SqlServerUserID""=""sa""

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using ShtrihM.Wattle3.Containers;
+using Acme.Wattle.Containers;
 
-namespace ShtrihM.Wattle3.Examples.Containers;
+namespace Acme.Wattle.Examples.Containers;
 
 /// <summary>
 /// Примеры массива элементов неограниченного размера с возможностью сортировки и поиска.

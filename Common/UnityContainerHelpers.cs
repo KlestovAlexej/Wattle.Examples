@@ -1,7 +1,7 @@
 ﻿using System;
 using Unity;
 
-namespace ShtrihM.Wattle3.Examples.Common;
+namespace Acme.Wattle.Examples.Common;
 
 public static class UnityContainerHelpers
 {

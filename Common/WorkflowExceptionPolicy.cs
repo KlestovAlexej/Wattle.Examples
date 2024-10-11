@@ -1,6 +1,6 @@
-﻿using ShtrihM.Wattle3.DomainObjects.Common;
+﻿using Acme.Wattle.DomainObjects.Common;
 
-namespace ShtrihM.Wattle3.Examples.Common;
+namespace Acme.Wattle.Examples.Common;
 
 public class WorkflowExceptionPolicy : DefaultWorkflowExceptionPolicy
 {

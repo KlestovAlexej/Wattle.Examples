@@ -1,20 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.Common.Interfaces;
-using ShtrihM.Wattle3.DomainObjects;
-using ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
-using ShtrihM.Wattle3.Infrastructures.Monitors;
-using ShtrihM.Wattle3.Infrastructures.Rest.Clients.Monitors;
-using ShtrihM.Wattle3.Infrastructures.Rest.Controllers.Monitors;
-using ShtrihM.Wattle3.Json.Extensions;
-using ShtrihM.Wattle3.Json.ValueData;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.Common.Interfaces;
+using Acme.Wattle.DomainObjects;
+using Acme.Wattle.Examples.InfrastructureMonitoring.Models;
+using Acme.Wattle.Infrastructures.Monitors;
+using Acme.Wattle.Infrastructures.Rest.Clients.Monitors;
+using Acme.Wattle.Infrastructures.Rest.Controllers.Monitors;
+using Acme.Wattle.Json.Extensions;
+using Acme.Wattle.Json.ValueData;
+using Acme.Wattle.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ShtrihM.Wattle3.Examples.Common;
+using Acme.Wattle.Examples.Common;
 
-namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring;
+namespace Acme.Wattle.Examples.InfrastructureMonitoring;
 
 /// <summary>
 /// Примеры сервера с REST-интерфейсом публикующего телеметрию объектов приложения.

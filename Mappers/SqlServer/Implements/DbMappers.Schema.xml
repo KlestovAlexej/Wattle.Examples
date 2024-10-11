@@ -55,7 +55,7 @@
           </Fields>
         </Mapper>
       </Mappers>
-      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+      <CodeGeneration IntefacesNamespaceName="Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface" ImplementsNamespaceName="Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements" CommonNamespaceName="Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Common" TestsNamespaceName="Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
     </Mappers>
   </Mappers>
 </Model>

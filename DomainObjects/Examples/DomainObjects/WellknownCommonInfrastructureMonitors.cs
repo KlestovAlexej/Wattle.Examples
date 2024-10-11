@@ -1,6 +1,6 @@
 ﻿#nullable enable
 
-using ShtrihM.Wattle3.Primitives;
+using Acme.Wattle.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects;
 
 /// <summary>
 /// Идентификаторы интерфейсов мониторинга инфраструктуры.

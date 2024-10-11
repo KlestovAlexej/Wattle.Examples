@@ -1,21 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.Common.Exceptions;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
-using ShtrihM.Wattle3.Testing;
-using ShtrihM.Wattle3.Testing.Databases.PostgreSql;
-using ShtrihM.Wattle3.Testing.DomainObjects;
+using Acme.Wattle.Common.Exceptions;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Document;
+using Acme.Wattle.Testing;
+using Acme.Wattle.Testing.Databases.PostgreSql;
+using Acme.Wattle.Testing.DomainObjects;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests;
+using Acme.Wattle.Examples.DomainObjects.Examples.Generated.Tests;
 using Unity;
-using ShtrihM.Wattle3.Utils;
-using ShtrihM.Wattle3.Examples.Common;
+using Acme.Wattle.Utils;
+using Acme.Wattle.Examples.Common;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
+namespace Acme.Wattle.Examples.DomainObjects.Examples;
 
 [TestFixture]
 [SuppressMessage("ReSharper", "PossibleNullReferenceException")]

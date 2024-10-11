@@ -1,9 +1,9 @@
-﻿using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Mappers.PostgreSql;
-using ShtrihM.Wattle3.Utils;
+﻿using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.Mappers.PostgreSql;
+using Acme.Wattle.Utils;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
+namespace Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.PostgreSql.Implements;
 
 public partial class Mappers
 {

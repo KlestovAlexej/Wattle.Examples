@@ -1,8 +1,8 @@
-﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
+﻿using Acme.Wattle.DomainObjects.Interfaces;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Document;
 
 public class DomainObjectTemplateDocument : IDomainObjectTemplate
 {

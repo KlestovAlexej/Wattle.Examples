@@ -3,11 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ShtrihM.Wattle3.DomainObjects;
-using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
+using Acme.Wattle.DomainObjects;
+using Acme.Wattle.DomainObjects.Common;
+using Acme.Wattle.DomainObjects.Interfaces;
 
-namespace ShtrihM.Wattle3.Examples.Locks;
+namespace Acme.Wattle.Examples.Locks;
 
 /// <summary>
 /// Примеры асинхронного пула лок-объектов ассоциированных с идентификаторами.

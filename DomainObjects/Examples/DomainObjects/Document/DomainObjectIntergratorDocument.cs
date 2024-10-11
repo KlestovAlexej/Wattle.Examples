@@ -1,20 +1,20 @@
-﻿using ShtrihM.Wattle3.DomainObjects.DomainObjectActivators;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectDataMappers;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectIntergrators;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.DomainObjects.Common;
-using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Primitives;
+﻿using Acme.Wattle.DomainObjects.DomainObjectActivators;
+using Acme.Wattle.DomainObjects.DomainObjectDataMappers;
+using Acme.Wattle.DomainObjects.DomainObjectIntergrators;
+using Acme.Wattle.DomainObjects.DomainObjectsRegisters;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.DomainObjects.Common;
+using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.Primitives;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
+using Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface;
 using Unity;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Document;
 
 /// <summary>
 /// Класс автоматической регистрации доменного объекта в точке входа в доменную область.

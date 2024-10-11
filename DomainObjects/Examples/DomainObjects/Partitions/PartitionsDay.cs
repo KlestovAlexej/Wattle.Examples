@@ -1,8 +1,8 @@
-﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
+﻿using Acme.Wattle.DomainObjects.Interfaces;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Partitions;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Partitions;
 
 /// <summary>
 /// Индексатор дней по которым идёт партиционирование таблиц БД.

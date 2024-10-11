@@ -1,2 +1,2 @@
-﻿ShtrihM.Wattle3.Examples.Common
+﻿Acme.Wattle.Examples.Common
 ..\..\

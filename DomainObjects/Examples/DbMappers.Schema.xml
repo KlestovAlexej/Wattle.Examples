@@ -48,7 +48,7 @@
           <Fields />
         </Mapper>
       </Mappers>
-      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.PostgreSql.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+      <CodeGeneration IntefacesNamespaceName="Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface" ImplementsNamespaceName="Acme.Wattle.Examples.DomainObjects.Examples.Generated.PostgreSql.Implements" CommonNamespaceName="Acme.Wattle.Examples.DomainObjects.Examples.Generated.Common" TestsNamespaceName="Acme.Wattle.Examples.DomainObjects.Examples.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
     </Mappers>
   </Mappers>
 </Model>

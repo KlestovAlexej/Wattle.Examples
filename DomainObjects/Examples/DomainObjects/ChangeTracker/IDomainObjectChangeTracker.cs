@@ -1,7 +1,7 @@
-﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.DomainObjects.Common;
+﻿using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.DomainObjects.Common;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
 
 /// <summary>
 /// Отслеживание изменений.

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 
-namespace ShtrihM.Wattle3.Examples.Common;
+namespace Acme.Wattle.Examples.Common;
 
 public class NUnitConsoleLoggerProvider : ILoggerProvider
 {

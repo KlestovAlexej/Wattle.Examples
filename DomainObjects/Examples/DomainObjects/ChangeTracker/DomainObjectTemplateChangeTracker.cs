@@ -1,6 +1,6 @@
-﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
+﻿using Acme.Wattle.DomainObjects.Interfaces;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
 
 public class DomainObjectTemplateChangeTracker : IDomainObjectTemplate
 {

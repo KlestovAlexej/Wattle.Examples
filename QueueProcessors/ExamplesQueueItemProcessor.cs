@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using ShtrihM.Wattle3.DomainObjects.Common;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Common;
-using ShtrihM.Wattle3.QueueProcessors;
-using ShtrihM.Wattle3.QueueProcessors.Interfaces;
-using ShtrihM.Wattle3.Testing;
+using Acme.Wattle.DomainObjects.Common;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.Common;
+using Acme.Wattle.QueueProcessors;
+using Acme.Wattle.QueueProcessors.Interfaces;
+using Acme.Wattle.Testing;
 using System;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.Utils;
 
-namespace ShtrihM.Wattle3.Examples.QueueProcessors;
+namespace Acme.Wattle.Examples.QueueProcessors;
 
 /// <summary>
 /// Примеры многопоточной очереди.

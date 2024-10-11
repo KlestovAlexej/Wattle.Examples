@@ -1,16 +1,16 @@
 ﻿using System;
-using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
-using ShtrihM.Wattle3.DomainObjects.DomainObjectsRegisters;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.DomainObjects.UnitOfWorks;
-using ShtrihM.Wattle3.Examples.DomainObjects.Common;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
+using Acme.Wattle.DomainObjects.DomainBehaviours;
+using Acme.Wattle.DomainObjects.DomainObjectsRegisters;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.DomainObjects.UnitOfWorks;
+using Acme.Wattle.Examples.DomainObjects.Common;
+using Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.ChangeTracker;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.Interface;
+using Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples;
+namespace Acme.Wattle.Examples.DomainObjects.Examples;
 
 public class ExampleUnitOfWork : BaseUnitOfWork
 {

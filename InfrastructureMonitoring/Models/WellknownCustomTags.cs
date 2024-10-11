@@ -1,4 +1,4 @@
-﻿namespace ShtrihM.Wattle3.Examples.InfrastructureMonitoring.Models;
+﻿namespace Acme.Wattle.Examples.InfrastructureMonitoring.Models;
 
 public static class WellknownCustomTags
 {

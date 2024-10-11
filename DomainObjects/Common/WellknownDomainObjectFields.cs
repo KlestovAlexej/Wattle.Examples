@@ -1,20 +1,20 @@
-﻿using ShtrihM.Wattle3.CodeGeneration.Common;
-using ShtrihM.Wattle3.Common;
-using ShtrihM.Wattle3.Primitives;
+﻿using Acme.Wattle.CodeGeneration.Common;
+using Acme.Wattle.Common;
+using Acme.Wattle.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Common;
+namespace Acme.Wattle.Examples.DomainObjects.Common;
 
 /// <summary>
 /// Поля доменных объектов.
 /// При любом изменении надо руками запустить тест <see cref="DbMappersSchemaXmlBuilder.Test"/>.
 /// </summary>
 [Description("Примеры мапперов")]
-[SchemaMappers(SchemaMapperStorage.PostgreSql, Namespace = "ShtrihM.Wattle3.Examples.DomainObjects.Examples")]
+[SchemaMappers(SchemaMapperStorage.PostgreSql, Namespace = "Acme.Wattle.Examples.DomainObjects.Examples")]
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 [SuppressMessage("ReSharper", "UnusedType.Global")]

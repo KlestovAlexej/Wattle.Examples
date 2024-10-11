@@ -1,10 +1,10 @@
-﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.DomainObjects.Common;
+﻿using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.DomainObjects.Common;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.DomainObjects.Document;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.DomainObjects.Document;
 
 /// <summary>
 /// Кастомный реестр доменных объектов.

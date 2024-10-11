@@ -1,10 +1,10 @@
-﻿using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Mappers.PostgreSql;
-using ShtrihM.Wattle3.Utils;
+﻿using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Mappers.PostgreSql;
+using Acme.Wattle.Utils;
 using Unity;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.DomainObjects.Examples.Generated.PostgreSql.Implements;
+namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.PostgreSql.Implements;
 
 public partial class Mappers
 {

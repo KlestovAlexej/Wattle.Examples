@@ -1,13 +1,13 @@
-﻿using ShtrihM.Wattle3.CodeGeneration.Common;
-using ShtrihM.Wattle3.Common;
-using ShtrihM.Wattle3.Primitives;
+﻿using Acme.Wattle.CodeGeneration.Common;
+using Acme.Wattle.Common;
+using Acme.Wattle.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
+namespace Acme.Wattle.Examples.Mappers.PostgreSql.Common;
 
 /// <summary>
 /// Поля доменных объектов.
@@ -17,7 +17,7 @@ namespace ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Common;
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [Description("Примеры мапперов")]
-[SchemaMappers(SchemaMapperStorage.PostgreSql, Namespace = "ShtrihM.Wattle3.Examples.Mappers.PostgreSql.Implements")]
+[SchemaMappers(SchemaMapperStorage.PostgreSql, Namespace = "Acme.Wattle.Examples.Mappers.PostgreSql.Implements")]
 public static class WellknownDomainObjectFields
 {
     /// <summary>

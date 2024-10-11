@@ -1,26 +1,26 @@
 ﻿using Microsoft.Extensions.Logging;
-using ShtrihM.Wattle3.Common.Exceptions;
-using ShtrihM.Wattle3.Common.Queries;
-using ShtrihM.Wattle3.Containers;
-using ShtrihM.Wattle3.DomainObjects.DomainBehaviours;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Mappers.Interfaces;
-using ShtrihM.Wattle3.Primitives;
-using ShtrihM.Wattle3.QueueProcessors;
-using ShtrihM.Wattle3.QueueProcessors.Interfaces;
-using ShtrihM.Wattle3.Triggers;
-using ShtrihM.Wattle3.UniqueRegisters;
-using ShtrihM.Wattle3.UniqueRegisters.Dictionaries;
-using ShtrihM.Wattle3.Utils;
+using Acme.Wattle.Common.Exceptions;
+using Acme.Wattle.Common.Queries;
+using Acme.Wattle.Containers;
+using Acme.Wattle.DomainObjects.DomainBehaviours;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Mappers.Interfaces;
+using Acme.Wattle.Primitives;
+using Acme.Wattle.QueueProcessors;
+using Acme.Wattle.QueueProcessors.Interfaces;
+using Acme.Wattle.Triggers;
+using Acme.Wattle.UniqueRegisters;
+using Acme.Wattle.UniqueRegisters.Dictionaries;
+using Acme.Wattle.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common;
-using ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface;
+using Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Common;
+using Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Interface;
 
-namespace ShtrihM.Wattle3.Examples.UniqueRegisters.Examples;
+namespace Acme.Wattle.Examples.UniqueRegisters.Examples;
 
 /// <summary>
 /// Пример реестра уникальных ключей.

@@ -1,14 +1,14 @@
-﻿using ShtrihM.Wattle3.Caching;
-using ShtrihM.Wattle3.DomainObjects;
-using ShtrihM.Wattle3.DomainObjects.Interfaces;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Common;
-using ShtrihM.Wattle3.Mappers;
-using ShtrihM.Wattle3.Mappers.SqlServer;
+﻿using Acme.Wattle.Caching;
+using Acme.Wattle.DomainObjects;
+using Acme.Wattle.DomainObjects.Interfaces;
+using Acme.Wattle.Examples.Mappers.SqlServer.Common;
+using Acme.Wattle.Mappers;
+using Acme.Wattle.Mappers.SqlServer;
 using System;
-using ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.Interface;
+using Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface;
 
 // ReSharper disable once CheckNamespace
-namespace ShtrihM.Wattle3.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
+namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.SqlServer.Implements;
 
 public partial class MapperObject_A
 {

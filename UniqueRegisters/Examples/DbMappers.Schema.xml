@@ -23,7 +23,7 @@
           </Fields>
         </Mapper>
       </Mappers>
-      <CodeGeneration IntefacesNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Interface" ImplementsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.PostgreSql.Implements" CommonNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Common" TestsNamespaceName="ShtrihM.Wattle3.Examples.UniqueRegisters.Examples.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
+      <CodeGeneration IntefacesNamespaceName="Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Interface" ImplementsNamespaceName="Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.PostgreSql.Implements" CommonNamespaceName="Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Common" TestsNamespaceName="Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Tests" UnitTestCategory="Unit" UnitTestTimeout="300000" />
     </Mappers>
   </Mappers>
 </Model>
