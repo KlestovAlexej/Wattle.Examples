@@ -19,9 +19,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Acme.Wattle.DomainObjects" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.Testing" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Path" Version="1.0.0.4096">
+		<PackageReference Include="Acme.Wattle.DomainObjects" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.Testing" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Path" Version="1.0.0.4111">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

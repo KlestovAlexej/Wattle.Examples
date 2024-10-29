@@ -13,13 +13,13 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-		<PackageReference Include="Acme.Wattle.Caching" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.DomainObjects" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.Infrastructures.Rest.Clients" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.Infrastructures.Rest.Controllers" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.Json" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.QueueProcessors" Version="1.0.0.4096" />
-		<PackageReference Include="Acme.Wattle.Testing" Version="1.0.0.4096" />
+		<PackageReference Include="Acme.Wattle.Caching" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.DomainObjects" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.Infrastructures.Rest.Clients" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.Infrastructures.Rest.Controllers" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.Json" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.QueueProcessors" Version="1.0.0.4111" />
+		<PackageReference Include="Acme.Wattle.Testing" Version="1.0.0.4111" />
 	</ItemGroup>
 
 	<ItemGroup>
