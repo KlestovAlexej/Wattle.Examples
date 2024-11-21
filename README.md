@@ -2,7 +2,7 @@
 
 Примеры использования фреймворка для создания высокопроизводительных серверов с доменными объектами.
 
-Фреймворк кроссплатформенный, написан 100% на [C#](https://ru.wikipedia.org/wiki/C_Sharp) под [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
+Фреймворк кроссплатформенный, написан 100% на [C#](https://ru.wikipedia.org/wiki/C_Sharp) под [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0).
 
 Пакеты **nuget** начинаются с префикса [Acme.Wattle](https://www.nuget.org/packages?q=Acme.Wattle)
 
@@ -96,7 +96,7 @@ enable_partition_pruning = on # должно быть 'on'
 Количество загрузок групп ключей из персистентного хранилища : 19
 Количество сохранений групп ключей в персистентное хранилище : 1
 
-Содержимого файлового кэша для быстрого старта 'C:\Dev\Wattle.Examples\UniqueRegisters\Examples\bin\Release\net8.0-windows\win-x64\Data\TransactionKeys' (файлов 20) :
+Содержимого файлового кэша для быстрого старта 'C:\Dev\Wattle.Examples\UniqueRegisters\Examples\bin\Release\net9.0-windows\win-x64\Data\TransactionKeys' (файлов 20) :
 gkeys_TransactionKeys_358.gkeys - размер 1 200 001 958
 gkeys_TransactionKeys_361.gkeys - размер 1 200 001 958
 gkeys_TransactionKeys_364.gkeys - размер 1 200 001 958
