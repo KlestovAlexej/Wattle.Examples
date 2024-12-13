@@ -22,30 +22,30 @@
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-		<PackageReference Include="Npgsql" Version="9.0.1" />
+		<PackageReference Include="Npgsql" Version="9.0.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Common" Version="1.0.0.4115">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Common" Version="1.0.0.4122">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Interfaces" Version="1.0.0.4115">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Interfaces" Version="1.0.0.4122">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Implements" Version="1.0.0.4115">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Implements" Version="1.0.0.4122">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Tests" Version="1.0.0.4115">
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generator.Tests" Version="1.0.0.4122">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Acme.Wattle.CodeGeneration.Generators" Version="1.0.0.4115" />
-		<PackageReference Include="Acme.Wattle.Common" Version="1.0.0.4115" />
-		<PackageReference Include="Acme.Wattle.Mappers" Version="1.0.0.4115" />
-		<PackageReference Include="Acme.Wattle.Mappers.SqlServer" Version="1.0.0.4115" />
-		<PackageReference Include="Acme.Wattle.Testing" Version="1.0.0.4115" />
-		<PackageReference Include="Acme.Wattle.Testing.Databases.SqlServer" Version="1.0.0.4115" />
+		<PackageReference Include="Acme.Wattle.CodeGeneration.Generators" Version="1.0.0.4122" />
+		<PackageReference Include="Acme.Wattle.Common" Version="1.0.0.4122" />
+		<PackageReference Include="Acme.Wattle.Mappers" Version="1.0.0.4122" />
+		<PackageReference Include="Acme.Wattle.Mappers.SqlServer" Version="1.0.0.4122" />
+		<PackageReference Include="Acme.Wattle.Testing" Version="1.0.0.4122" />
+		<PackageReference Include="Acme.Wattle.Testing.Databases.SqlServer" Version="1.0.0.4122" />
 		<PackageReference Include="System.Private.Uri" Version="4.3.2" />
 	</ItemGroup>
 

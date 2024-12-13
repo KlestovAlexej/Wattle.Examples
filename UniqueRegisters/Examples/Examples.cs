@@ -600,6 +600,7 @@ public class Examples
 
         Console.WriteLine("Настройки сервера PostgreSQL (файл 'postgresql.conf').");
         using var mappersSession = (IPostgreSqlMappersSession)m_mappers.OpenSession();
+        
         {
             using var command = mappersSession.CreateCommand(false);
             command.CommandText = @"SELECT setting FROM pg_settings WHERE (name = 'enable_partition_pruning')";
