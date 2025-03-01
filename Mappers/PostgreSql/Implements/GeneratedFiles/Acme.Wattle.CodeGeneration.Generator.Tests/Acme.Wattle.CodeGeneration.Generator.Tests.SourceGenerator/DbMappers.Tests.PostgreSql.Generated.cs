@@ -539,16 +539,15 @@ namespace Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Tests
 
         public static Object_ADtoNew GetRandomNew(object context)
         {
-#pragma warning disable IDE0017 // Simplify object initialization
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new Object_ADtoNew();
-#pragma warning restore IDE0017 // Simplify object initialization
-
-            result.Value_DateTime = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
-            result.Value_DateTime_NotUpdate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
-            result.Value_Long = PostgreSqlRandomValuesProvider.GetRandomValue<long>(NpgsqlDbType.Bigint);
-            result.Value_Int = PostgreSqlRandomValuesProvider.GetRandomValue<int?>(NpgsqlDbType.Integer, true);
-            result.Value_String = PostgreSqlRandomValuesProvider.GetRandomValue<string>(NpgsqlDbType.Text, true);
+            var result = new Object_ADtoNew
+            {
+                Id = long.MinValue,
+                Value_DateTime = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(LocalNpgsqlDbType.Timestamp),
+                Value_DateTime_NotUpdate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(LocalNpgsqlDbType.Timestamp),
+                Value_Long = PostgreSqlRandomValuesProvider.GetRandomValue<long>(LocalNpgsqlDbType.Bigint),
+                Value_Int = PostgreSqlRandomValuesProvider.GetRandomValue<int?>(LocalNpgsqlDbType.Integer, true),
+                Value_String = PostgreSqlRandomValuesProvider.GetRandomValue<string>(LocalNpgsqlDbType.Text, true),
+            };
 
             DoGetRandomNew(result, context);
 
@@ -801,12 +800,11 @@ namespace Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Tests
 
         public static Object_BDtoNew GetRandomNew(object context)
         {
-#pragma warning disable IDE0017 // Simplify object initialization
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new Object_BDtoNew();
-#pragma warning restore IDE0017 // Simplify object initialization
-
-            result.CreateDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
+            var result = new Object_BDtoNew
+            {
+                Id = long.MinValue,
+                CreateDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(LocalNpgsqlDbType.Timestamp),
+            };
 
             DoGetRandomNew(result, context);
 

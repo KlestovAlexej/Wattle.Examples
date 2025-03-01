@@ -539,16 +539,15 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Tests
 
         public static DocumentDtoNew GetRandomNew(object context)
         {
-#pragma warning disable IDE0017 // Simplify object initialization
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new DocumentDtoNew();
-#pragma warning restore IDE0017 // Simplify object initialization
-
-            result.CreateDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
-            result.ModificationDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
-            result.Value_DateTime = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(NpgsqlDbType.Timestamp);
-            result.Value_Long = PostgreSqlRandomValuesProvider.GetRandomValue<long>(NpgsqlDbType.Bigint);
-            result.Value_Int = PostgreSqlRandomValuesProvider.GetRandomValue<int?>(NpgsqlDbType.Integer, true);
+            var result = new DocumentDtoNew
+            {
+                Id = long.MinValue,
+                CreateDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(LocalNpgsqlDbType.Timestamp),
+                ModificationDate = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(LocalNpgsqlDbType.Timestamp),
+                Value_DateTime = PostgreSqlRandomValuesProvider.GetRandomValue<DateTime>(LocalNpgsqlDbType.Timestamp),
+                Value_Long = PostgreSqlRandomValuesProvider.GetRandomValue<long>(LocalNpgsqlDbType.Bigint),
+                Value_Int = PostgreSqlRandomValuesProvider.GetRandomValue<int?>(LocalNpgsqlDbType.Integer, true),
+            };
 
             DoGetRandomNew(result, context);
 
@@ -805,11 +804,10 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Tests
 
         public static ChangeTrackerDtoNew GetRandomNew(object context)
         {
-#pragma warning disable IDE0017 // Simplify object initialization
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new ChangeTrackerDtoNew();
-#pragma warning restore IDE0017 // Simplify object initialization
-
+            var result = new ChangeTrackerDtoNew
+            {
+                Id = long.MinValue,
+            };
 
             DoGetRandomNew(result, context);
 

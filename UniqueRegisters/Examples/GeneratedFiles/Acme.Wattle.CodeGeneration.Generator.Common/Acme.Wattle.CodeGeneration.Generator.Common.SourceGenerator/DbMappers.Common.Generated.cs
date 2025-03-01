@@ -134,6 +134,15 @@ namespace Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Common
 
             return QueryBuilder.New(Schema, new Guid("52af162d-5f87-4c74-965f-eefc9850c088"), query);
         }
+
+        /// <summary>
+        /// Создание конструктора текста запроса доменных объектов TransactionKey.
+        /// </summary>
+        [MapperQueryBuilder("52af162d-5f87-4c74-965f-eefc9850c088")]
+        public static QueryBuilder QueryForTransactionKey()
+        {
+            return QueryBuilder.New(Schema, new Guid("52af162d-5f87-4c74-965f-eefc9850c088"));
+        }
     }
 
 }

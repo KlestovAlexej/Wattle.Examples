@@ -37,6 +37,6 @@ public abstract partial class BaseAutoTestsMapper
         dbConnectionString = PostgreSqlDbHelper.GetDatabaseConnectionString(dbName, serverAdress: serverAdress, userCredentials: credentials);
 
         var sqlScript = typeof(WellknownDomainObjects).Assembly.GetResourceAsString("SqlScript.sql");
-        PostgreSqlDbHelper.CreateDb(dbName, sqlScript: sqlScript);
+        PostgreSqlDbHelper.CreateDb(dbName, sqlScript: sqlScript, lcCollate: null, lcCtype: null);
     }
 }

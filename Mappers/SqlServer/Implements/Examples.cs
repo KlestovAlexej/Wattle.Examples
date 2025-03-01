@@ -68,7 +68,6 @@ public class Examples
                 new Object_BDtoDeleted
                 {
                     Id = dbDtoActual.Id,
-                    Revision = dbDtoActual.Revision,
                 });
 
             Assert.IsFalse(mapper.Exists(mappersSession, id_1));
@@ -130,7 +129,6 @@ public class Examples
                 new Object_BDtoDeleted
                 {
                     Id = dbDtoActual.Id,
-                    Revision = dbDtoActual.Revision,
                 });
 
             Assert.IsFalse(await mapper.ExistsAsync(mappersSession, id_1));
@@ -359,6 +357,7 @@ public class Examples
         using (var mappersSession = m_mappers.OpenSession())
         {
             var dbDtoActual = mapper.Get(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
 
             try
             {
@@ -426,6 +425,7 @@ public class Examples
         using (var mappersSession = m_mappers.OpenSession())
         {
             var dbDtoActual = mapper.Get(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
 
             mapper.Update(
                 mappersSession,
@@ -484,6 +484,7 @@ public class Examples
         await using (var mappersSession = m_mappers.OpenSession())
         {
             var dbDtoActual = (Object_ADtoActual)await mapper.GetAsync(mappersSession, id_1);
+            Assert.IsNotNull(dbDtoActual);
 
             await mapper.UpdateAsync(
                 mappersSession,
@@ -580,7 +581,7 @@ public class Examples
         }
 
         {
-            var snapShot = mapper.InfrastructureMonitor!.InfrastructureMonitorActualDtoCache.GetSnapShot();
+            var snapShot = mapper.InfrastructureMonitor!.InfrastructureMonitorActualDtoCache!.GetSnapShot();
             Console.WriteLine($"Количество объектов в памяти : {snapShot.Count:##,###}");
             Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind:##,###}");
             Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound:##,###}");
@@ -646,7 +647,7 @@ public class Examples
         }
 
         {
-            var snapShot = mapper.InfrastructureMonitor!.InfrastructureMonitorActualDtoCache.GetSnapShot();
+            var snapShot = mapper.InfrastructureMonitor!.InfrastructureMonitorActualDtoCache!.GetSnapShot();
             Console.WriteLine($"Количество объектов в памяти : {snapShot.Count:##,###}");
             Console.WriteLine($"Количество поисков объектов в памяти : {snapShot.CountFind:##,###}");
             Console.WriteLine($"Количество найденных объектов в памяти : {snapShot.CountFound:##,###}");

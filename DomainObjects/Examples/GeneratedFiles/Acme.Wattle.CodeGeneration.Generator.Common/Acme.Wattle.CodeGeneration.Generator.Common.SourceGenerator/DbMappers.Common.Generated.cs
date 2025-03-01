@@ -237,6 +237,15 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Common
         }
 
         /// <summary>
+        /// Создание конструктора текста запроса доменных объектов Document.
+        /// </summary>
+        [MapperQueryBuilder("d70d5118-2c04-4a66-a5a1-4573b7f91631")]
+        public static QueryBuilder QueryForDocument()
+        {
+            return QueryBuilder.New(Schema, new Guid("d70d5118-2c04-4a66-a5a1-4573b7f91631"));
+        }
+
+        /// <summary>
         /// Создание конструктора текста запроса доменных объектов ChangeTracker.
         /// </summary>
         /// <param name="query">Запрос.</param>
@@ -249,6 +258,15 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Common
             }
 
             return QueryBuilder.New(Schema, new Guid("67bf3734-17bb-4e9a-b0f1-b8f85382e690"), query);
+        }
+
+        /// <summary>
+        /// Создание конструктора текста запроса доменных объектов ChangeTracker.
+        /// </summary>
+        [MapperQueryBuilder("67bf3734-17bb-4e9a-b0f1-b8f85382e690")]
+        public static QueryBuilder QueryForChangeTracker()
+        {
+            return QueryBuilder.New(Schema, new Guid("67bf3734-17bb-4e9a-b0f1-b8f85382e690"));
         }
     }
 

@@ -116,7 +116,7 @@ public class ExampleRegisterTransactionKeys : UniqueRegisterWithScheduledCleanup
         m_identityCache = identityCache;
     }
 
-    public string DataPath => ((UniqueRegisterKeysPersistentStorageFileSystemGroupInt64)m_keysPersistentStorage).BasePath;
+    public string DataPath => ((UniqueRegisterKeysPersistentStorageFileSystemGroupInt64)m_keysPersistentStorage!).BasePath;
 
     private static IUniqueRegisterKeysPersistentStorage<long> CreateKeysPersistentStorage(string dataPath)
     {

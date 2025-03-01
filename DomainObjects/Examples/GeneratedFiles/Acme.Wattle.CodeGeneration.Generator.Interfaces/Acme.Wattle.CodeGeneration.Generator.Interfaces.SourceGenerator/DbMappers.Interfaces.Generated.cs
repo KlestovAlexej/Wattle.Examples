@@ -6,6 +6,10 @@
 * Генератор - Acme.Wattle.CodeGeneration.Generators.Mappers.MappersInterfacesCodeGenerator
 *
 */
+
+#nullable enable
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
 // ReSharper disable RedundantUsingDirective
 using System;
 using System.Collections.Generic;
@@ -38,32 +42,32 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата-время создания
         /// </summary>
-        public DateTime CreateDate;
+        public required DateTime CreateDate;
 
         /// <summary>
         /// Дата-время модификации
         /// </summary>
-        public DateTime ModificationDate;
+        public required DateTime ModificationDate;
 
         /// <summary>
         /// Доле документа - дата-время
         /// </summary>
-        public DateTime Value_DateTime;
+        public required DateTime Value_DateTime;
 
         /// <summary>
         /// Доле документа - число
         /// </summary>
-        public long Value_Long;
+        public required long Value_Long;
 
         /// <summary>
         /// Доле документа - число с поддержкой null
         /// </summary>
-        public int? Value_Int;
+        public required int? Value_Int;
 
     }
 
@@ -78,7 +82,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
 
@@ -166,37 +170,37 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата-время создания
         /// </summary>
-        public DateTime CreateDate;
+        public required DateTime CreateDate;
 
         /// <summary>
         /// Дата-время модификации
         /// </summary>
-        public DateTime ModificationDate;
+        public required DateTime ModificationDate;
 
         /// <summary>
         /// Доле документа - дата-время
         /// </summary>
-        public MapperChangedStateDtoField<DateTime> Value_DateTime;
+        public required MapperChangedStateDtoField<DateTime> Value_DateTime;
 
         /// <summary>
         /// Доле документа - число
         /// </summary>
-        public MapperChangedStateDtoField<long> Value_Long;
+        public required MapperChangedStateDtoField<long> Value_Long;
 
         /// <summary>
         /// Доле документа - число с поддержкой null
         /// </summary>
-        public MapperChangedStateDtoField<int?> Value_Int;
+        public required MapperChangedStateDtoField<int?> Value_Int;
 
     }
 
@@ -211,12 +215,12 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
 
@@ -371,7 +375,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-         DocumentDtoActual Get(IMappersSession mappersSession, long id);
+         DocumentDtoActual? Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -380,7 +384,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto?> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -388,7 +392,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        DocumentDtoActual GetRaw(IMappersSession session, long id);
+        DocumentDtoActual? GetRaw(IMappersSession session, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -397,7 +401,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<DocumentDtoActual> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<DocumentDtoActual?> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Обновить запись.
@@ -469,7 +473,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        new IEnumerable<DocumentDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<DocumentDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -478,7 +482,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IAsyncEnumerable<DocumentDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        IAsyncEnumerable<DocumentDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -486,7 +490,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<DocumentDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        IEnumerable<DocumentDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -496,7 +500,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<DocumentDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<DocumentDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор идентити записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -506,7 +510,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных идентити записей.</returns>
-        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
@@ -514,7 +518,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        long GetCount(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        long GetCount(IMappersSession session, IMapperSelectFilter? selectFilter = null);
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
         /// </summary>
@@ -522,7 +526,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -602,7 +606,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-         ChangeTrackerDtoActual Get(IMappersSession mappersSession, long id);
+         ChangeTrackerDtoActual? Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -611,7 +615,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto?> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -619,7 +623,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ChangeTrackerDtoActual GetRaw(IMappersSession session, long id);
+        ChangeTrackerDtoActual? GetRaw(IMappersSession session, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -628,7 +632,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<ChangeTrackerDtoActual> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<ChangeTrackerDtoActual?> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Массовое создание записей.
@@ -668,7 +672,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        new IEnumerable<ChangeTrackerDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<ChangeTrackerDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -677,7 +681,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IAsyncEnumerable<ChangeTrackerDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        IAsyncEnumerable<ChangeTrackerDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -685,7 +689,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<ChangeTrackerDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        IEnumerable<ChangeTrackerDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -695,7 +699,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<ChangeTrackerDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<ChangeTrackerDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор идентити записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -705,7 +709,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных идентити записей.</returns>
-        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
@@ -713,7 +717,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        long GetCount(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        long GetCount(IMappersSession session, IMapperSelectFilter? selectFilter = null);
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
         /// </summary>
@@ -721,7 +725,7 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
     }
 
 }

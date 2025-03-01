@@ -15,7 +15,7 @@ public static class WellknownCustomSnapShotInfrastructureMonitorValues
     static WellknownCustomSnapShotInfrastructureMonitorValues()
     {
         // ReSharper disable once PossibleNullReferenceException
-        DisplayDescriptions = WellknownSnapShotInfrastructureMonitorValuesHelpers.CollectDescriptions(MethodBase.GetCurrentMethod().DeclaringType);
+        DisplayDescriptions = WellknownSnapShotInfrastructureMonitorValuesHelpers.CollectDescriptions(MethodBase.GetCurrentMethod().DeclaringType!);
     }
 
     /// <summary>

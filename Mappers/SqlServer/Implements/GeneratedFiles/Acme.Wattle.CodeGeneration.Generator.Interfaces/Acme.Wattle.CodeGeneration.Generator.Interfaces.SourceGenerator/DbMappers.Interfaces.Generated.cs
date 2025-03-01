@@ -6,6 +6,10 @@
 * Генератор - Acme.Wattle.CodeGeneration.Generators.Mappers.MappersInterfacesCodeGenerator
 *
 */
+
+#nullable enable
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
 // ReSharper disable RedundantUsingDirective
 using System;
 using System.Collections.Generic;
@@ -37,32 +41,32 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
-        public DateTime Value_DateTime;
+        public required DateTime Value_DateTime;
 
         /// <summary>
         /// Дата-время (DateTime). Не обновляемое поле.
         /// </summary>
-        public DateTime Value_DateTime_NotUpdate;
+        public required DateTime Value_DateTime_NotUpdate;
 
         /// <summary>
         /// Число (long). Поле обновляется только при изменении значения.
         /// </summary>
-        public long Value_Long;
+        public required long Value_Long;
 
         /// <summary>
         /// Число с поддержкой null (int?). Обновляемое поле.
         /// </summary>
-        public int? Value_Int;
+        public required int? Value_Int;
 
         /// <summary>
         /// Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.
         /// </summary>
-        public string Value_String;
+        public required string Value_String;
 
     }
 
@@ -77,12 +81,12 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата создания
         /// </summary>
-        public DateTime CreateDate;
+        public required DateTime CreateDate;
 
     }
 
@@ -188,37 +192,37 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата-время (DateTime). Обновляемое поле.
         /// </summary>
-        public DateTime Value_DateTime;
+        public required DateTime Value_DateTime;
 
         /// <summary>
         /// Дата-время (DateTime). Не обновляемое поле.
         /// </summary>
-        public DateTime Value_DateTime_NotUpdate;
+        public required DateTime Value_DateTime_NotUpdate;
 
         /// <summary>
         /// Число (long). Поле обновляется только при изменении значения.
         /// </summary>
-        public MapperChangedStateDtoField<long> Value_Long;
+        public required MapperChangedStateDtoField<long> Value_Long;
 
         /// <summary>
         /// Число с поддержкой null (int?). Обновляемое поле.
         /// </summary>
-        public int? Value_Int;
+        public required int? Value_Int;
 
         /// <summary>
         /// Строка без ограничения размера с поддержкой null. Поле обновляется только при изменении значения.
         /// </summary>
-        public MapperChangedStateDtoField<string> Value_String;
+        public required MapperChangedStateDtoField<string> Value_String;
 
     }
 
@@ -228,22 +232,17 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     [MapperDtoUpdate(WellknownMappersAsText.Object_B)]
-    public sealed partial class Object_BDtoChanged : IMapperDtoVersion
+    public sealed partial class Object_BDtoChanged : IMapperDto
     {
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
-
-        /// <summary>
-        /// Номер ревизии данных.
-        /// </summary>
-        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Дата создания
         /// </summary>
-        public DateTime CreateDate;
+        public required DateTime CreateDate;
 
     }
 
@@ -258,12 +257,12 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
         /// <summary>
         /// Номер ревизии данных.
         /// </summary>
-        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
 
@@ -273,17 +272,12 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
     /// </summary>
     // ReSharper disable once PartialTypeWithSinglePart
     [MapperDtoDelete(WellknownMappersAsText.Object_B)]
-    public sealed partial class Object_BDtoDeleted : IMapperDtoVersion
+    public sealed partial class Object_BDtoDeleted : IMapperDto
     {
         /// <summary>
         /// Идентити.
         /// </summary>
-        public long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
-
-        /// <summary>
-        /// Номер ревизии данных.
-        /// </summary>
-        public long Revision { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
+        public required long Id { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; [MethodImpl(MethodImplOptions.AggressiveInlining)] set; }
 
     }
 
@@ -438,7 +432,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-         Object_ADtoActual Get(IMappersSession mappersSession, long id);
+         Object_ADtoActual? Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -447,7 +441,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует.</returns>
-         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto?> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -455,7 +449,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        Object_ADtoActual GetRaw(IMappersSession session, long id);
+        Object_ADtoActual? GetRaw(IMappersSession session, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -464,7 +458,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<Object_ADtoActual> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<Object_ADtoActual?> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Обновить запись.
@@ -536,7 +530,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        new IEnumerable<Object_ADtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<Object_ADtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -545,7 +539,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IAsyncEnumerable<Object_ADtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        IAsyncEnumerable<Object_ADtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -553,7 +547,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<Object_ADtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        IEnumerable<Object_ADtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -563,7 +557,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<Object_ADtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<Object_ADtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор идентити записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -573,7 +567,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных идентити записей.</returns>
-        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
@@ -581,7 +575,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        long GetCount(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        long GetCount(IMappersSession session, IMapperSelectFilter? selectFilter = null);
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
         /// </summary>
@@ -589,7 +583,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -655,7 +649,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="mappersSession">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
-         Object_BDtoActual Get(IMappersSession mappersSession, long id);
+         Object_BDtoActual? Get(IMappersSession mappersSession, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -665,7 +659,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе возвращает <see langword="null" /> если запись не существует или скрыта.</returns>
-         ValueTask<IMapperDto> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
+         ValueTask<IMapperDto?> GetAsync(IMappersSession mappersSession, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -673,7 +667,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="id">Идентити записи.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        Object_BDtoActual GetRaw(IMappersSession session, long id);
+        Object_BDtoActual? GetRaw(IMappersSession session, long id);
 
         /// <summary>
         /// Получить запись с указаным идентити.
@@ -682,7 +676,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="id">Идентити записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает значение если запись существует иначе если запись не существует возвращает <see langword="null" />.</returns>
-        ValueTask<Object_BDtoActual> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
+        ValueTask<Object_BDtoActual?> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Обновить запись.
@@ -757,7 +751,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
-        new IEnumerable<Object_BDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        new IEnumerable<Object_BDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -767,7 +761,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
-        IAsyncEnumerable<Object_BDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        IAsyncEnumerable<Object_BDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -775,7 +769,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<Object_BDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        IEnumerable<Object_BDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -786,7 +780,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей кроме скрытых записей.</returns>
-        IEnumerable<Object_BDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<Object_BDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить итератор идентити записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -797,7 +791,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных идентити записей кроме скрытых записей.</returns>
-        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null);
+        IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null);
 
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
@@ -806,7 +800,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки кроме скрытых записей.</returns>
-        long GetCount(IMappersSession session, IMapperSelectFilter selectFilter = null);
+        long GetCount(IMappersSession session, IMapperSelectFilter? selectFilter = null);
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
         /// ВАЖНО : Выбор не учитывает скрытые записи.
@@ -815,7 +809,7 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Interface
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки кроме скрытых записей.</returns>
-        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default);
+        ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default);
     }
 
 }

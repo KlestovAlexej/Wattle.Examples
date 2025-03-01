@@ -6,6 +6,9 @@
 * Генератор - Acme.Wattle.CodeGeneration.Generators.Mappers.PostgreSqlMappersImplementsCodeGenerator
 *
 */
+
+#nullable enable
+
 // ReSharper disable RedundantUsingDirective
 using System;
 using System.Collections.Generic;
@@ -194,12 +197,12 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.PostgreSql.Imple
     public partial class Mappers : BasePostgreSqlMappers
     {
         private readonly IPostgreSqlMapperSelectFilterFactory m_selectFilterFactory;
-        private readonly Func<Guid, string> m_getMapperDisplayName;
+        private readonly Func<Guid, string>? m_getMapperDisplayName;
 
         [SuppressMessage("ReSharper", "RedundantCast")]
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
         [SuppressMessage("ReSharper", "InvocationIsSkipped")]
-        public Mappers(IMappersExceptionPolicy exceptionPolicy, string connectionString, ITimeService timeService, Guid id, string name, string description, int commandTimeout = CommandTimeoutInfinity, object context = null)
+        public Mappers(IMappersExceptionPolicy exceptionPolicy, string connectionString, ITimeService timeService, Guid id, string name, string description, int commandTimeout = CommandTimeoutInfinity, object? context = null)
             : base(exceptionPolicy, connectionString, timeService, id, name, description, commandTimeout)
         {
             m_getMapperDisplayName = null;
@@ -237,12 +240,12 @@ namespace Acme.Wattle.Examples.DomainObjects.Examples.Generated.PostgreSql.Imple
         /// <summary>
         /// Начало конструктора реестра маппперов.
         /// </summary>
-        partial void OnEnterConstructor(object context);
+        partial void OnEnterConstructor(object? context);
 
         /// <summary>
         /// Конец конструктора реестра маппперов.
         /// </summary>
-        partial void OnExitConstructor(object context);
+        partial void OnExitConstructor(object? context);
     }
 
     /// <summary>
@@ -329,7 +332,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
         }
 
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
-        public MapperDocument(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper infrastructureMonitor = null, IMemoryCache<DocumentDtoActual, long> actualDtoMemoryCache = null)
+        public MapperDocument(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper? infrastructureMonitor = null, IMemoryCache<DocumentDtoActual, long>? actualDtoMemoryCache = null)
            : base("Маппер данных состояния доменного объекта '" + @"Документ" + "' в БД", WellknownMappers.Document, selectFilterFactory, exceptionPolicy, infrastructureMonitor, actualDtoMemoryCache)
         {
             Options = Options | MapperOptions.OptimisticConcurrency;
@@ -433,8 +436,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
                     command.Prepare();
 
                     var temp = command.ExecuteScalar();
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }
@@ -553,8 +555,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
                     command.Prepare();
 
                     var temp = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }
@@ -883,7 +884,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
                         {
                             if (TryGetFromCache(id, out var dto))
                             {
-                                if (dto.Revision != revision)
+                                if (dto!.Revision != revision)
                                 {
                                     Remove(id);
                                     RemoveActualState(typedSession, id);
@@ -894,7 +895,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
                         {
                             if (TryGetFromCache(id, out var dto))
                             {
-                                if (dto.Revision == revision)
+                                if (dto!.Revision == revision)
                                 {
                                     Remove(id);
                                     RemoveActualState(typedSession, id);
@@ -967,7 +968,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
                         {
                             if (TryGetFromCache(id, out var dto))
                             {
-                                if (dto.Revision != revision)
+                                if (dto!.Revision != revision)
                                 {
                                     Remove(id);
                                     RemoveActualState(typedSession, id);
@@ -978,7 +979,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
                         {
                             if (TryGetFromCache(id, out var dto))
                             {
-                                if (dto.Revision == revision)
+                                if (dto!.Revision == revision)
                                 {
                                     Remove(id);
                                     RemoveActualState(typedSession, id);
@@ -1104,7 +1105,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (reader.IsDBNull(indexValue_Int))
             {
-                result.Value_Int = default;
+                result.Value_Int = default!;
             }
             else
             {
@@ -1151,7 +1152,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (reader.IsDBNull(indexValue_Int))
             {
-                result.Value_Int = default;
+                result.Value_Int = default!;
             }
             else
             {
@@ -1178,7 +1179,7 @@ Value_Int) FROM STDIN (FORMAT BINARY)
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual DocumentDtoActual Get(IMappersSession session, long id)
+        public virtual DocumentDtoActual? Get(IMappersSession session, long id)
         {
             if (session == null)
             {
@@ -1276,7 +1277,7 @@ FROM Document WHERE
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<IMapperDto> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<IMapperDto?> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
@@ -1348,7 +1349,7 @@ FROM Document WHERE
                         }
                     }
 
-                    return ((IMapperDto)null);
+                    return (null);
                 }
             }
             catch (Exception exception)
@@ -1383,7 +1384,7 @@ FROM Document WHERE
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual DocumentDtoActual GetRaw(IMappersSession session, long id)
+        public virtual DocumentDtoActual? GetRaw(IMappersSession session, long id)
         {
             if (session == null)
             {
@@ -1479,7 +1480,7 @@ FROM Document WHERE (Id = @Id)";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<DocumentDtoActual> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<DocumentDtoActual?> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
@@ -1603,9 +1604,9 @@ FROM Document WHERE (Id = @Id)";
                     Revision = NewRevision(),
                     CreateDate = data.CreateDate,
                     ModificationDate = data.ModificationDate,
-                    Value_DateTime = data.Value_DateTime.Value,
-                    Value_Long = data.Value_Long.Value,
-                    Value_Int = data.Value_Int.Value,
+                    Value_DateTime = data.Value_DateTime.Value!,
+                    Value_Long = data.Value_Long.Value!,
+                    Value_Int = data.Value_Int.Value!,
                 };
 
                 // ReSharper disable once ConvertToUsingDeclaration
@@ -1680,7 +1681,7 @@ FROM Document WHERE (Id = @Id)";
                     var resultText = result.ToJsonText(true);
                     if (MappersFeatures.ValidateUpdateAction != null)
                     {
-                        if (false == MappersFeatures.ValidateUpdateAction(realDto, result))
+                        if (false == MappersFeatures.ValidateUpdateAction(realDto!, result))
                         {
                             throw new InternalException($"Маппер '{GetType().FullName}' : Данные в БД{Environment.NewLine}'{realDtoText}'{Environment.NewLine}не совпадают с данными в памяти{Environment.NewLine}'{resultText}'.");
                         }
@@ -1740,9 +1741,9 @@ FROM Document WHERE (Id = @Id)";
                     Revision = NewRevision(),
                     CreateDate = data.CreateDate,
                     ModificationDate = data.ModificationDate,
-                    Value_DateTime = data.Value_DateTime.Value,
-                    Value_Long = data.Value_Long.Value,
-                    Value_Int = data.Value_Int.Value,
+                    Value_DateTime = data.Value_DateTime.Value!,
+                    Value_Long = data.Value_Long.Value!,
+                    Value_Int = data.Value_Int.Value!,
                 };
 
                 var command = await typedSession.CreateCommandAsync(true, cancellationToken).ConfigureAwait(false);
@@ -1818,7 +1819,7 @@ FROM Document WHERE (Id = @Id)";
                     var resultText = result.ToJsonText(true);
                     if (MappersFeatures.ValidateUpdateAction != null)
                     {
-                        if (false == MappersFeatures.ValidateUpdateAction(realDto, result))
+                        if (false == MappersFeatures.ValidateUpdateAction(realDto!, result))
                         {
                             throw new InternalException($"Маппер '{GetType().FullName}' : Данные в БД{Environment.NewLine}'{realDtoText}'{Environment.NewLine}не совпадают с данными в памяти{Environment.NewLine}'{resultText}'.");
                         }
@@ -2316,7 +2317,7 @@ VALUES
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<IMapperDto> IAbstractMapper.GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter)
+        IEnumerable<IMapperDto> IAbstractMapper.GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter)
         {
             return GetEnumerator(session, selectFilter);
         }
@@ -2327,7 +2328,7 @@ VALUES
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<TMapperDto> IAbstractMapper.GetEnumerator<TMapperDto>(IMappersSession session, IMapperSelectFilter selectFilter)
+        IEnumerable<TMapperDto> IAbstractMapper.GetEnumerator<TMapperDto>(IMappersSession session, IMapperSelectFilter? selectFilter)
         {
             return GetEnumerator(session, selectFilter).Cast<TMapperDto>();
         }
@@ -2338,7 +2339,7 @@ VALUES
         /// <param name="session">Сессия БД.</param>
         /// <param name="exception">Исключение мапппера.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumerator(IMappersSession session, Exception exception, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumerator(IMappersSession session, Exception exception, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -2349,14 +2350,14 @@ VALUES
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual IEnumerable<DocumentDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<DocumentDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
                 throw new ArgumentNullException(nameof(session));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -2381,7 +2382,7 @@ FROM Document";
                         null,
                         null,
                         null,
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -2397,7 +2398,7 @@ FROM Document";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -2498,14 +2499,14 @@ FROM Document";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async IAsyncEnumerable<DocumentDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public virtual async IAsyncEnumerable<DocumentDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
                 throw new ArgumentNullException(nameof(session));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -2530,7 +2531,7 @@ FROM Document";
                         null,
                         null,
                         null,
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -2546,7 +2547,7 @@ FROM Document";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -2643,7 +2644,7 @@ FROM Document";
         /// <param name="session">Сессия БД.</param>
         /// <param name="exception">Исключение мапппера.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumeratorRaw(IMappersSession session, Exception exception, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumeratorRaw(IMappersSession session, Exception exception, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -2654,14 +2655,14 @@ FROM Document";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual IEnumerable<DocumentDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<DocumentDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
                 throw new ArgumentNullException(nameof(session));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -2686,7 +2687,7 @@ FROM Document";
                         null,
                         null,
                         null,
-                        (IPostgreSqlMapperSelectFilter) selectFilter)
+                        selectFilter as IPostgreSqlMapperSelectFilter)
                     ;
                 }
                 catch (Exception exception)
@@ -2703,7 +2704,7 @@ FROM Document";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -2802,7 +2803,7 @@ FROM Document";
         /// <param name="pageIndex">Индекс выбираемой страницы. Первая страница имеет индекс 1.</param>
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы {schemaMapper.MaxPageSize.AsLiteral()}.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumeratorPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumeratorPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -2815,7 +2816,7 @@ FROM Document";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual IEnumerable<DocumentDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<DocumentDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
@@ -2830,7 +2831,7 @@ FROM Document";
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -2863,7 +2864,7 @@ FROM Document";
                         null,
                         @" Id DESC ",
                         @" LIMIT @__PageSize OFFSET @__SkipCount ",
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -2879,7 +2880,7 @@ FROM Document";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -2982,7 +2983,7 @@ FROM Document";
         /// <param name="pageIndex">Индекс выбираемой страницы. Первая страница имеет индекс 1.</param>
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы {schemaMapper.MaxPageSize.AsLiteral()}.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumeratorIdentitiesPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumeratorIdentitiesPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор идентити записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -2992,7 +2993,7 @@ FROM Document";
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных идентити записей.</returns>
-        public virtual IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
@@ -3007,7 +3008,7 @@ FROM Document";
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -3032,7 +3033,7 @@ FROM Document";
                         null,
                         @" Id DESC ",
                         @" LIMIT @__PageSize OFFSET @__SkipCount ",
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -3048,7 +3049,7 @@ FROM Document";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -3119,7 +3120,7 @@ FROM Document";
         /// <param name="session">Сессия БД.</param>
         /// <param name="exception">Исключение мапппера.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetCount(IMappersSession session, Exception exception, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetCount(IMappersSession session, Exception exception, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
@@ -3127,7 +3128,7 @@ FROM Document";
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        public virtual long GetCount(IMappersSession session, IMapperSelectFilter selectFilter = null)
+        public virtual long GetCount(IMappersSession session, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
@@ -3149,8 +3150,7 @@ FROM Document";
                     command.Prepare();
 
                     var temp = command.ExecuteScalar();
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }
@@ -3176,7 +3176,7 @@ FROM Document";
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        public virtual async ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
@@ -3198,8 +3198,7 @@ FROM Document";
                     await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
 
                     var temp = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }
@@ -3264,7 +3263,7 @@ FROM Document";
         }
 
         [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
-        public MapperChangeTracker(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper infrastructureMonitor = null)
+        public MapperChangeTracker(IMappersExceptionPolicy exceptionPolicy, IPostgreSqlMapperSelectFilterFactory selectFilterFactory, IInfrastructureMonitorMapper? infrastructureMonitor = null)
            : base("Маппер данных состояния доменного объекта '" + @"Отслеживание изменений" + "' в БД", WellknownMappers.ChangeTracker, selectFilterFactory, exceptionPolicy, infrastructureMonitor)
         {
             Partitions = new PartitionsManager(exceptionPolicy, @"ChangeTracker", ComplexIdentity.Level.L2, false);
@@ -3364,8 +3363,7 @@ FROM Document";
                     command.Prepare();
 
                     var temp = command.ExecuteScalar();
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }
@@ -3484,8 +3482,7 @@ FROM Document";
                     command.Prepare();
 
                     var temp = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }
@@ -3824,7 +3821,7 @@ FROM Document";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual ChangeTrackerDtoActual Get(IMappersSession session, long id)
+        public virtual ChangeTrackerDtoActual? Get(IMappersSession session, long id)
         {
             if (session == null)
             {
@@ -3895,7 +3892,7 @@ FROM ChangeTracker WHERE
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<IMapperDto> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<IMapperDto?> GetAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
@@ -3940,7 +3937,7 @@ FROM ChangeTracker WHERE
                         }
                     }
 
-                    return ((IMapperDto)null);
+                    return (null);
                 }
             }
             catch (Exception exception)
@@ -3975,7 +3972,7 @@ FROM ChangeTracker WHERE
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual ChangeTrackerDtoActual GetRaw(IMappersSession session, long id)
+        public virtual ChangeTrackerDtoActual? GetRaw(IMappersSession session, long id)
         {
             if (session == null)
             {
@@ -4045,7 +4042,7 @@ FROM ChangeTracker WHERE (Id = @Id)";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async ValueTask<ChangeTrackerDtoActual> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<ChangeTrackerDtoActual?> GetRawAsync(IMappersSession session, long id, CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
@@ -4346,7 +4343,7 @@ VALUES
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<IMapperDto> IAbstractMapper.GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter)
+        IEnumerable<IMapperDto> IAbstractMapper.GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter)
         {
             return GetEnumerator(session, selectFilter);
         }
@@ -4357,7 +4354,7 @@ VALUES
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных записей.</returns>
-        IEnumerable<TMapperDto> IAbstractMapper.GetEnumerator<TMapperDto>(IMappersSession session, IMapperSelectFilter selectFilter)
+        IEnumerable<TMapperDto> IAbstractMapper.GetEnumerator<TMapperDto>(IMappersSession session, IMapperSelectFilter? selectFilter)
         {
             return GetEnumerator(session, selectFilter).Cast<TMapperDto>();
         }
@@ -4368,7 +4365,7 @@ VALUES
         /// <param name="session">Сессия БД.</param>
         /// <param name="exception">Исключение мапппера.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumerator(IMappersSession session, Exception exception, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumerator(IMappersSession session, Exception exception, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -4379,14 +4376,14 @@ VALUES
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual IEnumerable<ChangeTrackerDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<ChangeTrackerDtoActual> GetEnumerator(IMappersSession session, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
                 throw new ArgumentNullException(nameof(session));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -4405,7 +4402,7 @@ FROM ChangeTracker";
                         null,
                         null,
                         null,
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -4421,7 +4418,7 @@ FROM ChangeTracker";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -4502,14 +4499,14 @@ FROM ChangeTracker";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual async IAsyncEnumerable<ChangeTrackerDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public virtual async IAsyncEnumerable<ChangeTrackerDtoActual> GetEnumeratorAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
                 throw new ArgumentNullException(nameof(session));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -4528,7 +4525,7 @@ FROM ChangeTracker";
                         null,
                         null,
                         null,
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -4544,7 +4541,7 @@ FROM ChangeTracker";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -4621,7 +4618,7 @@ FROM ChangeTracker";
         /// <param name="session">Сессия БД.</param>
         /// <param name="exception">Исключение мапппера.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumeratorRaw(IMappersSession session, Exception exception, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumeratorRaw(IMappersSession session, Exception exception, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор всех записей выбранных с учётом фильтра.
@@ -4632,14 +4629,14 @@ FROM ChangeTracker";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual IEnumerable<ChangeTrackerDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<ChangeTrackerDtoActual> GetEnumeratorRaw(IMappersSession session, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
                 throw new ArgumentNullException(nameof(session));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -4658,7 +4655,7 @@ FROM ChangeTracker";
                         null,
                         null,
                         null,
-                        (IPostgreSqlMapperSelectFilter) selectFilter)
+                        selectFilter as IPostgreSqlMapperSelectFilter)
                     ;
                 }
                 catch (Exception exception)
@@ -4675,7 +4672,7 @@ FROM ChangeTracker";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -4754,7 +4751,7 @@ FROM ChangeTracker";
         /// <param name="pageIndex">Индекс выбираемой страницы. Первая страница имеет индекс 1.</param>
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы {schemaMapper.MaxPageSize.AsLiteral()}.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumeratorPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumeratorPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -4767,7 +4764,7 @@ FROM ChangeTracker";
         [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         [SuppressMessage("ReSharper", "RedundantCast")]
-        public virtual IEnumerable<ChangeTrackerDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<ChangeTrackerDtoActual> GetEnumeratorPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
@@ -4782,7 +4779,7 @@ FROM ChangeTracker";
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -4809,7 +4806,7 @@ FROM ChangeTracker";
                         null,
                         @" Id DESC ",
                         @" LIMIT @__PageSize OFFSET @__SkipCount ",
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -4825,7 +4822,7 @@ FROM ChangeTracker";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -4904,7 +4901,7 @@ FROM ChangeTracker";
         /// <param name="pageIndex">Индекс выбираемой страницы. Первая страница имеет индекс 1.</param>
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы {schemaMapper.MaxPageSize.AsLiteral()}.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetEnumeratorIdentitiesPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetEnumeratorIdentitiesPage(IMappersSession session, Exception exception, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить итератор идентити записей выбранных с учётом фильтра для заданной страницы указанного размера.
@@ -4914,7 +4911,7 @@ FROM ChangeTracker";
         /// <param name="pageSize">Размер страницы. Минимальный размер страницы 1. Максимальный размер страницы 1000.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает итератор всех выбраных идентити записей.</returns>
-        public virtual IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter selectFilter = null)
+        public virtual IEnumerable<long> GetEnumeratorIdentitiesPage(IMappersSession session, int pageIndex, int pageSize, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
@@ -4929,7 +4926,7 @@ FROM ChangeTracker";
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             }
 
-            NpgsqlCommand command = null;
+            NpgsqlCommand command = null!;
             try
             {
                 try
@@ -4954,7 +4951,7 @@ FROM ChangeTracker";
                         null,
                         @" Id DESC ",
                         @" LIMIT @__PageSize OFFSET @__SkipCount ",
-                        (IPostgreSqlMapperSelectFilter) selectFilter);
+                        selectFilter as IPostgreSqlMapperSelectFilter);
                 }
                 catch (Exception exception)
                 {
@@ -4970,7 +4967,7 @@ FROM ChangeTracker";
                     throw targetException;
                 }
 
-                NpgsqlDataReader reader = null;
+                NpgsqlDataReader reader = null!;
                 try
                 {
                     int indexId;
@@ -5041,7 +5038,7 @@ FROM ChangeTracker";
         /// <param name="session">Сессия БД.</param>
         /// <param name="exception">Исключение мапппера.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
-        partial void CatchExceptionOnGetCount(IMappersSession session, Exception exception, IMapperSelectFilter selectFilter);
+        partial void CatchExceptionOnGetCount(IMappersSession session, Exception exception, IMapperSelectFilter? selectFilter);
 
         /// <summary>
         /// Получить количество записей удовлетворяющих фильтру выборки.
@@ -5049,7 +5046,7 @@ FROM ChangeTracker";
         /// <param name="session">Сессия БД.</param>
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        public virtual long GetCount(IMappersSession session, IMapperSelectFilter selectFilter = null)
+        public virtual long GetCount(IMappersSession session, IMapperSelectFilter? selectFilter = null)
         {
             if (session == null)
             {
@@ -5071,8 +5068,7 @@ FROM ChangeTracker";
                     command.Prepare();
 
                     var temp = command.ExecuteScalar();
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }
@@ -5098,7 +5094,7 @@ FROM ChangeTracker";
         /// <param name="selectFilter">Фильтр выбора записий. Если указан <see langword="null" /> то выбираются все записи.</param>
         /// <param name="cancellationToken">Кокен отмены.</param>
         /// <returns>Возвращает количество записей удовлетворяющих фильтру выборки.</returns>
-        public virtual async ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter selectFilter = null, CancellationToken cancellationToken = default)
+        public virtual async ValueTask<long> GetCountAsync(IMappersSession session, IMapperSelectFilter? selectFilter = null, CancellationToken cancellationToken = default)
         {
             if (session == null)
             {
@@ -5120,8 +5116,7 @@ FROM ChangeTracker";
                     await command.PrepareAsync(cancellationToken).ConfigureAwait(false);
 
                     var temp = await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-                    // ReSharper disable once PossibleNullReferenceException
-                    var result = (long)temp;
+                    var result = (long)temp!;
 
                     return (result);
                 }

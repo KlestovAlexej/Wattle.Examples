@@ -645,7 +645,7 @@ public class Examples
             ILoggerFactory loggerFactory)
             : base(
                 new UnitOfWorkProviderCallContext(),
-                new InfrastructureMonitorEntryPoint(null, TimeSpan.FromMinutes(15), timeService),
+                new InfrastructureMonitorEntryPoint(null!, TimeSpan.FromMinutes(15), timeService),
                 new DomainObjectDataMappers(timeService),
                 new DomainObjectRegisters(timeService),
                 mappers,

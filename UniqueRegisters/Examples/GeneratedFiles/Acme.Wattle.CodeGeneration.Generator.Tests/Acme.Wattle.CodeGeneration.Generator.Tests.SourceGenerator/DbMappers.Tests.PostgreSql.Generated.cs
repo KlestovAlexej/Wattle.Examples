@@ -420,13 +420,12 @@ namespace Acme.Wattle.Examples.UniqueRegisters.Examples.Generated.Tests
 
         public static TransactionKeyDtoNew GetRandomNew(object context)
         {
-#pragma warning disable IDE0017 // Simplify object initialization
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new TransactionKeyDtoNew();
-#pragma warning restore IDE0017 // Simplify object initialization
-
-            result.Tag = PostgreSqlRandomValuesProvider.GetRandomValue<long>(NpgsqlDbType.Bigint);
-            result.Key = PostgreSqlRandomValuesProvider.GetRandomValue<Guid>(NpgsqlDbType.Uuid);
+            var result = new TransactionKeyDtoNew
+            {
+                Id = long.MinValue,
+                Tag = PostgreSqlRandomValuesProvider.GetRandomValue<long>(LocalNpgsqlDbType.Bigint),
+                Key = PostgreSqlRandomValuesProvider.GetRandomValue<Guid>(LocalNpgsqlDbType.Uuid),
+            };
 
             DoGetRandomNew(result, context);
 

@@ -255,6 +255,15 @@ namespace Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Common
         }
 
         /// <summary>
+        /// Создание конструктора текста запроса доменных объектов Object_A.
+        /// </summary>
+        [MapperQueryBuilder("266032e5-19c6-434c-a521-d1d1c652edd1")]
+        public static QueryBuilder QueryForObject_A()
+        {
+            return QueryBuilder.New(Schema, new Guid("266032e5-19c6-434c-a521-d1d1c652edd1"));
+        }
+
+        /// <summary>
         /// Создание конструктора текста запроса доменных объектов Object_B.
         /// </summary>
         /// <param name="query">Запрос.</param>
@@ -267,6 +276,15 @@ namespace Acme.Wattle.Examples.Mappers.PostgreSql.Implements.Generated.Common
             }
 
             return QueryBuilder.New(Schema, new Guid("cb9a1909-a7b6-48a6-8fe5-7d714e0225ea"), query);
+        }
+
+        /// <summary>
+        /// Создание конструктора текста запроса доменных объектов Object_B.
+        /// </summary>
+        [MapperQueryBuilder("cb9a1909-a7b6-48a6-8fe5-7d714e0225ea")]
+        public static QueryBuilder QueryForObject_B()
+        {
+            return QueryBuilder.New(Schema, new Guid("cb9a1909-a7b6-48a6-8fe5-7d714e0225ea"));
         }
     }
 

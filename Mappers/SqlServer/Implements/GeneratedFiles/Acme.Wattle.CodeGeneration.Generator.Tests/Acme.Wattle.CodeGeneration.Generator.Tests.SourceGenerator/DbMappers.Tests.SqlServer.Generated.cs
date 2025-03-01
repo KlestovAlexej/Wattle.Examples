@@ -530,16 +530,15 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Tests
 
         public static Object_ADtoNew GetRandomNew(object context)
         {
-#pragma warning disable IDE0017 // Simplify object initialization
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new Object_ADtoNew();
-#pragma warning restore IDE0017 // Simplify object initialization
-
-            result.Value_DateTime = SqlServerRandomValuesProvider.GetRandomValue<DateTime>(SqlDbType.DateTime);
-            result.Value_DateTime_NotUpdate = SqlServerRandomValuesProvider.GetRandomValue<DateTime>(SqlDbType.DateTime);
-            result.Value_Long = SqlServerRandomValuesProvider.GetRandomValue<long>(SqlDbType.BigInt);
-            result.Value_Int = SqlServerRandomValuesProvider.GetRandomValue<int?>(SqlDbType.Int, true);
-            result.Value_String = SqlServerRandomValuesProvider.GetRandomValue<string>(SqlDbType.NText, true);
+            var result = new Object_ADtoNew
+            {
+                Id = long.MinValue,
+                Value_DateTime = SqlServerRandomValuesProvider.GetRandomValue<DateTime>(SqlDbType.DateTime),
+                Value_DateTime_NotUpdate = SqlServerRandomValuesProvider.GetRandomValue<DateTime>(SqlDbType.DateTime),
+                Value_Long = SqlServerRandomValuesProvider.GetRandomValue<long>(SqlDbType.BigInt),
+                Value_Int = SqlServerRandomValuesProvider.GetRandomValue<int?>(SqlDbType.Int, true),
+                Value_String = SqlServerRandomValuesProvider.GetRandomValue<string>(SqlDbType.NText, true),
+            };
 
             DoGetRandomNew(result, context);
 
@@ -792,12 +791,11 @@ namespace Acme.Wattle.Examples.Mappers.SqlServer.Implements.Generated.Tests
 
         public static Object_BDtoNew GetRandomNew(object context)
         {
-#pragma warning disable IDE0017 // Simplify object initialization
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new Object_BDtoNew();
-#pragma warning restore IDE0017 // Simplify object initialization
-
-            result.CreateDate = SqlServerRandomValuesProvider.GetRandomValue<DateTime>(SqlDbType.DateTime);
+            var result = new Object_BDtoNew
+            {
+                Id = long.MinValue,
+                CreateDate = SqlServerRandomValuesProvider.GetRandomValue<DateTime>(SqlDbType.DateTime),
+            };
 
             DoGetRandomNew(result, context);
 
